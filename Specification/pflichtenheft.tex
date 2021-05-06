@@ -36,9 +36,7 @@
 }
 \usepackage{csquotes}
 
-\makenoidxglossaries
-
-\include{glossary.tex}
+\input{glossary.tex}
 
 \newcommand\urlpart[2]{$\underbrace{\text{\texttt{#1}}}_{\text{#2}}$}
 
@@ -67,11 +65,14 @@ Glossary acronym example: \\
 
 more placeholder
 
-\include{goals.tex}
+\input{goals.tex}
+\clearpage
 
-\include{requirements.tex}
+\input{requirements.tex}
+\clearpage
 
-\include{scenarios.tex}
+\input{scenarios.tex}
+\clearpage
 
 \appendix
 
