@@ -2,3 +2,5 @@ build/
 *.log
 *.aux
 *.out
+*.fdb_latexmk
+*.fls
