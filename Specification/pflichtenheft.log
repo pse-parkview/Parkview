@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.6)  6 MAY 2021 13:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.6)  6 MAY 2021 15:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -662,7 +662,7 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 )
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 33.
+(hyperref)                setting the option has no effect on input line 36.
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2021-02-22 v5.2l context-sensitive quotations (JAW)
@@ -680,7 +680,11 @@ Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
 Package csquotes Info: ... configuration file loaded successfully.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/csquotes/csquotes.cfg
 File: csquotes.cfg 
-)) (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.sty
+))
+\@input{glossary.aux}
+\openout2 = `glossary.aux'.
+
+(/Users/darius/Desktop/PSE_dashboard/Specification/glossary.tex) (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.sty
 Package: pflichtenheft 
  (/Users/darius/Desktop/PSE_dashboard/Specification/rdfref-user.sty
 Package: rdfref-user 
@@ -722,36 +726,36 @@ Package csquotes Info: Redefining alias 'default' -> 'english'.
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count349
 \l__pdf_internal_box=\box56
-) (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.aux)
+) (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.aux (/Users/darius/Desktop/PSE_dashboard/Specification/goals.aux) (/Users/darius/Desktop/PSE_dashboard/Specification/requirements.aux) (/Users/darius/Desktop/PSE_dashboard/Specification/scenarios.aux))
 \openout1 = `pflichtenheft.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-Package scrbase Info: activating english \contentsname on input line 58.
-Package scrbase Info: activating english \listfigurename on input line 58.
-Package scrbase Info: activating english \listtablename on input line 58.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+Package scrbase Info: activating english \contentsname on input line 47.
+Package scrbase Info: activating english \listfigurename on input line 47.
+Package scrbase Info: activating english \listtablename on input line 47.
 \c@mv@tabular=\count350
 \c@mv@boldtabular=\count351
-Package hyperref Info: Link coloring ON on input line 58.
-LaTeX Info: Redefining \ref on input line 58.
-LaTeX Info: Redefining \pageref on input line 58.
-LaTeX Info: Redefining \nameref on input line 58.
+Package hyperref Info: Link coloring ON on input line 47.
+LaTeX Info: Redefining \ref on input line 47.
+LaTeX Info: Redefining \pageref on input line 47.
+LaTeX Info: Redefining \nameref on input line 47.
  (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.out) (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.out)
 \@outlinefile=\write4
 \openout4 = `pflichtenheft.out'.
@@ -763,7 +767,7 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 58.
+(scrartcl)           before \begin{document} on input line 47.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
  (/usr/local/texlive/2021/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
@@ -789,47 +793,53 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Font Info:    Font shape `T1/Roboto-LF/b/n' aliased to
-(Font)              `T1/Roboto-LF/bold/n' on input line 60.
+(Font)              `T1/Roboto-LF/bold/n' on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/bold/n' will be
-(Font)              scaled to size 10.95pt on input line 60.
+(Font)              scaled to size 10.95pt on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/b/n' aliased to
-(Font)              `T1/Roboto-LF/bold/n' on input line 60.
+(Font)              `T1/Roboto-LF/bold/n' on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/bold/n' will be
-(Font)              scaled to size 20.74pt on input line 60.
+(Font)              scaled to size 20.74pt on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/l/n' aliased to
-(Font)              `T1/Roboto-LF/light/n' on input line 60.
+(Font)              `T1/Roboto-LF/light/n' on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/light/n' will be
-(Font)              scaled to size 14.4pt on input line 60.
+(Font)              scaled to size 14.4pt on input line 49.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/b/n' aliased to
-(Font)              `T1/Roboto-LF/bold/n' on input line 61.
+(Font)              `T1/Roboto-LF/bold/n' on input line 50.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/bold/n' will be
-(Font)              scaled to size 14.4pt on input line 61.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 68.
+(Font)              scaled to size 14.4pt on input line 50.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 57.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/Roboto-LF/l/n' aliased to
-(Font)              `T1/Roboto-LF/light/n' on input line 68.
+(Font)              `T1/Roboto-LF/light/n' on input line 57.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/light/n' will be
-(Font)              scaled to size 8.0pt on input line 68.
+(Font)              scaled to size 8.0pt on input line 57.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/l/n' aliased to
-(Font)              `T1/Roboto-LF/light/n' on input line 68.
+(Font)              `T1/Roboto-LF/light/n' on input line 57.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/light/n' will be
-(Font)              scaled to size 6.0pt on input line 68.
+(Font)              scaled to size 6.0pt on input line 57.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/l/sl' aliased to
-(Font)              `T1/Roboto-LF/light/sl' on input line 82.
+(Font)              `T1/Roboto-LF/light/sl' on input line 70.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/light/sl' in size <10.95> not available
-(Font)              Font shape `T1/Roboto-LF/light/it' tried instead on input line 82.
+(Font)              Font shape `T1/Roboto-LF/light/it' tried instead on input line 70.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/light/it' will be
-(Font)              scaled to size 10.95pt on input line 82.
+(Font)              scaled to size 10.95pt on input line 70.
  [1
 
 
+
+
+
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+\openout2 = `goals.aux'.
+
+ (/Users/darius/Desktop/PSE_dashboard/Specification/goals.tex
 LaTeX Font Info:    Font shape `T1/Roboto-LF/b/n' aliased to
-(Font)              `T1/Roboto-LF/bold/n' on input line 86.
+(Font)              `T1/Roboto-LF/bold/n' on input line 5.
 LaTeX Font Info:    Font shape `T1/Roboto-LF/bold/n' will be
-(Font)              scaled to size 12.0pt on input line 86.
+(Font)              scaled to size 12.0pt on input line 5.
 
 Package rdfref error: unknown type of reference crt:length :crt:
 Package rdfref error: unknown type of reference crt:fast :crt:
@@ -838,42 +848,55 @@ Package rdfref error: unknown type of reference crt:tmg :crt:
 Package rdfref error: unknown type of reference crt:github :crt:
 Package rdfref error: unknown type of reference crt:about :crt:
 Package rdfref error: unknown type of reference crt:no-choice :crt:
-[2]
+[2
+
+]) [3]
+\openout2 = `requirements.aux'.
+
+ (/Users/darius/Desktop/PSE_dashboard/Specification/requirements.tex
 Package rdfref error: unknown type of reference fnc:o1 :fnc:
 Package rdfref error: unknown type of reference fnc:login :fnc:
 Package rdfref error: unknown type of reference fnc:impressum-link :fnc:
 Package rdfref error: unknown type of reference fnc:datenschutz-link :fnc:
 Package rdfref error: unknown type of reference fnc:persistence :fnc:
 Package rdfref error: unknown type of reference nfc:design :nfc:
-[3]
 Package rdfref error: unknown type of reference nfc:persistence :nfc:
 Package rdfref error: unknown type of reference nfc:extensibility :nfc:
-[4]
-LaTeX Font Info:    Trying to load font information for TS1+Roboto-LF on input line 177.
+) [4
+
+
+
+] [5]
+\openout2 = `scenarios.aux'.
+
+ (/Users/darius/Desktop/PSE_dashboard/Specification/scenarios.tex
+LaTeX Font Info:    Trying to load font information for TS1+Roboto-LF on input line 5.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/roboto/TS1Roboto-LF.fd
 File: TS1Roboto-LF.fd 2019/12/11 (autoinst) Font definitions for TS1/Roboto-LF.
 )
 LaTeX Font Info:    Font shape `TS1/Roboto-LF/l/n' aliased to
-(Font)              `TS1/Roboto-LF/light/n' on input line 177.
+(Font)              `TS1/Roboto-LF/light/n' on input line 5.
 LaTeX Font Info:    Font shape `TS1/Roboto-LF/light/n' will be
-(Font)              scaled to size 10.95pt on input line 177.
- [5] [6]
-Overfull \hbox (0.60313pt too wide) in paragraph at lines 246--247
-[]\T1/Roboto-LF/light/n/10.95 Bopp gets no-ti-fied that his last pushed change has im-proved the per-for-mance above
- []
+(Font)              scaled to size 10.95pt on input line 5.
+ [6
 
-[7]
+
+
+] [7] [8]) [9]
 Using TeX to sort glossary entries---this may take a while
-[8]
+[10
+
+
+]
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     301.
+(LaTeX3)     81.
 
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     301.
+(LaTeX3)     81.
 
- (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.aux)
+ (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.aux (/Users/darius/Desktop/PSE_dashboard/Specification/goals.aux) (/Users/darius/Desktop/PSE_dashboard/Specification/requirements.aux) (/Users/darius/Desktop/PSE_dashboard/Specification/scenarios.aux))
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -881,18 +904,18 @@ Package rerunfilecheck Info: File `pflichtenheft.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24427 strings out of 478994
- 461155 string characters out of 5858185
- 1001367 words of memory out of 5000000
- 41502 multiletter control sequences out of 15000+600000
+ 24465 strings out of 478994
+ 462609 string characters out of 5858185
+ 1003085 words of memory out of 5000000
+ 41514 multiletter control sequences out of 15000+600000
  456152 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  111i,19n,116p,10685b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/roboto/rbto_ocbbsb.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/roboto/rbto_b5rac7.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-Bold.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-Light.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-LightItalic.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on /Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.pdf (8 pages, 102544 bytes).
+Output written on /Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.pdf (10 pages, 103403 bytes).
 PDF statistics:
- 161 PDF objects out of 1000 (max. 8388607)
- 144 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
+ 172 PDF objects out of 1000 (max. 8388607)
+ 153 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
  89 words of extra memory for PDF output out of 10000 (max. 10000000)
 
