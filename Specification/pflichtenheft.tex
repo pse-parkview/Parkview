@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 
 \title{Performance Dashboard for Continuous Benchmarking of HPC Libraries}
-\author{Chingun Ariunbat, Max Schik, Walter Alexander B\"ottcher,\\ Darius Schefer, Jamil Bagga}
+\author{Chingun Ariunbat, Maximilian Schik, Walter Alexander B\"ottcher,\\ Darius Schefer, Jamil Bagga}
 
 % section numbers in margins:
 \renewcommand\sectionlinesformat[4]{\makebox[0pt][r]{#3}#4}
@@ -16,7 +16,7 @@
 
 \usepackage[sfdefault,light]{roboto}
 \usepackage[T1]{fontenc}
-\usepackage[german]{babel}
+\usepackage[english]{babel}
 \usepackage[yyyymmdd]{datetime} % must be after babel
 \renewcommand{\dateseparator}{-} % ISO8601 date format
 \usepackage[colorlinks=true]{hyperref}
@@ -172,7 +172,7 @@ template
 \section{Scenarios}
 
 \textbf{Scenario name:} pushAndInspect \\
-\textbf{Participating actor instance:} Bopp: \gls{developer}
+\textbf{Participating actor:} Bopp: \gls{developer}
 \begin{itemize}
 	\item Bopp pushes his work to a git repository and fires off a benchmarkt test
 	\item Bopp opens the web app and selects his last pushed change
@@ -181,7 +181,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} visualizeFromTemplate \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy opens the web app
 	\item Jeremy chooses a template for a visualization
@@ -190,7 +190,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} saveTemplate \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy opens the web app
 	\item Jeremy configures a visualization
@@ -198,7 +198,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} inspect \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy wants to see the latest performance benchmarks for the project
 	\item Jeremy opens the web app and selects the latest change
@@ -208,7 +208,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} compareImplementations \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy wants to know which implementation is the fastest
 	\item Jeremy opens the web app and selects a benchmark
@@ -218,7 +218,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} pushAndCompare \\
-\textbf{Participating actor instances:} Bopp: \gls{developer}
+\textbf{Participating actor:} Bopp: \gls{developer}
 \begin{itemize}
 	\item Bopp pushes his work to a git repository, and fires off a benchmark test.
 	\item Benchmark results are fed into the database.
@@ -229,7 +229,7 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} badPerformance \\
-\textbf{Participating actor instances:} Bopp: \gls{developer}
+\textbf{Participating actor:} Bopp: \gls{developer}
 \begin{itemize}
 	\item Bopp pushes his work to a git repository, and fires off a benchmark test.
 	\item Benchmark results are fed into the database.
@@ -238,16 +238,16 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} impossiblePerformance \\
-\textbf{Participating actor instances:} Bopp: \gls{developer}
+\textbf{Participating actor:} Bopp: \gls{developer}
 \begin{itemize}
 	\item Bopp pushes his work to a git repository, and fires off a benchmark test.
 	\item Benchmark results are fed into the database.
 	\item Our dashboard-backend realizes that the benchmark data for this change is theoretically impossible.
-	\item Bopp gets notified that his last pushed change has improved the performance above the theoretical maxiumum and the related details about that.
+	\item Bopp gets notified that his last pushed change has improved the performance above the theoretical maximum and the related details about that.
 \end{itemize}
 
 \textbf{Scenario name:} authentification \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy opens the webapp.
 	\item Jeremy gets prompted for a authentification.
@@ -255,28 +255,43 @@ template
 \end{itemize}
 
 \textbf{Scenario name:} shareVisualization \\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy found an interesting visualization for something.
 	\item Jeremy clicks a *share* button next to the visualization.
 	\item Jeremy gets a link he can share with others that redirects them to the exact same visualization.
 \end{itemize}
 
-\textbf{Scenario name:} visualizeCommitWithoutBenchmark\\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Scenario name:} visualizeCommitWithoutBenchmark \\
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy opens the webapp and wants to visualize benchmarkdata for a specific commit. This commit has no benchmark data attached to it, only the commit before and the commit after.
 	\item Jeremy can't click on the commit because it is greyed out.
 \end{itemize}
 
-\textbf{Scenario name:} takeVisualizationFromHistory\\
-\textbf{Participating actor instance:} Jeremy: User
+\textbf{Scenario name:} takeVisualizationFromHistory \\
+\textbf{Participating actor:} Jeremy: User
 \begin{itemize}
 	\item Jeremy opens the webapp and visualizes something. He then visualizes something else. His previous visualizations are stored in a list somewhere.
 	\item Jeremy decides to take another look at a previous visualization.
 	\item Jeremy picks his previous visualization and gets the previous visualization.
 \end{itemize}
 
+\textbf{Scenario name:} postBenchmarkResults \\
+\textbf{Participating actor:} bencharkCI: \acrshort{ci}
+\begin{itemize}
+	\item The benchmarkCI processes a benchmark and gets some results.
+	\item The benchmarkCI posts the results to the backend of the system using the API supplied by the system.
+	\item The benchmark results are stored in the backend database system.
+\end{itemize}
+
+\textbf{Scenario name:} splitView \\
+\textbf{Participating actor:} Jeremy: User
+\begin{itemize}
+	\item Jeremy views one visualization. He wants to crosscheck something with another visualization
+	\item Jeremy splits his view, creating space for two visualizations on one screen.
+	\item Jeremy chooses a different visualization on the second view and can now view both at the same time.
+\end{itemize}
 
 \appendix
 

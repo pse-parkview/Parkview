@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.6)  6 MAY 2021 13:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.4.6)  6 MAY 2021 13:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -268,12 +268,15 @@ File: babel.def 2021/03/24 3.56 Babel common definitions
 \bbl@readstream=\read2
 )
 \bbl@dirlevel=\count190
- (/usr/local/texlive/2021/texmf-dist/tex/generic/babel-german/german.ldf
-Language: german 2021/02/27 v2.13 German support for babel (pre-1996 orthography)
- (/usr/local/texlive/2021/texmf-dist/tex/generic/babel-german/germanb.ldf
-Language: germanb 2021/02/27 v2.13 German support for babel (pre-1996 orthography)
-Package babel Info: Making " an active character on input line 139.
-))) (/usr/local/texlive/2021/texmf-dist/tex/latex/datetime/datetime.sty
+ (/usr/local/texlive/2021/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+Package babel Info: \l@canadian = using hyphenrules for english
+(babel)             (\language0) on input line 102.
+Package babel Info: \l@australian = using hyphenrules for ukenglish
+(babel)             (\language21) on input line 105.
+Package babel Info: \l@newzealand = using hyphenrules for ukenglish
+(babel)             (\language21) on input line 108.
+)) (/usr/local/texlive/2021/texmf-dist/tex/latex/datetime/datetime.sty
 Package: datetime 2015/03/20 v2.60 Date Time Package
  (/usr/local/texlive/2021/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
@@ -294,11 +297,9 @@ File: amsgen.sty 1999/11/30 v2.0 generic functions
 )
 \c@padzeroesN=\count193
 \fc@tmpcatcode=\count194
- (/usr/local/texlive/2021/texmf-dist/tex/latex/fmtcount/fc-german.def
-File: fc-german.def 2018/06/17
- (/usr/local/texlive/2021/texmf-dist/tex/latex/fmtcount/fc-germanb.def
-File: fc-germanb.def 2013/08/17
-))
+ (/usr/local/texlive/2021/texmf-dist/tex/latex/fmtcount/fc-english.def
+File: fc-english.def 2016/01/12
+)
 \@DT@modctr=\count195
 \@ordinalctr=\count196
 \@orgargctr=\count197
@@ -326,10 +327,6 @@ Package datetime Info: No datetime.cfg file found, using default settings on inp
 \dayofyear=\count281
 \dayofweek=\count282
 LaTeX Info: Redefining \today on input line 736.
- (/usr/local/texlive/2021/texmf-dist/tex/latex/datetime/dt-german.def
-File: dt-german.def 2010/09/10
-LaTeX Info: Redefining \dategerman on input line 86.
-)
 \dt@a=\toks21
 \dt@b=\toks22
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref.sty
@@ -589,8 +586,8 @@ Package: glossaries-compatible-307 2020/03/19 v4.46 (NLCT)
 Package: tracklang 2020/06/30 v1.5 (NLCT) Track Languages
  (/usr/local/texlive/2021/texmf-dist/tex/generic/tracklang/tracklang.tex)) (/usr/local/texlive/2021/texmf-dist/tex/latex/translator/translator.sty
 Package: translator 2020-08-03 v1.12c Easy translation of strings in LaTeX
-) (/usr/local/texlive/2021/texmf-dist/tex/latex/glossaries-german/glossaries-german.ldf
-File: glossaries-german.ldf 2014/11/23 v1.0
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/glossaries-english/glossaries-english.ldf
+File: glossaries-english.ldf 2014/11/23 v1.0
 )
 \gls@level=\count324
 \@gls@tmpb=\toks30
@@ -720,7 +717,7 @@ Package: rdfref-query
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
-Package csquotes Info: Redefining alias 'default' -> 'german'.
+Package csquotes Info: Redefining alias 'default' -> 'english'.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count349
@@ -746,6 +743,9 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
 LaTeX Font Info:    ... okay on input line 58.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 58.
 LaTeX Font Info:    ... okay on input line 58.
+Package scrbase Info: activating english \contentsname on input line 58.
+Package scrbase Info: activating english \listfigurename on input line 58.
+Package scrbase Info: activating english \listtablename on input line 58.
 \c@mv@tabular=\count350
 \c@mv@boldtabular=\count351
 Package hyperref Info: Link coloring ON on input line 58.
@@ -857,16 +857,21 @@ LaTeX Font Info:    Font shape `TS1/Roboto-LF/l/n' aliased to
 (Font)              `TS1/Roboto-LF/light/n' on input line 177.
 LaTeX Font Info:    Font shape `TS1/Roboto-LF/light/n' will be
 (Font)              scaled to size 10.95pt on input line 177.
- [5] [6] [7]
+ [5] [6]
+Overfull \hbox (0.60313pt too wide) in paragraph at lines 246--247
+[]\T1/Roboto-LF/light/n/10.95 Bopp gets no-ti-fied that his last pushed change has im-proved the per-for-mance above
+ []
+
+[7]
 Using TeX to sort glossary entries---this may take a while
 [8]
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     286.
+(LaTeX3)     301.
 
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     286.
+(LaTeX3)     301.
 
  (/Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.aux)
 
@@ -876,18 +881,18 @@ Package rerunfilecheck Info: File `pflichtenheft.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24548 strings out of 478994
- 463216 string characters out of 5858185
- 1003108 words of memory out of 5000000
- 41614 multiletter control sequences out of 15000+600000
+ 24427 strings out of 478994
+ 461155 string characters out of 5858185
+ 1001367 words of memory out of 5000000
+ 41502 multiletter control sequences out of 15000+600000
  456152 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  111i,19n,116p,10685b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/roboto/rbto_ocbbsb.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/roboto/rbto_b5rac7.enc}{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-Bold.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-Light.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/google/roboto/Roboto-LightItalic.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on /Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.pdf (8 pages, 102121 bytes).
+Output written on /Users/darius/Desktop/PSE_dashboard/Specification/pflichtenheft.pdf (8 pages, 102544 bytes).
 PDF statistics:
- 160 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
+ 161 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  39 named destinations out of 1000 (max. 500000)
  89 words of extra memory for PDF output out of 10000 (max. 10000000)
 
