@@ -1,4 +1,4 @@
-NAME=pflichtenheft
+NAME=specification
 
 default: $(NAME).pdf
 
