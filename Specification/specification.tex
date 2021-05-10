@@ -53,30 +53,22 @@
 \begin{document}
 \maketitle
 
-\section{Introduction}
-Glossary acronym example: \\
-\acrshort{ci} \\
-\acrlong{ci} \\
-\acrfull{ci}
-
-\begin{center}
-\urlpart{http}{protocol}%
-\texttt{://}%
-\urlpart{web.io}{host}%
-\texttt{/}%
-\urlpart{index}{path}%
-\texttt{?}%
-\urlpart{argument=somevalue}{parameter}%
-\texttt{\#}%
-\urlpart{theAnchor}{fragment}
-\end{center}
-
-more placeholder
+\include{introduction.tex}
+\clearpage
 
 \input{goals.tex}
 \clearpage
 
-\input{requirements.tex}
+\input{functional_req.tex}
+\clearpage
+
+\input{nonfunctional_req.tex}
+\clearpage
+
+\input{product_data.tex}
+\clearpage
+
+\input{tests.tex}
 \clearpage
 
 \input{scenarios.tex}
