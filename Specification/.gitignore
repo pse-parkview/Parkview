@@ -5,3 +5,4 @@ build/
 *.fdb_latexmk
 *.fls
 *.gz
+*.toc
