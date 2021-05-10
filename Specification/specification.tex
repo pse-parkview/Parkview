@@ -21,15 +21,15 @@
 
 % header & footer
 \usepackage{scrlayer-scrpage}
-\lofoot{\today}
-\refoot{\today}
+%\lofoot{\today} % Date in footer
+\refoot{\today}  % no idea what this does
 \pagestyle{scrheadings}
 
 \usepackage[sfdefault,light]{roboto}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 \usepackage[yyyymmdd]{datetime} % must be after babel
-\renewcommand{\dateseparator}{-} % ISO8601 date format
+\renewcommand{\dateseparator}{-}
 \usepackage[colorlinks=true, linkcolor=blue]{hyperref}
 \usepackage{amsmath} % for $\text{}$
 \usepackage[nameinlink]{cleveref}
@@ -42,13 +42,10 @@
 	pdftitle={Specification},
 	bookmarks=true,
 }
-\usepackage{csquotes}
-
-\input{glossary.tex}
-
-\newcommand\urlpart[2]{$\underbrace{\text{\texttt{#1}}}_{\text{#2}}$}
-
+\usepackage{csquotes} % provides \enquote{} command
 \usepackage{specification}
+
+\input{glossary.tex} % glossary header
 
 \begin{document}
 \maketitle
