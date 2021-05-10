@@ -2,18 +2,18 @@
 
 \scenario{pushAndInspect}{Ted: \gls{developer}}
 \begin{itemize}
-	\item Ted pushes his work to a git repository and fires off a benchmarkt test
+	\item Ted pushes his work to a git repository and fires off a benchmark test
 	\item Ted opens the web app and selects his last pushed change
-	\item Ted chooses a type of visualization
-	\item The app creates the given type of visualization with the benchmark results from the selected change
+	\item Ted chooses a type of \gls{visualization}
+	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
 \end{itemize}
 
 \scenario{visualizeFromTemplate}{Greta: User}
 \begin{itemize}
 	\item Greta opens the web app
-	\item Greta chooses a \gls{template} for a visualization
+	\item Greta chooses a \gls{template} for a \gls{visualization}
 	\item Greta chooses which commit she wants to visualize
-	\item The app creates the given type of visualization with the commit
+	\item The app creates the given type of \gls{visualization} with the commit
 \end{itemize}
 
 \scenario{saveTemplate}{Greta: User}
@@ -28,8 +28,8 @@
 	\item Greta wants to see the latest performance benchmarks for the project
 	\item Greta opens the web app and selects the latest change
 	\item Greta chooses a benchmark to compare
-	\item Greta chooses a type of visualization by selecting which value to plot on the x axis and which value on the y axis
-	\item The app creates the given type of visualization with the benchmark results from the selected change
+	\item Greta chooses a type of \gls{visualization} by selecting which value to plot on the x axis and which value on the y axis
+	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
 \end{itemize}
 
 \scenario{compareImplementations}{Greta: User}
@@ -37,18 +37,18 @@
 	\item Greta wants to know which implementation is the fastest
 	\item Greta opens the web app and selects a benchmark
 	\item Greta selects commits from different branches containing different implementations
-	\item Greta chooses a type of visualization by selecting which value to plot on the x axis and which value on the y axis.
-	\item The app creates the given type of visualization with the benchmark results from the selected change
+	\item Greta chooses a type of \gls{visualization} by selecting which value to plot on the x axis and which value on the y axis.
+	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
 \end{itemize}
 
 \scenario{pushAndCompare}{Ted: \gls{developer}}
 \begin{itemize}
 	\item Ted pushes his work to a git repository, and fires off a benchmark test.
 	\item Benchmark results are fed into the database.
-	\item Ted opens the webapp and selects his last pushed change>
+	\item Ted opens the web app and selects his last pushed change>
 	\item Ted selects a previous change that he wants to compare to.
-	\item Ted chooses a type of visualization.
-	\item The app creates the given type of visualization with the benchmark results from the selected changes.
+	\item Ted chooses a type of \gls{visualization}.
+	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected changes.
 \end{itemize}
 
 \scenario{badPerformance}{Ted: \gls{developer}}
@@ -69,22 +69,22 @@
 
 \scenario{shareVisualization}{Greta: User}
 \begin{itemize}
-	\item Greta found an interesting visualization for something.
-	\item Greta clicks a *share* button next to the visualization.
-	\item Greta gets a link she can share with others that redirects them to the exact same visualization.
+	\item Greta found an interesting \gls{visualization} for something.
+	\item Greta clicks a *share* button next to the \gls{visualization}.
+	\item Greta gets a link she can share with others that redirects them to the exact same \gls{visualization}.
 \end{itemize}
 
 \scenario{visualizeCommitWithoutBenchmark}{Greta: User}
 \begin{itemize}
-	\item Greta opens the web app and wants to visualize benchmarkdata for a specific commit. This commit has no benchmark data attached to it, only the commit before and the commit after.
+	\item Greta opens the web app and wants to visualize benchmark data for a specific commit. This commit has no benchmark data attached to it, only the commit before and the commit after.
 	\item Greta can't click on the commit because it is greyed out.
 \end{itemize}
 
 \scenario{takeVisualizationFromHistory}{Greta: User}
 \begin{itemize}
-	\item Greta opens the webapp and visualizes something. She then visualizes something else. Her previous visualizations are stored in a list somewhere.
-	\item Greta decides to take another look at a previous visualization.
-	\item Greta picks her previous visualization and gets the previous visualization.
+	\item Greta opens the web app and visualizes something. She then visualizes something else. Her previous \glspl{visualization} are stored in a list somewhere.
+	\item Greta decides to take another look at a previous \gls{visualization}.
+	\item Greta picks her previous visualization and gets the previous \gls{visualization}.
 \end{itemize}
 
 \scenario{postBenchmarkResults}{bencharkCI: \acrshort{ci}}
