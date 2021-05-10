@@ -16,6 +16,8 @@
 \newcommand\criteriumlink[1]{\hyperref[#1]%
   {\GetProperty{#1}{pfl:crtid}}}
 \newcommand\marginid[1]{\marginpar{\centering\textbf{#1}}}
+\newcommand\productdatalink[1]{\hyperref[#1]%
+  {\GetProperty{#1}{pfl:dataid}}}
 
 \newcommand\PrefixMussKriterium{M}
 \newcommand\PrefixKannKriterium{K}
@@ -23,6 +25,7 @@
 \newcommand\PrefixFunktional{FR}
 \newcommand\PrefixNichtFunktional{NF}
 \newcommand\PrefixTest{T}
+\newcommand\PrefixProductData{PD}
 
 \newcounter{criterium}
 \newcounter{criteriumOpt}
@@ -31,6 +34,7 @@
 \newcounter{nonfunctionality}
 \newcounter{test}
 \newcounter{teststep}[test]
+\newcounter{productData}
 
 % document macros
 \newcommand\criterium[2]{
@@ -90,6 +94,14 @@
   \AddPropertyEx{pfl:tstname}{#1}
   \AddPropertyEx{pfl:tstid}{\PrefixTest\arabic{test}}
   \\ Testet: \Bind{#2}{pfl:tests}{?f}{ \functionalitylink{\GetVal{?f}} }
+  \par}
+
+\newcommand\productData[2]{
+  \stepcounter{productData}
+  \par\textbf{#1}\phantomsection\rdflabel{#2}
+  \marginid{\PrefixProductData\arabic{productData}}
+  \AddPropertyEx{pfl:dataname}{#1}
+  \AddPropertyEx{pfl:dataid}{\PrefixNichtFunktional\arabic{productData}}
   \par}
 
 \newcommand\teststep[3]{\stepcounter{teststep}
