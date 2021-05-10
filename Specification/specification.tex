@@ -37,6 +37,7 @@
 \usepackage{xcolor}
 \usepackage[nonumberlist]{glossaries}     % provides glossary commands
 \usepackage{graphicx}
+\graphicspath{ {./images/} }
 \hypersetup{
 	pdftitle={Specification},
 	bookmarks=true,
@@ -49,19 +50,22 @@
 \begin{document}
 \maketitle
 
-\include{introduction.tex}
+\include{introduction/introduction.tex}
 \clearpage
 
-\input{goals.tex}
+\input{introduction/goals.tex}
 \clearpage
 
-\input{req/functional_req.tex}
+\input{requirements/functional_req.tex}
 \clearpage
 
-\input{req/nonfunctional_req.tex}
+\input{requirements/nonfunctional_req.tex}
 \clearpage
 
-\input{req/product_data.tex}
+\input{requirements/product_data.tex}
+\clearpage
+
+\input{interface.tex}
 \clearpage
 
 \input{tests.tex}
