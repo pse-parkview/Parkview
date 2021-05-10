@@ -4,9 +4,9 @@
 {initiated by User}
 {configuration is available}
 {\begin{enumerate}
-    \item Web app fetches the data specified in the configuration from the backend.
-    \item The web app uses the fetched data to generate a plot according to the specifion.
-    \item The generated plot is visualized in the web app.
+    \item Web app fetches the data specified in the configuration from the backend
+    \item The web app uses the fetched data to generate a plot according to the specification
+    \item The generated plot is visualized in the web app
 \end{enumerate}}
 {The plot specified by the configuration gets shown to the User.}
 {Shouldn't take more than 30 seconds?}
@@ -17,7 +17,7 @@
 {Server}
 {benchmark results for all selected commits are available}
 {\begin{enumerate}
-    \item The backend compares the performance of all selected commits  
+    \item The backend compares the performance of all selected commits
     \item ???
 \end{enumerate}}
 {The server cachaes the results for later use}
@@ -30,7 +30,7 @@
 {benchmark data for commit is available}
 {\begin{enumerate}
     \item User selects a single change from the history
-    \item Backend generates comparison \texttt{-> CompareCommits}
+    \item Server generates comparison \texttt{-> CompareCommits}
 \end{enumerate}}
 {Results are displayed in the web app}
 {If data is present: no more than 30 seconds?}
@@ -41,35 +41,100 @@
 {User, Server}
 {Web app is currently displaying data}
 {\begin{enumerate}
-    \item
-    \item
+    \item User selects the \enquote{save template} option
+    \item User is prompted for name for the \gls{template}
+    \item The Server generates a \acrshort{json} file representing the \gls{template}
 \end{enumerate}} 
-{Template is stored on the server for later use}
+{\Gls{template} is stored on the server for later use}
 {Requires less than 1kB of storage in the database}
 
 \bigskip
 
-\case{}
-{}
-{}
+\case{UseTemplate}
+{User, Server}
+{A \gls{template} is stored in the database}
 {\begin{enumerate}
-    \item
-    \item
+    \item The User selects the \enquote{open template} option
+    \item User is shown a list of all saved \glspl{template}
+    \item User selects a \gls{template} from the list
+\end{enumerate}} 
+{The User's dashboard is set to the selected template}
+{???}
+
+\bigskip
+
+\case{PostBenchmarkResults}
+{\Gls{developer}, Server}
+{The application was benchmarked}
+{\begin{enumerate}
+    \item The \gls{developer} makes a POST request to the server containing the new benchmark data in \acrshort{json} format
+    \item The Server converts the received data into the correct format
+    \item The Server stores the received data in the database
+\end{enumerate}} 
+{The received performance data is stored in the database}
+{???}
+
+\bigskip
+
+\case{ShareVisualization}
+{User}
+{A \gls{visualization} exists already}
+{\begin{enumerate}
+    \item The User selects the \enquote{share visualization} option on the web app dashboard with the \gls{visualization} on it
+    \item 
 \end{enumerate}} 
 {}
 {}
 
 \bigskip
 
-case template:
-\case{}
-{}
+\case{ExportVisualization}
+{User}
+{A \gls{visualization} exists already}
+{\begin{enumerate}
+    \item The User selects the \enquote{export visualization} option on the web app dashboard with the \gls{visualization} on the dashboard
+    \item The web app serializes the data as a \acrshort{json} file
+    \item The web app prompts a download of the serialized \acrshort{json} file
+\end{enumerate}} 
+{The User is offered a download of an export of the visualization}
+{This may not take longer than 30 seconds. (Probably.)}
+
+\bigskip
+
+\case{ImportVisualization (probably)}
+{User}
 {}
 {\begin{enumerate}
-    \item
-    \item
+    \item The user selects the \enquote{import visualization} option on the web app
+    \item The web app promps the user to upload a JSON File. (or to paste it?)
+    \item The web app parses the data within the JSON File, and displays it on the web app.
 \end{enumerate}} 
 {}
 {}
 
 \bigskip
+
+\case{Notify}
+{Server, User}
+{A comparison has finished (see compare commits)}
+{\begin{enumerate}
+    \item The server has finished the comparison of the latest commit with benchmark data with its predecessing commit with benchmark data.
+    \item The server fires a POST Request to all of its webhook subscribers, 
+          containing a notification that the latest change was negatively impacting the performance, a bried description of how it did so,
+          and a link to the web app for immediate review.
+    \item The user sees this notification on its webhook service (e.g. Discord).
+\end{enumerate}}
+{The server fires a POST Request to all webhook subscribers}
+{}
+
+\bigskip
+
+\case{UseCaseTemplate}
+{Actors}
+{Entry cond.}
+{\begin{enumerate}
+    \item Flow 1
+    \item Flow 2
+\end{enumerate}} 
+{Exit cond.}
+{Quality Requirements(?)}
