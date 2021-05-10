@@ -35,7 +35,7 @@
 \crefname{figure}{Abb}{Abb}
 \usepackage[section]{placeins}
 \usepackage{xcolor}
-\usepackage[nonumberlist]{glossaries}     % provides glossary commands
+\usepackage[nonumberlist, toc]{glossaries}     % provides glossary commands, [toc] to appear in table of contents
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \hypersetup{
@@ -50,10 +50,19 @@
 \begin{document}
 \maketitle
 
+\clearpage
+\tableofcontents
+
 \include{introduction/introduction.tex}
 \clearpage
 
 \input{introduction/goals.tex}
+\clearpage
+
+\input{usage.tex}
+\clearpage
+
+\input{product_env.tex}
 \clearpage
 
 \input{requirements/functional_req.tex}
