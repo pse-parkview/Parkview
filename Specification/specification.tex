@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 
 \title{Performance Dashboard for Continuous Benchmarking of HPC Libraries}
-\author{Chingun Ariunbat, Maximilian Schik, Walter Alexander B\"ottcher,\\ Darius Schefer, Jamil Bagga}
+\author{Chingun Ariunbat, Jamil Bagga, Walter Alexander B\"ottcher,\\Darius Schefer, Maximilian Schik}
 
 % section numbers in margins:
 \renewcommand\sectionlinesformat[4]{\makebox[0pt][r]{#3}#4}
@@ -48,17 +48,19 @@
 \input{glossary.tex} % glossary header
 
 \begin{document}
+
 \maketitle
+\begin{figure}[h]
+	\includegraphics[width=11cm]{vapor.png}
+	\centering	
+\end{figure}
+
 \clearpage
 
 \tableofcontents
 \clearpage
 
-\input{introduction/introduction.tex}
-\clearpage
-
-\input{introduction/goals.tex}
-\clearpage
+\input{intro_goals.tex}
 
 \input{usage.tex}
 \clearpage
@@ -66,13 +68,7 @@
 \input{product_env.tex}
 \clearpage
 
-\input{requirements/functional_req.tex}
-\clearpage
-
-\input{requirements/nonfunctional_req.tex}
-\clearpage
-
-\input{requirements/product_data.tex}
+\input{requirements.tex}
 \clearpage
 
 \input{interface.tex}
