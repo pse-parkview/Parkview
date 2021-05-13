@@ -1,95 +1,14 @@
 \section{Scenarios}
 
-\scenario{pushAndInspect}{Ted: \Gls{developer}}
-\begin{itemize}
-	\item Ted pushes his work to a git repository and fires off a benchmark test
-	\item Ted opens the web app and selects his last pushed change
-	\item Ted chooses a type of \gls{visualization}
-	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
-\end{itemize}
+\scenario{Inspecting Last Change}{scn:inspect_last_change}
+{Ted: \Gls{user}, CI: \Gls{benchmarking system}}
+{Ted works on a project that has \emph{PROJECT NAME} set up. He makes changes on a performance critical component. After that he pushes his changes to the repository. The CI sends its benchmark results to the system, which stores it in a persistent way. Ted opens the webapp and selects a benchmark. He sees a list of all recent changes. The changes without benchmark data are greyed out. Ted selects his newest change. He selects a device to take the benchmark data from. The change appears in a list of selected changes. Ted selects the \enquote{Create New Plot} option. A popup appears. Ted chooses the dimension he wants to inspect. After he configured his plot he decides to save the \gls{template} for later use. He selects the \enquote{Save Template} option. He enters a name for the \gls{template} and selects the \enquote{Save} option. After that he selects the \enquote{Generate Plot} option. Ted gets redirected to a new site where he can inspect his plot. He decides to send this plot to a coworker. He selects the \enquote{Share} option and a link gets displayed. He copies the link and sends it to his coworker.}
 
-\scenario{visualizeFromTemplate}{Greta: User}
-\begin{itemize}
-	\item Greta opens the web app
-	\item Greta chooses a \gls{template} for a \gls{visualization}
-	\item Greta chooses which commit she wants to visualize
-	\item The app creates the given type of \gls{visualization} with the commit
-\end{itemize}
+\scenario{Comparing Benchmarks}{scn:comp_benchmarks}
+{Greta: \Gls{user}}
+{Greta opens the webapp. She selects a benchmark. She selects two benchmarks by first picking a specific change and then a specific device. She opens the configuration popup by selecting the \enquote{Create New Plot} option. She wants to use a previously created \gls{template}. She selects the \enquote{Use Template} option and chooses her \gls{template} from a list of available ones. The settings specified in the \gls{template} get applied to the current \gls{configuration}. Greta makes final adjustments and then selects the \enquote{Generate Plot} option. After that she gets redirected to a new site where she can inspect her plot. Ted also wants to download the plot for use in his publication. He selects the \enquote{Export} option. He gets to choose between a seleciton of filetypes. He picks his preferred one. A link gets displayed leading to a download with the selected filetype.}
 
-\scenario{saveTemplate}{Greta: User}
-\begin{itemize}
-	\item Greta opens the web app
-	\item Greta configures a visualization
-	\item Greta saves her visualization as a \gls{template} for future use
-\end{itemize}
+\scenario{Performance Tracking}{scn:perf_tracking}
+{CI: \Gls{benchmarking system}}
+{The CI runs a specific benchmark for a specific change on a specific device. It sends a POST request to the system containing the results and the benchmark type, change identification and device name. The system receives the results and stores them in a persistent database. It recognizes that the benchmark performance has dropped by a significant factor. The system triggers a hook that sends a message to the developer slack channel informing about the performance drop. It also publishes a comment under the change on GitHub.}
 
-\scenario{inspect}{Greta: User}
-\begin{itemize}
-	\item Greta wants to see the latest performance benchmarks for the project
-	\item Greta opens the web app and selects the latest change
-	\item Greta chooses a benchmark to compare
-	\item Greta chooses a type of \gls{visualization} by selecting which value to plot on the x axis and which value on the y axis
-	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
-\end{itemize}
-
-\scenario{compareImplementations}{Greta: User}
-\begin{itemize}
-	\item Greta wants to know which implementation is the fastest
-	\item Greta opens the web app and selects a benchmark
-	\item Greta selects commits from different branches containing different implementations
-	\item Greta chooses a type of \gls{visualization} by selecting which value to plot on the x axis and which value on the y axis.
-	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected change
-\end{itemize}
-
-\scenario{pushAndCompare}{Ted: \gls{developer}}
-\begin{itemize}
-	\item Ted pushes his work to a git repository, and fires off a benchmark test.
-	\item Benchmark results are fed into the database.
-	\item Ted opens the web app and selects his last pushed change>
-	\item Ted selects a previous change that he wants to compare to.
-	\item Ted chooses a type of \gls{visualization}.
-	\item The app creates the given type of \gls{visualization} with the benchmark results from the selected changes.
-\end{itemize}
-
-\scenario{badPerformance}{Ted: \gls{developer}}
-\begin{itemize}
-	\item Ted pushes his work to a git repository, and fires off a benchmark test.
-	\item Benchmark results are fed into the database.
-	\item Our dashboard-backend realizes that the benchmark data for this change is far worse than usual.
-	\item Ted gets notified that his last pushed change significantly worsened the performance and the related details about that.
-\end{itemize}
-
-\scenario{impossiblePerformance}{Ted: \gls{developer}}
-\begin{itemize}
-	\item Ted pushes his work to a git repository, and fires off a benchmark test.
-	\item Benchmark results are fed into the database.
-	\item Our dashboard-backend realizes that the benchmark data for this change is theoretically impossible.
-	\item Ted gets notified that his last pushed change has improved the performance above the theoretical maximum and the related details about that.
-\end{itemize}
-
-\scenario{shareVisualization}{Greta: User}
-\begin{itemize}
-	\item Greta found an interesting \gls{visualization} for something.
-	\item Greta clicks a *share* button next to the \gls{visualization}.
-	\item Greta gets a link she can share with others that redirects them to the exact same \gls{visualization}.
-\end{itemize}
-
-\scenario{visualizeCommitWithoutBenchmark}{Greta: User}
-\begin{itemize}
-	\item Greta opens the web app and wants to visualize benchmark data for a specific commit. This commit has no benchmark data attached to it, only the commit before and the commit after.
-	\item Greta can't click on the commit because it is greyed out.
-\end{itemize}
-
-\scenario{takeVisualizationFromHistory}{Greta: User}
-\begin{itemize}
-	\item Greta opens the web app and visualizes something. She then visualizes something else. Her previous \glspl{visualization} are stored in a list somewhere.
-	\item Greta decides to take another look at a previous \gls{visualization}.
-	\item Greta picks her previous visualization and gets the previous \gls{visualization}.
-\end{itemize}
-
-\scenario{postBenchmarkResults}{bencharkCI: \acrshort{ci}}
-\begin{itemize}
-	\item The benchmarkCI processes a benchmark and gets some results.
-	\item The benchmarkCI posts the results to the backend of the system using the API supplied by the system.
-	\item The benchmark results are stored in the backend database system.
-\end{itemize}

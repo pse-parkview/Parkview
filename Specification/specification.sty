@@ -15,9 +15,13 @@
   {\GetProperty{#1}{pfl:fncid}}}
 \newcommand\criteriumlink[1]{\hyperref[#1]%
   {\GetProperty{#1}{pfl:crtid}}}
-\newcommand\marginid[1]{\marginpar{\centering\textbf{#1}}}
 \newcommand\productdatalink[1]{\hyperref[#1]%
-  {\GetProperty{#1}{pfl:dataid}}}
+  {\GetProperty{#1}{pfl:datid}}}
+\newcommand\scenariolink[1]{\hyperref[#1]%
+  {\GetProperty{#1}{pfl:scnid}}}
+\newcommand\caselink[1]{\hyperref[#1]%
+  {\GetProperty{#1}{pfl:cseid}}}
+\newcommand\marginid[1]{\marginpar{\centering\textbf{#1}}}
 
 \newcommand\PrefixCriterium{C}
 \newcommand\PrefixOptionalCriterium{OC}
@@ -26,6 +30,8 @@
 \newcommand\PrefixNonFunctional{NF}
 \newcommand\PrefixTest{T}
 \newcommand\PrefixProductData{PD}
+\newcommand\PrefixScenario{SC}
+\newcommand\PrefixCase{U}
 
 \newcounter{criterium}
 \newcounter{criteriumOpt}
@@ -35,6 +41,8 @@
 \newcounter{test}
 \newcounter{teststep}[test]
 \newcounter{productData}
+\newcounter{scenario}
+\newcounter{case}
 
 % document macros
 \newcommand\criterium[2]{
@@ -100,9 +108,37 @@
   \stepcounter{productData}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
   \marginid{\PrefixProductData\arabic{productData}}
-  \AddPropertyEx{pfl:dataname}{#1}
-  \AddPropertyEx{pfl:dataid}{\PrefixNonFunctional\arabic{productData}}
+  \AddPropertyEx{pfl:datname}{#1}
+  \AddPropertyEx{pfl:datid}{\PrefixProductData\arabic{productData}}
   \par}
+
+\newcommand{\scenario}[4]{
+  \stepcounter{scenario}
+  \begin{minipage}{\textwidth}
+  \textbf{\PrefixScenario\arabic{scenario}}
+  \textbf{Scenario name:} {#1}\phantomsection\rdflabel{#2}\par
+  \textbf{Participating actor:} {#3}\par
+  \textbf{Flow of events:} {#4}\par
+  \end{minipage}
+  \AddPropertyEx{pfl:scnname}{#1}
+  \AddPropertyEx{pfl:scnid}{\PrefixProductData\arabic{scenario}}
+  \par}
+
+\newcommand{\case}[7]{
+  \stepcounter{case}
+  \begin{minipage}{\textwidth}
+  \textbf{\PrefixCase\arabic{case}}
+  \textbf{Use case name:} {#1}\phantomsection\rdflabel{#2}\par
+  \textbf{Participating actors:} {#3}\par
+  \textbf{Entry conditions:} {#4}\par
+  \textbf{Flow of events:} {#5}\par
+  \textbf{Exit conditions:} {#6}\par
+  \textbf{Quality requirements:} {#7}\par
+  \end{minipage}
+  \AddPropertyEx{pfl:csename}{#1}
+  \AddPropertyEx{pfl:cseid}{\PrefixProductData\arabic{case}}
+  \par}
+
 
 \newcommand\teststep[3]{\stepcounter{teststep}
 {\PrefixTest\arabic{test}.\arabic{teststep}}
@@ -120,20 +156,3 @@
 	\textbf{Reaction:} #2\par
 \end{minipage}
 \par}
-
-% new doc macros
-\newcommand{\scenario}[2]{\begin{minipage}{\textwidth}
-\textbf{Scenario name:} #1 \\
-\textbf{Participating actor:} #2
-\end{minipage}
-}
-
-\newcommand{\case}[6]{\begin{minipage}{\textwidth}
-\textbf{Use case name:} #1 \\
-\textbf{Participating actors:} #2 \\
-\textbf{Entry conditions:} #3 \\
-\textbf{Flow of events:} #4 
-\textbf{Exit conditions:} #5 \\
-\textbf{Quality requirements:} #6
-\end{minipage}
-}

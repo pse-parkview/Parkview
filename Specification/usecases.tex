@@ -3,7 +3,7 @@
 \includegraphics[width=\textwidth]{usecase.pdf}
 \captionof{figure}{Use case diagram}
 
-\case{Visualize}
+\case{Visualize}{cse:visualize}
 {initiated by User}
 {\gls{configuration} is available}
 {\begin{enumerate}
@@ -19,7 +19,7 @@
 
 \bigskip
 
-\case{Configure Visualization}
+\case{Configure Visualization}{cse:config_vis}
 {initated by User}
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
@@ -32,7 +32,7 @@
 
 \bigskip
 
-\case{Inspect Change}
+\case{Inspect Change}{cse:inspect_change}
 {initated by User}
 {benchmark data for commit is available}
 {\begin{enumerate}
@@ -45,7 +45,7 @@
 
 \bigskip
 
-\case{Compare commits}
+\case{Compare commits}{cse:comp_commits}
 {intiated by User}
 {benchmark results for all selected commits are available}
 {\begin{enumerate}
@@ -58,7 +58,7 @@
 
 \bigskip
 
-\case{Share Visualization}
+\case{Share Visualization}{cse:share_vis}
 {initiated by User}
 {A \gls{visualization} has been generated}
 {\begin{enumerate}
@@ -71,7 +71,7 @@
 
 \bigskip
 
-\case{Export Visualization}
+\case{Export Visualization}{cse:export_vis}
 {initiated by User}
 {A \gls{visualization} has been generated}
 {\begin{enumerate}
@@ -85,7 +85,7 @@
 
 \bigskip
 
-\case{Save Template}
+\case{Save Template}{cse:save_template}
 {initiated by User, (maybe web browser as well? the cookies get stored on the web browser)}
 {The user is in the \texttt{Configure Visualization} use case}
 {The \texttt{Save Template} use case extends the \texttt{Configure Visualization} use case.
@@ -99,7 +99,7 @@
 
 \bigskip
 
-\case{Use Template}
+\case{Use Template}{cse:use_temp}
 {initiated by User (maybe web browser as well? the cookies get stored on the web browser)}
 {The user is in the \texttt{Configure Visualization} use case and a \gls{template} is available locally}
 {The \texttt{Use Template} use case extends the \texttt{Configure Visualization} use case.
@@ -114,7 +114,7 @@
 
 \bigskip
 
-\case{Post Benchmark Results}
+\case{Post Benchmark Results}{cse:post_benchmark_res}
 {initiated by External Benchmarking System}
 {The external benchmarking system ran the benchmarks}
 {\begin{enumerate}
@@ -127,7 +127,7 @@
 
 \bigskip
 
-\case{Performance Tracking}
+\case{Performance Tracking}{cse:perf_tracking}
 {communicates with External Webservice}
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
@@ -141,7 +141,7 @@
 
 \bigskip
 
-\case{Benchmark Results POST Failure}
+\case{Benchmark Results POST Failure}{cse:benchmark_res_post_fail}
 {return error code to External Benchmarking System}
 {}
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
@@ -154,7 +154,7 @@
 
 \bigskip
 
-\case{Benchmark Data Fetching Failure}
+\case{Benchmark Data Fetching Failure}{cse:benchmark_data_fetch_fail}
 {displays error to User}
 {This use case extends the \texttt{Visualization} use case if an error occurs.}
 {\begin{enumerate}
@@ -167,7 +167,7 @@
 
 \bigskip
 
-\case{UseCaseTemplate}
+\case{UseCaseTemplate}{cse:use_case_template}
 {Actors}
 {Entry cond.}
 {\begin{enumerate}
