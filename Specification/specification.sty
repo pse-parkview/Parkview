@@ -120,3 +120,20 @@
 	\textbf{Reaction:} #2\par
 \end{minipage}
 \par}
+
+% new doc macros
+\newcommand{\scenario}[2]{\begin{minipage}{\textwidth}
+\textbf{Scenario name:} #1 \\
+\textbf{Participating actor:} #2
+\end{minipage}
+}
+
+\newcommand{\case}[6]{\begin{minipage}{\textwidth}
+\textbf{Use case name:} #1 \\
+\textbf{Participating actors:} #2 \\
+\textbf{Entry conditions:} #3 \\
+\textbf{Flow of events:} #4 
+\textbf{Exit conditions:} #5 \\
+\textbf{Quality requirements:} #6
+\end{minipage}
+}
