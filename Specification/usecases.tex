@@ -24,8 +24,8 @@
     \item The user chooses a plot type.
     \item The user chooses between certain options that are specific to the plot type.
 \end{enumerate}}
-{Results are displayed in the web app}
-{}
+{A \gls{configuration} gets created.}
+{The available options should be understandable without any previous knowledge or otherwise described by a short text.}
 
 \bigskip
 
@@ -37,8 +37,8 @@
     \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
-{Results are displayed in the web app}
-{If data is present: no more than 30 seconds?}
+{Visualization is displayed to the user}
+{???}
 
 \bigskip
 
@@ -50,8 +50,8 @@
     \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the "Generate New Plot" option in the popup.
 \end{enumerate}}
-{The server caches the results for later use (how?)}
-{wip}
+{Visualization is displayed to the user}
+{???}
 
 \bigskip
 
@@ -59,12 +59,12 @@
 {initiated by User}
 {A \gls{visualization} has been generated}
 {\begin{enumerate}
-    \item The user selects the \enquote{share visualization} option.
+    \item The user selects the \enquote{Share Visualization} option.
     \item A link gets displayed.
-    \item The link redirects any visitors to the same visualization.
+    \item The link redirects any visitors to the same \gls{visualization}.
 \end{enumerate}} 
-{Link which redirects to the visualization}
-{}
+{A link is shown which redirects to the \gls{visualization}}
+{???}
 
 \bigskip
 
@@ -72,12 +72,12 @@
 {initiated by User}
 {A \gls{visualization} has been generated}
 {\begin{enumerate}
-    \item The user selects the \enquote{export visualization} option.
+    \item The user selects the \enquote{Export Visualization} option.
     \item A popup appears.
     \item The user chooses a filetype for the export.
-    \item The user confirmes and downloads the visualization in the choosen file format.
+    \item The user confirmes and downloads the \gls{visualization} in the choosen file format.
 \end{enumerate}} 
-{The User is offered a download of an export of the visualization}
+{The User is offered a download of an export of the \gls{visualization}}
 {Support for the filetypes png, pdf and pgf (what is the preferred latex format?)}
 
 \bigskip
@@ -91,8 +91,8 @@
     \item The User enters a name for the \gls{template}.
     \item The webapp stores the template locally (cookies).
 \end{enumerate}} 
-{\Gls{template} is stored on the server for later use (can't be stored because we have no authentification, cookies are possible tho)}
-{Requires less than 1kB of storage in the database}
+{\Gls{template} is stored on the locally (might add global templates for later?)}
+{Requires less than 1kB of memory}
 
 \bigskip
 
@@ -106,14 +106,14 @@
     \item User selects a \gls{template} from the list.
     \item The current \gls{configuration} options get set to the values specified in the template.
 \end{enumerate}} 
-{The User's dashboard is set to the selected template}
+{The \gls{template} is applied to the current configuration.}
 {???}
 
 \bigskip
 
 \case{Post Benchmark Results}
 {initiated by External Benchmarking System}
-{The application was benchmarked}
+{The external benchmarking system ran the benchmarks}
 {\begin{enumerate}
     \item The benchmarking system makes a POST request to the backend containing the new benchmark data in \acrshort{json} format.
     \item The backend converts the received data into the correct format.
@@ -134,6 +134,32 @@
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
 {The server fires a POST Request to all webhook subscribers}
+{}
+
+\bigskip
+
+\case{Benchmark Results POST Failure}
+{return error code to External Benchmarking System}
+{}
+{This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
+\begin{enumerate}
+    \item The backend identifies the error.
+    \item The backend creates a response with the correct error code.
+\end{enumerate}}
+{}
+{}
+
+\bigskip
+
+\case{Benchmark Data Fetching Failure}
+{displays error to User}
+{This use case extends the \texttt{Visualization} use case if an error occurs.}
+{\begin{enumerate}
+    \item The backend identifies the error.
+    \item The backend creates a response with the correct error code.
+    \item The webapp displays an error message.
+\end{enumerate}}
+{}
 {}
 
 \bigskip
