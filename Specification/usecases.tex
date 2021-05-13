@@ -34,9 +34,9 @@
 
 \case{Inspect Change}{cse:inspect_change}
 {initated by User}
-{benchmark data for commit is available}
+{benchmark data for change is available}
 {\begin{enumerate}
-    \item The user selects a single commit.
+    \item The user selects a single change.
     \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
@@ -45,11 +45,11 @@
 
 \bigskip
 
-\case{Compare commits}{cse:comp_commits}
+\case{Compare Benchmark Data}{cse:comp_data}
 {intiated by User}
-{benchmark results for all selected commits are available}
+{benchmark results for all selected change are available}
 {\begin{enumerate}
-    \item The user selects multiple commits.
+    \item The user selects multiple changes.
     \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the "Generate New Plot" option in the popup.
 \end{enumerate}}
@@ -132,7 +132,7 @@
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
     \item The backend evaluates the performance of the new benchmark data.
-    \item The backend compares the performance of the new benchmark with the performance of the corresponding benchmark of the last commit.
+    \item The backend compares the performance of the new benchmark with the performance of the corresponding benchmark of the last change.
     \item The backend relays the results to a configured number of hooks.
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
