@@ -19,11 +19,11 @@
 \newcommand\productdatalink[1]{\hyperref[#1]%
   {\GetProperty{#1}{pfl:dataid}}}
 
-\newcommand\PrefixMussKriterium{M}
-\newcommand\PrefixKannKriterium{K}
-\newcommand\PrefixAbgrenzungsKriterium{A}
-\newcommand\PrefixFunktional{FR}
-\newcommand\PrefixNichtFunktional{NF}
+\newcommand\PrefixCriterium{C}
+\newcommand\PrefixOptionalCriterium{OC}
+\newcommand\PrefixNonCriterium{NC}
+\newcommand\PrefixFunctional{FR}
+\newcommand\PrefixNonFunctional{NF}
 \newcommand\PrefixTest{T}
 \newcommand\PrefixProductData{PD}
 
@@ -40,51 +40,51 @@
 \newcommand\criterium[2]{
   \stepcounter{criterium}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixMussKriterium\arabic{criterium}}
+  \marginid{\PrefixCriterium\arabic{criterium}}
   \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixMussKriterium\arabic{criterium}}
+  \AddPropertyEx{pfl:crtid}{\PrefixCriterium\arabic{criterium}}
   \IfProperty{#2}{pfl:is-fulfilled}{%
-    \\ Implementiert durch: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
-  }{{\color{red}{NICHT IMPLEMENTIERT}}}
+    \\ Implemented By: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
+  }{{\color{red}{NOT IMPLEMENTED}}}
   \par}
 
 \newcommand\criteriumOptional[2]{
   \stepcounter{criteriumOpt}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixKannKriterium\arabic{criteriumOpt}}
+  \marginid{\PrefixOptionalCriterium\arabic{criteriumOpt}}
   \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixKannKriterium\arabic{criteriumOpt}}
+  \AddPropertyEx{pfl:crtid}{\PrefixOptionalCriterium\arabic{criteriumOpt}}
   \IfProperty{#2}{pfl:is-fulfilled}{%
-    \\ Implementiert durch: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
-  }{{\color{red} keine entsprechende Anforderung}}
+    \\ Implemented By: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
+  }{{\color{red} no according requirement}}
   \par}
 
 \newcommand\criteriumNot[2]{
   \stepcounter{criteriumNot}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixAbgrenzungsKriterium\arabic{criteriumNot}}
+  \marginid{\PrefixNonCriterium\arabic{criteriumNot}}
   \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixAbgrenzungsKriterium\arabic{criteriumNot}}
+  \AddPropertyEx{pfl:crtid}{\PrefixNonCriterium\arabic{criteriumNot}}
   \par}
 
 \newcommand\functionality[2]{
   \stepcounter{functionality}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixFunktional\arabic{functionality}}
+  \marginid{\PrefixFunctional\arabic{functionality}}
   \AddPropertyEx{pfl:fncname}{#1}
-  \AddPropertyEx{pfl:fncid}{\PrefixFunktional\arabic{functionality}}
+  \AddPropertyEx{pfl:fncid}{\PrefixFunctional\arabic{functionality}}
   \IfProperty{#2}{pfl:is-tested}{%
-    \\ Getestet durch: \Bind{?t}{pfl:tests}{#2}{ \testlink{\GetVal{?t}} }
-  }{{\color{red}{NICHT GETESTET}}\\}
-  Implementiert: \Bind{#2}{pfl:fulfills}{?c}{ \criteriumlink{\GetVal{?c}} }
+    \\ Tested By: \Bind{?t}{pfl:tests}{#2}{ \testlink{\GetVal{?t}} }
+  }{{\color{red}{NOT TESTED}}\\}
+  Implements: \Bind{#2}{pfl:fulfills}{?c}{ \criteriumlink{\GetVal{?c}} }
   \par}
 
 \newcommand\nonFunctionality[2]{
   \stepcounter{nonfunctionality}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixNichtFunktional\arabic{nonfunctionality}}
+  \marginid{\PrefixNonFunctional\arabic{nonfunctionality}}
   \AddPropertyEx{pfl:fncname}{#1}
-  \AddPropertyEx{pfl:fncid}{\PrefixNichtFunktional\arabic{nonfunctionality}}
+  \AddPropertyEx{pfl:fncid}{\PrefixNonFunctional\arabic{nonfunctionality}}
   \par}
 
 \newcommand\test[2]{
@@ -93,7 +93,7 @@
   \marginid{\PrefixTest\arabic{test}}
   \AddPropertyEx{pfl:tstname}{#1}
   \AddPropertyEx{pfl:tstid}{\PrefixTest\arabic{test}}
-  \\ Testet: \Bind{#2}{pfl:tests}{?f}{ \functionalitylink{\GetVal{?f}} }
+  \\ Tests: \Bind{#2}{pfl:tests}{?f}{ \functionalitylink{\GetVal{?f}} }
   \par}
 
 \newcommand\productData[2]{
@@ -101,22 +101,22 @@
   \par\textbf{#1}\phantomsection\rdflabel{#2}
   \marginid{\PrefixProductData\arabic{productData}}
   \AddPropertyEx{pfl:dataname}{#1}
-  \AddPropertyEx{pfl:dataid}{\PrefixNichtFunktional\arabic{productData}}
+  \AddPropertyEx{pfl:dataid}{\PrefixNonFunctional\arabic{productData}}
   \par}
 
 \newcommand\teststep[3]{\stepcounter{teststep}
 {\PrefixTest\arabic{test}.\arabic{teststep}}
 \begin{minipage}[t]{0.8\textwidth}\raggedright
-\textbf{Stand:} #1\par
-\textbf{Aktion:} #2\par
-\textbf{Reaktion:} #3\par
+\textbf{State:} #1\par
+\textbf{Action:} #2\par
+\textbf{Reaction:} #3\par
 \end{minipage}
 \par}
 
 \newcommand\teststepnostate[2]{\stepcounter{teststep}
 {\PrefixTest\arabic{test}.\arabic{teststep}}
 \begin{minipage}[t]{0.8\textwidth}\raggedright
-	\textbf{Aktion:} #1\par
-	\textbf{Reaktion:} #2\par
+	\textbf{Action:} #1\par
+	\textbf{Reaction:} #2\par
 \end{minipage}
 \par}
