@@ -16,6 +16,8 @@
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
 {Shouldn't take more than 10 seconds}
+\implementedby{scn:inspect_last_change}{cse:visualize}
+\implementedby{scn:comp_benchmarks}{cse:visualize}
 
 \bigskip
 
@@ -29,6 +31,8 @@
 \end{enumerate}}
 {A \gls{configuration} gets created.}
 {The available options should be understandable without any previous knowledge or otherwise described by a short text.}
+\implementedby{scn:inspect_last_change}{cse:config_vis}
+\implementedby{scn:comp_benchmarks}{cse:config_vis}
 
 \bigskip
 
@@ -42,6 +46,7 @@
 \end{enumerate}}
 {Visualization is displayed to the user}
 {???}
+\implementedby{scn:inspect_last_change}{cse:inspect_change}
 
 \bigskip
 
@@ -55,6 +60,7 @@
 \end{enumerate}}
 {Visualization is displayed to the user}
 {???}
+\implementedby{scn:comp_benchmarks}{cse:comp_data}
 
 \bigskip
 
@@ -68,6 +74,7 @@
 \end{enumerate}} 
 {A link is shown which redirects to the \gls{visualization}}
 {???}
+\implementedby{scn:inspect_last_change}{cse:share_vis}
 
 \bigskip
 
@@ -82,6 +89,7 @@
 \end{enumerate}} 
 {The User is offered a download of an export of the \gls{visualization}}
 {Support for the filetypes png, pdf and pgf (what is the preferred latex format?)}
+\implementedby{scn:comp_benchmarks}{cse:export_vis}
 
 \bigskip
 
@@ -96,6 +104,7 @@
 \end{enumerate}} 
 {\Gls{template} is stored on the locally (might add global templates for later?)}
 {Requires less than 1kB of memory}
+\implementedby{scn:inspect_last_change}{cse:save_template}
 
 \bigskip
 
@@ -111,6 +120,7 @@
 \end{enumerate}} 
 {The \gls{template} is applied to the current configuration.}
 {???}
+\implementedby{scn:comp_benchmarks}{cse:use_temp}
 
 \bigskip
 
@@ -124,6 +134,7 @@
 \end{enumerate}} 
 {The received performance data is stored in a database}
 {???}
+\implementedby{scn:perf_tracking}{cse:post_benchmark_res}
 
 \bigskip
 
@@ -138,6 +149,8 @@
 \end{enumerate}}
 {The server fires a POST Request to all webhook subscribers}
 {}
+\implementedby{scn:perf_tracking}{cse:perf_tracking}
+\implementedby{scn:inspect_last_change}{cse:perf_tracking}
 
 \bigskip
 

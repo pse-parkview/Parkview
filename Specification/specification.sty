@@ -9,6 +9,10 @@
 \newcommand\fulfills[1]{%
   \AddTripleEx{#1}{pfl:is-fulfilled}{yeah}
   \AddProperty{pfl:fulfills}{#1}}
+\newcommand\implementedby[2]{
+  \AddTripleEx{#1}{pfl:is-implemented}{yeah}
+  \AddTripleEx{#1}{pfl:implements}{#2}}
+
 \newcommand\testlink[1]{\hyperref[#1]%
   {\GetProperty{#1}{pfl:tstid}}}
 \newcommand\functionalitylink[1]{\hyperref[#1]%
@@ -119,33 +123,36 @@
   \textbf{Scenario name:} {#1}\phantomsection\rdflabel{#2}\par
   \textbf{Participating actor:} {#3}\par
   \textbf{Flow of events:} {#4}\par
+  \textbf{Implements:} \Bind{#2}{pfl:implements}{?f}{ \caselink{\GetVal{?f}} }
   \end{minipage}
-  \AddPropertyEx{pfl:scnname}{#1}
-  \AddPropertyEx{pfl:scnid}{\PrefixProductData\arabic{scenario}}
+  \AddTripleEx{#2}{pfl:scnname}{#1}
+  \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
   \par}
 
 \newcommand{\case}[7]{
   \stepcounter{case}
   \begin{minipage}{\textwidth}
+  \phantomsection\rdflabel{#2}\par
   \textbf{\PrefixCase\arabic{case}}
-  \textbf{Use case name:} {#1}\phantomsection\rdflabel{#2}\par
+  \textbf{Use case name:} {#1}\par
   \textbf{Participating actors:} {#3}\par
   \textbf{Entry conditions:} {#4}\par
   \textbf{Flow of events:} {#5}\par
   \textbf{Exit conditions:} {#6}\par
   \textbf{Quality requirements:} {#7}\par
+  \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
   \end{minipage}
-  \AddPropertyEx{pfl:csename}{#1}
-  \AddPropertyEx{pfl:cseid}{\PrefixProductData\arabic{case}}
+  \AddTripleEx{#2}{pfl:csename}{#1}
+  \AddTripleEx{#2}{pfl:cseid}{\PrefixCase\arabic{case}}
   \par}
 
 
 \newcommand\teststep[3]{\stepcounter{teststep}
 {\PrefixTest\arabic{test}.\arabic{teststep}}
 \begin{minipage}[t]{0.8\textwidth}\raggedright
-\textbf{State:} #1\par
-\textbf{Action:} #2\par
-\textbf{Reaction:} #3\par
+    \textbf{State:} #1\par
+    \textbf{Action:} #2\par
+    \textbf{Reaction:} #3\par
 \end{minipage}
 \par}
 
@@ -155,4 +162,4 @@
 	\textbf{Action:} #1\par
 	\textbf{Reaction:} #2\par
 \end{minipage}
-\par}
+\ptexar}
