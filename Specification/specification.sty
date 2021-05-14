@@ -1,6 +1,7 @@
 \ProvidesPackage{specification}
 \RequirePackage{xcolor}
 \RequirePackage{rdfref-user,rdfref-query}
+\RequirePackage{minipage-marginpar}
 
 % cross referencing
 \newcommand\tests[1]{%
@@ -10,7 +11,7 @@
   \AddTripleEx{#1}{pfl:is-fulfilled}{yeah}
   \AddProperty{pfl:fulfills}{#1}}
 \newcommand\implementedby[2]{
-  \AddTripleEx{#1}{pfl:is-implemented}{yeah}
+  \AddTripleEx{#2}{pfl:is-implemented}{yeah}
   \AddTripleEx{#1}{pfl:implements}{#2}}
 
 \newcommand\testlink[1]{\hyperref[#1]%
@@ -34,7 +35,7 @@
 \newcommand\PrefixNonFunctional{NF}
 \newcommand\PrefixTest{T}
 \newcommand\PrefixProductData{PD}
-\newcommand\PrefixScenario{SC}
+\newcommand\PrefixScenario{S}
 \newcommand\PrefixCase{U}
 
 \newcounter{criterium}
@@ -118,30 +119,34 @@
 
 \newcommand{\scenario}[4]{
   \stepcounter{scenario}
-  \begin{minipage}{\textwidth}
-  \textbf{\PrefixScenario\arabic{scenario}}
+  \begin{minipagewithmarginpars}{\textwidth}
+  \marginid{\textbf{\PrefixScenario\arabic{scenario}}}
   \textbf{Scenario name:} {#1}\phantomsection\rdflabel{#2}\par
   \textbf{Participating actor:} {#3}\par
   \textbf{Flow of events:} {#4}\par
   \textbf{Implements:} \Bind{#2}{pfl:implements}{?f}{ \caselink{\GetVal{?f}} }
-  \end{minipage}
+  \end{minipagewithmarginpars}
   \AddTripleEx{#2}{pfl:scnname}{#1}
   \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
   \par}
 
 \newcommand{\case}[7]{
   \stepcounter{case}
-  \begin{minipage}{\textwidth}
-  \phantomsection\rdflabel{#2}\par
-  \textbf{\PrefixCase\arabic{case}}
+  \begin{minipagewithmarginpars}{\textwidth}
+  \marginid{\textbf{\PrefixCase\arabic{case}}}
+  \phantomsection\rdflabel{#2}
   \textbf{Use case name:} {#1}\par
   \textbf{Participating actors:} {#3}\par
   \textbf{Entry conditions:} {#4}\par
   \textbf{Flow of events:} {#5}\par
   \textbf{Exit conditions:} {#6}\par
   \textbf{Quality requirements:} {#7}\par
-  \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
-  \end{minipage}
+  \IfProperty{#2}{pfl:is-implemented}{%
+      \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
+  }{
+      {\color{red}{NO SCENARIO}}\par
+  }
+  \end{minipagewithmarginpars}
   \AddTripleEx{#2}{pfl:csename}{#1}
   \AddTripleEx{#2}{pfl:cseid}{\PrefixCase\arabic{case}}
   \par}
