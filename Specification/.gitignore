@@ -7,3 +7,4 @@ build/
 *.gz
 *.toc
 *.pdf
+!images/*.pdf
