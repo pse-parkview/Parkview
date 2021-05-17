@@ -1,12 +1,5 @@
-# Pflichtenheft
+# Specifcation
 
-Eine Vorlage für Pflichtenhefte.
-Primäres Feature sind exzessives Querverweise.
+Contains the specification for the PSE project.
 
-## TODO
-
-* Optional Nummern hartkodieren? Nützlich damit diese über Dokumentrevisionen hinweg stabil bleiben.
-
-
-## Lizenz
-Gemeinfrei. Wir freuen uns über Verbesserungsvorschläge.
+To build the pdf simply run `make` in the directory with the `.tex` files.
