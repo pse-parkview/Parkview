@@ -10,17 +10,40 @@ PSE SS21
 
 \subsection{Required}
 
-\criterium{Generation of \glspl{visualization} from benchmark data}{crt:vis}
-\criterium{Comparison between different datapoints}{crt:comp}
-\criterium{Persistent storage of benchmark results}{crt:storage}
-\criterium{Overview about current state of benchmark performance}{crt:overview}
+\criterium{Generation of \glspl{visualization} from benchmark data}
+{crt:vis}
+{For a given benchmark result, generate a \gls{visualization} and inspect it.}
+
+\criterium{Comparison between different datapoints}
+{crt:comp}
+{For a given benchmark type, choose two (or more) datapoints (for example two different commits), and compare them by creating a visualization that shows the differences between the them.}
+
+\criterium{Persistent storage of benchmark results}
+{crt:storage}
+{The system offers long term storage for benchmark results.}
+
+\criterium{Overview about current state of benchmark performance}
+{crt:overview}
+{The system offers a overview that tells you the current performance for a given benchmarks and also whether it has improved or not.}
+
 
 \subsection{Optional}
 
-\criteriumOptional{Export and Sharing of \glspl{visualization}}{crt:opt_export_share}
-\criteriumOptional{Creating and use of \glspl{template}}{crt:opt_templates}
-\criteriumOptional{Tracking of benchmark performance}{crt:opt_track}
+\criteriumOptional{Export and Sharing of \glspl{visualization}}
+{crt:opt_export_share}
+{Allows the download and the creation of a shareable link for a visualization.}
+
+\criteriumOptional{Creation and use of \glspl{template}}
+{crt:opt_templates}
+{Allows the \gls{user} to create and use \glspl{template} for ease of use.}
+
+\criteriumOptional{Tracking of benchmark performance}
+{crt:opt_track}
+{The system keeps track of the benchmark performance, notifying the \gls{user} in a predefined way if there are major changes.}
+
 
 \subsection{Limitation}
 
-\criteriumNot{\Gls{visualization} types are predefined}{crt:limit_predefined}
+\criteriumNot{\Gls{visualization} types are predefined}
+{crt:limit_predefined}
+{The \gls{visualization} types have to be predefined, otherwise the system would get too complex.}

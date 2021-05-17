@@ -50,34 +50,37 @@
 \newcounter{case}
 
 % document macros
-\newcommand\criterium[2]{
+\newcommand\criterium[3]{
   \stepcounter{criterium}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \marginid{\PrefixCriterium\arabic{criterium}}
-  \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixCriterium\arabic{criterium}}
   \IfProperty{#2}{pfl:is-fulfilled}{%
     \\ Implemented By: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
   }{{\color{red}{NOT IMPLEMENTED}}}
+  \par#3
+  \marginid{\PrefixCriterium\arabic{criterium}}
+  \AddTripleEx{#2}{pfl:crtname}{#1}
+  \AddTripleEx{#2}{pfl:crtid}{\PrefixCriterium\arabic{criterium}}
   \par}
 
-\newcommand\criteriumOptional[2]{
+\newcommand\criteriumOptional[3]{
   \stepcounter{criteriumOpt}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
   \marginid{\PrefixOptionalCriterium\arabic{criteriumOpt}}
-  \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixOptionalCriterium\arabic{criteriumOpt}}
   \IfProperty{#2}{pfl:is-fulfilled}{%
     \\ Implemented By: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
   }{{\color{red} no according requirement}}
+  \par#3
+  \AddTripleEx{#2}{pfl:crtname}{#1}
+  \AddTripleEx{#2}{pfl:crtid}{\PrefixOptionalCriterium\arabic{criteriumOpt}}
   \par}
 
-\newcommand\criteriumNot[2]{
+\newcommand\criteriumNot[3]{
   \stepcounter{criteriumNot}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
+  \par#3
   \marginid{\PrefixNonCriterium\arabic{criteriumNot}}
-  \AddPropertyEx{pfl:crtname}{#1}
-  \AddPropertyEx{pfl:crtid}{\PrefixNonCriterium\arabic{criteriumNot}}
+  \AddTripleEx{#2}{pfl:crtname}{#1}
+  \AddTripleEx{#2}{pfl:crtid}{\PrefixNonCriterium\arabic{criteriumNot}}
   \par}
 
 \newcommand\functionality[2]{
