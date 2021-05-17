@@ -56,8 +56,8 @@
   \IfProperty{#2}{pfl:is-fulfilled}{%
     \\ Implemented By: \Bind{?f}{pfl:fulfills}{#2}{ \functionalitylink{\GetVal{?f}} }
   }{{\color{red}{NOT IMPLEMENTED}}}
-  \par#3
   \marginid{\PrefixCriterium\arabic{criterium}}
+  \par#3
   \AddTripleEx{#2}{pfl:crtname}{#1}
   \AddTripleEx{#2}{pfl:crtid}{\PrefixCriterium\arabic{criterium}}
   \par}
@@ -77,8 +77,8 @@
 \newcommand\criteriumNot[3]{
   \stepcounter{criteriumNot}
   \par\textbf{#1}\phantomsection\rdflabel{#2}
-  \par#3
   \marginid{\PrefixNonCriterium\arabic{criteriumNot}}
+  \par#3
   \AddTripleEx{#2}{pfl:crtname}{#1}
   \AddTripleEx{#2}{pfl:crtid}{\PrefixNonCriterium\arabic{criteriumNot}}
   \par}
