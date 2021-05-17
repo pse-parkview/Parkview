@@ -12,3 +12,10 @@
 {CI: \Gls{benchmarking system}}
 {The CI runs a specific benchmark for a specific change on a specific device. It sends a POST request to the system containing the results and the benchmark type, change identification and device name. The system receives the results and stores them in a persistent database. It recognizes that the benchmark performance has dropped by a significant factor. The system triggers a hook that sends a message to the developer slack channel informing about the performance drop. It also publishes a comment under the change on GitHub.}
 
+\scenario{Benchmark Post Failure}{scn:post_data_failure}
+{CI: \Gls{benchmarking system}}
+{The CI runs a specific benchmakr fo a specific change on a specific device. It fails to correctly format the data. It sends a POST request containing the malformed data to the system. The system takes the data and detects that it is wrongly formatted. The system responds to the CI with the corresponding error code.}
+
+\scenario{Benchmark Fetch Failure}{scn:fetch_data_failure}
+{Jeff: \Gls{user}}
+{Jeff opens the webapp. He wants to create a \gls{visualization} from a specific benchmark result. He selects the benchmark result and configures the \gls{visualization}. Jeff selects the \enquote{Generate Plot} option. The system realizes that the benchmark isn't available. It displays an error messsage to Jeff that explains the problem.}

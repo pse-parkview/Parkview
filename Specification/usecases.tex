@@ -18,6 +18,7 @@
 {Shouldn't take more than 10 seconds}
 \implementedby{scn:inspect_last_change}{cse:visualize}
 \implementedby{scn:comp_benchmarks}{cse:visualize}
+\implementedby{scn:fetch_data_failure}{cse:visualize}
 
 \bigskip
 
@@ -33,6 +34,7 @@
 {The available options should be understandable without any previous knowledge or otherwise described by a short text.}
 \implementedby{scn:inspect_last_change}{cse:config_vis}
 \implementedby{scn:comp_benchmarks}{cse:config_vis}
+\implementedby{scn:fetch_data_failure}{cse:config_vis}
 
 \bigskip
 
@@ -135,6 +137,7 @@
 {The received performance data is stored in a database}
 {???}
 \implementedby{scn:perf_tracking}{cse:post_benchmark_res}
+\implementedby{scn:post_data_failure}{cse:post_benchmark_res}
 
 \bigskip
 
@@ -164,6 +167,7 @@
 \end{enumerate}}
 {}
 {}
+\implementedby{scn:post_data_failure}{cse:benchmark_res_post_fail}
 
 \bigskip
 
@@ -177,3 +181,5 @@
 \end{enumerate}}
 {}
 {}
+\implementedby{scn:fetch_data_failure}{cse:benchmark_data_fetch_fail}
+
