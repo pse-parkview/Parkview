@@ -1,4 +1,34 @@
-\section{Scenarios}
+\section{System Model}
 
 \includegraphics[width=\textwidth]{systemmodel.pdf}
 \captionof{figure}{Diagram of system model}
+
+The system is split into the frontend and the backend. The \gls{user} only interacts with the frontend while any external systems like a benchmarking system or external webservices only interact with the backend. The frontend is realized through a webapp.
+
+\subsection{Frontend}
+
+\subsubsection*{Plotter}
+
+The Plotter is responsible for the generation of \gls{visualization} from a given \gls{configuration} and benchmark results. 
+
+\subsubsection*{Data Handler}
+
+The Data Handler is responsible for requesting and receiving data from the backend. It does this by using the Rest API that is provided by the backend.
+
+\subsubsection*{UI}
+
+The UI handles interactions with the \gls{user} such as the creation of \glspl{configuration}.
+
+\subsection{Backend}
+
+\subsubsection*{Rest Handler}
+
+The Rest Handler provides the Rest API that gets consumed by the frontend and any external actors.
+
+\subsubsection*{Data Processor}
+
+The Data Processor is responsible for transforming the data and computing any metrics that might be needed.
+
+\subsubsection*{Database}
+
+The Database provides persistent storage for the Benchmark Data. It also provides interfaces retrieving the stored data.
