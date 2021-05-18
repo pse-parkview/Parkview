@@ -1,44 +1,20 @@
 \section{Tests}
 
 \test{Create Visualization}{tst:create-vis-single}
-\tests{fnc:generate-single}
+\tests{fnc:select}
 \tests{fnc:configure}
 \tests{fnc:display}
 \tests{fnc:overview}
 
-Tests the basic navigation of the webapp and the generation of a \gls{visualization} from a single datapoint.
+Tests the basic navigation of the webapp and the generation of a \gls{visualization} from a set of datapoints.
 
-\teststep{User has the webapp open and no changes selected yet}
-{User selects one change}
-{Change gets added to the list of selected changes}
-
-\teststep{User has a change selected}
-{User selects the \enquote{Create New Plot} option}
-{A popup appears like in \figref{ui:config}}
-
-\teststep{User has a change selected and the configuration popup open}
-{User adjusts the configuration}
-{Configuration gets updated on screen}
-
-\teststep{User has a change selected and the configuration popup open and has it configured}
-{User selects the \enquote{Generate Plot} option}
-{The \gls{visualization} matching the configuration gets displayed to the user like in \figref{ui:plot}}
-
-\test{Create Comparison}{tst:create-vis-multiple}
-\tests{fnc:generate-multiple}
-\tests{fnc:configure}
-\tests{fnc:display}
-\tests{fnc:overview}
-
-Tests the basic navigation of the webapp and the generation of a \gls{visualization} from multiple datapoints.
-
-\teststep{User has the webapp open and no changes selected yet}
+\teststep{User has the webapp open and no changes selected. The database contains benchmark data}
 {User selects two changes}
 {Changes get added to the list of selected changes}
 
 \teststep{User has two changes selected}
 {User selects the \enquote{Create New Plot} option}
-{A popup appears with options for configuring the \gls{visualization}}
+{A popup with configuration options appears}
 
 \teststep{User has two changes selected and the configuration popup open}
 {User adjusts the configuration}
@@ -86,12 +62,16 @@ Tests the creation, storage and usage of templates.
 \test{Share}{tst:share}
 \tests{fnc:share-link}
 
+Tests the sharing of \glspl{visualization}.
+
 \teststep{User has the webapp with a \gls{visualization} open}
 {User selects the \enquote{Share} option}
 {Link leads to a identical \gls{visualization}}
 
 \test{Export}{tst:export}
 \tests{fnc:export}
+
+Tests the export of \glspl{visualization}.
 
 \teststep{User has the webapp with a \gls{visualization} open}
 {User selects the \enquote{Export} option}
@@ -101,6 +81,8 @@ Tests the creation, storage and usage of templates.
 \tests{fnc:calc}
 \tests{fnc:track}
 \tests{fnc:notify}
+
+Tests the system ability to detect performance drops and notify external webservices.
 
 \teststep{The database contains a change with high performance scores and a hook for an external webservice is set up}
 {System gets a post request with data that has low performance scores}

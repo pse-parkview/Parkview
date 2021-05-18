@@ -39,29 +39,17 @@
 
 \bigskip
 
-\case{Inspect Change}{cse:inspect_change}
+\case{Create Visualization}{cse:create_visualization}
 {initated by User}
 {benchmark data for change is available}
 {\begin{enumerate}
-    \item The user selects a single change.
+    \item The user selects a set of changes.
     \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
 {Visualization is displayed to the user}
-\implementedby{scn:inspect_last_change}{cse:inspect_change}
-
-\bigskip
-
-\case{Compare Benchmark Data}{cse:comp_data}
-{intiated by User}
-{benchmark results for all selected change are available}
-{\begin{enumerate}
-    \item The user selects multiple changes.
-    \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
-    \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the "Generate New Plot" option in the popup.
-\end{enumerate}}
-{Visualization is displayed to the user}
-\implementedby{scn:comp_benchmarks}{cse:comp_data}
+\implementedby{scn:inspect_last_change}{cse:create_visualization}
+\implementedby{scn:comp_benchmarks}{cse:create_visualization}
 
 \bigskip
 
