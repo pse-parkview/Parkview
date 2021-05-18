@@ -1,4 +1,107 @@
 \section{Tests}
 
-\test{Test Template Name}{test_template_id}
-something that should be tested
+\test{Create Visualization}{tst:create-vis-single}
+\tests{fnc:generate-single}
+\tests{fnc:configure}
+\tests{fnc:display}
+\tests{fnc:overview}
+
+Tests the basic navigation of the webapp and the generation of a \gls{visualization} from a single datapoint.
+
+\teststep{User has the webapp open and no changes selected yet}
+{User selects one change}
+{Change gets added to the list of selected changes}
+
+\teststep{User has a change selected}
+{User selects the \enquote{Create New Plot} option}
+{A popup appears like in \figref{ui:config}}
+
+\teststep{User has a change selected and the configuration popup open}
+{User adjusts the configuration}
+{Configuration gets updated on screen}
+
+\teststep{User has a change selected and the configuration popup open and has it configured}
+{User selects the \enquote{Generate Plot} option}
+{The \gls{visualization} matching the configuration gets displayed to the user like in \figref{ui:plot}}
+
+\test{Create Comparison}{tst:create-vis-multiple}
+\tests{fnc:generate-multiple}
+\tests{fnc:configure}
+\tests{fnc:display}
+\tests{fnc:overview}
+
+Tests the basic navigation of the webapp and the generation of a \gls{visualization} from multiple datapoints.
+
+\teststep{User has the webapp open and no changes selected yet}
+{User selects two changes}
+{Changes get added to the list of selected changes}
+
+\teststep{User has two changes selected}
+{User selects the \enquote{Create New Plot} option}
+{A popup appears with options for configuring the \gls{visualization}}
+
+\teststep{User has two changes selected and the configuration popup open}
+{User adjusts the configuration}
+{Configuration gets updated on screen}
+
+\teststep{User has two changes selected and the configuration popup open and has it configured}
+{User selects the \enquote{Generate Plot} option}
+{The \gls{visualization} matching the configuration gets displayed to the user}
+
+\test{Post Benchmark Data}{tst:post-data}
+\tests{fnc:storage}
+
+Tests sending benchmark data to the system and storing it.
+
+\teststepnostate{The system receives a POST request with valid data}
+{The data gets stored in the database}
+
+\test{Error Handling}{tst:error}
+\tests{fnc:error}
+
+Tests the systemes ability to deal with malformed input data and invalid requests.
+
+\teststep{Database is empty}
+{System receives a POST request with malformed data for change A}
+{System does not store the data}
+
+\teststep{Database is empty}
+{The webapp requests data for change A}
+{An error message gets displayed on the webapp}
+
+\test{Templates}{tst:template}
+\tests{fnc:store-template}
+\tests{fnc:load-template}
+
+Tests the creation, storage and usage of templates.
+
+\teststep{User has changes selected and the webapp with the configuration popup open. Configuration has been changed from the default.}
+{User selects the \enquote{Save Template} option}
+{Template gets stored in cookies.}
+
+\teststep{Template is stored in cookies.}
+{User selects the \enquote{Load Template} option}
+{Template gets applied to the current configuration}
+
+\test{Share}{tst:share}
+\tests{fnc:share-link}
+
+\teststep{User has the webapp with a \gls{visualization} open}
+{User selects the \enquote{Share} option}
+{Link leads to a identical \gls{visualization}}
+
+\test{Export}{tst:export}
+\tests{fnc:export}
+
+\teststep{User has the webapp with a \gls{visualization} open}
+{User selects the \enquote{Export} option}
+{The \gls{visualization} gets downloaded}
+
+\test{Performance Tracking}{tst:tracking}
+\tests{fnc:calc}
+\tests{fnc:track}
+\tests{fnc:notify}
+
+\teststep{The database contains a change with high performance scores and a hook for an external webservice is set up}
+{System gets a post request with data that has low performance scores}
+{The external webserivce gets notified of the performance drop}
