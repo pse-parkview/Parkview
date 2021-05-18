@@ -23,9 +23,6 @@
 \functionality{Presenting commit history}{fnc:overview}
 \fulfills{crt:overview}
 
-\functionality{Robustness against errors}{fnc:error}
-\fulfills{crt:error}
-
 \functionality{Storage of templates in cookies}{fnc:store-template}
 \fulfills{crt:opt-templates}
 
@@ -54,18 +51,20 @@
 
 \nonFunctionality{Extension with new visualization types is simple}{nfc:extension}
 
+\nonFunctionality{Robustness against errors}{nfc:robust}
+
 \subsection{Product Data}
 
-\productData{Benchmark Results (Name in progress)}{pdt:benchmark-results}
-Format: JSON/CSV \\
-Description: 
-\begin{itemize}
-	\item saved on server
-	\item algorithm result data (time, storage, accuracy, convergence(?))
-\end{itemize}
+\productData{Benchmark Results)}{pdt:benchmark_results}
+Format: JSON/CSV \par
 
-\productData{Git Histories}{pdt:git-histories}
-Format: ??? (WIP) \\
+\productData{Git Histories}{pdt:git_histories}
 
-\productData{\Glspl{template}}{pdt:template}
-Format: JSON (?)
+\productData{Visualization Configuration}{pdt:vis_config}
+Format: JSON \par
+
+\productData{Visualization Types}{pdt:vis_types}
+
+\productData{Visualization URLs for sharing}{pdt:vis_url}
+
+\productData{Web Cookies for \Glspl{template}}{pdt:template_cookie}
