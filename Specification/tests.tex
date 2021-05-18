@@ -1,28 +1,28 @@
 \section{Tests}
 
-\test{Create Visualization}{tst:create-vis-single}
+\test{Create Plot}{tst:create-vis-single}
 \tests{fnc:select}
 \tests{fnc:configure}
 \tests{fnc:display}
 \tests{fnc:overview}
 
-Tests the basic navigation of the webapp and the generation of a \gls{visualization} from a set of datapoints.
+Tests the basic navigation of the web app and the generation of a \gls{plot} from a set of datapoints.
 
-\teststep{User has the webapp open and no changes selected. The database contains benchmark data}
-{User selects two changes}
-{Changes get added to the list of selected changes}
+\teststep{User has the web app open and no commits selected. The database contains benchmark data}
+{User selects two commits}
+{Commits get added to the list of selected commits}
 
-\teststep{User has two changes selected}
+\teststep{User has two commits selected}
 {User selects the \enquote{Create New Plot} option}
 {A popup with configuration options appears}
 
-\teststep{User has two changes selected and the configuration popup open}
+\teststep{User has two commits selected and the configuration popup open}
 {User adjusts the configuration}
 {Configuration gets updated on screen}
 
-\teststep{User has two changes selected and the configuration popup open and has it configured}
+\teststep{User has two commits selected and the configuration popup open and has it configured}
 {User selects the \enquote{Generate Plot} option}
-{The \gls{visualization} matching the configuration gets displayed to the user}
+{The \gls{plot} matching the configuration gets displayed to the user}
 
 \test{Post Benchmark Data}{tst:post-data}
 \tests{fnc:storage}
@@ -38,12 +38,12 @@ Tests sending benchmark data to the system and storing it.
 Tests the systemes ability to deal with malformed input data and invalid requests.
 
 \teststep{Database is empty}
-{System receives a POST request with malformed data for change A}
+{System receives a POST request with malformed data for commit A}
 {System does not store the data}
 
 \teststep{Database is empty}
-{The webapp requests data for change A}
-{An error message gets displayed on the webapp}
+{The web app requests data for commit A}
+{An error message gets displayed on the web app}
 
 \test{Templates}{tst:template}
 \tests{fnc:store-template}
@@ -51,7 +51,7 @@ Tests the systemes ability to deal with malformed input data and invalid request
 
 Tests the creation, storage and usage of templates.
 
-\teststep{User has changes selected and the webapp with the configuration popup open. Configuration has been changed from the default.}
+\teststep{User has commits selected and the web app with the configuration popup open. Configuration has been committed from the default.}
 {User selects the \enquote{Save Template} option}
 {Template gets stored in cookies.}
 
@@ -62,20 +62,20 @@ Tests the creation, storage and usage of templates.
 \test{Share}{tst:share}
 \tests{fnc:share-link}
 
-Tests the sharing of \glspl{visualization}.
+Tests the sharing of \glspl{plot}.
 
-\teststep{User has the webapp with a \gls{visualization} open}
+\teststep{User has the web app with a \gls{plot} open}
 {User selects the \enquote{Share} option}
-{Link leads to a identical \gls{visualization}}
+{Link leads to a identical \gls{plot}}
 
 \test{Export}{tst:export}
 \tests{fnc:export}
 
-Tests the export of \glspl{visualization}.
+Tests the export of \glspl{plot}.
 
-\teststep{User has the webapp with a \gls{visualization} open}
+\teststep{User has the web app with a \gls{plot} open}
 {User selects the \enquote{Export} option}
-{The \gls{visualization} gets downloaded}
+{The \gls{plot} gets downloaded}
 
 \test{Performance Tracking}{tst:tracking}
 \tests{fnc:calc}
@@ -84,6 +84,6 @@ Tests the export of \glspl{visualization}.
 
 Tests the system ability to detect performance drops and notify external webservices.
 
-\teststep{The database contains a change with high performance scores and a hook for an external webservice is set up}
+\teststep{The database contains a commit with high performance scores and a hook for an external webservice is set up}
 {System gets a post request with data that has low performance scores}
 {The external webserivce gets notified of the performance drop}

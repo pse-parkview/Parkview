@@ -6,25 +6,25 @@
     \label{fig:usecase}
 \end{figure}
 
-\case{Visualize}{cse:visualize}
+\case{Plot}{cse:plot}
 {initiated by User}
 {\gls{configuration} is available}
 {\begin{enumerate}
     \item The web app sends a request to the backend containing the \gls{configuration}.
     \item The backend fetches the specified data from a databank.
     \item The backend does the calculations specified in the \gls{configuration} (mean, median, standard deviation).
-    \item The backend sends the data back to the webapp.
-    \item The webapp takes the data and generates the plot specified in the \gls{configuration}.
+    \item The backend sends the data back to the web app.
+    \item The web app takes the data and generates the plot specified in the \gls{configuration}.
     \item The user gets redirected to a new site where he can inspect the generated plot.
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
-\implementedby{scn:inspect_last_change}{cse:visualize}
-\implementedby{scn:comp_benchmarks}{cse:visualize}
-\implementedby{scn:fetch_data_failure}{cse:visualize}
+\implementedby{scn:inspect_last_commit}{cse:plot}
+\implementedby{scn:comp_benchmarks}{cse:plot}
+\implementedby{scn:fetch_data_failure}{cse:plot}
 
 \bigskip
 
-\case{Configure Visualization}{cse:config_vis}
+\case{Configure Plot}{cse:config_vis}
 {initated by User}
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
@@ -33,71 +33,71 @@
     \item The user chooses between certain options that are specific to the plot type.
 \end{enumerate}}
 {A \gls{configuration} gets created.}
-\implementedby{scn:inspect_last_change}{cse:config_vis}
+\implementedby{scn:inspect_last_commit}{cse:config_vis}
 \implementedby{scn:comp_benchmarks}{cse:config_vis}
 \implementedby{scn:fetch_data_failure}{cse:config_vis}
 
 \bigskip
 
-\case{Create Visualization}{cse:create_visualization}
+\case{Create Plot}{cse:create_plot}
 {initated by User}
-{benchmark data for change is available}
+{benchmark data for commit is available}
 {\begin{enumerate}
-    \item The user selects a set of changes.
-    \item The user initiates the \texttt{Configure Visualization} use case by selecting the \enquote{Create New Plot} option.
-    \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the \enquote{Create New Plot} option in the popup.
+    \item The user selects a set of commits.
+    \item The user initiates the \texttt{Configure Plot} use case by selecting the \enquote{Create New Plot} option.
+    \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Plot} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
-{Visualization is displayed to the user}
-\implementedby{scn:inspect_last_change}{cse:create_visualization}
-\implementedby{scn:comp_benchmarks}{cse:create_visualization}
+{Plot is displayed to the user}
+\implementedby{scn:inspect_last_commit}{cse:create_plot}
+\implementedby{scn:comp_benchmarks}{cse:create_plot}
 
 \bigskip
 
-\case{Share Visualization}{cse:share_vis}
+\case{Share Plot}{cse:share_vis}
 {initiated by User}
-{A \gls{visualization} has been generated}
+{A \gls{plot} has been generated}
 {\begin{enumerate}
-    \item The user selects the \enquote{Share Visualization} option.
+    \item The user selects the \enquote{Share Plot} option.
     \item A link gets displayed.
-    \item The link redirects any visitors to the same \gls{visualization}.
+    \item The link redirects any visitors to the same \gls{plot}.
 \end{enumerate}} 
-{A link is shown which redirects to the \gls{visualization}}
-\implementedby{scn:inspect_last_change}{cse:share_vis}
+{A link is shown which redirects to the \gls{plot}}
+\implementedby{scn:inspect_last_commit}{cse:share_vis}
 
 \bigskip
 
-\case{Export Visualization}{cse:export_vis}
+\case{Export Plot}{cse:export_vis}
 {initiated by User}
-{A \gls{visualization} has been generated}
+{A \gls{plot} has been generated}
 {\begin{enumerate}
-    \item The user selects the \enquote{Export Visualization} option.
+    \item The user selects the \enquote{Export Plot} option.
     \item A popup appears.
     \item The user chooses a filetype for the export.
-    \item The user confirmes and downloads the \gls{visualization} in the choosen file format.
+    \item The user confirmes and downloads the \gls{plot} in the choosen file format.
 \end{enumerate}} 
-{The User is offered a download of an export of the \gls{visualization}}
+{The User is offered a download of an export of the \gls{plot}}
 \implementedby{scn:comp_benchmarks}{cse:export_vis}
 
 \bigskip
 
 \case{Save Template}{cse:save_template}
 {initiated by User, (maybe web browser as well? the cookies get stored on the web browser)}
-{The user is in the \texttt{Configure Visualization} use case}
-{The \texttt{Save Template} use case extends the \texttt{Configure Visualization} use case.
+{The user is in the \texttt{Configure Plot} use case}
+{The \texttt{Save Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
     \item The User selects the \enquote{save template} option.
     \item The User enters a name for the \gls{template}.
-    \item The webapp stores the template locally (cookies).
+    \item The web app stores the template locally (cookies).
 \end{enumerate}} 
 {\Gls{template} is stored on the locally (might add global templates for later?)}
-\implementedby{scn:inspect_last_change}{cse:save_template}
+\implementedby{scn:inspect_last_commit}{cse:save_template}
 
 \bigskip
 
 \case{Use Template}{cse:use_temp}
 {initiated by User (maybe web browser as well? the cookies get stored on the web browser)}
-{The user is in the \texttt{Configure Visualization} use case and a \gls{template} is available locally}
-{The \texttt{Use Template} use case extends the \texttt{Configure Visualization} use case.
+{The user is in the \texttt{Configure Plot} use case and a \gls{template} is available locally}
+{The \texttt{Use Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
     \item The User selects the \enquote{use template} option.
     \item User is shown a list of all available \glspl{template}.
@@ -128,12 +128,12 @@
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
     \item The backend evaluates the performance of the new benchmark data.
-    \item The backend compares the performance of the new benchmark with the performance of the corresponding benchmark of the last change.
+    \item The backend compares the performance of the new benchmark with the performance of the corresponding benchmark of the last commit.
     \item The backend relays the results to a configured number of hooks.
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
 {The server fires a POST Request to all webhook subscribers}
-\implementedby{scn:inspect_last_change}{cse:perf_tracking}
+\implementedby{scn:inspect_last_commit}{cse:perf_tracking}
 \implementedby{scn:perf_tracking}{cse:perf_tracking}
 
 \bigskip
@@ -153,11 +153,11 @@
 
 \case{Benchmark Data Fetching Failure}{cse:benchmark_data_fetch_fail}
 {displays error to User}
-{This use case extends the \texttt{Visualization} use case if an error occurs.}
+{This use case extends the \texttt{Plot} use case if an error occurs.}
 {\begin{enumerate}
     \item The backend identifies the error.
     \item The backend creates a response with the correct error code.
-    \item The webapp displays an error message.
+    \item The web app displays an error message.
 \end{enumerate}}
 {}
 \implementedby{scn:fetch_data_failure}{cse:benchmark_data_fetch_fail}

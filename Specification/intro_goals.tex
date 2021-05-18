@@ -1,18 +1,18 @@
 \section{Introduction}
 
-Todays software landscape is shaped by modern practices like continous integration. CI allows the production of more stable and less error-prone software by continously running tests specified by the user on the software. If any of those tests fails, the user gets notified and can inspect the failure using tools provided by the CI system. Continous Benchmarking tries to offer the same for software performance. The user specified tests get replaced by user specified benchmarks that are continously run on the software, giving the users insight of how the performance of their software changes over time. This is where PROJECTNAME comes into play. It offers the user an environment where he can easily keep track of the performance data and even inspect and compare the results by generating informative visualizations from them. 
+Todays software landscape is shaped by modern practices like continous integration. CI allows the production of more stable and less error-prone software by continously running tests specified by the user on the software. If any of those tests fails, the user gets notified and can inspect the failure using tools provided by the CI system. Continous Benchmarking tries to offer the same for software performance. The user specified tests get replaced by user specified benchmarks that are continously run on the software, giving the users insight of how the performance of their software changes over time. This is where PROJECTNAME comes into play. It offers the user an environment where he can easily keep track of the performance data and even inspect and compare the results by generating informative plots from them. 
 
 \section{Goals}
 
 \subsection{Required}
 
-\criterium{Generation of visualizations from benchmark data}
+\criterium{Generation of plots from benchmark data}
 {crt:vis}
-{For a given benchmark result, generate a \gls{visualization} and display it to the user for inspection.}
+{For a given benchmark result, generate a \gls{plot} and display it to the user for inspection.}
 
 \criterium{Comparison between different datapoints}
 {crt:comp}
-{For a given benchmark type, choose two (or more) datapoints (for example two different commits), and compare them by creating a visualization that shows the differences between the them.}
+{For a given benchmark type, choose two (or more) datapoints (for example two different commits), and compare them by creating a plot that shows the differences between the them.}
 
 \criterium{Persistent storage of benchmark results}
 {crt:storage}
@@ -28,9 +28,9 @@ Todays software landscape is shaped by modern practices like continous integrati
 
 \subsection{Optional}
 
-\criteriumOptional{Export and Sharing of visualizations}
+\criteriumOptional{Export and Sharing of plots}
 {crt:opt-export-share}
-{Allows the download and the creation of a shareable link for a \gls{visualization}.}
+{Allows the download and the creation of a shareable link for a \gls{plot}.}
 
 \criteriumOptional{Creation and use of templates}
 {crt:opt-templates}
@@ -43,6 +43,6 @@ Todays software landscape is shaped by modern practices like continous integrati
 
 \subsection{Limitation}
 
-\criteriumNot{Visualization types are predefined}
+\criteriumNot{Plot types are predefined}
 {crt:limit-predefined}
-{The \gls{visualization} types have to be predefined, otherwise the system would get too complex.}
+{The \gls{plot} types have to be predefined, otherwise the system would get too complex.}
