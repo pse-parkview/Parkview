@@ -133,7 +133,7 @@
   \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
   \par}
 
-\newcommand{\case}[7]{
+\newcommand{\case}[6]{
   \stepcounter{case}
   \begin{minipagewithmarginpars}{\textwidth}
   \marginid{\textbf{\PrefixCase\arabic{case}}}
@@ -143,7 +143,6 @@
   \textbf{Entry conditions:} {#4}\par
   \textbf{Flow of events:} {#5}\par
   \textbf{Exit conditions:} {#6}\par
-  \textbf{Quality requirements:} {#7}\par
   \IfProperty{#2}{pfl:is-implemented}{%
       \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
   }{
@@ -171,3 +170,5 @@
 	\textbf{Reaction:} #2\par
 \end{minipage}
 \ptexar}
+
+\newcommand\figref[1]{\figurename~\ref{#1}}

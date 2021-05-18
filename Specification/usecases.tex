@@ -1,7 +1,10 @@
 \section{Use Cases}
 
-\includegraphics[width=\textwidth]{usecase.pdf}
-\captionof{figure}{Use case diagram}
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{usecase.pdf}
+    \caption{Use case diagram}
+    \label{fig:usecase}
+\end{figure}
 
 \case{Visualize}{cse:visualize}
 {initiated by User}
@@ -15,7 +18,6 @@
     \item The user gets redirected to a new site where he can inspect the generated plot.
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
-{Shouldn't take more than 10 seconds}
 \implementedby{scn:inspect_last_change}{cse:visualize}
 \implementedby{scn:comp_benchmarks}{cse:visualize}
 \implementedby{scn:fetch_data_failure}{cse:visualize}
@@ -31,7 +33,6 @@
     \item The user chooses between certain options that are specific to the plot type.
 \end{enumerate}}
 {A \gls{configuration} gets created.}
-{The available options should be understandable without any previous knowledge or otherwise described by a short text.}
 \implementedby{scn:inspect_last_change}{cse:config_vis}
 \implementedby{scn:comp_benchmarks}{cse:config_vis}
 \implementedby{scn:fetch_data_failure}{cse:config_vis}
@@ -47,7 +48,6 @@
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
 {Visualization is displayed to the user}
-{???}
 \implementedby{scn:inspect_last_change}{cse:inspect_change}
 
 \bigskip
@@ -61,7 +61,6 @@
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Visualize} use case by selecting the "Generate New Plot" option in the popup.
 \end{enumerate}}
 {Visualization is displayed to the user}
-{???}
 \implementedby{scn:comp_benchmarks}{cse:comp_data}
 
 \bigskip
@@ -75,7 +74,6 @@
     \item The link redirects any visitors to the same \gls{visualization}.
 \end{enumerate}} 
 {A link is shown which redirects to the \gls{visualization}}
-{???}
 \implementedby{scn:inspect_last_change}{cse:share_vis}
 
 \bigskip
@@ -90,7 +88,6 @@
     \item The user confirmes and downloads the \gls{visualization} in the choosen file format.
 \end{enumerate}} 
 {The User is offered a download of an export of the \gls{visualization}}
-{Support for the filetypes png, pdf and pgf (what is the preferred latex format?)}
 \implementedby{scn:comp_benchmarks}{cse:export_vis}
 
 \bigskip
@@ -105,7 +102,6 @@
     \item The webapp stores the template locally (cookies).
 \end{enumerate}} 
 {\Gls{template} is stored on the locally (might add global templates for later?)}
-{Requires less than 1kB of memory}
 \implementedby{scn:inspect_last_change}{cse:save_template}
 
 \bigskip
@@ -121,7 +117,6 @@
     \item The current \gls{configuration} options get set to the values specified in the template.
 \end{enumerate}} 
 {The \gls{template} is applied to the current configuration.}
-{???}
 \implementedby{scn:comp_benchmarks}{cse:use_temp}
 
 \bigskip
@@ -135,7 +130,6 @@
     \item The backend stores the received data in a database.
 \end{enumerate}} 
 {The received performance data is stored in a database}
-{???}
 \implementedby{scn:perf_tracking}{cse:post_benchmark_res}
 \implementedby{scn:post_data_failure}{cse:post_benchmark_res}
 
@@ -151,7 +145,6 @@
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
 {The server fires a POST Request to all webhook subscribers}
-{}
 \implementedby{scn:inspect_last_change}{cse:perf_tracking}
 \implementedby{scn:perf_tracking}{cse:perf_tracking}
 
@@ -166,7 +159,6 @@
     \item The backend creates a response with the correct error code.
 \end{enumerate}}
 {}
-{}
 \implementedby{scn:post_data_failure}{cse:benchmark_res_post_fail}
 
 \bigskip
@@ -179,7 +171,6 @@
     \item The backend creates a response with the correct error code.
     \item The webapp displays an error message.
 \end{enumerate}}
-{}
 {}
 \implementedby{scn:fetch_data_failure}{cse:benchmark_data_fetch_fail}
 
