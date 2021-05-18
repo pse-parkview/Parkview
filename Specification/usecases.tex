@@ -18,13 +18,13 @@
     \item The user gets redirected to a new site where he can inspect the generated plot.
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
-\implementedby{scn:inspect_last_commit}{cse:plot}
-\implementedby{scn:comp_benchmarks}{cse:plot}
-\implementedby{scn:fetch_data_failure}{cse:plot}
+\implementedby{scn:inspect-last-commit}{cse:plot}
+\implementedby{scn:comp-benchmarks}{cse:plot}
+\implementedby{scn:fetch-data-failure}{cse:plot}
 
 \bigskip
 
-\case{Configure Plot}{cse:config_vis}
+\case{Configure Plot}{cse:config-vis}
 {initated by User}
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
@@ -33,13 +33,13 @@
     \item The user chooses between certain options that are specific to the plot type.
 \end{enumerate}}
 {A \gls{configuration} gets created.}
-\implementedby{scn:inspect_last_commit}{cse:config_vis}
-\implementedby{scn:comp_benchmarks}{cse:config_vis}
-\implementedby{scn:fetch_data_failure}{cse:config_vis}
+\implementedby{scn:inspect-last-commit}{cse:config-vis}
+\implementedby{scn:comp-benchmarks}{cse:config-vis}
+\implementedby{scn:fetch-data-failure}{cse:config-vis}
 
 \bigskip
 
-\case{Create Plot}{cse:create_plot}
+\case{Create Plot}{cse:create-plot}
 {initated by User}
 {benchmark data for commit is available}
 {\begin{enumerate}
@@ -48,12 +48,12 @@
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Plot} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
 {Plot is displayed to the user}
-\implementedby{scn:inspect_last_commit}{cse:create_plot}
-\implementedby{scn:comp_benchmarks}{cse:create_plot}
+\implementedby{scn:inspect-last-commit}{cse:create-plot}
+\implementedby{scn:comp-benchmarks}{cse:create-plot}
 
 \bigskip
 
-\case{Share Plot}{cse:share_vis}
+\case{Share Plot}{cse:share-vis}
 {initiated by User}
 {A \gls{plot} has been generated}
 {\begin{enumerate}
@@ -62,11 +62,11 @@
     \item The link redirects any visitors to the same \gls{plot}.
 \end{enumerate}} 
 {A link is shown which redirects to the \gls{plot}}
-\implementedby{scn:inspect_last_commit}{cse:share_vis}
+\implementedby{scn:inspect-last-commit}{cse:share-vis}
 
 \bigskip
 
-\case{Export Plot}{cse:export_vis}
+\case{Export Plot}{cse:export-vis}
 {initiated by User}
 {A \gls{plot} has been generated}
 {\begin{enumerate}
@@ -76,11 +76,11 @@
     \item The user confirmes and downloads the \gls{plot} in the choosen file format.
 \end{enumerate}} 
 {The User is offered a download of an export of the \gls{plot}}
-\implementedby{scn:comp_benchmarks}{cse:export_vis}
+\implementedby{scn:comp-benchmarks}{cse:export-vis}
 
 \bigskip
 
-\case{Save Template}{cse:save_template}
+\case{Save Template}{cse:save-template}
 {initiated by User, (maybe web browser as well? the cookies get stored on the web browser)}
 {The user is in the \texttt{Configure Plot} use case}
 {The \texttt{Save Template} use case extends the \texttt{Configure Plot} use case.
@@ -90,11 +90,11 @@
     \item The web app stores the template locally (cookies).
 \end{enumerate}} 
 {\Gls{template} is stored on the locally (might add global templates for later?)}
-\implementedby{scn:inspect_last_commit}{cse:save_template}
+\implementedby{scn:inspect-last-commit}{cse:save-template}
 
 \bigskip
 
-\case{Use Template}{cse:use_temp}
+\case{Use Template}{cse:use-temp}
 {initiated by User (maybe web browser as well? the cookies get stored on the web browser)}
 {The user is in the \texttt{Configure Plot} use case and a \gls{template} is available locally}
 {The \texttt{Use Template} use case extends the \texttt{Configure Plot} use case.
@@ -105,11 +105,11 @@
     \item The current \gls{configuration} options get set to the values specified in the template.
 \end{enumerate}} 
 {The \gls{template} is applied to the current configuration.}
-\implementedby{scn:comp_benchmarks}{cse:use_temp}
+\implementedby{scn:comp-benchmarks}{cse:use-temp}
 
 \bigskip
 
-\case{Post Benchmark Results}{cse:post_benchmark_res}
+\case{Post Benchmark Results}{cse:post-benchmark-res}
 {initiated by External Benchmarking System}
 {The external benchmarking system ran the benchmarks}
 {\begin{enumerate}
@@ -118,12 +118,12 @@
     \item The backend stores the received data in a database.
 \end{enumerate}} 
 {The received performance data is stored in a database}
-\implementedby{scn:perf_tracking}{cse:post_benchmark_res}
-\implementedby{scn:post_data_failure}{cse:post_benchmark_res}
+\implementedby{scn:perf-tracking}{cse:post-benchmark-res}
+\implementedby{scn:post-data-failure}{cse:post-benchmark-res}
 
 \bigskip
 
-\case{Performance Tracking}{cse:perf_tracking}
+\case{Performance Tracking}{cse:perf-tracking}
 {communicates with External Webservice}
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
@@ -133,12 +133,12 @@
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
 {The server fires a POST Request to all webhook subscribers}
-\implementedby{scn:inspect_last_commit}{cse:perf_tracking}
-\implementedby{scn:perf_tracking}{cse:perf_tracking}
+\implementedby{scn:inspect-last-commit}{cse:perf-tracking}
+\implementedby{scn:perf-tracking}{cse:perf-tracking}
 
 \bigskip
 
-\case{Benchmark Results POST Failure}{cse:benchmark_res_post_fail}
+\case{Benchmark Results POST Failure}{cse:benchmark-res-post-fail}
 {return error code to External Benchmarking System}
 {}
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
@@ -147,11 +147,11 @@
     \item The backend creates a response with the correct error code.
 \end{enumerate}}
 {}
-\implementedby{scn:post_data_failure}{cse:benchmark_res_post_fail}
+\implementedby{scn:post-data-failure}{cse:benchmark-res-post-fail}
 
 \bigskip
 
-\case{Benchmark Data Fetching Failure}{cse:benchmark_data_fetch_fail}
+\case{Benchmark Data Fetching Failure}{cse:benchmark-data-fetch-fail}
 {displays error to User}
 {This use case extends the \texttt{Plot} use case if an error occurs.}
 {\begin{enumerate}
@@ -160,5 +160,5 @@
     \item The web app displays an error message.
 \end{enumerate}}
 {}
-\implementedby{scn:fetch_data_failure}{cse:benchmark_data_fetch_fail}
+\implementedby{scn:fetch-data-failure}{cse:benchmark-data-fetch-fail}
 

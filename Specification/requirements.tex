@@ -51,11 +51,12 @@
 
 \nonFunctionality{Extension with new plot types is simple}{nfc:extension}
 
-\nonFunctionality{Robustness against errors}{nfc:robust}
+\nonFunctionality{System can handle malformed data and invalid requests}{nfc:robust}
+\fulfills{crt:error}
 
 \subsection{Product Data}
 
-\productData{Benchmark Results)}{pdt:benchmark_results}
+\productData{Benchmark Results}{pdt:benchmark_results}
 Format: JSON/CSV \par
 
 \productData{Git Histories}{pdt:git_histories}
@@ -64,7 +65,5 @@ Format: JSON/CSV \par
 Format: JSON \par
 
 \productData{Plot Types}{pdt:vis_types}
-
-\productData{Plot URLs for sharing}{pdt:vis_url}
 
 \productData{Web Cookies for \Glspl{template}}{pdt:template_cookie}
