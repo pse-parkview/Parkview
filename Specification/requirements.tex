@@ -1,21 +1,66 @@
-\section{Functional Requirements}
+\section{Requirements}
 
-\functionality{functionality template with \enquote{smthn in quotes}}{fnc:func-template-id}
-\fulfills{crt:criteria_template_id}
+\subsection{Functional Requirements}
 
-template
+\functionality{Generation of visualizations from a single datapoint}{fnc:generate-single}
+\fulfills{crt:vis}
 
+\functionality{Generation of visualizations from multiple datapoints}{fnc:generate-multiple}
+\fulfills{crt:comp}
 
-\section{Nonfunctional Requirements}
+\functionality{Configuration of visualization}{fnc:configure}
+\fulfills{crt:vis}
+\fulfills{crt:comp}
 
-\nonFunctionality{non-functionality template}{nfc:non_func_template_id}
+\functionality{Display visualizations}{fnc:display}
+\fulfills{crt:vis}
+\fulfills{crt:comp}
 
-template
+\functionality{Storage of benchmark results}{fnc:storage}
+\fulfills{crt:storage}
 
+\functionality{Calculation of performance metrics}{fnc:calc}
+\fulfills{crt:overview}
 
-\section{Product Data}
+\functionality{Annotation of commit history with performance metrics}{fnc:overview}
+\fulfills{crt:overview}
 
-\productData{Benchmark Results (Name in progress)}{pdt:benchmark_results}
+\functionality{Robustness against errors}{fnc:error}
+
+\functionality{Storage of templates in cookies}{fnc:store-template}
+\fulfills{crt:opt-templates}
+
+\functionality{Creation of templates in cookies}{fnc:create-template}
+\fulfills{crt:opt-templates}
+
+\functionality{Usage of templates}{fnc:use-template}
+\fulfills{crt:opt-templates}
+
+\functionality{Creation of a shareable link}{fnc:share-link}
+\fulfills{crt:opt-export-share}
+
+\functionality{Creation of a downloadable file from a visualization}{fnc:export}
+\fulfills{crt:opt-export-share}
+
+\functionality{Tracking performance}{fnc:track}
+\fulfills{crt:opt-track}
+
+\functionality{Notifying external webservices}{fnc:notify}
+\fulfills{crt:opt-track}
+
+\subsection{Nonfunctional Requirements}
+
+\nonFunctionality{Available configuration options are understandable without previous knowledge}{nfc:intuitiv}
+
+\nonFunctionality{Storage of benchmark results is persistent}{nfc:persistent}
+
+\nonFunctionality{Generation of visualizations does not take more than 15 seconds}{nfc:runtime}
+
+\nonFunctionality{Extension with new visualization types is simple}{nfc:extension}
+
+\subsection{Product Data}
+
+\productData{Benchmark Results (Name in progress)}{pdt:benchmark-results}
 Format: JSON/CSV \\
 Description: 
 \begin{itemize}
@@ -23,7 +68,7 @@ Description:
 	\item algorithm result data (time, storage, accuracy, convergence(?))
 \end{itemize}
 
-\productData{Git Histories}{pdt:git_histories}
+\productData{Git Histories}{pdt:git-histories}
 Format: ??? (WIP) \\
 
 \productData{\Glspl{template}}{pdt:template}
