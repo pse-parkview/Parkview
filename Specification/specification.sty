@@ -33,6 +33,7 @@
 \newcommand\PrefixNonCriterium{NC}
 \newcommand\PrefixFunctional{FR}
 \newcommand\PrefixNonFunctional{NF}
+\newcommand\PrefixFunctionalOpt{OFR}
 \newcommand\PrefixTest{T}
 \newcommand\PrefixProductData{PD}
 \newcommand\PrefixScenario{S}
@@ -92,7 +93,19 @@
   \IfProperty{#2}{pfl:is-tested}{%
     \\ Tested By: \Bind{?t}{pfl:tests}{#2}{ \testlink{\GetVal{?t}} }
   }{{\color{red}{NOT TESTED}}\\}
-  Implements: \Bind{#2}{pfl:fulfills}{?c}{ \criteriumlink{\GetVal{?c}} }
+  \par}
+
+\newcommand\functionalityOpt[2]{
+  \stepcounter{functionality}
+  \begin{minipagewithmarginpars}{\textwidth}
+  \par\textbf{#1}\phantomsection\rdflabel{#2}
+  \marginid{\PrefixFunctionalOpt\arabic{functionality}}
+  \AddPropertyEx{pfl:fncname}{#1}
+  \AddPropertyEx{pfl:fncid}{\PrefixFunctionalOpt\arabic{functionality}}
+  \IfProperty{#2}{pfl:is-tested}{%
+    \\ Tested By: \Bind{?t}{pfl:tests}{#2}{ \testlink{\GetVal{?t}} }
+  }{{\color{red}{NOT TESTED}}\\}
+  \end{minipagewithmarginpars}
   \par}
 
 \newcommand\nonFunctionality[2]{
@@ -133,16 +146,17 @@
   \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
   \par}
 
-\newcommand{\case}[6]{
+\newcommand{\case}[7]{
   \stepcounter{case}
   \begin{minipagewithmarginpars}{\textwidth}
   \marginid{\textbf{\PrefixCase\arabic{case}}}
   \phantomsection\rdflabel{#2}
   \textbf{Use case name:} {#1}\par
-  \textbf{Participating actors:} {#3}\par
-  \textbf{Entry conditions:} {#4}\par
-  \textbf{Flow of events:} {#5}\par
-  \textbf{Exit conditions:} {#6}\par
+  \textbf{Description:} {#3}\par
+  \textbf{Participating actors:} {#4}\par
+  \textbf{Entry conditions:} {#5}\par
+  \textbf{Flow of events:} {#6}\par
+  \textbf{Exit conditions:} {#7}\par
   \IfProperty{#2}{pfl:is-implemented}{%
       \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
   }{

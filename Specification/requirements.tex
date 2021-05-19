@@ -23,22 +23,27 @@
 \functionality{Presenting commit history}{fnc:overview}
 \fulfills{crt:overview}
 
-\functionality{Storage of templates in cookies}{fnc:store-template}
+\subsection{Optional Functional Requirements}
+
+\functionalityOpt{Authentification for POST requests}{fnc:auth}
+\fulfills{crt:storage}
+
+\functionalityOpt{Storage of templates in cookies}{fnc:store-template}
 \fulfills{crt:opt-templates}
 
-\functionality{Loading of templates}{fnc:load-template}
+\functionalityOpt{Loading of templates}{fnc:load-template}
 \fulfills{crt:opt-templates}
 
-\functionality{Creation of a shareable link}{fnc:share-link}
+\functionalityOpt{Creation of a shareable link}{fnc:share-link}
 \fulfills{crt:opt-export-share}
 
-\functionality{Creation of a downloadable file from a plot}{fnc:export}
+\functionalityOpt{Creation of a downloadable file from a plot}{fnc:export}
 \fulfills{crt:opt-export-share}
 
-\functionality{Tracking performance}{fnc:track}
+\functionalityOpt{Tracking performance}{fnc:track}
 \fulfills{crt:opt-track}
 
-\functionality{Notifying external webservices}{fnc:notify}
+\functionalityOpt{Notifying external webservices}{fnc:notify}
 \fulfills{crt:opt-track}
 
 \subsection{Nonfunctional Requirements}
@@ -47,7 +52,7 @@
 
 \nonFunctionality{Storage of benchmark results is persistent}{nfc:persistent}
 
-\nonFunctionality{Generation of plots does not take more than 15 seconds}{nfc:runtime}
+\nonFunctionality{Generation of plots does not take more than 30 seconds}{nfc:runtime}
 
 \nonFunctionality{Extension with new plot types is simple}{nfc:extension}
 
@@ -56,14 +61,14 @@
 
 \subsection{Product Data}
 
+\subsubsection*{Backend}
 \productData{Benchmark Results}{pdt:benchmark_results}
 Format: JSON/CSV \par
 
 \productData{Git Histories}{pdt:git_histories}
 
+\subsubsection*{Frontend}
 \productData{Plot Configuration}{pdt:vis_config}
 Format: JSON \par
-
-\productData{Plot Types}{pdt:vis_types}
 
 \productData{Web Cookies for \Glspl{template}}{pdt:template_cookie}

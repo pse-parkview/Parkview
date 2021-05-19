@@ -77,6 +77,14 @@ Tests the export of \glspl{plot}.
 {User selects the \enquote{Export} option}
 {The \gls{plot} gets downloaded}
 
+\test{Invalid Authentification}{tst:auth}
+\tests{fnc:auth}
+
+Tests the system ability to reject data without valid authentification 
+
+\teststepnostate{The system receives a POST request with an invalid authentification}
+{The system rejects the request and returns the corresponding error code}
+
 \test{Performance Tracking}{tst:tracking}
 \tests{fnc:calc}
 \tests{fnc:track}

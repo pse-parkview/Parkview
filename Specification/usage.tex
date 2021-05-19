@@ -2,31 +2,26 @@
 
 \subsection{Target Audience}
 
-The target audience for this system is anybody that has some sort of continuous benchmarking system set up for their project. They only have to feed their benchmark results to the system by using the provided \gls{REST API}.
+The target audience for this system is anybody that has some sort of continuous benchmarking set up for their project. They only have to feed their benchmark results to the system by using the provided \gls{REST API}.
 
 \subsection{Stakeholders}
 
-\subsubsection*{Developer}
+\subsubsection*{User}
 
-The developer uses the system to better understand the impact of his commits to performance of the project he is working on.
+The developer uses the system to better understand the impact of his commits to performance of the project he is working on. Allowing for easy extension by adding new \gls{plot} types would be advantagous for him.
 
 \subsubsection*{Project Manager}
 
 The Project Manager uses the system to get a quick understanding of the current state of the project performance.
 
-\subsubsection*{Researcher}
-
-The Researcher mainly uses the system for its ability to generate \glspl{plot} from benchmark results. Allowing for easy extension by adding new \gls{plot} types would be advantageous for him.
-
-
 \subsection{Product Environment}
 
-\subsubsection{Web App}
+\subsubsection*{Web App}
 
 \textbf{Hardware Requirements}
 \begin{itemize}
     \item Dual-Core CPU
-    \item 2GiB RAM
+    \item 1GiB RAM
 \end{itemize}
 
 \textbf{Software Requirements}
@@ -34,13 +29,13 @@ The Researcher mainly uses the system for its ability to generate \glspl{plot} f
     \item Modern, up-to-date web browser (excluding Internet Explorer)
 \end{itemize}
 
-\subsubsection{Backend}
+\subsubsection*{Backend}
 
 \textbf{Hardware Requirements}
 \begin{itemize}
     \item Dual-Core CPU
-    \item 4 GiB RAM
-    \item 128GiB of storage
+    \item 1 GiB RAM
+    \item 20MiB for the software, plus storage needed by benchmark data
     \item Capable of running the Java Virtual Machine (JVM)
     \item Internet connection with a static IP for REST API
 \end{itemize}
