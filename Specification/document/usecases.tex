@@ -7,12 +7,12 @@
 \end{figure}
 
 \case{Plot}{cse:plot}
+{Generating and displaying a Plot to a User}
 {initiated by User}
 {\gls{configuration} is available}
 {\begin{enumerate}
     \item The web app sends a request to the backend containing the \gls{configuration}.
     \item The backend fetches the specified data from a databank.
-    \item The backend does the calculations specified in the \gls{configuration} (mean, median, standard deviation).
     \item The backend sends the data back to the web app.
     \item The web app takes the data and generates the plot specified in the \gls{configuration}.
     \item The user gets redirected to a new site where he can inspect the generated plot.
@@ -25,21 +25,23 @@
 \bigskip
 
 \case{Configure Plot}{cse:config-vis}
-{initated by User}
+{Configration of a \gls{plot}}
+{initiated by User}
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
     \item A popup appears.
     \item The user chooses a plot type.
     \item The user chooses between certain options that are specific to the plot type.
 \end{enumerate}}
-{A \gls{configuration} gets created.}
+{The \gls{configuration} gets updated.}
 \implementedby{scn:inspect-last-commit}{cse:config-vis}
 \implementedby{scn:comp-benchmarks}{cse:config-vis}
 \implementedby{scn:fetch-data-failure}{cse:config-vis}
 
 \bigskip
 
-\case{Create Plot}{cse:create-plot}
+\case{Create New Plot}{cse:create-plot}
+{Process for configuring and generating a plot}
 {initated by User}
 {benchmark data for commit is available}
 {\begin{enumerate}
@@ -54,6 +56,7 @@
 \bigskip
 
 \case{Share Plot}{cse:share-vis}
+{Sharing a \gls{plot} using a link}
 {initiated by User}
 {A \gls{plot} has been generated}
 {\begin{enumerate}
@@ -67,6 +70,7 @@
 \bigskip
 
 \case{Export Plot}{cse:export-vis}
+{Downloading a plot}
 {initiated by User}
 {A \gls{plot} has been generated}
 {\begin{enumerate}
@@ -81,7 +85,8 @@
 \bigskip
 
 \case{Save Template}{cse:save-template}
-{initiated by User, (maybe web browser as well? the cookies get stored on the web browser)}
+{Storing a \gls{template} for later use}
+{initiated by User}
 {The user is in the \texttt{Configure Plot} use case}
 {The \texttt{Save Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
@@ -95,7 +100,8 @@
 \bigskip
 
 \case{Use Template}{cse:use-temp}
-{initiated by User (maybe web browser as well? the cookies get stored on the web browser)}
+{Using a previously created template}
+{initiated by User}
 {The user is in the \texttt{Configure Plot} use case and a \gls{template} is available locally}
 {The \texttt{Use Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
@@ -110,10 +116,11 @@
 \bigskip
 
 \case{Post Benchmark Results}{cse:post-benchmark-res}
+{An external benchmarking system trying to upload benchmark data}
 {initiated by External Benchmarking System}
 {The external benchmarking system ran the benchmarks}
 {\begin{enumerate}
-    \item The benchmarking system makes a POST request to the backend containing the new benchmark data in \acrshort{json} format.
+    \item The backend receives a POST request containing benchmark data.
     \item The backend converts the received data into the correct format.
     \item The backend stores the received data in a database.
 \end{enumerate}} 
@@ -124,6 +131,7 @@
 \bigskip
 
 \case{Performance Tracking}{cse:perf-tracking}
+{The system recognizes big changes in performance and notifies external webservices}
 {communicates with External Webservice}
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
@@ -139,19 +147,21 @@
 \bigskip
 
 \case{Benchmark Results POST Failure}{cse:benchmark-res-post-fail}
-{return error code to External Benchmarking System}
-{}
+{Behavior in case of invalid POST request}
+{communicates with External Benchmarking System}
+{The external benchmarking system has sent a POST request}
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
 \begin{enumerate}
     \item The backend identifies the error.
     \item The backend creates a response with the correct error code.
 \end{enumerate}}
-{}
+{External Benchmarking System receives a response containing an error code}
 \implementedby{scn:post-data-failure}{cse:benchmark-res-post-fail}
 
 \bigskip
 
 \case{Benchmark Data Fetching Failure}{cse:benchmark-data-fetch-fail}
+{Behavior in case of invalid request for benchmark data}
 {displays error to User}
 {This use case extends the \texttt{Plot} use case if an error occurs.}
 {\begin{enumerate}
@@ -159,6 +169,6 @@
     \item The backend creates a response with the correct error code.
     \item The web app displays an error message.
 \end{enumerate}}
-{}
+{Error message gets displayed}
 \implementedby{scn:fetch-data-failure}{cse:benchmark-data-fetch-fail}
 
