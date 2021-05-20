@@ -1,10 +1,26 @@
 \documentclass{beamer}
 \usetheme{boxes}
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{caption}
+\DeclareCaptionFormat{citation}{%
+  \ifx\captioncitation\relax\relax\else
+    \captioncitation\par
+  \fi
+#1#2#3\par}
+\newcommand*\setcaptioncitation[1]{\def\captioncitation{\textit{Source:}~#1}}
+\let\captioncitation\relax
+\captionsetup{format=citation,justification=centering}
+
+
 
 \title{Performance Dashboard for Continuous Benchmarking of HPC Libraries}
 \subtitle{Specification}
 \author{Chingun Ariunbat \and Jamil Bagga \and Walter Alexander Böttcher \and Darius Schefer \and Maximilian Schik}
 \date{\today}
+
+
+
 
 \begin{document}
 \begin{frame}
