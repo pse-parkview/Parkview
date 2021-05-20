@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usetheme{boxes}
+\usepackage{graphicx}
+\usepackage{caption}
+\DeclareCaptionFormat{citation}{%
+  \ifx\captioncitation\relax\relax\else
+    \captioncitation\par
+  \fi
+#1#2#3\par}
+\newcommand*\setcaptioncitation[1]{\def\captioncitation{\textit{Source:}~#1}}
+\let\captioncitation\relax
+\captionsetup{format=citation,justification=centering}
+
+\graphicspath{ {../document/images/} }
+
+\setbeamercolor{block body}{bg=structure!10}
+\setbeamercolor{block title}{bg=structure!20}
+
+
+\title{\Huge Parkview \\ \Large Performance Dashboard for Continuous Benchmarking of HPC Libraries}
+
+\subtitle{Specification}
+\author{Chingun Ariunbat \and Jamil Bagga \and Walter Alexander Böttcher \and Darius Schefer \and Maximilian Schik}
+\date{\today}
+
+
+
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{intro.tex}
+\input{scenario.tex}
+\input{requirements.tex}
+\input{system_model.tex}
+\input{dev_env.tex}
+\end{document}
+
+
