@@ -35,7 +35,7 @@ Tests sending benchmark data to the system and storing it.
 \test{Error Handling}{tst:error}
 \tests{nfc:robust}
 
-Tests the systemes ability to deal with malformed input data and invalid requests.
+Tests the system's ability to deal with malformed input data and invalid requests.
 
 \teststep{Database is empty}
 {System receives a POST request with malformed data for commit A}
@@ -76,6 +76,14 @@ Tests the export of \glspl{plot}.
 \teststep{User has the web app with a \gls{plot} open}
 {User selects the \enquote{Export} option}
 {The \gls{plot} gets downloaded}
+
+\test{Invalid Authentification}{tst:auth}
+\tests{fnc:auth}
+
+Tests the system ability to reject data without valid authentification 
+
+\teststepnostate{The system receives a POST request with an invalid authentification}
+{The system rejects the request and returns the corresponding error code}
 
 \test{Performance Tracking}{tst:tracking}
 \tests{fnc:calc}
