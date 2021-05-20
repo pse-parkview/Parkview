@@ -1,5 +1,6 @@
-\begin{frame}
-    \frametitle{System Model}
+\section{System Model}
+
+\begin{frame}{System Model}
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{images/systemmodel.pdf}
         \label{fig:systemmodel}
@@ -7,7 +8,7 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{System Model - Frontend}
     \begin{columns}[T]
         \begin{column}{.48\textwidth}
             \begin{figure}[H]
@@ -30,7 +31,7 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{System Model - Backend}
     \begin{columns}[T]
         \begin{column}{.48\textwidth}
             \begin{figure}[H]
@@ -44,7 +45,7 @@
                 Handles data processing, storage, and an API to interact with.
             \end{block}
             \begin{itemize}
-                \item<2-> REST Handler:\newline{} Provides the REST API, which is used by the frontend and other external web services.
+                \item<2-> REST Handler:\newline{} Provides the REST API.
                 \item<3-> Data Processor:\newline{} Transforms the data for storage and computes other metrics.
                 \item<4-> Storage:\newline{} Provides persistent storage for Benchmark Data.
             \end{itemize}
@@ -53,7 +54,7 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{System Model - External Actors}
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{images/systemmodel_light_overview.pdf}
         \label{fig:lightoverview}
@@ -65,8 +66,11 @@
 \end{frame}
 
 
-\begin{frame}
-    \includegraphics[width=\textwidth]{images/systemmodel_light_overview.pdf}
+\begin{frame}{System Model - External Actors}
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{images/systemmodel_light_overview.pdf}
+        \label{fig:lightoverview}
+    \end{figure}
 
     \begin{block}{External Benchmarking System}
         Posts Benchmark Results to our API.
@@ -74,8 +78,11 @@
 \end{frame}
 
 
-\begin{frame}
-    \includegraphics[width=\textwidth]{images/systemmodel_light_overview.pdf}
+\begin{frame}{System Model - External Actors}
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{images/systemmodel_light_overview.pdf}
+        \label{fig:lightoverview}
+    \end{figure}
 
     \begin{block}{External Webservice}
         Gets notified, e.g. by webhook subscriptions.
