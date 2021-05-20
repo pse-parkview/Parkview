@@ -1,15 +1,22 @@
 \section{Development Environment}
 
 \begin{frame}{Development Environment}
-    The chosen programming language for the backend is Kotlin
-
     \begin{itemize}
-        \item Statically typed
-        \item Focused on conciseness
-        \item Runs on the JVM
-        \item Basically modern Java
-        \item Fully interoperable with Java, so the same libraries can be used
+        \item<+-> Backend: Kotlin
+                 %Because its like java, but being more concise and less error prone while also 
+                 %offering the same advantages java has, e.g. java libraries like spring. 
+        \item<+-> DBMS: PostgresSQL
+                 %We would like to use a Relational data base because it will allow 
+                 %easier comparison across different dimensions and their values
+        \item<+-> Frontend: Angular
+                 %Angulars component-based structure looks like a very suitable framework for the
+                 %Website, since our draft(as seen in the mock up) is also built in a somewhat modular way.
+        \item<+-> Modeling: PlantUML and Lucidchart
+                 %Relevant for definition phase i think
+        \item<+-> git and GitHub Actions
+                 %Vcs and more vcs based error prevention and stuff
+        \item<+-> Documentation: \LaTeX\
+                 %Offering a documentation of the API, of how to use the webapp etc seems like a
+                 %good idea
     \end{itemize}
-
-    Frontend is based on typescript with Angular
 \end{frame}
