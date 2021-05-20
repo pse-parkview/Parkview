@@ -11,10 +11,8 @@
 {initiated by User}
 {\gls{configuration} is available}
 {\begin{enumerate}
-    \item The web app sends a request to the backend containing the \gls{configuration}.
-    \item The backend fetches the specified data from a databank.
-    \item The backend sends the data back to the web app.
-    \item The web app takes the data and generates the plot specified in the \gls{configuration}.
+    \item \parkview{} fetches a \gls{configuration} data from its database.
+    \item \parkview{} takes the data and generates the plot specified in the \gls{configuration}.
     \item The user gets redirected to a new site where he can inspect the generated plot.
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
@@ -63,7 +61,7 @@
     \item The user selects the \enquote{Share Plot} option.
     \item A link gets displayed.
     \item The link redirects any visitors to the same \gls{plot}.
-\end{enumerate}} 
+\end{enumerate}}
 {A link is shown which redirects to the \gls{plot}}
 \implementedby{scn:inspect-last-commit}{cse:share-vis}
 
@@ -77,8 +75,8 @@
     \item The user selects the \enquote{Export Plot} option.
     \item A popup appears.
     \item The user chooses a filetype for the export.
-    \item The user confirmes and downloads the \gls{plot} in the choosen file format.
-\end{enumerate}} 
+    \item The user confirms and downloads the \gls{plot} in the chosen file format.
+\end{enumerate}}
 {The User is offered a download of an export of the \gls{plot}}
 \implementedby{scn:comp-benchmarks}{cse:export-vis}
 
@@ -92,9 +90,9 @@
 \begin{enumerate}
     \item The User selects the \enquote{save template} option.
     \item The User enters a name for the \gls{template}.
-    \item The web app stores the template locally (cookies).
-\end{enumerate}} 
-{\Gls{template} is stored on the locally (might add global templates for later?)}
+    \item \parkview{} stores the template locally for the User (cookies).
+\end{enumerate}}
+{\Gls{template} is stored locally}
 \implementedby{scn:inspect-last-commit}{cse:save-template}
 
 \bigskip
@@ -109,7 +107,7 @@
     \item User is shown a list of all available \glspl{template}.
     \item User selects a \gls{template} from the list.
     \item The current \gls{configuration} options get set to the values specified in the template.
-\end{enumerate}} 
+\end{enumerate}}
 {The \gls{template} is applied to the current configuration.}
 \implementedby{scn:comp-benchmarks}{cse:use-temp}
 
@@ -120,27 +118,27 @@
 {initiated by External Benchmarking System}
 {The external benchmarking system ran the benchmarks}
 {\begin{enumerate}
-    \item The backend receives a POST request containing benchmark data.
-    \item The backend converts the received data into the correct format.
-    \item The backend stores the received data in a database.
-\end{enumerate}} 
-{The received performance data is stored in a database}
+    \item \parkview{} receives a POST request containing benchmark data.
+    \item \parkview{} converts the received data into the correct format.
+    \item \parkview{} stores the received data in its database.
+\end{enumerate}}
+{The received performance data is stored in the database}
 \implementedby{scn:perf-tracking}{cse:post-benchmark-res}
 \implementedby{scn:post-data-failure}{cse:post-benchmark-res}
 
 \bigskip
 
 \case{Performance Tracking}{cse:perf-tracking}
-{The system recognizes big changes in performance and notifies external webservices}
+{\parkview{} recognizes big changes in performance and notifies external webservices}
 {communicates with External Webservice}
 {New benchmark data has been posted to the backend}
 {\begin{enumerate}
-    \item The backend evaluates the performance of the new benchmark data.
-    \item The backend compares the performance of the new benchmark with the performance of the corresponding benchmark of the last commit.
-    \item The backend relays the results to a configured number of hooks.
+    \item \parkview{} evaluates the performance of the new benchmark data.
+    \item \parkview{} compares the performance of the new benchmark with the performance of the corresponding benchmark of the last commit.
+    \item \parkview{} relays the results to a configured number of hooks.
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
-{The server fires a POST Request to all webhook subscribers}
+{\parkview{} fires a POST Request to all webhook subscribers}
 \implementedby{scn:inspect-last-commit}{cse:perf-tracking}
 \implementedby{scn:perf-tracking}{cse:perf-tracking}
 
@@ -152,8 +150,8 @@
 {The external benchmarking system has sent a POST request}
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
 \begin{enumerate}
-    \item The backend identifies the error.
-    \item The backend creates a response with the correct error code.
+    \item \parkview{} identifies the error.
+    \item \parkview{} creates a response with the correct error code.
 \end{enumerate}}
 {External Benchmarking System receives a response containing an error code}
 \implementedby{scn:post-data-failure}{cse:benchmark-res-post-fail}
@@ -165,9 +163,9 @@
 {displays error to User}
 {This use case extends the \texttt{Plot} use case if an error occurs.}
 {\begin{enumerate}
-    \item The backend identifies the error.
-    \item The backend creates a response with the correct error code.
-    \item The web app displays an error message.
+    \item \parkview{} identifies the error.
+    \item \parkview{} creates a response with the correct error code.
+    \item \parkview{} app displays an error message in the browser.
 \end{enumerate}}
 {Error message gets displayed}
 \implementedby{scn:fetch-data-failure}{cse:benchmark-data-fetch-fail}
