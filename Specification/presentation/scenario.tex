@@ -1,0 +1,32 @@
+\documentclass[pdf]{beamer}
+\usetheme{boxes}
+
+\setbeamercolor{block body}{bg=structure!10}
+\setbeamercolor{block title}{bg=structure!20}
+
+\title{Performance Dashboard for Continuous Benchmarking of HPC Libraries}
+\subtitle{Specification}
+\author{Chingun Ariunbat \and Jamil Bagga \and Walter Alexander Böttcher \and Darius Schefer \and Maximilian Schik}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{A simple scenario: visualizing a commit's performance}
+  \begin{block}{Actors}
+    Ted (User)\\
+    CI (Benchmarking System)
+  \end{block}\pause
+  \begin{itemize}
+    \item Ted works on something that uses our project\pause
+    \item Ted makes changes to an important component\pause
+    \item Ted pushes his changes to the project repo\pause
+    \item Ted wonders, whether this impacts the project's performance\pause
+    \item The Benchmarking system runs the benchmarks and sends the results to our server\pause
+    \item Ted navigates to out web app and selects his branch\pause
+    \item Ted is shown a plot of the branch's performance for each commit that was benchmarked
+  \end{itemize}
+\end{frame}
+\end{document}
