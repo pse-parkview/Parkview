@@ -48,13 +48,11 @@
 
 \subsection{Nonfunctional Requirements}
 
-\nonFunctionality{Available configuration options are understandable without previous knowledge}{nfc:intuitiv}
+\nonFunctionality{Available configuration options have a concise description}{nfc:intuitiv}
 
 \nonFunctionality{Storage of benchmark results is persistent}{nfc:persistent}
 
-\nonFunctionality{Generation of plots does not take more than 30 seconds}{nfc:runtime}
-
-\nonFunctionality{Extension with new plot types is simple}{nfc:extension}
+\nonFunctionality{Generation of plots does not take more than 5 seconds}{nfc:runtime}
 
 \nonFunctionality{System can handle malformed data and invalid requests without crashing and provides a discriptive error message}{nfc:robust}
 \fulfills{crt:error}
@@ -62,7 +60,7 @@
 \subsection{Product Data}
 
 \subsubsection*{Backend}
-\productData{Benchmark Results}{pdt:benchmark_results}
+\productData{Processed Benchmark Results}{pdt:benchmark_results}
 Format: JSON/CSV \par
 
 \productData{Git Histories}{pdt:git_histories}
