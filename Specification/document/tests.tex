@@ -6,21 +6,21 @@
 \tests{fnc:display}
 \tests{fnc:overview}
 
-Tests the basic navigation of the web app and the generation of a \gls{plot} from a set of datapoints.
+Tests the basic navigation of the application and the generation of a \gls{plot} from a set of \glspl{benchmark configuration}.
 
-\teststep{User has the web app open and no commits selected. The database contains \glspl{benchmark result}}
+\teststep{User has the application open and no commits selected. The database contains \glspl{benchmark result}}
 {User selects two commits}
 {Commits get added to the list of selected commits}
 
 \teststep{User has two commits selected}
 {User selects the \enquote{Create New Plot} option}
-{A popup with configuration options appears}
+{The configuration panel appears}
 
-\teststep{User has two commits selected and the configuration popup open}
+\teststep{User has two commits selected and the configuration panel open}
 {User adjusts the configuration}
 {Configuration gets updated on screen}
 
-\teststep{User has two commits selected and the configuration popup open and has it configured}
+\teststep{User has two commits selected and the configuration panel open and has it configured}
 {User selects the \enquote{Generate Plot} option}
 {The \gls{plot} matching the configuration gets displayed to the user}
 
@@ -42,8 +42,8 @@ Tests the system's ability to deal with malformed input data and invalid request
 {System does not store the data}
 
 \teststep{Database is empty}
-{The web app requests data for commit A}
-{An error message gets displayed on the web app}
+{The system requests data for commit A}
+{An error message gets displayed in the application}
 
 \test{Templates}{tst:template}
 \tests{fnc:store-template}
@@ -51,7 +51,7 @@ Tests the system's ability to deal with malformed input data and invalid request
 
 Tests the creation, storage and usage of \glspl{template}.
 
-\teststep{User has commits selected and the web app with the configuration popup open. Configuration has been changed from the default.}
+\teststep{User has commits selected and the application with the configuration panel open. Configuration has been changed from the default.}
 {User selects the \enquote{Save Template} option}
 {Template gets downloaded.}
 
@@ -64,7 +64,7 @@ Tests the creation, storage and usage of \glspl{template}.
 
 Tests the sharing of \glspl{plot}.
 
-\teststep{User has the web app with a \gls{plot} open}
+\teststep{User has the application with a \gls{plot} open}
 {User selects the \enquote{Share} option}
 {Link leads to an identical \gls{plot}}
 
@@ -73,7 +73,7 @@ Tests the sharing of \glspl{plot}.
 
 Tests the export of \glspl{plot}.
 
-\teststep{User has the web app with a \gls{plot} open}
+\teststep{User has the application with a \gls{plot} open}
 {User selects the \enquote{Export} option}
 {The \gls{plot} gets downloaded}
 
