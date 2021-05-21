@@ -11,7 +11,7 @@
 {
 	name=configuration,
 	plural=configurations,
-	description={A complete description of a \gls{plot}. It contains all the necessary information except the benchmark data}
+	description={A complete description of a \gls{plot}, containing information such as benchmark type, plot type and axis labels}
 }
 
 \newglossaryentry{template}
@@ -32,7 +32,7 @@
 {
 	name=benchmark,
 	plural=benchmarks,
-	description={A test that outputs a comparable result}
+	description={A performance test that outputs a comparable result}
 }
 
 \newglossaryentry{benchmark configuration}
@@ -65,4 +65,23 @@
 
 \newacronym{ci}{CI}{Continuous Integration}
 
-\newacronym{json}{JSON}{JavaScript Object Notation}
+\newglossaryentry{json}
+{
+    name=json,
+    plural=jsons,
+    description={JavaScript Object Notation}
+}
+
+\newglossaryentry{error response}
+{
+    name=error response,
+    plural=error responses,
+    description={API response indicating an error}
+}
+
+\newglossaryentry{configuration panel}
+{
+    name=configuration panel,
+    plural=configuration panels,
+    description={Element of the user interface that allows the user to configure a plot}
+}

@@ -11,7 +11,7 @@
 {initiated by User}
 {\gls{configuration} is available}
 {\begin{enumerate}
-    \item \parkview{} fetches a \gls{configuration} data from its database.
+    \item \parkview{} fetches the data specified in the \gls{configuration} from its database.
     \item \parkview{} takes the data and generates the plot specified in the \gls{configuration}.
     \item The user gets redirected to a new site where he can inspect the generated \gls{plot}.
 \end{enumerate}}
@@ -27,9 +27,8 @@
 {initiated by User}
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
-    \item A popup appears.
-    \item The user chooses a \gls{plot} type.
-    \item The user chooses between certain options that are specific to the plot type, for example axis labels, plot title or compared dimensions.
+    \item The \gls{configuration panel} appears.
+    \item The user chooses a plot type and certain options that are specific to the plot type, for example axis labels, plot title or compared dimensions.
 \end{enumerate}}
 {The \gls{configuration} gets updated.}
 \implementedby{scn:inspect-last-commit}{cse:config-vis}
@@ -43,7 +42,7 @@
 {initated by User}
 {benchmark data for commit is available}
 {\begin{enumerate}
-    \item The user selects a set of commits.
+    \item The user selects one or more commits.
     \item The user initiates the \texttt{Configure Plot} use case by selecting the \enquote{Create New Plot} option.
     \item Once the user is satisfied with his \gls{configuration}, he initiates the \texttt{Plot} use case by selecting the \enquote{Create New Plot} option in the popup.
 \end{enumerate}}
@@ -73,9 +72,7 @@
 {A \gls{plot} has been generated}
 {\begin{enumerate}
     \item The user selects the \enquote{Export Plot} option.
-    \item A popup appears.
-    \item The user chooses a filetype for the export.
-    \item The user confirms and downloads the \gls{plot} in the chosen file format.
+    \item The user downloads the \gls{plot}.
 \end{enumerate}}
 {The User is offered a download of an export of the \gls{plot}}
 \implementedby{scn:export}{cse:export-vis}
@@ -89,9 +86,7 @@
 {The \texttt{Save Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
     \item The User selects the \enquote{save template} option.
-    \item The User enters a name for the \gls{template}.
     \item The User gets a \gls{json} download for his \gls{template}.
-    \item \parkview{} stores the template locally for the User (cookies).
 \end{enumerate}}
 {\Gls{template} is stored locally}
 \implementedby{scn:template}{cse:save-template}
@@ -105,8 +100,7 @@
 {The \texttt{Use Template} use case extends the \texttt{Configure Plot} use case.
 \begin{enumerate}
     \item The User selects the \enquote{use template} option.
-    \item User is shown a list of all available \glspl{template}.
-    \item User selects a \gls{template} from the list.
+    \item The User is prompted to upload a \gls{json} file containing the \gls{template}.
     \item The current \gls{configuration} options get set to the values specified in the template.
 \end{enumerate}}
 {The \gls{template} is applied to the current configuration.}
@@ -151,9 +145,9 @@
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
 \begin{enumerate}
     \item \parkview{} identifies the error.
-    \item \parkview{} creates a response with the correct error code.
+    \item \parkview{} sends a response with the corresponding error code to the external \gls{benchmarking system}.
 \end{enumerate}}
-{External Benchmarking System receives a response containing an error code}
+{Response is sent}
 \implementedby{scn:post-data-failure}{cse:benchmark-res-post-fail}
 
 \bigskip
@@ -164,8 +158,7 @@
 {This use case extends the \texttt{Plot} use case if an error occurs.}
 {\begin{enumerate}
     \item \parkview{} identifies the error.
-    \item \parkview{} creates a response with the correct error code.
-    \item \parkview{} app displays an error message in the browser.
+    \item \parkview{} displays an error message in the browser.
 \end{enumerate}}
 {Error message gets displayed}
 \implementedby{scn:fetch-data-failure}{cse:benchmark-data-fetch-fail}
