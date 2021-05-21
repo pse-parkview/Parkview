@@ -2,20 +2,32 @@
 
 \scenario{Inspecting Last Commit}{scn:inspect-last-commit}
 {Ted: \Gls{user}, CI: \Gls{benchmarking system}}
-{Ted works on a project that has \emph{PROJECT NAME} set up. He makes commits on a performance critical component. After that he pushes his commits to the repository. The CI sends its benchmark results to the system, which stores it in a persistent way. Ted opens the web app and selects a benchmark. He sees a list of all recent commits. The commits without benchmark data are greyed out. Ted selects his newest commit. He selects a device to take the benchmark data from. The commit appears in a list of selected commits. Ted selects the \enquote{Create New Plot} option. A popup appears. Ted chooses the dimension he wants to inspect. After he configured his plot he decides to save the \gls{template} for later use. He selects the \enquote{Save Template} option. He enters a name for the \gls{template} and selects the \enquote{Save} option. After that he selects the \enquote{Generate Plot} option. Ted gets redirected to a new site where he can inspect his plot. He decides to send this plot to a coworker. He selects the \enquote{Share} option and a link gets displayed. He copies the link and sends it to his coworker.}
+{Ted works on a project that has \parkview{} set up. He makes commits on a performance critical component. After that he pushes his commits to the repository. The CI sends its benchmark results to \parkview{}, which stores it in a persistent way. Ted opens the application and selects a benchmark. He sees a list of all recent commits. The commits without benchmark data are greyed out. Ted selects his newest commit. He selects the device the benchmark ran on. The commit appears in a list of selected commits. Ted selects the \enquote{Create New Plot} option. A popup appears. Ted chooses the dimension he wants to inspect. After that he selects the \enquote{Generate Plot} option. Ted gets redirected to a new site where he can inspect his plot.} 
 
 \scenario{Comparing Benchmarks}{scn:comp-benchmarks}
 {Greta: \Gls{user}}
-{Greta opens the web app. She selects a benchmark. She selects two benchmarks by first picking a specific commit and then a specific device. She opens the configuration popup by selecting the \enquote{Create New Plot} option. She wants to use a previously created \gls{template}. She selects the \enquote{Use Template} option and chooses her \gls{template} from a list of available ones. The settings specified in the \gls{template} get applied to the current \gls{configuration}. Greta makes final adjustments and then selects the \enquote{Generate Plot} option. After that she gets redirected to a new site where she can inspect her plot. Ted also wants to download the plot for use in his publication. He selects the \enquote{Export} option. He gets to choose between a seleciton of filetypes. He picks his preferred one. A link gets displayed leading to a download with the selected filetype.}
+{Greta opens \parkview{}. She selects a benchmark. She selects two benchmarks by first picking a specific commit and then a specific device. She opens the configuration popup by selecting the \enquote{Create New Plot} option. Greta makes adjustments to the \gls{configuration} and then selects the \enquote{Generate Plot} option. After that she gets redirected to a new site where she can inspect her plot.}
+
+\scenario{Exporting a plot}{scn:export}
+{Richard: \Gls{user}}
+{Richard needs a \gls{plot} of the his projects performance for a publication. He opens \parkview{} and creates the plot that he needs. He selects the \emph{Export} option. A link for gets displayed which leads to a download for his plot.}
+
+\scenario{Sharing a plot}{scn:share}
+{Willhelm: \Gls{user}}
+{Willhelm needs a \gls{plot} of the his projects performance for a publication. He opens \parkview{} and creates the plot that he needs. He selects the \emph{Export} option. A link gets displayed which leads to a download for his plot.}
+
+\scenario{Usage of templates}{scn:template}
+{Elizabeth: \Gls{user}}
+{Elizabeth opens the application. She selects a set of \glspl{benchmark configuration} for specifc commits and starts creating a \gls{plot}. After she finished configuring her \gls{plot} she decides to keep the \gls{configuration} for later use. She selects the \emph{Save Template} option. Elizabeth enters a template name. She downloads her template as a \gls{json} file. Later she wants to reproduce the \gls{plot}. In the configuration panel she selects the \emph{Load Template}. She sees a list of previously created templates and an option to upload a tempalte from a \gls{json} file. She selects the \emph{Upload From File} option and selects her previously downloaded \gls{template}. The templates settings get applied to the open \gls{configuration}.}
 
 \scenario{Performance Tracking}{scn:perf-tracking}
 {CI: \Gls{benchmarking system}}
-{The CI runs a specific benchmark for a specific commit on a specific device. It sends a POST request to the system containing the results and the benchmark type, commit identification and device name. The system receives the results and stores them in a persistent database. It recognizes that the benchmark performance has dropped by a significant factor. The system triggers a hook that sends a message to the developer slack channel informing about the performance drop. It also publishes a comment under the commit on GitHub.}
+{The CI runs a specific benchmark for a specific commit on a specific device. It sends a POST request to \parkview{} containing the results and the benchmark type, commit identification and device name. \parkview{} receives the results and stores them in a persistent database. It recognizes that the benchmark performance has dropped by a significant factor. \parkview{} triggers a hook that sends a message to the developer slack channel informing about the performance drop. It also publishes a comment under the commit on GitHub.}
 
 \scenario{Benchmark Post Failure}{scn:post-data-failure}
 {CI: \Gls{benchmarking system}}
-{The CI runs a specific benchmark fo a specific commit on a specific device. It fails to correctly format the data. It sends a POST request containing the malformed data to the system. The system takes the data and detects that it is wrongly formatted. The system responds to the CI with the corresponding error code.}
+{The CI runs a specific benchmark fo a specific commit on a specific device. It fails to correctly format the data. It sends a POST request containing the malformed data to \parkview{}. \parkview{} takes the data and detects that it is wrongly formatted. \parkview{} responds to the CI with the corresponding error code.}
 
 \scenario{Benchmark Fetch Failure}{scn:fetch-data-failure}
 {Jeff: \Gls{user}}
-{Jeff opens the web app. He wants to create a \gls{plot} from a specific benchmark result. He selects the benchmark result and configures the \gls{plot}. Jeff selects the \enquote{Generate Plot} option. The system realizes that the benchmark isn't available. It displays an error messsage to Jeff that explains the problem.}
+{Jeff opens the application. He wants to create a \gls{plot} from a specific benchmark result. He selects the benchmark result and configures the \gls{plot}. Jeff selects the \enquote{Generate Plot} option. \parkview{} realizes that the benchmark isn't available. It displays an error messsage to Jeff that explains the problem.}
