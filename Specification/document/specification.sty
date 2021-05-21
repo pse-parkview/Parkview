@@ -146,12 +146,46 @@
   \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
   \par}
 
+\newcommand{\scenarioOpt}[4]{
+  \stepcounter{scenario}
+  \begin{minipagewithmarginpars}{\textwidth}
+  \marginid{\textbf{\PrefixScenario\arabic{scenario}}}
+  \textbf{Scenario name:} {#1 \textbf{(Optional)}}\phantomsection\rdflabel{#2}\par
+  \textbf{Participating actor:} {#3}\par
+  \textbf{Flow of events:} {#4}\par
+  \textbf{Implements:} \Bind{#2}{pfl:implements}{?f}{ \caselink{\GetVal{?f}} }
+  \end{minipagewithmarginpars}
+  \AddTripleEx{#2}{pfl:scnname}{#1}
+  \AddTripleEx{#2}{pfl:scnid}{\PrefixScenario\arabic{scenario}}
+  \par}
+
 \newcommand{\case}[7]{
   \stepcounter{case}
   \begin{minipagewithmarginpars}{\textwidth}
   \marginid{\textbf{\PrefixCase\arabic{case}}}
   \phantomsection\rdflabel{#2}
   \textbf{Use case name:} {#1}\par
+  \textbf{Description:} {#3}\par
+  \textbf{Participating actors:} {#4}\par
+  \textbf{Entry conditions:} {#5}\par
+  \textbf{Flow of events:} {#6}\par
+  \textbf{Exit conditions:} {#7}\par
+  \IfProperty{#2}{pfl:is-implemented}{%
+      \textbf{Implemented by:} \Bind{?f}{pfl:implements}{#2}{ \scenariolink{\GetVal{?f}} }
+  }{
+      {\color{red}{NO SCENARIO}}\par
+  }
+  \end{minipagewithmarginpars}
+  \AddTripleEx{#2}{pfl:csename}{#1}
+  \AddTripleEx{#2}{pfl:cseid}{\PrefixCase\arabic{case}}
+  \par}
+
+\newcommand{\caseOpt}[7]{
+  \stepcounter{case}
+  \begin{minipagewithmarginpars}{\textwidth}
+  \marginid{\textbf{\PrefixCase\arabic{case}}}
+  \phantomsection\rdflabel{#2}
+      \textbf{Use case name:} {#1 \textbf{(Optional)}}\par
   \textbf{Description:} {#3}\par
   \textbf{Participating actors:} {#4}\par
   \textbf{Entry conditions:} {#5}\par

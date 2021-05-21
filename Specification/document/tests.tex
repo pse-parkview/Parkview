@@ -8,7 +8,7 @@
 
 Tests the basic navigation of the web app and the generation of a \gls{plot} from a set of datapoints.
 
-\teststep{User has the web app open and no commits selected. The database contains benchmark data}
+\teststep{User has the web app open and no commits selected. The database contains \glspl{benchmark result}}
 {User selects two commits}
 {Commits get added to the list of selected commits}
 
@@ -24,10 +24,10 @@ Tests the basic navigation of the web app and the generation of a \gls{plot} fro
 {User selects the \enquote{Generate Plot} option}
 {The \gls{plot} matching the configuration gets displayed to the user}
 
-\test{Post Benchmark Data}{tst:post-data}
+\test{Post Benchmark Results}{tst:post-data}
 \tests{fnc:storage}
 
-Tests sending benchmark data to the system and storing it.
+Tests sending \glspl{benchmark result} to the system and storing it.
 
 \teststepnostate{The system receives a POST request with valid data}
 {The data gets stored in the database}
