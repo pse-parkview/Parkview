@@ -1,6 +1,6 @@
 \section{Introduction}
 
-Todays software landscape is shaped by modern practices like continuous integration. CI allows the production of more stable and less error-prone software by continuously running tests specified by the user on the software. If any of those tests fails, the user gets notified and can inspect the failure using tools provided by the CI system. Continuous Benchmarking tries to offer the same for software performance. The user specified tests get replaced by user specified benchmarks that are continuously run on the software, giving the users insight of how the performance of their software changes over time. This is where \parkview{} comes into play. It offers the user an environment where he can easily keep track of the performance data and even inspect and compare the results by generating informative plots from them.
+Todays software landscape is shaped by modern practices like continuous integration. CI allows the production of more stable and less error-prone software by continuously running tests specified by the user on the software. If any of those tests fails, the user gets notified and can inspect the failure using tools provided by the CI system. Continuous Benchmarking tries to offer the same for software performance. The user specified tests get replaced by user specified benchmarks that are continuously run on the software, giving the users insight of how the performance of their software changes over time. For projects like high performance computing this gets almost mandatory, due to many supported implementations, hardware architectures and application scenarios. This is where \parkview{} comes into play. It offers the user an environment where he can easily keep track of the performance data and even inspect and compare the results by generating informative plots from them.
 
 \section{Goals}
 
@@ -10,9 +10,9 @@ Todays software landscape is shaped by modern practices like continuous integrat
 {crt:vis}
 {For a given benchmark result, generate a \gls{plot} and display it to the user for inspection.}
 
-\criterium{Comparison between different datapoints}
+\criterium{Comparison between different benchmark configurations}
 {crt:comp}
-{For a given benchmark type, choose two (or more) datapoints (for example two different commits), and compare them by creating a plot that shows the differences between the them.}
+{For a given benchmark type, choose two (or more) \glspl{benchmark configuration} (for example two different commits), and compare them by creating a plot that shows the differences between the them.}
 
 \criterium{Overview about current state of benchmark performance}
 {crt:overview}
@@ -38,3 +38,8 @@ Todays software landscape is shaped by modern practices like continuous integrat
 \criteriumNot{Plot types are predefined}
 {crt:limit-predefined}
 {The \gls{plot} types have to be predefined, otherwise the system would get too complex.}
+
+\criteriumNot{Comparison between \glspl{benchmark configuration} is limited to specific combinations}
+{crt:limit-comparison}
+{The comparison between \glspl{benchmark configuration} is limited to only combinations of \glspl{benchmark configuration} that share the benchmark type.}
+
