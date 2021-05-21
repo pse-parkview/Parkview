@@ -13,7 +13,7 @@
 {\begin{enumerate}
     \item \parkview{} fetches a \gls{configuration} data from its database.
     \item \parkview{} takes the data and generates the plot specified in the \gls{configuration}.
-    \item The user gets redirected to a new site where he can inspect the generated plot.
+    \item The user gets redirected to a new site where he can inspect the generated \gls{plot}.
 \end{enumerate}}
 {The plot specified by the \gls{configuration} gets shown to the User.}
 \implementedby{scn:inspect-last-commit}{cse:plot}
@@ -28,7 +28,7 @@
 {User selected the \enquote{Create New Plot} option}
 {\begin{enumerate}
     \item A popup appears.
-    \item The user chooses a plot type.
+    \item The user chooses a \gls{plot} type.
     \item The user chooses between certain options that are specific to the plot type, for example axis labels, plot title or compared dimensions.
 \end{enumerate}}
 {The \gls{configuration} gets updated.}
@@ -115,9 +115,9 @@
 \bigskip
 
 \case{Post Benchmark Results}{cse:post-benchmark-res}
-{An external benchmarking system trying to upload benchmark data}
+{An external \gls{benchmarking system} trying to upload benchmark data}
 {initiated by External Benchmarking System}
-{The external benchmarking system ran the benchmarks}
+{The external \gls{benchmarking system} ran the benchmarks}
 {\begin{enumerate}
     \item \parkview{} receives a POST request containing benchmark data.
     \item \parkview{} converts the received data into the correct format.
@@ -146,8 +146,8 @@
 
 \case{Benchmark Results POST Failure}{cse:benchmark-res-post-fail}
 {Behavior in case of invalid POST request}
-{communicates with External Benchmarking System}
-{The external benchmarking system has sent a POST request}
+{communicates with External \Gls{benchmarking system}}
+{The external \gls{benchmarking system} has sent a POST request}
 {This use case extends the \texttt{Post Benchmark Results} use case if an error occurs.
 \begin{enumerate}
     \item \parkview{} identifies the error.
