@@ -5,6 +5,7 @@ default: $(NAME).pdf
 all: $(NAME).pdf
 
 build/%.pdf: %.tex *.sty
+	plantuml ./img_src -o ../images
 	mkdir -p build
 	latexmk -pdf -g -f -auxdir=build -outdir=build $<
 
