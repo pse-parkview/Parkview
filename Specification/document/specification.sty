@@ -7,9 +7,9 @@
 \newcommand\tests[1]{%
   \AddTripleEx{#1}{pfl:is-tested}{yeah}
   \AddProperty{pfl:tests}{#1}}
-\newcommand\fulfills[1]{%
-  \AddTripleEx{#1}{pfl:is-fulfilled}{yeah}
-  \AddProperty{pfl:fulfills}{#1}}
+\newcommand\fulfills[2]{%
+  \AddTripleEx{#2}{pfl:is-fulfilled}{yeah}
+  \AddTripleEx{#1}{pfl:fulfills}{#2}}
 \newcommand\implementedby[2]{
   \AddTripleEx{#2}{pfl:is-implemented}{yeah}
   \AddTripleEx{#1}{pfl:implements}{#2}}
