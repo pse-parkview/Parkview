@@ -63,7 +63,7 @@
     \item The link redirects any visitors to the same \gls{plot}.
 \end{enumerate}}
 {A link is shown which redirects to the \gls{plot}}
-\implementedby{scn:inspect-last-commit}{cse:share-vis}
+\implementedby{scn:share}{cse:share-vis}
 
 \bigskip
 
@@ -78,7 +78,7 @@
     \item The user confirms and downloads the \gls{plot} in the chosen file format.
 \end{enumerate}}
 {The User is offered a download of an export of the \gls{plot}}
-\implementedby{scn:comp-benchmarks}{cse:export-vis}
+\implementedby{scn:export}{cse:export-vis}
 
 \bigskip
 
@@ -94,7 +94,7 @@
     \item \parkview{} stores the template locally for the User (cookies).
 \end{enumerate}}
 {\Gls{template} is stored locally}
-\implementedby{scn:inspect-last-commit}{cse:save-template}
+\implementedby{scn:template}{cse:save-template}
 
 \bigskip
 
@@ -110,7 +110,7 @@
     \item The current \gls{configuration} options get set to the values specified in the template.
 \end{enumerate}}
 {The \gls{template} is applied to the current configuration.}
-\implementedby{scn:comp-benchmarks}{cse:use-temp}
+\implementedby{scn:template}{cse:use-temp}
 
 \bigskip
 
@@ -140,7 +140,6 @@
     \item The hooks contact their external webservices according to how they have been configured.
 \end{enumerate}}
 {\parkview{} fires a POST Request to all webhook subscribers}
-\implementedby{scn:inspect-last-commit}{cse:perf-tracking}
 \implementedby{scn:perf-tracking}{cse:perf-tracking}
 
 \bigskip
