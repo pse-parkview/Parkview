@@ -4,3 +4,10 @@ build/
 *.out
 *.fdb_latexmk
 *.fls
+*.gz
+*.toc
+*.pdf
+*.nav
+*.snm
+!document/images/*.pdf
+!presentation/images/*.pdf

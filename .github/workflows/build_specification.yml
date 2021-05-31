@@ -9,10 +9,12 @@ on:
     branches: 
       - main
       - specification
+      - presentation
   pull_request:
     branches:
       - main
       - specification
+      - presentation
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,10 +37,10 @@ jobs:
         with:
           args: -pdf -g -f
           root_file: specification.tex
-          working_directory: Specification/
+          working_directory: Specification/document
        
       - name: Upload Specification
         uses: actions/upload-artifact@v2
         with:
           name: specification
-          path: Specification/specification.pdf
+          path: Specification/document/specification.pdf

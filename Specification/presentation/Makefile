@@ -1,10 +1,10 @@
-NAME=specification
+NAME=presentation
 
 default: $(NAME).pdf
 
 all: $(NAME).pdf
 
-build/%.pdf: %.tex *.sty
+build/%.pdf: %.tex
 	mkdir -p build
 	latexmk -pdf -g -f -auxdir=build -outdir=build $<
 

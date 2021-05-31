@@ -1,0 +1,33 @@
+\section{Scenarios}
+
+\scenario{Inspecting Last Commit}{scn:inspect-last-commit}
+{Ted: User, CB: \Gls{benchmarking system}}
+{Ted works on a project that has \parkview{} set up. He makes commits on a performance critical component. After that he pushes his commits to the repository. The CB sends its \glspl{benchmark result} to \parkview{}, which stores it in a persistent way. Ted opens the application and selects a \gls{benchmark}. He sees a list of all recent commits. The commits without \glspl{benchmark result} are greyed out. Ted selects his newest commit. He selects the device the \gls{benchmark} ran on. The commit appears in a list of selected commits. Ted selects the \enquote{Create New Plot} option. The configuration panel appears. Ted chooses the dimension he wants to inspect. After that he selects the \enquote{Generate Plot} option. Ted gets redirected to a new site where he can inspect his \gls{plot}.}
+
+\scenario{Comparing Benchmarks}{scn:comp-benchmarks}
+{Ted: User}
+{Ted opens \parkview{}. He selects a \gls{benchmark}. He selects two \glspl{benchmark configuration} by first picking a specific commit and then a specific device. He opens the configuration panel by selecting the \enquote{Create New Plot} option. Ted makes adjustments to the \gls{configuration} and then selects the \enquote{Generate Plot} option. After that he gets redirected to a new site where he can inspect his \gls{plot}.}
+
+\scenarioOpt{Exporting a plot}{scn:export}
+{Ted: User}
+{Ted needs a \gls{plot} of the his projects performance for a publication. He opens \parkview{} and creates the \gls{plot} that he needs. He selects the \emph{Export} option. A link gets displayed which leads to a download for his \gls{plot}.}
+
+\scenarioOpt{Sharing a plot}{scn:share}
+{Ted: User}
+{Ted needs a \gls{plot} of the his projects performance for a publication. He opens \parkview{} and creates the \gls{plot} that he needs. He selects the \emph{Export} option. A link gets displayed which leads to a download for his \gls{plot}.}
+
+\scenarioOpt{Usage of templates}{scn:template}
+{Ted: User}
+{Ted opens the application. He selects a set of \glspl{benchmark configuration} for specifc commits and starts creating a \gls{plot}. After he finished configuring his \gls{plot} he decides to keep the \gls{configuration} for later use. He selects the \emph{Save Template} option. He downloads his template as a \gls{json} file. Later he wants to reproduce the \gls{plot}. In the configuration panel he selects the \emph{Load Template} option. He gets prompted to upload a file containg a \gls{template}. He selects the \emph{Upload From File} option and selects his previously downloaded \gls{template}. The open \gls{configuration} gets updated with the settings specified in the \gls{template}.}
+
+\scenarioOpt{Performance Tracking}{scn:perf-tracking}
+{CB: \Gls{benchmarking system}, Github: External Webservice, Slack: External Webservice}
+{The \acrshort{ci} runs a specific \gls{benchmark} for a specific commit on a specific device. It sends a POST request to \parkview{} containing the \glspl{benchmark result} and the \gls{benchmark type}, commit identification and device name. \parkview{} receives the results and stores them in a persistent database. It recognizes that the benchmark performance has dropped by a significant factor. \parkview{} triggers a hook that sends a message to the developer slack channel informing about the performance drop. It also publishes a comment under the commit on GitHub.}
+
+\scenarioOpt{Benchmark Post Failure}{scn:post-data-failure}
+{CB: \Gls{benchmarking system}}
+{The CB runs a specific \gls{benchmark} for a specific commit on a specific device. It fails to correctly format the data. It sends a POST request containing the data to \parkview{}. \parkview{} takes the data and detects that it is wrongly formatted. \parkview{} sends an \gls{error response} to the CB.}
+
+\scenarioOpt{Benchmark Fetch Failure}{scn:fetch-data-failure}
+{Ted: User}
+{Ted opens the application. He wants to create a \gls{plot} from a specific \gls{benchmark result}. He selects the \gls{benchmark result} and configures the \gls{plot}. Ted selects the \enquote{Generate Plot} option. \parkview{} realizes that the \gls{benchmark} is not available. It displays an error messsage to Ted that explains the problem.}

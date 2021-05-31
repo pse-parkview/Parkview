@@ -1,0 +1,66 @@
+\section{Requirements}
+
+\subsection{Functional Requirements}
+
+\functionality{Selection of benchmark configurations}{fnc:select}
+\fulfills{fnc:select}{crt:vis}
+\fulfills{fnc:select}{crt:comp}
+
+\functionality{Configuration of plot}{fnc:configure}
+\fulfills{fnc:configure}{crt:vis}
+\fulfills{fnc:configure}{crt:comp}
+
+\functionality{Display plots}{fnc:display}
+\fulfills{fnc:display}{crt:vis}
+\fulfills{fnc:display}{crt:comp}
+
+\functionality{Storage of benchmark results}{fnc:storage}
+\fulfills{fnc:storage}{crt:storage}
+
+\functionality{Calculation of performance metrics}{fnc:calc}
+\fulfills{fnc:calc}{crt:overview}
+
+\functionality{Presenting commit history}{fnc:overview}
+\fulfills{fnc:overview}{crt:overview}
+
+\subsection{Optional Functional Requirements}
+
+\functionalityOpt{Authentification for POST requests}{fnc:auth}
+\fulfills{fnc:auth}{crt:storage}
+
+\functionalityOpt{Download of templates}{fnc:store-template}
+\fulfills{fnc:store-template}{crt:opt-templates}
+
+\functionalityOpt{Loading of templates}{fnc:load-template}
+\fulfills{fnc:load-template}{crt:opt-templates}
+
+\functionalityOpt{Creation of a shareable link}{fnc:share-link}
+\fulfills{fnc:share-link}{crt:opt-export-share}
+
+\functionalityOpt{Creation of a downloadable file from a plot}{fnc:export}
+\fulfills{fnc:export}{crt:opt-export-share}
+
+\functionalityOpt{Tracking performance}{fnc:track}
+\fulfills{fnc:track}{crt:opt-track}
+
+\functionalityOpt{Notifying external webservices}{fnc:notify}
+\fulfills{fnc:notify}{crt:opt-track}
+
+\subsection{Nonfunctional Requirements}
+
+\nonFunctionality{Available configuration options have a concise description}{nfc:intuitiv}
+
+\nonFunctionality{Storage of benchmark results is persistent}{nfc:persistent}
+
+\nonFunctionality{Generation of plots does not take more than 5 seconds}{nfc:runtime}
+
+\nonFunctionality{System can handle malformed data and invalid requests without crashing and provides a descriptive error message}{nfc:robust}
+
+\subsection{Product Data}
+
+\subsubsection*{Backend}
+\productData{Processed Benchmark Results}{pdt:benchmark_results}
+\productData{Git Histories}{pdt:git_histories}
+
+\subsubsection*{Frontend}
+\productData{Plot Configuration}{pdt:vis_config}
