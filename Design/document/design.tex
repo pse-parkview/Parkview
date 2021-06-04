@@ -1,0 +1,58 @@
+\documentclass[parskip=full,11pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\title{\Huge Parkview\\
+    \LARGE \normalfont Performance Dashboard for Continuous Benchmarking of HPC Libraries}
+\author{Chingun Ariunbat, Jamil Bagga, Walter Alexander B\"ottcher,\\Darius Schefer, Maximilian Schik}
+
+% section numbers in margins:
+\renewcommand\sectionlinesformat[4]{\makebox[0pt][r]{#3}#4}
+
+% header & footer
+\usepackage{scrlayer-scrpage}
+%\lofoot{\today} % Date in footer
+\refoot{\today}  % no idea what this does
+\pagestyle{scrheadings}
+
+\usepackage[sfdefault,light]{roboto}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[yyyymmdd]{datetime} % must be after babel
+\usepackage{float}
+\renewcommand{\dateseparator}{-}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage{amsmath} % for $\text{}$
+\usepackage[nameinlink]{cleveref}
+\crefname{figure}{Abb}{Abb}
+\usepackage[section]{placeins}
+\usepackage{xcolor}
+\usepackage[nonumberlist, toc]{glossaries}     % provides glossary commands, [toc] to appear in table of contents
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\hypersetup{
+	pdftitle={Design},
+	bookmarks=true,
+}
+\usepackage{csquotes} % provides \enquote{} command
+
+\begin{document}
+
+\maketitle
+\begin{figure}[h]
+	\includegraphics[width=11cm]{parkview.png}
+	\centering
+\end{figure}
+
+\thispagestyle{empty}
+
+\clearpage
+\pagenumbering{arabic}
+
+\tableofcontents
+\clearpage
+
+\appendix
+
+\printnoidxglossaries
+
+\end{document}

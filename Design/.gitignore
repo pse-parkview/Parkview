@@ -1,0 +1,12 @@
+design/build/
+*.log
+*.aux
+*.out
+*.fdb_latexmk
+*.fls
+*.gz
+*.toc
+*.pdf
+*.nav
+*.snm
+
