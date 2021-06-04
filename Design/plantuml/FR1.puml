@@ -1,0 +1,19 @@
+@startuml FR1
+
+actor ":User:" as ted
+participant ":GUI" as gui
+participant ":GuiHandler" as guiHandler
+participant ":DatapointSelection" as selection
+
+ted -> gui: selects a datapoint
+gui -> guiHandler ++: selectDatapoint(benchmark, branch, device, commit)
+
+alt first selected datapoint
+  guiHandler -> selection **: create
+  end
+
+guiHandler -> selection ++: addDatapoint(datapoint)
+selection --> guiHandler --:
+guiHandler --> gui --:
+
+@enduml
