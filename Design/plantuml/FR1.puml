@@ -9,7 +9,8 @@ ted -> gui: selects a datapoint
 gui -> guiHandler ++: selectDatapoint(benchmark, branch, device, commit)
 
 alt first selected datapoint
-  guiHandler -> selection **: create
+  create selection
+  guiHandler -> selection : selection() aka constructor
   end
 
 guiHandler -> selection ++: addDatapoint(datapoint)
