@@ -1,28 +1,27 @@
 @startuml fr4
 
-skinparam responseMessageBelowArrow true
-
 participant ":RestHandler" as rh
 participant ":DataProcessor" as dp
 participant ":Database\nController" as db
 
-
--> rh ++: POST request
+[-> rh ++: POST request
 note left: contains benchmark results
 
 rh -> dp ++: process(jsonData)
-dp -> dp ++: format(jsonData)
-dp --> dp --: cleanData:FormattedData
 
+dp -> dp ++: format(jsonData)
+return cleanData:FormattedData
 note right: Put data into correct\nformat for database
 
 dp -> db ++: insert(cleanData)
-db --> dp --: status:Status
-dp --> rh --: status:Status
-rh -> rh ++: composeResponse(status)
-rh <-- rh --: responseCode:HttpStatus
+return status:Status
 
-<-- rh --: request.response(responseCode)
+return status:Status
+
+rh -> rh ++: composeResponse(status)
+return responseCode:HttpStatus
+
+[<-- rh --: request.response(responseCode)
 note left: Indicates POST\nsuccess/failure
 
 @enduml
