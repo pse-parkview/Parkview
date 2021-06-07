@@ -1,0 +1,30 @@
+@startuml fr4
+
+skinparam responseMessageBelowArrow true
+
+participant ":ExternalBenchmarking\nSystem" as ebs
+participant ":RestHandler" as rh
+participant ":DataProcessor" as dp
+participant ":Database" as db
+
+--> ebs ++: Data is generated
+
+ebs -> rh ++: POST results
+
+rh -> dp ++: process(jsonData)
+dp -> dp ++: format(jsonData)
+
+note right: Put data into correct\nformat for database
+deactivate dp
+
+dp -> db ++: store data
+db -->dp --: response
+
+deactivate dp
+
+rh --> ebs --: sendResponse(statusCode)
+note left: Indicates POST\nsuccess/failure
+
+deactivate ebs
+
+@enduml
