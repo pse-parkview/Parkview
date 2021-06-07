@@ -17,10 +17,12 @@ dp --> dp --: cleanData:FormattedData
 note right: Put data into correct\nformat for database
 
 dp -> db ++: insert(cleanData)
-db --> dp --: statusCode:Status
-dp --> rh --: statusCode:Status
+db --> dp --: status:Status
+dp --> rh --: status:Status
+rh -> rh ++: composeResponse(status)
+rh <-- rh --: responseCode:HttpStatus
 
-<-- rh --: request.response(statusCode)
+<-- rh --: request.response(responseCode)
 note left: Indicates POST\nsuccess/failure
 
 @enduml
