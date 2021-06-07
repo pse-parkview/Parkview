@@ -9,7 +9,7 @@ participant ":Plot" as p
 
 create c
 ' TODO use proper params
-pm -> c ++: Configurartion( params)
+pm -> c ++: Configuration( params)
 c --> pm --: c: Configuration
 
 pm -> pg ++: generatePlot(c, currentPlot)
@@ -23,4 +23,6 @@ pg --> pm --: newPlot
 pm -> pm ++: updatePlot(newPlot)
 note right: the Plot gets updated
 pm --> pm --: 
+deactivate pm
+
 @enduml
