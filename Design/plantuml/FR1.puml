@@ -1,6 +1,5 @@
 @startuml FR1
 
-'i shouldn't name everything SomethingHandler
 box "Frontend"
 actor ":User:" as ted
 participant ":GUI" as gui
@@ -15,44 +14,43 @@ participant ":GitHistory" as ghist
 participant ":DatabaseHandler" as datah
 end box
 
-'i don't know how to represent an api in a sequence diagram
 participant ":Git Api" as gitapi
 
 ted -> gui ++: opens
 
 gui -> gh ++: updateView()
-gh -> dh ++: request commit history data
+gh -> dh ++: getCommitHistory(branch: String, device: String, benchmark: String)
 dh -> rh ++: get request for commit history
-rh -> ghist ++: getCommitHistory(branch)
+rh -> ghist ++: getCommitHistory(branch: String, device: String, benchmark: String)
 
-alt git history is no up to date
-  ghist -> rh ++: fetchGitHistory
+alt git history is not up to date
+  ghist -> rh ++: fetchGitHistory()
   rh -> gitapi ++: get request for history
-  gitapi --> rh --: latest commits
-  rh --> ghist --: latest commits
-  ghist -> datah ++: updateHistory(latest commits)
+  gitapi --> rh --: commits: List<Commit>
+  rh --> ghist --: commits: List<Commit>
+  ghist -> datah ++: updateHistory(commits: List<Commit>)
   datah --> ghist --:
   end
 
 ghist -> datah ++: getHistory()
-datah --> ghist --: commit history
+datah --> ghist --: history: List<Commit>
 
-ghist --> rh --: commit history
+ghist --> rh --: history: List<Commit>
 rh --> dh --: commit history
-dh --> gh --: commit history
+dh --> gh --: List<Commit>
 gh --> gui --:
 
 
 
 ted -> gui: selects a datapoint
-gui -> gh ++: selectDatapoint(benchmark, branch, device, commit)
+gui -> gh ++: selectDatapoint(benchmark: String, branch: String, device: String, commit: String)
 
 alt first selected datapoint
   create selection
-  gh -> selection : selection() aka constructor
+  gh -> selection : DatapointSelection()
   end
 
-gh -> selection ++: addDatapoint(datapoint)
+gh -> selection ++: addDatapoint(datapoint: DataPoint)
 selection --> gh --:
 gh --> gui --:
 gui --> ted --:
