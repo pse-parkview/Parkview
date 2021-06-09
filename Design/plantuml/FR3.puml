@@ -1,0 +1,26 @@
+@startuml FR3
+
+participant ":PlotHandler" as ph
+participant ":PlotGenerator" as pg
+participant ":SummaryGenerator" as sg
+
+-> ph ++: Plot(dps: dataPointSelection)
+ph -> ph ++: generateSummaryData(dps)
+' summary is a "String" bc it contains the JSON String representing the data
+ph --> ph --: summary: String
+ 
+ph -> pg ++: draw(dps)
+' calls the framework we will use and plots the graph using the data
+' it should be a viod so it returns nothing
+
+pg --> ph --:
+
+ph -> sg ++: drawSummary(summary)
+alt comparing data
+    sg -> sg ++: addToCompared(summary)
+    return
+end
+sg --> ph --:
+
+return
+@enduml
