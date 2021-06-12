@@ -1,0 +1,94 @@
+@startuml backend
+
+package GitRepresentation {
+  interface GitHistory {
+    Branch getBranch(branch: String, device: String, benchmark: String)
+  }
+
+  interface GitHandler {
+    List<Commit> fetchGitHistory()
+  }
+  
+  class GitHistoryBranchWiseNeedsABetterName {
+    Branch getBranch(branch: String, device: String, benchmark: String)
+  }
+
+  class CachingDecorator {
+    component: GitHistory
+    List<Branch>: lastUsedBranches
+  }
+  
+  class Commit {
+    sha: String
+    message: String
+    date: Date
+    benchmarkResult: BenchmarkResult
+    String getCommitMessage()
+    String getSha()
+    String getDiff() or smth like that?
+    BenchmarkResult getBenchmarResult()
+  }
+  
+  
+  class Branch {
+    name: String
+    device: String
+    benchmark: String
+    commits: List<Commit>
+    Commit getCommit(sha: String)
+    List<Commit> toList()
+  }
+}
+
+package RestStuff {
+  class GitApiHandler
+  class SpringRestHandler
+  
+  interface RestHandler {
+    void handlePost(smth: json)
+    void handleGet(smth: json)
+  }
+}
+
+package Database {
+  class PostgreSQLHandler
+  
+  interface DatabaseHandler {
+    void updateCommits(commits: List<Commit>)
+    void updateBenchmarkResults(results: List<BenchmarkResult>)
+  }
+
+}
+
+package Benchmark { 
+  abstract BenchmarkResult {
+    smth getData()
+    String toJson()
+    double getSummaryValue()
+  }
+  
+  class BenchmarkResultTypeA
+  class BenchmarkResultTypeB
+}
+
+' aggregations
+GitHistory o-- Branch
+Branch o-- Commit
+Commit o-- BenchmarkResult
+CachingDecorator o-- GitHistory
+
+' uses
+GitHistory -> GitHandler
+GitHistory -> DatabaseHandler
+RestHandler -> GitHistory
+
+' generalizations
+PostgreSQLHandler --|> DatabaseHandler
+GitApiHandler --|> GitHandler
+BenchmarkResultTypeA --|> BenchmarkResult
+BenchmarkResultTypeB --|> BenchmarkResult
+GitHistoryBranchWiseNeedsABetterName --|> GitHistory
+CachingDecorator --|> GitHistory
+SpringRestHandler --|> RestHandler
+
+@enduml
