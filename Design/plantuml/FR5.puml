@@ -1,4 +1,4 @@
-@startuml fr4
+@startuml FR5 
 
 participant ":DataProcessor" as dp
 participant ":Database\nController" as db
