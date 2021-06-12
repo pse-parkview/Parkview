@@ -1,16 +1,14 @@
 @startuml backend
 
-package GitRepresentation {
-  interface GitHistory {
+skinparam linetype ortho
+
+package git {
+  interface History {
     Branch getBranch(branch: String, device: String, benchmark: String)
   }
 
-  interface GitHandler {
+  interface RepositoryHandler {
     List<Commit> fetchGitHistory()
-  }
-  
-  class GitHistoryBranchWiseNeedsABetterName {
-    Branch getBranch(branch: String, device: String, benchmark: String)
   }
 
   class CachingDecorator {
@@ -21,7 +19,7 @@ package GitRepresentation {
   class Commit {
     sha: String
     message: String
-    date: Date
+    date: java.util.Date
     benchmarkResult: BenchmarkResult
     String getCommitMessage()
     String getSha()
@@ -38,9 +36,32 @@ package GitRepresentation {
     Commit getCommit(sha: String)
     List<Commit> toList()
   }
+    
+  abstract BenchmarkResult {
+    smth getData()
+    String toJson()
+    double getSummaryValue()
+  }
+  
+  
+  class BenchmarkResultTypeA
+  class BenchmarkResultTypeB
+  
+  
+  BenchmarkResult <|-- BenchmarkResultTypeA
+  BenchmarkResult <|-- BenchmarkResultTypeB
+  
+  History o-- Branch
+  History --> RepositoryHandler
+  History <|-- CachingDecorator
+  History o-- CachingDecorator
+  
+  Branch o-- Commit
+  Commit "1" -- "1" BenchmarkResult
 }
 
-package RestStuff {
+
+package rest {
   class GitApiHandler
   class SpringRestHandler
   
@@ -48,47 +69,30 @@ package RestStuff {
     void handlePost(smth: json)
     void handleGet(smth: json)
   }
+   
+  SpringRestHandler --|> RestHandler
 }
 
-package Database {
+package database {
   class PostgreSQLHandler
   
   interface DatabaseHandler {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
   }
-
-}
-
-package Benchmark { 
-  abstract BenchmarkResult {
-    smth getData()
-    String toJson()
-    double getSummaryValue()
-  }
   
-  class BenchmarkResultTypeA
-  class BenchmarkResultTypeB
+  DatabaseHandler <- HistoryDatabase
+  DatabaseHandler <|-- PostgreSQLHandler
+  
+  class HistoryDatabase {
+    Branch getBranch(branch: String, device: String, benchmark: String)
+  }
 }
 
-' aggregations
-GitHistory o-- Branch
-Branch o-- Commit
-Commit o-- BenchmarkResult
-CachingDecorator o-- GitHistory
-
-' uses
-GitHistory -> GitHandler
-GitHistory -> DatabaseHandler
-RestHandler -> GitHistory
-
-' generalizations
-PostgreSQLHandler --|> DatabaseHandler
-GitApiHandler --|> GitHandler
-BenchmarkResultTypeA --|> BenchmarkResult
-BenchmarkResultTypeB --|> BenchmarkResult
-GitHistoryBranchWiseNeedsABetterName --|> GitHistory
-CachingDecorator --|> GitHistory
-SpringRestHandler --|> RestHandler
-
+History <--- RestHandler
+History <|--- HistoryDatabase
+RepositoryHandler <|--- GitApiHandler
+DatabaseHandler ---> Commit
+DatabaseHandler ---> BenchmarkResult
+HistoryDatabase ---> Branch
 @enduml
