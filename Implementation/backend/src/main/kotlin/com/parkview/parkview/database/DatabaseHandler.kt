@@ -36,4 +36,25 @@ interface DatabaseHandler {
      * @return [Branch] object containing the commits, * name of branch, name of device and name of benchmark type
      */
     fun fetchBranch(branch: String, benchmark: String): Branch
+
+    /**
+     * Fetches a single commit from the database
+     * TODO: add exception for missing commit
+     *
+     * @param sha sha of wanted commit
+     * @return wanted commit
+     */
+    fun fetchCommit(sha: String): Commit
+
+    /**
+     * Fetches a single benchmark result for the given commit, device and
+     * benchmark type
+     * TODO: add exception for missing benchmark result
+     *
+     * @param commit chosen commit
+     * @param device type of device
+     * @param benchmark type of benchmark
+     * @return wanted benchmark result
+     */
+    fun fetchBenchmarkResult(commit: Commit, device: String, benchmark: String): BenchmarkResult
 }

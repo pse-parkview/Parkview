@@ -19,4 +19,12 @@ class PostgreSQLHandler: DatabaseHandler {
     override fun fetchBranch(branch: String, benchmark: String): Branch {
         TODO("Not yet implemented")
     }
+
+    override fun fetchCommit(sha: String): Commit {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchBenchmarkResult(commit: Commit, device: String, benchmark: String): BenchmarkResult {
+        TODO("Not yet implemented")
+    }
 }

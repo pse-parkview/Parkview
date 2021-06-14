@@ -5,7 +5,7 @@ package com.parkview.parkview.git
  *
  * @param component object that gets decorated
  */
-class CachingDecorator(
+class CachingHistory (
     private val component: History,
 ): History {
     private val lastUsedBranches: List<Branch> = emptyList()

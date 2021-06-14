@@ -8,11 +8,13 @@ import java.util.Date
  * @param sha commit sha
  * @param message commit message
  * @param date commit date
- * @param benchmarkResult benchmark result for this commit
+ * @param previousCommit parent commit
+ * @param benchmarkResultsByDevice a map from device names to benchmark results
  */
-data class Commit(
+class Commit(
     val sha: String,
     val message: String,
     val date: Date,
-    var benchmarkResult: BenchmarkResult = EmptyBenchmarkResult()
+    val previousCommit: Commit,
+    val benchmarkResultsByDevice: Map<String, BenchmarkResult> = emptyMap()
 )

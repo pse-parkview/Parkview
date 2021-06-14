@@ -15,6 +15,7 @@ class Branch(
 ) {
     /**
      * returns the commit for the given sha
+     * TODO: Maybe throw exception if commit doesn't exist in branch?
      *
      * @param sha given sha for wanted commit
      * @return the wanted commit. If the commits does not exist, null is returned

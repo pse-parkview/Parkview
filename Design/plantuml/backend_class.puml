@@ -11,7 +11,7 @@ package git {
     List<Commit> fetchGitHistory(branch: String)
   }
 
-  class CachingDecorator {
+  class CachingHistory {
     component: GitHistory
     List<Branch>: lastUsedBranches
   }
@@ -21,10 +21,9 @@ package git {
     sha: String
     message: String
     date: java.util.Date
-    benchmarkResultsByDevice: HashMap<String, BenchmarkResult>
+    benchmarkResultsByDevice: Map<String, BenchmarkResult>
     String getCommitMessage()
     String getSha()
-    String getDiff() or smth like that?
     BenchmarkResult getBenchmarResult(device: String)
     Commit getPreviousCommit()
   }
@@ -39,21 +38,20 @@ package git {
   }
     
   interface BenchmarkResult {
+    Commit getCommit()
+    String getBenchmarkType()
+    String getDevice()
     String toJson()
     double getSummaryValue()
   }
-  
-  class BenchmarkResultTypeA
+
   class EmptyBenchmarkResult
-  
-  
-  BenchmarkResult <|-- EmptyBenchmarkResult
-  BenchmarkResult <|-- BenchmarkResultTypeA
+  EmptyBenchmarkResult --|> BenchmarkResult
   
   History o-- Branch
   History --> RepositoryHandler
-  History <|-- CachingDecorator
-  History o-- CachingDecorator
+  History <|-- CachingHistory
+  History o-- CachingHistory
   
   Branch o-- Commit
   Commit "1" -- "1" BenchmarkResult
@@ -80,14 +78,18 @@ package database {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
     Branch fetchBranch(branch: String, benchmark: String)
+    Commit getCommit(sha: String)
+    BenchmarkResult getBenchmarkResult(commit: Commit, device: String, benchmark: String)
   }
+  
+  class HistoryDatabase
   
   DatabaseHandler <- HistoryDatabase
   DatabaseHandler <|-- PostgreSQLHandler
+
+  class BenchmarkResultDatabase
   
-  class HistoryDatabase {
-    Branch getBranch(branch: String, benchmark: String)
-  }
+  DatabaseHandler <- BenchmarkResultDatabase
   
   class LazyBenchmarkResult {
     component: BenchmarkResult
@@ -96,12 +98,40 @@ package database {
   DatabaseHandler <-- LazyBenchmarkResult
 }
 
+package processing {
+  interface RawBenchmarkResult {
+    BenchmarkResult process()
+  } 
+
+  class RawBenchmarkResultTypeA
+
+  class DataProcessor {
+    void storeBenchmarkResults(results: List<RawBenchmarkResult>)
+  }
+
+  interface BenchmarkResultStorage {
+    void storeBenchmarkResults(results: List<BenchmarkResult>)
+  }
+
+  class BenchmarkResultTypeA
+
+  RawBenchmarkResult <- DataProcessor
+  BenchmarkResultStorage <- DataProcessor
+  RawBenchmarkResult <|-- RawBenchmarkResultTypeA
+  RawBenchmarkResultTypeA -> BenchmarkResultTypeA: "process()"
+}
+
 History <--- RestHandler
 History <|--- HistoryDatabase
+BenchmarkResultStorage <|--- BenchmarkResultDatabase
 RepositoryHandler <|--- GitApiHandler
 DatabaseHandler ---> Commit
 DatabaseHandler ---> BenchmarkResult
 HistoryDatabase ---> Branch
+BenchmarkResult <|--- BenchmarkResultTypeA
 BenchmarkResult <|--- LazyBenchmarkResult
 BenchmarkResult <--- LazyBenchmarkResult
+BenchmarkResult <--- RawBenchmarkResult
+DataProcessor <--- RestHandler
+
 @enduml
