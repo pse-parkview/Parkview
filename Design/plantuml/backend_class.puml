@@ -4,11 +4,11 @@ skinparam linetype ortho
 
 package git {
   interface History {
-    Branch getBranch(branch: String, device: String, benchmark: String)
+    Branch getBranch(branch: String, benchmark: String)
   }
 
   interface RepositoryHandler {
-    List<Commit> fetchGitHistory()
+    List<Commit> fetchGitHistory(branch: String)
   }
 
   class CachingDecorator {
@@ -17,39 +17,38 @@ package git {
   }
   
   class Commit {
+    previousCommit: Commit
     sha: String
     message: String
     date: java.util.Date
-    benchmarkResult: BenchmarkResult
+    benchmarkResultsByDevice: HashMap<String, BenchmarkResult>
     String getCommitMessage()
     String getSha()
     String getDiff() or smth like that?
-    BenchmarkResult getBenchmarResult()
+    BenchmarkResult getBenchmarResult(device: String)
+    Commit getPreviousCommit()
   }
   
   
   class Branch {
     name: String
-    device: String
     benchmark: String
     commits: List<Commit>
     Commit getCommit(sha: String)
     List<Commit> toList()
   }
     
-  abstract BenchmarkResult {
-    smth getData()
+  interface BenchmarkResult {
     String toJson()
     double getSummaryValue()
   }
   
-  
   class BenchmarkResultTypeA
-  class BenchmarkResultTypeB
+  class EmptyBenchmarkResult
   
   
+  BenchmarkResult <|-- EmptyBenchmarkResult
   BenchmarkResult <|-- BenchmarkResultTypeA
-  BenchmarkResult <|-- BenchmarkResultTypeB
   
   History o-- Branch
   History --> RepositoryHandler
@@ -66,8 +65,9 @@ package rest {
   class SpringRestHandler
   
   interface RestHandler {
-    void handlePost(smth: json)
-    void handleGet(smth: json)
+    void handlePost(json: String)
+    void handleGetHistory(json: String)
+    void handleGetBenchmarkResult(json: String)
   }
    
   SpringRestHandler --|> RestHandler
@@ -79,14 +79,21 @@ package database {
   interface DatabaseHandler {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
+    Branch fetchBranch(branch: String, benchmark: String)
   }
   
   DatabaseHandler <- HistoryDatabase
   DatabaseHandler <|-- PostgreSQLHandler
   
   class HistoryDatabase {
-    Branch getBranch(branch: String, device: String, benchmark: String)
+    Branch getBranch(branch: String, benchmark: String)
   }
+  
+  class LazyBenchmarkResult {
+    component: BenchmarkResult
+  }
+
+  DatabaseHandler <-- LazyBenchmarkResult
 }
 
 History <--- RestHandler
@@ -95,4 +102,6 @@ RepositoryHandler <|--- GitApiHandler
 DatabaseHandler ---> Commit
 DatabaseHandler ---> BenchmarkResult
 HistoryDatabase ---> Branch
+BenchmarkResult <|--- LazyBenchmarkResult
+BenchmarkResult <--- LazyBenchmarkResult
 @enduml
