@@ -20,7 +20,7 @@ class Branch(
      * @param sha given sha for wanted commit
      * @return the wanted commit. If the commits does not exist, null is returned
      */
-    fun getCommit(sha: String): Commit? {
+    fun getCommit(sha: String): Commit {
         TODO("Not yet implemented")
     }
 
