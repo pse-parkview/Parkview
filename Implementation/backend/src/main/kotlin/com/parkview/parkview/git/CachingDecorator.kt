@@ -1,10 +1,16 @@
 package com.parkview.parkview.git
 
+/**
+ * Decorator for History class, enables for caching of previous requests.
+ *
+ * @param component object that gets decorated
+ */
 class CachingDecorator(
-    val component: History,
-    private val lastUsedBranches: List<Branch> = emptyList()
+    private val component: History,
 ): History {
-    override fun getBranch(name: String, device: String, benchmark: String): Branch {
+    private val lastUsedBranches: List<Branch> = emptyList()
+
+    override fun getBranch(name: String, benchmark: String): Branch {
         TODO("Not yet implemented")
     }
 }

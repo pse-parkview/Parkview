@@ -1,10 +1,9 @@
 package com.parkview.parkview.git
 
-class EmptyBenchmarkResult: BenchmarkResult() {
-    override fun getData(): Any {
-        TODO("Not yet implemented")
-    }
-
+/**
+ * Null object for representing a an empty or non existing benchmark result
+ */
+class EmptyBenchmarkResult: BenchmarkResult {
     override fun toJson(): String {
         TODO("Not yet implemented")
     }
