@@ -1,0 +1,74 @@
+@startuml frontend
+
+skinparam linetype ortho
+
+package ui {
+    class GUI {
+        
+    }
+
+    class GUIHandler {
+        void updateView()
+        void selectDatapoint(benchmark: String, branch: String, device: String, commit: String)
+    }
+
+    class Configuration {
+        
+    }
+
+    GUI --> GUIHandler
+}
+
+package datahandler {
+    class DataHandler {
+        List<Commit> getCommitHistory(branch: String, device: String, benchmark: String)
+    }
+
+    class DatapointSelection {
+        void addDatapoint(datapoint: DataPoint)
+    }
+
+    class DataPoint {
+
+    }
+
+    DatapointSelection --> DataPoint
+    ' DatapointSelection --> RestHandler
+}
+
+package plotter {
+    class PlotManager {
+        void updatePlot(newPlot: Plot)
+    }
+
+    class Plot {
+        
+    }
+
+    class PlotHandler {
+        Plot displayPlot(dps: DataPointSelection)
+        String generateSummaryData(dps: DatapointSelection)
+    }
+
+    class PlotGenerator {
+        Plot generatePlot(c: Configuration, currentPlot: Plot)
+        draw(dps: DatapointSelection)
+    }
+
+    class SummaryGenerator {
+        drawSummary(summary: String)
+        addToCompared(summary: String)
+    }
+    note top: "unsure where to put that"
+
+    PlotManager --> PlotGenerator
+    PlotGenerator --> Plot
+    PlotHandler --> SummaryGenerator
+}
+
+GUIHandler ---> DataHandler
+GUIHandler ---> DatapointSelection
+PlotManager --> Configuration
+
+
+@enduml
