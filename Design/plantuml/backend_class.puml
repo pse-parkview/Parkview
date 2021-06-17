@@ -8,7 +8,7 @@ package git {
   }
 
   interface RepositoryHandler {
-    List<Commit> fetchGitHistory(branch: String)
+    Branch fetchGitHistory(branch: String)
   }
 
   class CachingHistory {
@@ -24,14 +24,14 @@ package git {
     benchmarkResultsByDevice: Map<String, BenchmarkResult>
     String getCommitMessage()
     String getSha()
-    BenchmarkResult getBenchmarResult(device: String)
+    BenchmarkResult getBenchmarkResult(device: String)
     Commit getPreviousCommit()
   }
   
   
   class Branch {
     name: String
-    benchmark: String
+    benchmarkName: String
     commits: List<Commit>
     Commit getCommit(sha: String)
     List<Commit> toList()
@@ -39,7 +39,7 @@ package git {
     
   interface BenchmarkResult {
     Commit getCommit()
-    String getBenchmarkType()
+    String getBenchmarkName()
     String getDevice()
     String toJson()
     double getSummaryValue()
@@ -51,10 +51,10 @@ package git {
   History o-- Branch
   History --> RepositoryHandler
   History <|-- CachingHistory
-  History o-- CachingHistory
+  History --o CachingHistory
   
   Branch o-- Commit
-  Commit "1" -- "1" BenchmarkResult
+  Commit "1" -- "*" BenchmarkResult
 }
 
 
@@ -78,8 +78,8 @@ package database {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
     Branch fetchBranch(branch: String, benchmark: String)
-    Commit getCommit(sha: String)
-    BenchmarkResult getBenchmarkResult(commit: Commit, device: String, benchmark: String)
+    Commit fetchSinlgeCommit(sha: String)
+    BenchmarkResult fetchSingleBenchmarkResult(commit: Commit, device: String, benchmark: String)
   }
   
   class HistoryDatabase
