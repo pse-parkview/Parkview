@@ -39,7 +39,7 @@ package ui {
     }
 
     package mainContent {
-        interface MainContentComponent {
+        interface MainContentCardComponent {
         }
 
         class AveragePerformanceComponent {
@@ -58,14 +58,14 @@ package ui {
             PlotComponent <|-- PlotTypeAComponent
         }
 
-        MainContentCards <|-- AveragePerformanceComponent
-        MainContentCards <|-- GitHistoryComponent
-        MainContentCards <|-- PlotComponent
+        MainContentCardComponent <|-- AveragePerformanceComponent
+        MainContentCardComponent <|-- GitHistoryComponent
+        MainContentCardComponent <|-- PlotComponent
         
     }
 
     package dialogs {
-        class PlotConfigurationDialog {
+        class PlotConfigurationDialogComponent {
         }
     }
 
@@ -77,7 +77,7 @@ package ui {
     SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
     SideBarComponent "1" *-- "1" SidePreviousPlotsComponent
 
-    MainContentComponent "1" *-- "*" MainContentCards
+    MainContentComponent "1" *-- "*" MainContentCardComponent
 
 }
 
