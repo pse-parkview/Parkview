@@ -1,0 +1,130 @@
+@startuml frontend
+
+skinparam linetype ortho
+
+package ui {
+    class RootComponent {
+    }
+    
+    class HeaderComponent {
+    }
+
+    class SideBarComponent {
+    }
+
+    class MainContentComponent {
+    }
+
+    package sideBar {
+        class SideBenchmarkSelectComponent {
+        }
+
+        class SideCurrentChosenCommitComponent {
+        }
+
+        class SidePreviousPlotsComponent {
+        }
+
+        package miniPlotCards {
+            interface PlotCardComponent {
+            }
+
+            class PlotTypeACardComponent {
+            }
+
+            PlotCardComponent <|-- PlotTypeACardComponent
+        }
+
+        SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
+    }
+
+    package mainContent {
+        interface MainContentComponent {
+        }
+
+        class AveragePerformanceComponent {
+        }
+
+        class GitHistoryComponent {
+        }
+
+        package plots {
+            interface PlotComponent {
+            }
+
+            class PlotTypeAComponent {
+            }
+
+            PlotComponent <|-- PlotTypeAComponent
+        }
+
+        MainContentCards <|-- AveragePerformanceComponent
+        MainContentCards <|-- GitHistoryComponent
+        MainContentCards <|-- PlotComponent
+        
+    }
+
+    package dialogs {
+        class PlotConfigurationDialog {
+        }
+    }
+
+    RootComponent "1" *-- "1" HeaderComponent
+    RootComponent "1" *-- "1" SideBarComponent
+    RootComponent "1" *-- "1" MainContentComponent
+
+    SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
+    SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
+    SideBarComponent "1" *-- "1" SidePreviousPlotsComponent
+
+    MainContentComponent "1" *-- "*" MainContentCards
+
+}
+
+package datahandler {
+    class DataPointService <<@Injectable>>{
+        List<Commit> getCommitHistory(branch: String, device: String, benchmark: String)
+        void addDatapoint(datapoint: DataPoint)
+    }
+
+    class DatapointSelection {
+    }
+
+    class DataPoint {
+    }
+
+    DatapointSelection "1" o- "*" DataPoint
+    ' DatapointSelection --> RestHandler
+}
+
+package plotter {
+    class PlotManager {
+        void updatePlot(newPlot: Plot)
+    }
+
+    class Plot {
+        
+    }
+
+    class PlotHandler {
+        Plot displayPlot(dps: DataPointSelection)
+        String generateSummaryData(dps: DatapointSelection)
+    }
+
+    class PlotGenerator {
+        Plot generatePlot(c: Configuration, currentPlot: Plot)
+        draw(dps: DatapointSelection)
+    }
+
+    class SummaryGenerator {
+        drawSummary(summary: String)
+        addToCompared(summary: String)
+    }
+    note top: "unsure where to put that"
+
+    PlotManager --> PlotGenerator
+    PlotGenerator --> Plot
+    PlotHandler --> SummaryGenerator
+}
+
+@enduml
