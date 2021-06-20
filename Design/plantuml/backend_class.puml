@@ -4,34 +4,33 @@ skinparam linetype ortho
 
 package git {
   interface History {
-    Branch getBranch(branch: String, benchmark: String)
+   BranchForBenchmark getBranch(branch: String, benchmark: Benchmark)
   }
 
   interface RepositoryHandler {
-    Branch fetchGitHistory(branch: String)
+    BranchForBenchmark fetchGitHistory(branch: String)
   }
 
-  class CachingHistory {
+  class CachingHistoryDecorator {
     component: GitHistory
     List<Branch>: lastUsedBranches
   }
-  
   class Commit {
     previousCommit: Commit
     sha: String
     message: String
     date: java.util.Date
-    benchmarkResultsByDevice: Map<String, BenchmarkResult>
+    benchmarkResultsByDevice: Map<Device, BenchmarkResult>
     String getCommitMessage()
     String getSha()
-    BenchmarkResult getBenchmarkResult(device: String)
+    BenchmarkResult getBenchmarkResult(device: Device)
     Commit getPreviousCommit()
   }
   
   
-  class Branch {
+  class BranchForBenchmark {
     name: String
-    benchmarkName: String
+    benchmark: Benchmark
     commits: List<Commit>
     Commit getCommit(sha: String)
     List<Commit> toList()
@@ -40,20 +39,30 @@ package git {
   interface BenchmarkResult {
     Commit getCommit()
     String getBenchmarkName()
-    String getDevice()
+    Device getDevice()
     String toJson()
     double getSummaryValue()
+  }
+
+  class Benchmark {
+    # TODO add fields for other info
+    name: String
+  }
+
+  class Device {
+    # TODO add fields for other info
+    name: String
   }
 
   class EmptyBenchmarkResult
   EmptyBenchmarkResult --|> BenchmarkResult
   
-  History o-- Branch
+  History o-- BranchForBenchmark
   History --> RepositoryHandler
-  History <|-- CachingHistory
-  History --o CachingHistory
+  History <|-- CachingHistoryDecorator
+  History --o CachingHistoryDecorator
   
-  Branch o-- Commit
+  BranchForBenchmark o-- Commit
   Commit "1" -- "*" BenchmarkResult
 }
 
@@ -77,9 +86,9 @@ package database {
   interface DatabaseHandler {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
-    Branch fetchBranch(branch: String, benchmark: String)
+    BranchForBenchmark fetchBranch(branch: String, benchmark: Benchmark)
     Commit fetchSinlgeCommit(sha: String)
-    BenchmarkResult fetchSingleBenchmarkResult(commit: Commit, device: String, benchmark: String)
+    BenchmarkResult fetchSingleBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark)
   }
   
   class HistoryDatabase
@@ -121,17 +130,17 @@ package processing {
   RawBenchmarkResultTypeA -> BenchmarkResultTypeA: "process()"
 }
 
-History <--- RestHandler
-History <|--- HistoryDatabase
-BenchmarkResultStorage <|--- BenchmarkResultDatabase
-RepositoryHandler <|--- GitApiHandler
-DatabaseHandler ---> Commit
-DatabaseHandler ---> BenchmarkResult
-HistoryDatabase ---> Branch
-BenchmarkResult <|--- BenchmarkResultTypeA
-BenchmarkResult <|--- LazyBenchmarkResult
-BenchmarkResult <--- LazyBenchmarkResult
-BenchmarkResult <--- RawBenchmarkResult
-DataProcessor <--- RestHandler
+History <- RestHandler
+History <|- HistoryDatabase
+BenchmarkResultStorage <|- BenchmarkResultDatabase
+RepositoryHandler <|- GitApiHandler
+DatabaseHandler -> Commit
+DatabaseHandler -> BenchmarkResult
+HistoryDatabase -> BranchForBenchmark
+BenchmarkResult <|- BenchmarkResultTypeA
+BenchmarkResult <|- LazyBenchmarkResult
+BenchmarkResult <- LazyBenchmarkResult
+BenchmarkResult <- RawBenchmarkResult
+DataProcessor <- RestHandler
 
 @enduml
