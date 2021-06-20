@@ -16,7 +16,7 @@ package git {
     List<Branch>: lastUsedBranches
   }
   class Commit {
-    previousCommit: Commit
+    parents: List<Commit> ' TODO: decide about that
     sha: String
     message: String
     date: java.util.Date
