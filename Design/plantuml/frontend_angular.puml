@@ -3,16 +3,13 @@
 skinparam linetype ortho
 
 package ui {
-    class RootComponent {
+    class AppComponent {
     }
 
     class HeaderComponent {
     }
 
     class SideBarComponent {
-    }
-
-    class MainContentComponent {
     }
 
     package sideBar {
@@ -32,16 +29,13 @@ package ui {
             class PlotTypeACardComponent {
             }
 
-            PlotCardComponent <|-- PlotTypeACardComponent
+            PlotCardComponent <|.. PlotTypeACardComponent
         }
 
         SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
     }
 
     package mainContent {
-        interface MainContentCardComponent {
-        }
-
         class AveragePerformanceComponent {
         }
 
@@ -49,19 +43,21 @@ package ui {
         }
 
         package plots {
-            interface PlotComponent {
+            class ScatterPlotComponent {
             }
-
-            class PlotTypeAComponent {
+            class PerformanceProfilePlotComponent {
             }
-
-            PlotComponent <|-- PlotTypeAComponent
+            class BarPlotComponent {
+            }
+            class ConvergencePlotComponent {
+            }
         }
-
-        MainContentCardComponent <|-- AveragePerformanceComponent
-        MainContentCardComponent <|-- GitHistoryComponent
-        MainContentCardComponent <|-- PlotComponent
-
+        AppComponent .d.> AveragePerformanceComponent
+        AppComponent .d.> GitHistoryComponent
+        AppComponent .d.> ScatterPlotComponent
+        AppComponent .d.> PerformanceProfilePlotComponent
+        AppComponent .d.> BarPlotComponent
+        AppComponent .d.> ConvergencePlotComponent
     }
 
     package dialogs {
@@ -69,69 +65,95 @@ package ui {
         }
     }
 
-    RootComponent "1" *-- "1" HeaderComponent
-    RootComponent "1" *-- "1" SideBarComponent
-    RootComponent "1" *-- "1" MainContentComponent
+    AppComponent "1" *-- "1" HeaderComponent
+    AppComponent "1" *-- "1" SideBarComponent
 
     SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
     SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
     SideBarComponent "1" *-- "1" SidePreviousPlotsComponent
 
-    MainContentComponent "1" *-- "*" MainContentCardComponent
-
 }
 
 package datahandler {
-    class DataPointService <<@Injectable>>{
+    class DataPointService {
         List<Commit> getCommitHistory(branch: String, device: String, benchmark: String)
-        void addDatapoint(datapoint: DataPoint)
+
     }
 
     class DatapointSelection {
     }
 
     class DataPoint {
+        string commitSha
+        string benchmarkId???
     }
+
+    interface Benchmark {
+    }
+
+
+    class ConcreteSpMVResult {}
+    note left : Add more benchmarks here
+
+
+    Benchmark <|.. ConcreteSpMVResult
 
     DatapointSelection "1" o- "*" DataPoint
     ' DatapointSelection --> RestHandler
 }
 
 package plotter {
-    'PlotConfiguration - Value Object (that describes Plot)
-    class PlotConfiguration { 
 
-    }
-    
-    'Plot - Entity
-    class Plot {
-        draw(dps: DatapointSelection)
+    class PlotService {
+        generateScatterPlot(benchmark : ScatterPlottable) :  BubbleChartMultiSeries
+        generatePerfomanceProfilePlot(benchmark : PerformanceProfilePlottable :  MultiSeries
+        generateConvergencePlot(benchmark : ConvergencePlottable) :  MultiSeries
+        generateBarPlot(benchmark : BarPlottable) :  MultiSeries
     }
 
-    'PlotConfiguration - Service
-    class PlotHandler {
-        Plot displayPlot(dps: DataPointSelection)
-        String generateSummaryData(dps: DatapointSelection)
-        PlotConfiguration generatePlotConfiguration()
-        void updatePlot(newPlot: Plot)
+    ' Plot Types: ScatterPlot, (SmoothedScatterPlot), PerformanceProfile, BarPlot, ConvergencePlot
+
+    interface ScatterPlottable {
+        getScatterPlotData()
     }
 
-    'PlotFactory - Factory
-    class PlotGenerator {
-        Plot generatePlot(c: PlotConfiguration, currentPlot: Plot)
+    interface PerformanceProfilePlottable {
+        getPerformanceProfileData()
     }
 
-    'SummaryGenerator - Factory
-    class SummaryGenerator {
-        drawSummary(summary: String)
-        addToCompared(summary: String)
+    interface BarPlottable {
+        getBarPlotData()
     }
 
-    PlotHandler --> SummaryGenerator
-    PlotHandler --> PlotConfiguration
-    PlotHandler ---> PlotGenerator
-    PlotGenerator --> Plot
-    Plot "1" -- "1" PlotConfiguration
+    interface ConvergencePlottable {
+       getConvergencePlotData()
+    }
+
+    class ScatterPlot {}
+    class PerformancePlot {}
+    class BarPlot {}
+    class ConvergencePlot {}
+
+    PlotService ..> ScatterPlot
+    PlotService ..> PerformancePlot
+    PlotService ..> BarPlot
+    PlotService ..> ConvergencePlot
+
+    ScatterPlot -- ScatterPlottable
+    ConvergencePlot -- ConvergencePlottable
+    BarPlot -- BarPlottable
+    PerformancePlot -- PerformanceProfilePlottable
+
+    ConcreteSpMVResult ..|> ScatterPlottable
+    ConcreteSpMVResult ..|> BarPlottable
+
 }
+
+
+PlotService --> DataPointService
+PlotService -u- ScatterPlotComponent
+PlotService -u- PerformanceProfilePlotComponent
+PlotService -u- BarPlotComponent
+PlotService -u- ConvergencePlotComponent
 
 @enduml
