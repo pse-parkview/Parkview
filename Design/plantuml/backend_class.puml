@@ -11,10 +11,6 @@ package git {
     BranchForBenchmark fetchGitHistory(branch: String)
   }
 
-  class CachingHistoryDecorator {
-    component: GitHistory
-    List<Branch>: lastUsedBranches
-  }
   class Commit {
     parents: List<Commit> ' TODO: decide about that
     sha: String
@@ -38,7 +34,7 @@ package git {
     
   interface BenchmarkResult {
     Commit getCommit()
-    String getBenchmarkName()
+    Benchmark getBenchmark()
     Device getDevice()
     String toJson()
     double getSummaryValue()
@@ -59,8 +55,6 @@ package git {
   
   History o-- BranchForBenchmark
   History --> RepositoryHandler
-  History <|-- CachingHistoryDecorator
-  History --o CachingHistoryDecorator
   
   BranchForBenchmark o-- Commit
   Commit "1" -- "*" BenchmarkResult
@@ -142,5 +136,9 @@ BenchmarkResult <|- LazyBenchmarkResult
 BenchmarkResult <- LazyBenchmarkResult
 BenchmarkResult <- RawBenchmarkResult
 DataProcessor <- RestHandler
+
+DatabaseHandler -> Device
+DatabaseHandler -> Benchmark
+
 
 @enduml
