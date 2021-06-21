@@ -98,30 +98,40 @@ package datahandler {
 }
 
 package plotter {
+    'PlotConfiguration - Value Object (that describes Plot)
+    class PlotConfiguration { 
+
+    }
+    
+    'Plot - Entity
     class Plot {
-
-    }
-
-    class PlotHandler {
-        Plot displayPlot(dps: DataPointSelection)
-        String generateSummaryData(dps: DatapointSelection)
-        void updatePlot(newPlot: Plot)
-    }
-
-    class PlotGenerator {
-        Plot generatePlot(c: Configuration, currentPlot: Plot)
         draw(dps: DatapointSelection)
     }
 
+    'PlotConfiguration - Service
+    class PlotHandler {
+        Plot displayPlot(dps: DataPointSelection)
+        String generateSummaryData(dps: DatapointSelection)
+        PlotConfiguration generatePlotConfiguration()
+        void updatePlot(newPlot: Plot)
+    }
+
+    'PlotFactory - Factory
+    class PlotGenerator {
+        Plot generatePlot(c: PlotConfiguration, currentPlot: Plot)
+    }
+
+    'SummaryGenerator - Factory
     class SummaryGenerator {
         drawSummary(summary: String)
         addToCompared(summary: String)
     }
-    note top: "unsure where to put that"
 
     PlotHandler --> SummaryGenerator
-    PlotHandler --> PlotGenerator
+    PlotHandler --> PlotConfiguration
+    PlotHandler ---> PlotGenerator
     PlotGenerator --> Plot
+    Plot "1" -- "1" PlotConfiguration
 }
 
 @enduml
