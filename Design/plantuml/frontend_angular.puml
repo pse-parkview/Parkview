@@ -1,4 +1,4 @@
-@startuml frontend
+@startuml frontend_angular
 
 skinparam linetype ortho
 
@@ -98,10 +98,6 @@ package datahandler {
 }
 
 package plotter {
-    class PlotManager {
-        void updatePlot(newPlot: Plot)
-    }
-
     class Plot {
 
     }
@@ -109,6 +105,7 @@ package plotter {
     class PlotHandler {
         Plot displayPlot(dps: DataPointSelection)
         String generateSummaryData(dps: DatapointSelection)
+        void updatePlot(newPlot: Plot)
     }
 
     class PlotGenerator {
@@ -122,9 +119,9 @@ package plotter {
     }
     note top: "unsure where to put that"
 
-    PlotManager --> PlotGenerator
-    PlotGenerator --> Plot
     PlotHandler --> SummaryGenerator
+    PlotHandler --> PlotGenerator
+    PlotGenerator --> Plot
 }
 
 @enduml
