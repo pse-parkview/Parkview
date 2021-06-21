@@ -5,7 +5,7 @@ skinparam linetype ortho
 package ui {
     class RootComponent {
     }
-    
+
     class HeaderComponent {
     }
 
@@ -61,7 +61,7 @@ package ui {
         MainContentCardComponent <|-- AveragePerformanceComponent
         MainContentCardComponent <|-- GitHistoryComponent
         MainContentCardComponent <|-- PlotComponent
-        
+
     }
 
     package dialogs {
@@ -103,7 +103,7 @@ package plotter {
     }
 
     class Plot {
-        
+
     }
 
     class PlotHandler {
