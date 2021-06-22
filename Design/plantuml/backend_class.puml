@@ -53,7 +53,7 @@ package git {
   class EmptyBenchmarkResult
   EmptyBenchmarkResult --|> BenchmarkResult
   
-  History o-- BranchForBenchmark
+  History --> BranchForBenchmark
   History --> RepositoryHandler
   
   BranchForBenchmark o-- Commit
@@ -101,12 +101,18 @@ package database {
   DatabaseHandler <-- LazyBenchmarkResult
 }
 
-package processing {
+package benchmark {
+  abstract class MatrixBenchmarkResult {
+    filename: String
+    rows: int
+    columns: int
+    nonzeros: int
+  }
+
   interface RawBenchmarkResult {
     BenchmarkResult process()
   } 
 
-  class RawBenchmarkResultTypeA
 
   class DataProcessor {
     void storeBenchmarkResults(results: List<RawBenchmarkResult>)
@@ -116,12 +122,71 @@ package processing {
     void storeBenchmarkResults(results: List<BenchmarkResult>)
   }
 
-  class BenchmarkResultTypeA
+  class SolverBenchmarkResult {
+    recurrentResiduals: [double]
+    trueResiduals: [double]
+    implicitResiduals: [double]
+    iterationTimestamps: [double]
+    rhsNorm: [double]
+    residualNorm: [double]
+    completed: bool
+    generateComponents: [Component]
+    generateTotalTime: double
+    applyComponents: [Component]
+    applyTotalTime: double
+    applyIterations: int
+  }
+
+  class SpmvBenchmarkResult {
+    storage: int
+    maxRelativeNorm2: double
+    time: double
+    completed: bool
+  }
+
+  class ConversionBenchmarkResult {
+    time: double
+    completed: bool
+  }
+
+  class PreconditionerBenchmarkResult {
+    generateComponents: [Component]
+    generateTotalTime: double
+    applyComponents: [Component]
+    applyTotalTime: double
+  }
+
+  class BlasBenchmarkResult {
+    n: int
+    r: int
+    m: int
+    k: int
+    time: double
+    flops: double
+    bandwidth: double
+    completed: bool
+  }
 
   RawBenchmarkResult <- DataProcessor
   BenchmarkResultStorage <- DataProcessor
-  RawBenchmarkResult <|-- RawBenchmarkResultTypeA
-  RawBenchmarkResultTypeA -> BenchmarkResultTypeA: "process()"
+  RawBenchmarkResult <|-- RawSolverBenchmarkResult
+  RawBenchmarkResult <|--- RawSpmvBenchmarkResult
+  RawBenchmarkResult <|---- RawConversionBenchmarkResult
+  RawBenchmarkResult <|----- RawPreconditionerBenchmarkResult
+
+  RawBenchmarkResult <|------- RawBlasBenchmarkResult
+  
+  MatrixBenchmarkResult <|-- SolverBenchmarkResult
+  MatrixBenchmarkResult <|--- SpmvBenchmarkResult
+  MatrixBenchmarkResult <|---- ConversionBenchmarkResult
+  MatrixBenchmarkResult <|----- PreconditionerBenchmarkResult
+  MatrixBenchmarkResult <|----- BlasBenchmarkResult
+
+  RawSolverBenchmarkResult -> SolverBenchmarkResult: "process()"
+  RawSpmvBenchmarkResult -> SpmvBenchmarkResult: "process()"
+  RawConversionBenchmarkResult -> ConversionBenchmarkResult: "process()"
+  RawPreconditionerBenchmarkResult -> PreconditionerBenchmarkResult: "process()"
+  RawBlasBenchmarkResult -> BlasBenchmarkResult: "process()"
 }
 
 History <- RestHandler
@@ -131,8 +196,8 @@ RepositoryHandler <|- GitApiHandler
 DatabaseHandler -> Commit
 DatabaseHandler -> BenchmarkResult
 HistoryDatabase -> BranchForBenchmark
-BenchmarkResult <|- BenchmarkResultTypeA
 BenchmarkResult <|- LazyBenchmarkResult
+BenchmarkResult <|-- MatrixBenchmarkResult
 BenchmarkResult <- LazyBenchmarkResult
 BenchmarkResult <- RawBenchmarkResult
 DataProcessor <- RestHandler
