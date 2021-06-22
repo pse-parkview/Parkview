@@ -86,9 +86,16 @@ package database {
   }
   
   class HistoryDatabase
+
+  class MissingCommitException
+  class MissingBranchException
+  class MissingBenchmarkResultException
   
   DatabaseHandler <- HistoryDatabase
   DatabaseHandler <|-- PostgreSQLHandler
+  DatabaseHandler --> MissingCommitException
+  DatabaseHandler --> MissingBranchException
+  DatabaseHandler --> MissingBenchmarkResultException
 
   class BenchmarkResultDatabase
   
