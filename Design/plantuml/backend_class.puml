@@ -109,16 +109,96 @@ package database {
 
 package benchmark {
   abstract class MatrixBenchmarkResult {
+    datapoints: List<MatrixDatapoint>
+  }
+
+  abstract class MatrixDatapoint {
     filename: String
     rows: int
     columns: int
     nonzeros: int
   }
 
+  class BlasDatapoint {
+    n: int
+    r: int
+    m: int
+    k: int
+    operations: List<Operation>
+  }
+
+  class Operation {
+    name: String
+    time: double
+    flops: double
+    bandwidth: double
+    completed: bool
+  }
+
+  class ConversionDatapoint {
+    conversions: List<Conversion>
+  }
+
+  class Conversion {
+    name: String
+    time: double
+    completed: bool
+  }
+
+  class SpmvDatapoint {
+    formats: List<Format>
+    optimal: Format
+  }
+
+  class Format {
+    name: String
+    storage: int
+    time: double
+    maxRelativeNorm2: double
+    completed: bool
+  }
+
+  class PreconditionerDatapoint {
+    preconditioners: List<Preconditioner>
+  }
+
+  class Preconditioner {
+    name: String
+    generateComponents: List<Component>
+    generateTime: double
+    applyComponents: List<Component>
+    applyTime: double
+    completed: bool
+  }
+
+  class SolverDatapoint {
+    solvers: List<Solver>
+  }
+
+  class Solver {
+    name: String
+    recurrentResiduals: [double]
+    trueResiduals: [double]
+    implicitResiduals: [double]
+    iterationTimestamps: [double]
+    rhsNorm: [double]
+    residualNorm: [double]
+    completed: bool
+    generateComponents: List<Component>
+    generateTotalTime: double
+    applyComponents: List<Component>
+    applyTotalTime: double
+    applyIterations: int
+  }
+
+  class Component {
+    name: String
+    runtime: double
+  }
+
   interface RawBenchmarkResult {
     BenchmarkResult process()
   } 
-
 
   class DataProcessor {
     void storeBenchmarkResults(results: List<RawBenchmarkResult>)
@@ -129,48 +209,19 @@ package benchmark {
   }
 
   class SolverBenchmarkResult {
-    recurrentResiduals: [double]
-    trueResiduals: [double]
-    implicitResiduals: [double]
-    iterationTimestamps: [double]
-    rhsNorm: [double]
-    residualNorm: [double]
-    completed: bool
-    generateComponents: Map<String, double>
-    generateTotalTime: double
-    applyComponents: Map<String, double>
-    applyTotalTime: double
-    applyIterations: int
   }
 
   class SpmvBenchmarkResult {
-    storage: int
-    maxRelativeNorm2: double
-    time: double
-    completed: bool
   }
 
   class ConversionBenchmarkResult {
-    time: double
-    completed: bool
   }
 
   class PreconditionerBenchmarkResult {
-    generateComponents: Map<String, double>
-    generateTotalTime: double
-    applyComponents: Map<String, double>
-    applyTotalTime: double
   }
 
   class BlasBenchmarkResult {
-    n: int
-    r: int
-    m: int
-    k: int
-    time: double
-    flops: double
-    bandwidth: double
-    completed: bool
+    datapoints: List<BlasDatapoint>
   }
 
   RawBenchmarkResult <- DataProcessor
@@ -186,13 +237,33 @@ package benchmark {
   MatrixBenchmarkResult <|--- SpmvBenchmarkResult
   MatrixBenchmarkResult <|---- ConversionBenchmarkResult
   MatrixBenchmarkResult <|----- PreconditionerBenchmarkResult
-  MatrixBenchmarkResult <|----- BlasBenchmarkResult
+
+  MatrixDatapoint <|-- SolverDatapoint
+  MatrixDatapoint <|--- SpmvDatapoint
+  MatrixDatapoint <|---- ConversionDatapoint
+  MatrixDatapoint <|----- PreconditionerDatapoint
 
   RawSolverBenchmarkResult -> SolverBenchmarkResult: "process()"
   RawSpmvBenchmarkResult -> SpmvBenchmarkResult: "process()"
   RawConversionBenchmarkResult -> ConversionBenchmarkResult: "process()"
   RawPreconditionerBenchmarkResult -> PreconditionerBenchmarkResult: "process()"
   RawBlasBenchmarkResult -> BlasBenchmarkResult: "process()"
+
+  MatrixBenchmarkResult -> MatrixDatapoint
+  BlasBenchmarkResult -> BlasDatapoint
+  PreconditionerBenchmarkResult -> PreconditionerDatapoint
+  SpmvBenchmarkResult -> SpmvDatapoint
+  SolverBenchmarkResult -> SolverDatapoint
+  ConversionBenchmarkResult -> ConversionDatapoint
+
+  BlasDatapoint -> Operation
+  PreconditionerDatapoint -> Preconditioner
+  SpmvDatapoint -> Format
+  SolverDatapoint -> Solver
+  ConversionDatapoint -> Conversion
+
+  Solver --> Component
+  Component --> Preconditioner
 }
 
 History <- RestHandler
