@@ -3,74 +3,60 @@
 skinparam linetype ortho
 
 package ui {
-    class AppComponent {
-    }
-
-    class HeaderComponent {
-    }
-
-    class SideBarComponent {
-    }
+    class AppComponent
+    class HeaderComponent
+    class SideBarComponent
 
     package sideBar {
-        class SideBenchmarkSelectComponent {
-        }
+        class SideBenchmarkSelectComponent
+        class SideCurrentChosenCommitComponent
+        class SidePreviousPlotsComponent
 
-        class SideCurrentChosenCommitComponent {
-        }
-
-        class SidePreviousPlotsComponent {
-        }
-
-        package miniPlotCards {
-            interface PlotCardComponent {
-            }
-
-            class PlotTypeACardComponent {
-            }
-
-            PlotCardComponent <|.. PlotTypeACardComponent
-        }
-
-        SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
+        class PlotCardComponent
     }
 
     package mainContent {
-        class AveragePerformanceComponent {
-        }
+        class AveragePerformanceComponent
+        class GitHistoryComponent
 
-        class GitHistoryComponent {
-        }
+        class PlotComponent
+    }
 
-        package plots {
-            class ScatterPlotComponent {
-            }
-            class PerformanceProfilePlotComponent {
-            }
-            class BarPlotComponent {
-            }
-            class ConvergencePlotComponent {
-            }
-        }
-        AppComponent .d.> AveragePerformanceComponent
-        AppComponent .d.> GitHistoryComponent
-        AppComponent .d.> ScatterPlotComponent
-        AppComponent .d.> PerformanceProfilePlotComponent
-        AppComponent .d.> BarPlotComponent
-        AppComponent .d.> ConvergencePlotComponent
+    package plots {
+        class ScatterPlotComponent
+        class PerformanceProfilePlotComponent
+        class BarPlotComponent
+        class ConvergencePlotComponent
     }
 
     package dialogs {
-        class PlotConfigurationDialogComponent {
-        }
+        class PlotConfigurationDialogComponent
     }
 
     AppComponent "1" *-- "1" HeaderComponent
     AppComponent "1" *-- "1" SideBarComponent
 
+
+    AppComponent .d.> AveragePerformanceComponent : routes to
+    AppComponent .d.> GitHistoryComponent : routes to
+    AppComponent .d.> PlotComponent : routes to
+
     SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
     SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
     SideBarComponent "1" *-- "1" SidePreviousPlotsComponent
+
+    SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
+    SideBenchmarkSelectComponent .u.> PlotConfigurationDialogComponent : calls
+
+    PlotComponent .d..> ScatterPlotComponent :<<uses>>
+    PlotComponent .d..> PerformanceProfilePlotComponent :<<uses>>
+    PlotComponent .d..> BarPlotComponent :<<uses>>
+    PlotComponent .d..> ConvergencePlotComponent :<<uses>>
+
+    PlotCardComponent .d..> ScatterPlotComponent :<<uses>
+    PlotCardComponent .d..> PerformanceProfilePlotComponent :<<uses>
+    PlotCardComponent .d..> BarPlotComponent :<<uses>
+    PlotCardComponent .d..> ConvergencePlotComponent :<<uses>
 
 }
 
