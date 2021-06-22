@@ -12,12 +12,12 @@ interface BenchmarkResult {
     /**
      * Device used for this benchmark
      */
-    val device: String
+    val device: Device
 
     /**
      * name of benchmark
      */
-    val benchmark: String
+    val benchmark: Benchmark
 
     /**
      * Serializes the benchmark result using the json format
