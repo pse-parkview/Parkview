@@ -88,15 +88,23 @@ package datahandler {
         string benchmarkId???
     }
 
-    interface Benchmark {
-    }
+    interface Benchmark
 
+    interface MatrixBenchmark
 
-    class ConcreteSpMVResult {}
-    note left : Add more benchmarks here
+    class SpMVResult
+    class ConversionResult
+    class SolverResult
+    class PerconditionerResult
+    class BLASResult
 
+    Benchmark <|.. MatrixBenchmark : <<extends>>
+    MatrixBenchmark <|.. SpMVResult
+    MatrixBenchmark <|.. ConversionResult
+    MatrixBenchmark <|.. SolverResult
+    MatrixBenchmark <|.. PerconditionerResult
+    Benchmark <|.. BLASResult
 
-    Benchmark <|.. ConcreteSpMVResult
 
     DatapointSelection "1" o- "*" DataPoint
     ' DatapointSelection --> RestHandler
@@ -129,10 +137,10 @@ package plotter {
        getConvergencePlotData()
     }
 
-    class ScatterPlot {}
-    class PerformancePlot {}
-    class BarPlot {}
-    class ConvergencePlot {}
+    class ScatterPlot
+    class PerformancePlot
+    class BarPlot
+    class ConvergencePlot
 
     PlotService ..> ScatterPlot
     PlotService ..> PerformancePlot
@@ -144,16 +152,16 @@ package plotter {
     BarPlot -- BarPlottable
     PerformancePlot -- PerformanceProfilePlottable
 
-    ConcreteSpMVResult ..|> ScatterPlottable
-    ConcreteSpMVResult ..|> BarPlottable
+    SpMVResult ..|> ScatterPlottable
+    SpMVResult ..|> BarPlottable
 
 }
 
 
 PlotService --> DataPointService
-PlotService -u- ScatterPlotComponent
-PlotService -u- PerformanceProfilePlotComponent
-PlotService -u- BarPlotComponent
-PlotService -u- ConvergencePlotComponent
+PlotService <-u- ScatterPlotComponent
+PlotService <-u- PerformanceProfilePlotComponent
+PlotService <-u- BarPlotComponent
+PlotService <-u- ConvergencePlotComponent
 
 @enduml
