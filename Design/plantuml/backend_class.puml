@@ -81,7 +81,6 @@ package database {
     void updateCommits(commits: List<Commit>)
     void updateBenchmarkResults(results: List<BenchmarkResult>)
     BranchForBenchmark fetchBranch(branch: String, benchmark: Benchmark)
-    Commit fetchSinlgeCommit(sha: String)
     BenchmarkResult fetchSingleBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark)
   }
   
@@ -137,9 +136,9 @@ package benchmark {
     rhsNorm: [double]
     residualNorm: [double]
     completed: bool
-    generateComponents: [Component]
+    generateComponents: Map<String, double>
     generateTotalTime: double
-    applyComponents: [Component]
+    applyComponents: Map<String, double>
     applyTotalTime: double
     applyIterations: int
   }
@@ -157,9 +156,9 @@ package benchmark {
   }
 
   class PreconditionerBenchmarkResult {
-    generateComponents: [Component]
+    generateComponents: Map<String, double>
     generateTotalTime: double
-    applyComponents: [Component]
+    applyComponents: Map<String, double>
     applyTotalTime: double
   }
 

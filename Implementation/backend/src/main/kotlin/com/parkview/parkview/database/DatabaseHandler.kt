@@ -9,7 +9,7 @@ import com.parkview.parkview.git.*
 interface DatabaseHandler {
     /**
      * Updates existing commits in the database with the ones given as a
-     * parameter or adds them to the database if they dont exist yet. If a Commit
+     * parameter or adds them to the database if they dont exist yet. If a commit
      * with the same sha as a given Commit already exists, the commit in the database
      * gets replaced by the given commit.
      *
@@ -19,7 +19,9 @@ interface DatabaseHandler {
 
     /**
      * Updates existing benchmark results in the database with the ones given as a
-     * parameter or adds them to the database if they dont exist yet.
+     * parameter or adds them to the database if they dont exist yet. If a benchmark result
+     * for the same commit, device and benchmark type already exists it gets replaced. The exception are
+     * benchmarks containing time (for example []), where it only gets replaced if the time is the same.
      *
      * @param results list of [benchmark results][BenchmarkResult] to update
      */
@@ -37,17 +39,6 @@ interface DatabaseHandler {
      * @throws MissingBranchException if the wanted branch is not available
      */
     fun fetchBranch(branch: String, benchmark: Benchmark): Branch
-
-    /**
-     * Fetches a single commit from the database
-     * TODO: add exception for missing commit
-     *
-     * @param sha sha of wanted commit
-     * @return wanted commit
-     *
-     * @throws MissingCommitException if the wanted benchmark is not available
-     */
-    fun fetchCommit(sha: String): Commit
 
     /**
      * Fetches a single benchmark result for the given commit, device and
