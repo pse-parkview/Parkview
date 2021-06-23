@@ -36,7 +36,6 @@ package git {
     Commit getCommit()
     Benchmark getBenchmark()
     Device getDevice()
-    String toJson()
     double getSummaryValue()
   }
 
@@ -86,13 +85,11 @@ package database {
   
   class HistoryDatabase
 
-  class MissingCommitException
   class MissingBranchException
   class MissingBenchmarkResultException
   
   DatabaseHandler <- HistoryDatabase
   DatabaseHandler <|-- PostgreSQLHandler
-  DatabaseHandler --> MissingCommitException
   DatabaseHandler --> MissingBranchException
   DatabaseHandler --> MissingBenchmarkResultException
 
@@ -196,14 +193,6 @@ package benchmark {
     runtime: double
   }
 
-  interface RawBenchmarkResult {
-    BenchmarkResult process()
-  } 
-
-  class DataProcessor {
-    void storeBenchmarkResults(results: List<RawBenchmarkResult>)
-  }
-
   interface BenchmarkResultStorage {
     void storeBenchmarkResults(results: List<BenchmarkResult>)
   }
@@ -224,15 +213,6 @@ package benchmark {
     datapoints: List<BlasDatapoint>
   }
 
-  RawBenchmarkResult <- DataProcessor
-  BenchmarkResultStorage <- DataProcessor
-  RawBenchmarkResult <|-- RawSolverBenchmarkResult
-  RawBenchmarkResult <|--- RawSpmvBenchmarkResult
-  RawBenchmarkResult <|---- RawConversionBenchmarkResult
-  RawBenchmarkResult <|----- RawPreconditionerBenchmarkResult
-
-  RawBenchmarkResult <|------- RawBlasBenchmarkResult
-  
   MatrixBenchmarkResult <|-- SolverBenchmarkResult
   MatrixBenchmarkResult <|--- SpmvBenchmarkResult
   MatrixBenchmarkResult <|---- ConversionBenchmarkResult
@@ -242,12 +222,6 @@ package benchmark {
   MatrixDatapoint <|--- SpmvDatapoint
   MatrixDatapoint <|---- ConversionDatapoint
   MatrixDatapoint <|----- PreconditionerDatapoint
-
-  RawSolverBenchmarkResult -> SolverBenchmarkResult: "process()"
-  RawSpmvBenchmarkResult -> SpmvBenchmarkResult: "process()"
-  RawConversionBenchmarkResult -> ConversionBenchmarkResult: "process()"
-  RawPreconditionerBenchmarkResult -> PreconditionerBenchmarkResult: "process()"
-  RawBlasBenchmarkResult -> BlasBenchmarkResult: "process()"
 
   MatrixBenchmarkResult -> MatrixDatapoint
   BlasBenchmarkResult -> BlasDatapoint
@@ -266,6 +240,73 @@ package benchmark {
   Component --> Preconditioner
 }
 
+package processing {
+  class DataProcessor {
+    void storeBenchmarkResults(results: List<BenchmarkResult>)
+    JSON transformBenchmarkResults(results: List<BenchmarkResult, plotType: PlotType)
+  }
+  BenchmarkResultStorage <- DataProcessor
+
+  DataProcessor -> SolverSinglePlotTransform
+  DataProcessor -> SpmvSinglePlotTransform
+  DataProcessor -> ConversionSinglePlotTransform
+  DataProcessor -> PreconditionerSinglePlotTransform
+  DataProcessor -> BlasSinglePlotTransform
+  
+  DataProcessor --> SolverMultiPlotTransform
+  DataProcessor --> SpmvMultiPlotTransform
+  DataProcessor --> ConversionMultiPlotTransform
+  DataProcessor --> PreconditionerMultiPlotTransform
+  DataProcessor --> BlasMultiPlotTransform
+
+  interface SolverSinglePlotTransform {
+    JSON transform(benchmarkResult: SolverBenchmarkResult)
+  }
+
+  interface SolverMultiPlotTransform {
+    JSON transform(benchmarkResults: List<SolverBenchmarkResult>)
+  }
+
+
+  interface SpmvSinglePlotTransform {
+    JSON transform(benchmarkResult: SpmvBenchmarkResult)
+  }
+
+  interface SpmvMultiPlotTransform {
+    JSON transform(benchmarkResults: List<SpmvBenchmarkResult>)
+  }
+
+interface ConversionSinglePlotTransform {
+    JSON transform(benchmarkResult: ConversionBenchmarkResult)
+  }
+
+  interface ConversionMultiPlotTransform {
+    JSON transform(benchmarkResults: List<ConversionBenchmarkResult>)
+  }
+
+
+  interface PreconditionerSinglePlotTransform {
+    JSON transform(benchmarkResult: PreconditionerBenchmarkResult)
+  }
+
+  interface PreconditionerMultiPlotTransform {
+    JSON transform(benchmarkResults: List<PreconditionerBenchmarkResult>)
+  }
+
+
+  interface BlasSinglePlotTransform {
+    JSON transform(benchmarkResult: BlasBenchmarkResult)
+  }
+
+  interface BlasMultiPlotTransform {
+    JSON transform(benchmarkResults: List<BlasBenchmarkResult>)
+  }
+
+  class PlotType {
+    name: String
+  }
+}
+
 History <- RestHandler
 History <|- HistoryDatabase
 BenchmarkResultStorage <|- BenchmarkResultDatabase
@@ -275,12 +316,36 @@ DatabaseHandler -> BenchmarkResult
 HistoryDatabase -> BranchForBenchmark
 BenchmarkResult <|- LazyBenchmarkResult
 BenchmarkResult <|-- MatrixBenchmarkResult
+BenchmarkResult <|---- BlasBenchmarkResult
 BenchmarkResult <- LazyBenchmarkResult
-BenchmarkResult <- RawBenchmarkResult
+BenchmarkResult <- DataProcessor
 DataProcessor <- RestHandler
 
 DatabaseHandler -> Device
 DatabaseHandler -> Benchmark
 
+SolverSinglePlotTransform --> SolverBenchmarkResult
+
+SolverMultiPlotTransform --> SolverBenchmarkResult
+
+
+SpmvSinglePlotTransform --> SpmvBenchmarkResult
+
+SpmvMultiPlotTransform --> SpmvBenchmarkResult
+
+
+ConversionSinglePlotTransform --> ConversionBenchmarkResult
+
+ConversionMultiPlotTransform --> ConversionBenchmarkResult
+
+
+PreconditionerSinglePlotTransform --> PreconditionerBenchmarkResult
+
+PreconditionerMultiPlotTransform --> PreconditionerBenchmarkResult
+
+
+BlasSinglePlotTransform --> BlasBenchmarkResult
+
+BlasMultiPlotTransform --> BlasBenchmarkResult
 
 @enduml
