@@ -1,7 +1,7 @@
 @startuml frontend_angular
 
-'maybe wihtout linetype ortho its more readable
-'skinparam linetype ortho
+'maybe wihtout linetype ortho its more readable 
+'edit: no
 skinparam linetype ortho
 
 package ui {
@@ -104,46 +104,42 @@ package ui {
     PlotCardComponent .d..> ScatterPlotComponent :<<uses>>
     PlotCardComponent .d..> LinePlotComponent :<<uses>>
     PlotCardComponent .d..> BarPlotComponent :<<uses>>
-
 }
 
 package datahandler {
-    class DataPointService {
-        List<Commit> getCommitHistory(branch: String, device: String, benchmark: String)
+    class DataService {
+        getBranchNames(): List<string>
+        getCommitHistory(branch: String): List<Commit> 
+        getBenchmarks<T super Benchmark>(List<Commit> commits): List<T super Benchmark>
     }
 
-    class DatapointSelection {
+    interface Commit {
+        get date() : Date
+        get commitMessage() : string
+        get author() : string
+        get hasBenchmark() : boolean
+        get sha() : string
+        get branch() : string
     }
 
-    class DataPoint {
-        string commitSha
-        string benchmarkId???
+    interface DataPoint {
+        get name() : string
+        get x() : string
+        get y() : double
     }
 
-    interface Benchmark
-    interface MatrixBenchmark
+    'The different benchmark types implement benchmark
+    interface Benchmark {
+        get commit() : Commit
+        get summary() : List<DataPoint>
+        get device() : string
+        get plotTypes() : List<PlotTypes>
+    }
 
-    class ConversionBenchmark
-    class SpMVBenchmark
-    class SolverBenchmark
-    class PreconditionerBenchmark
-    class BLASBenchmark
-
-    'besteht aus 2 bench marks
-    abstract BenchmarkComparison
-    interface Benchmark
-
-    
-    Benchmark <|.. MatrixBenchmark : <<extends>>
-    MatrixBenchmark <|.. ConversionBenchmark
-    MatrixBenchmark <|.. SpMVBenchmark
-    MatrixBenchmark <|.. SolverBenchmark
-    MatrixBenchmark <|.. PreconditionerBenchmark
-    Benchmark <|.. BLASBenchmark
-
-
-    DatapointSelection "1" o- "*" DataPoint
-    ' DatapointSelection --> RestHandler
+    interface BenchmarkComparison {
+        get benchmarks() : List<T super Benchmark>
+        get plotTypes() : List<PlotTypes>
+    }
 }
 
 package plotter {
@@ -178,7 +174,7 @@ package plotter {
 }
 
 
-PlotService --> DataPointService
+PlotService --> DataService
 PlotService <-u- ScatterPlotComponent
 PlotService <-u- LinePlotComponent
 PlotService <-u- BarPlotComponent
