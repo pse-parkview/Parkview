@@ -1,5 +1,7 @@
 @startuml frontend_angular
 
+'maybe wihtout linetype ortho its more readable
+'skinparam linetype ortho
 skinparam linetype ortho
 
 package ui {
@@ -8,62 +10,106 @@ package ui {
     class SideBarComponent
 
     package sideBar {
-        class SideBenchmarkSelectComponent
+        'inspired by ui
         class SideCurrentChosenCommitComponent
+        'inspired by scenario, spawns BenchmarkSelectDialogComponent
+        class SideBenchmarkSelectComponent {
+            spawnBenchmarkSelectDialog() : void
+        }
+        'inspired by scenario, spawns BenchmarkCompareDialogComponent
+        class SideBenchmarkCompareComponent {
+            spawnBenchmarkCompareDialog() : void
+        }
+        'inspired by scenario
+        class SideLoadFromTemplateComponent {
+            spawnLoadFromTemplateDialog() : void
+        }
+        'inspired by mockup
         class SidePreviousPlotsComponent
 
+        'contained within SidePreviousPlotsCopmonent
         class PlotCardComponent
+
+        SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
     }
 
     package mainContent {
+        'inspired by mockup, purpose or functionality not yet clear
         class AveragePerformanceComponent
+        'inspired by mockup
         class GitHistoryComponent
-
-        class PlotComponent
+        
+        class SingleBenchmarkPlotComponent
+        class BenchmarkComparisonPlotComponent
     }
 
-    package plots {
+    package plotviews {
         class ScatterPlotComponent
-        class PerformanceProfilePlotComponent
+        class LinePlotComponent
         class BarPlotComponent
-        class ConvergencePlotComponent
+        class SummaryChartComponent
     }
 
     package dialogs {
-        class PlotConfigurationDialogComponent
+        class PlotConfigurationDialogComponent {
+            routeToPlotView()
+        }
+        class BenchmarkSelectDialogComponent {
+            @Input configurePlot: boolean;
+            spawnPlotConfigurationDialog()
+        }
+        class LoadFromTemplateDialogComponent {
+            spawnPlotConfigurationDialog()
+        }
+        class ErrorDialog
+        class BenchmarkCompareDialogComponent {
+            spawnPlotConfigurationDialog()
+        }
     }
 
     AppComponent "1" *-- "1" HeaderComponent
     AppComponent "1" *-- "1" SideBarComponent
 
-
     AppComponent .d.> AveragePerformanceComponent : routes to
     AppComponent .d.> GitHistoryComponent : routes to
-    AppComponent .d.> PlotComponent : routes to
+    AppComponent .d.> SingleBenchmarkPlotComponent
+    AppComponent .d.> BenchmarkComparisonPlotComponent
 
-    SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
     SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
+    SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
+    SideBarComponent "1" *-- "1" SideBenchmarkCompareComponent
+    SideBarComponent "1" *-- "1" SideLoadFromTemplateComponent
     SideBarComponent "1" *-- "1" SidePreviousPlotsComponent
 
-    SidePreviousPlotsComponent "1" *-- "*" PlotCardComponent
-    SideBenchmarkSelectComponent .u.> PlotConfigurationDialogComponent : calls
 
-    PlotComponent .d..> ScatterPlotComponent :<<uses>>
-    PlotComponent .d..> PerformanceProfilePlotComponent :<<uses>>
-    PlotComponent .d..> BarPlotComponent :<<uses>>
-    PlotComponent .d..> ConvergencePlotComponent :<<uses>>
+    SideBenchmarkSelectComponent .d.> PlotConfigurationDialogComponent : calls
+    SideBenchmarkSelectComponent .d.> BenchmarkSelectDialogComponent : calls
+    SideBenchmarkCompareComponent .d.> BenchmarkSelectDialogComponent : calls
+    SideLoadFromTemplateComponent .d.> LoadFromTemplateDialogComponent : calls
 
-    PlotCardComponent .d..> ScatterPlotComponent :<<uses>
-    PlotCardComponent .d..> PerformanceProfilePlotComponent :<<uses>
-    PlotCardComponent .d..> BarPlotComponent :<<uses>
-    PlotCardComponent .d..> ConvergencePlotComponent :<<uses>
+    BenchmarkSelectDialogComponent .u.> PlotConfigurationDialogComponent : calls
+    BenchmarkCompareDialogComponent .u.> PlotConfigurationDialogComponent : calls
+
+    PlotConfigurationDialogComponent ...> SingleBenchmarkPlotComponent : routes to
+    PlotConfigurationDialogComponent ...> BenchmarkComparisonPlotComponent : routes to
+
+    SingleBenchmarkPlotComponent .d..> ScatterPlotComponent :<<uses>>
+    SingleBenchmarkPlotComponent .d..> LinePlotComponent :<<uses>>
+    SingleBenchmarkPlotComponent .d..> BarPlotComponent :<<uses>>
+    SingleBenchmarkPlotComponent .d..> SummaryChartComponent :<<uses>>
+
+    BenchmarkComparisonPlotComponent .d..> LinePlotComponent :<<uses>>
+    BenchmarkComparisonPlotComponent .d..> ScatterPlotComponent :<<uses>>
+    
+    PlotCardComponent .d..> ScatterPlotComponent :<<uses>>
+    PlotCardComponent .d..> LinePlotComponent :<<uses>>
+    PlotCardComponent .d..> BarPlotComponent :<<uses>>
 
 }
 
 package datahandler {
     class DataPointService {
         List<Commit> getCommitHistory(branch: String, device: String, benchmark: String)
-
     }
 
     class DatapointSelection {
@@ -75,21 +121,25 @@ package datahandler {
     }
 
     interface Benchmark
-
     interface MatrixBenchmark
 
-    class SpMVResult
-    class ConversionResult
-    class SolverResult
-    class PerconditionerResult
-    class BLASResult
+    class ConversionBenchmark
+    class SpMVBenchmark
+    class SolverBenchmark
+    class PreconditionerBenchmark
+    class BLASBenchmark
 
+    'besteht aus 2 bench marks
+    abstract BenchmarkComparison
+    interface Benchmark
+
+    
     Benchmark <|.. MatrixBenchmark : <<extends>>
-    MatrixBenchmark <|.. SpMVResult
-    MatrixBenchmark <|.. ConversionResult
-    MatrixBenchmark <|.. SolverResult
-    MatrixBenchmark <|.. PerconditionerResult
-    Benchmark <|.. BLASResult
+    MatrixBenchmark <|.. ConversionBenchmark
+    MatrixBenchmark <|.. SpMVBenchmark
+    MatrixBenchmark <|.. SolverBenchmark
+    MatrixBenchmark <|.. PreconditionerBenchmark
+    Benchmark <|.. BLASBenchmark
 
 
     DatapointSelection "1" o- "*" DataPoint
@@ -100,54 +150,37 @@ package plotter {
 
     class PlotService {
         generateScatterPlot(benchmark : ScatterPlottable) :  BubbleChartMultiSeries
-        generatePerfomanceProfilePlot(benchmark : PerformanceProfilePlottable :  MultiSeries
-        generateConvergencePlot(benchmark : ConvergencePlottable) :  MultiSeries
+        generateLinePlot(benchmark : LinePlottable :  MultiSeries
         generateBarPlot(benchmark : BarPlottable) :  MultiSeries
     }
 
-    ' Plot Types: ScatterPlot, (SmoothedScatterPlot), PerformanceProfile, BarPlot, ConvergencePlot
 
     interface ScatterPlottable {
+        name : String
         getScatterPlotData()
     }
 
-    interface PerformanceProfilePlottable {
-        getPerformanceProfileData()
+    interface LinePlottable {
+        name : String
+        getLinePlotData()
     }
 
     interface BarPlottable {
+        name : String
         getBarPlotData()
     }
 
-    interface ConvergencePlottable {
-       getConvergencePlotData()
+    interface Summary {
+        name : String
+        getSummary() : Map<K, V>
+        getAmountTested() : int
     }
-
-    class ScatterPlot
-    class PerformancePlot
-    class BarPlot
-    class ConvergencePlot
-
-    PlotService ..> ScatterPlot
-    PlotService ..> PerformancePlot
-    PlotService ..> BarPlot
-    PlotService ..> ConvergencePlot
-
-    ScatterPlot -- ScatterPlottable
-    ConvergencePlot -- ConvergencePlottable
-    BarPlot -- BarPlottable
-    PerformancePlot -- PerformanceProfilePlottable
-
-    SpMVResult ..|> ScatterPlottable
-    SpMVResult ..|> BarPlottable
-
 }
 
 
 PlotService --> DataPointService
 PlotService <-u- ScatterPlotComponent
-PlotService <-u- PerformanceProfilePlotComponent
+PlotService <-u- LinePlotComponent
 PlotService <-u- BarPlotComponent
-PlotService <-u- ConvergencePlotComponent
 
 @enduml
