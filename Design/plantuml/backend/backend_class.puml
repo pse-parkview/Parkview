@@ -12,7 +12,7 @@ package git {
   }
 
   class Commit {
-    parents: List<Commit> ' TODO: decide about that
+    parents: List<Commit>
     sha: String
     message: String
     date: java.util.Date
@@ -89,7 +89,7 @@ package database {
   class MissingBenchmarkResultException
   
   DatabaseHandler <- HistoryDatabase
-  DatabaseHandler <|-- PostgreSQLHandler
+  DatabaseHandler <|.. PostgreSQLHandler
   DatabaseHandler --> MissingBranchException
   DatabaseHandler --> MissingBenchmarkResultException
 
@@ -247,64 +247,49 @@ package processing {
   }
   BenchmarkResultStorage <- DataProcessor
 
-  DataProcessor -> SolverSinglePlotTransform
-  DataProcessor -> SpmvSinglePlotTransform
-  DataProcessor -> ConversionSinglePlotTransform
-  DataProcessor -> PreconditionerSinglePlotTransform
-  DataProcessor -> BlasSinglePlotTransform
-  
-  DataProcessor --> SolverMultiPlotTransform
-  DataProcessor --> SpmvMultiPlotTransform
-  DataProcessor --> ConversionMultiPlotTransform
-  DataProcessor --> PreconditionerMultiPlotTransform
-  DataProcessor --> BlasMultiPlotTransform
+  DataProcessor --> SolverPlotTransform
+  DataProcessor --> SpmvPlotTransform
+  DataProcessor --> ConversionPlotTransform
+  DataProcessor --> PreconditionerPlotTransform
+  DataProcessor --> BlasPlotTransform
 
-  interface SolverSinglePlotTransform {
-    JSON transform(benchmarkResult: SolverBenchmarkResult)
-  }
-
-  interface SolverMultiPlotTransform {
+  interface SolverPlotTransform {
     JSON transform(benchmarkResults: List<SolverBenchmarkResult>)
   }
 
-
-  interface SpmvSinglePlotTransform {
-    JSON transform(benchmarkResult: SpmvBenchmarkResult)
-  }
-
-  interface SpmvMultiPlotTransform {
+  interface SpmvPlotTransform {
     JSON transform(benchmarkResults: List<SpmvBenchmarkResult>)
   }
 
-interface ConversionSinglePlotTransform {
-    JSON transform(benchmarkResult: ConversionBenchmarkResult)
-  }
-
-  interface ConversionMultiPlotTransform {
+  interface ConversionPlotTransform {
     JSON transform(benchmarkResults: List<ConversionBenchmarkResult>)
   }
 
-
-  interface PreconditionerSinglePlotTransform {
-    JSON transform(benchmarkResult: PreconditionerBenchmarkResult)
-  }
-
-  interface PreconditionerMultiPlotTransform {
+  interface PreconditionerPlotTransform {
     JSON transform(benchmarkResults: List<PreconditionerBenchmarkResult>)
   }
 
-
-  interface BlasSinglePlotTransform {
-    JSON transform(benchmarkResult: BlasBenchmarkResult)
-  }
-
-  interface BlasMultiPlotTransform {
+  interface BlasPlotTransform {
     JSON transform(benchmarkResults: List<BlasBenchmarkResult>)
   }
 
   class PlotType {
     name: String
   }
+
+  class ConversionSingleScatterPlotTransform
+  class ConversionTwoScatterPlotTransform
+  
+  class SpmvSingleScatterPlotTransform
+  class SpmvSinglePerformanceProfilePlotTransform 
+  class SpmvTwoSpeedupPlotTransform
+
+  ConversionSingleScatterPlotTransform ..|> ConversionPlotTransform
+  ConversionPlotTransform <|.. ConversionTwoScatterPlotTransform 
+
+  SpmvSingleScatterPlotTransform ..|> SpmvPlotTransform
+  SpmvSinglePerformanceProfilePlotTransform ..|> SpmvPlotTransform
+  SpmvPlotTransform <|.. SpmvTwoSpeedupPlotTransform
 }
 
 History <- RestHandler
@@ -324,28 +309,18 @@ DataProcessor <- RestHandler
 DatabaseHandler -> Device
 DatabaseHandler -> Benchmark
 
-SolverSinglePlotTransform --> SolverBenchmarkResult
-
-SolverMultiPlotTransform --> SolverBenchmarkResult
+SolverPlotTransform --> SolverBenchmarkResult
 
 
-SpmvSinglePlotTransform --> SpmvBenchmarkResult
-
-SpmvMultiPlotTransform --> SpmvBenchmarkResult
+SpmvPlotTransform --> SpmvBenchmarkResult
 
 
-ConversionSinglePlotTransform --> ConversionBenchmarkResult
-
-ConversionMultiPlotTransform --> ConversionBenchmarkResult
+ConversionPlotTransform --> ConversionBenchmarkResult
 
 
-PreconditionerSinglePlotTransform --> PreconditionerBenchmarkResult
-
-PreconditionerMultiPlotTransform --> PreconditionerBenchmarkResult
+PreconditionerPlotTransform --> PreconditionerBenchmarkResult
 
 
-BlasSinglePlotTransform --> BlasBenchmarkResult
-
-BlasMultiPlotTransform --> BlasBenchmarkResult
+BlasPlotTransform --> BlasBenchmarkResult
 
 @enduml
