@@ -290,14 +290,43 @@ package processing {
   class SpmvSinglePerformanceProfilePlotTransform 
   class SpmvTwoSpeedupPlotTransform
 
+  class SolverSingleConvergenceGraphTransform
+  class SolverMultiRuntimePlotTransform
+  class SolverMultiAchievedBandwidthPlotTransform
+  class SolverMultiIterationCountsPlotTransform
+  class SolverMultiTimeToSolutionPlotTransform
+  class SolverTwoSpeedupPlotTransform
+
+  class PreconditionerSingleScatterPlotTransform
+  class PreconditionerSingleComponentBreakdownPlotTransform
+  class PreconditionerTwoScatterPlotTransform
+
+  class BlasSingleScatterPlotTransform
+  class BlasTwoScatterPlotTransform
+
   class InvalidPlotException
 
-  ConversionSingleScatterPlotTransform ..|> ConversionPlotTransform
-  ConversionPlotTransform <|.. ConversionTwoScatterPlotTransform 
+  ConversionPlotTransform <|.. ConversionSingleScatterPlotTransform
+  ConversionPlotTransform <|.. ConversionTwoScatterPlotTransform
 
-  SpmvSingleScatterPlotTransform ..|> SpmvPlotTransform
-  SpmvSinglePerformanceProfilePlotTransform ..|> SpmvPlotTransform
-  SpmvPlotTransform <|.. SpmvTwoSpeedupPlotTransform
+  SpmvPlotTransform <|.. SpmvSingleScatterPlotTransform
+  SpmvPlotTransform <|.. SpmvSinglePerformanceProfilePlotTransform
+  SpmvPlotTransform <|... SpmvTwoSpeedupPlotTransform
+
+
+  SolverPlotTransform <|.. SolverSingleConvergenceGraphTransform
+  SolverPlotTransform <|.. SolverMultiRuntimePlotTransform
+  SolverPlotTransform <|... SolverMultiAchievedBandwidthPlotTransform
+  SolverPlotTransform <|... SolverMultiIterationCountsPlotTransform
+  SolverPlotTransform <|.... SolverMultiTimeToSolutionPlotTransform
+  SolverPlotTransform <|.... SolverTwoSpeedupPlotTransform
+
+  PreconditionerPlotTransform <|.. PreconditionerSingleScatterPlotTransform
+  PreconditionerPlotTransform <|.. PreconditionerSingleComponentBreakdownPlotTransform
+  PreconditionerPlotTransform <|... PreconditionerTwoScatterPlotTransform
+
+  BlasPlotTransform <|.. BlasSingleScatterPlotTransform
+  BlasPlotTransform <|.. BlasTwoScatterPlotTransform
 }
 
 History <- RestHandler
