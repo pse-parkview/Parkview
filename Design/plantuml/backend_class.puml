@@ -50,7 +50,7 @@ package git {
   }
 
   class EmptyBenchmarkResult
-  EmptyBenchmarkResult --|> BenchmarkResult
+  EmptyBenchmarkResult ..|> BenchmarkResult
   
   History --> BranchForBenchmark
   History --> RepositoryHandler
@@ -70,7 +70,7 @@ package rest {
     void handleGetBenchmarkResult(json: String)
   }
    
-  SpringRestHandler --|> RestHandler
+  SpringRestHandler ..|> RestHandler
 }
 
 package database {
@@ -223,21 +223,21 @@ package benchmark {
   MatrixDatapoint <|---- ConversionDatapoint
   MatrixDatapoint <|----- PreconditionerDatapoint
 
-  MatrixBenchmarkResult -> MatrixDatapoint
-  BlasBenchmarkResult -> BlasDatapoint
-  PreconditionerBenchmarkResult -> PreconditionerDatapoint
-  SpmvBenchmarkResult -> SpmvDatapoint
-  SolverBenchmarkResult -> SolverDatapoint
-  ConversionBenchmarkResult -> ConversionDatapoint
+  MatrixBenchmarkResult *- MatrixDatapoint
+  BlasBenchmarkResult *- BlasDatapoint
+  PreconditionerBenchmarkResult *- PreconditionerDatapoint
+  SpmvBenchmarkResult *- SpmvDatapoint
+  SolverBenchmarkResult *- SolverDatapoint
+  ConversionBenchmarkResult *- ConversionDatapoint
 
-  BlasDatapoint -> Operation
-  PreconditionerDatapoint -> Preconditioner
-  SpmvDatapoint -> Format
-  SolverDatapoint -> Solver
-  ConversionDatapoint -> Conversion
+  BlasDatapoint *- Operation
+  PreconditionerDatapoint *- Preconditioner
+  SpmvDatapoint *- Format
+  SolverDatapoint *- Solver
+  ConversionDatapoint *- Conversion
 
-  Solver --> Component
-  Component --> Preconditioner
+  Solver *-- Component
+  Component --* Preconditioner
 }
 
 package processing {
@@ -308,15 +308,15 @@ interface ConversionSinglePlotTransform {
 }
 
 History <- RestHandler
-History <|- HistoryDatabase
-BenchmarkResultStorage <|- BenchmarkResultDatabase
-RepositoryHandler <|- GitApiHandler
+History <|. HistoryDatabase
+BenchmarkResultStorage <|. BenchmarkResultDatabase
+RepositoryHandler <|. GitApiHandler
 DatabaseHandler -> Commit
 DatabaseHandler -> BenchmarkResult
 HistoryDatabase -> BranchForBenchmark
-BenchmarkResult <|- LazyBenchmarkResult
-BenchmarkResult <|-- MatrixBenchmarkResult
-BenchmarkResult <|---- BlasBenchmarkResult
+BenchmarkResult <|. LazyBenchmarkResult
+BenchmarkResult <|.. MatrixBenchmarkResult
+BenchmarkResult <|.... BlasBenchmarkResult
 BenchmarkResult <- LazyBenchmarkResult
 BenchmarkResult <- DataProcessor
 DataProcessor <- RestHandler
