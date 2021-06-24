@@ -40,12 +40,10 @@ package git {
   }
 
   class Benchmark {
-    # TODO add fields for other info
     name: String
   }
 
   class Device {
-    # TODO add fields for other info
     name: String
   }
 
@@ -135,6 +133,7 @@ package benchmark {
   class ConversionDatapoint {
     conversions: List<Conversion>
   }
+
 
   class Conversion {
     name: String
@@ -276,6 +275,13 @@ package processing {
   class PlotType {
     name: String
   }
+  DataProcessor -> PlotType
+
+  SolverPlotTransform ---> InvalidPlotException
+  SpmvPlotTransform ---> InvalidPlotException
+  ConversionPlotTransform ---> InvalidPlotException
+  PreconditionerPlotTransform ---> InvalidPlotException
+  BlasPlotTransform ---> InvalidPlotException
 
   class ConversionSingleScatterPlotTransform
   class ConversionTwoScatterPlotTransform
@@ -283,6 +289,8 @@ package processing {
   class SpmvSingleScatterPlotTransform
   class SpmvSinglePerformanceProfilePlotTransform 
   class SpmvTwoSpeedupPlotTransform
+
+  class InvalidPlotException
 
   ConversionSingleScatterPlotTransform ..|> ConversionPlotTransform
   ConversionPlotTransform <|.. ConversionTwoScatterPlotTransform 
