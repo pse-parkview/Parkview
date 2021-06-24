@@ -5,7 +5,7 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 /**
  * Interface for transforms using multiple [BlasBenchmarkResult].
  */
-interface BlasMultiPlotTransform {
+interface BlasPlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *

@@ -5,7 +5,7 @@ import com.parkview.parkview.benchmark.SolverBenchmarkResult
 /**
  * Interface for transforms using multiple [SolverBenchmarkResult].
  */
-interface SolverMultiPlotTransform {
+interface SolverPlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *

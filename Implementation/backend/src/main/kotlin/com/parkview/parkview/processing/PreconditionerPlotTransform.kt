@@ -5,7 +5,7 @@ import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
 /**
  * Interface for transforms using multiple [PreconditionerBenchmarkResult].
  */
-interface PreconditionerMultiPlotTransform {
+interface PreconditionerPlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *

@@ -5,7 +5,7 @@ import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 /**
  * Interface for transforms using multiple [SpmvBenchmarkResult].
  */
-interface SpmvMultiPlotTransform {
+interface SpmvPlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *
