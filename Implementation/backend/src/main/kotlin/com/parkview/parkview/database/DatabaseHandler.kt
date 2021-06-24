@@ -4,7 +4,7 @@ import com.parkview.parkview.git.*
 
 /**
  * Interface for accessing a database. It offers methods for
- * updating and retrieving commits and benchmark results
+ * storing, updating and retrieving commits and benchmark results
  */
 interface DatabaseHandler {
     /**
@@ -20,8 +20,7 @@ interface DatabaseHandler {
     /**
      * Updates existing benchmark results in the database with the ones given as a
      * parameter or adds them to the database if they dont exist yet. If a benchmark result
-     * for the same commit, device and benchmark type already exists it gets replaced. The exception are
-     * benchmarks containing time (for example []), where it only gets replaced if the time is the same.
+     * for the same commit, device, benchmark, problem setup and time already exists, it gets replaced.
      *
      * @param results list of [benchmark results][BenchmarkResult] to update
      */
@@ -32,18 +31,17 @@ interface DatabaseHandler {
      * and packs them into a branch object. The commits contain their corresponding
      * benchmark results for every device available.
      *
-     * @param branch name of branch
-     * @param benchmark name of benchmark type
+     * @param branch name of wanted branch
+     * @param benchmark wanted benchmark type
      *
-     * @return [Branch] object containing the commits, * name of branch, name of device and name of benchmark type
+     * @return [BranchForBenchmark] object for the wanted branch and benchmark
      * @throws MissingBranchException if the wanted branch is not available
      */
-    fun fetchBranch(branch: String, benchmark: Benchmark): Branch
+    fun fetchBranch(branch: String, benchmark: Benchmark): BranchForBenchmark
 
     /**
      * Fetches a single benchmark result for the given commit, device and
      * benchmark type.
-     * TODO: add exception for missing benchmark result
      *
      * @param commit chosen commit
      * @param device type of device

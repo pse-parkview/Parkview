@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class ParkviewApplication
 
 fun main(args: Array<String>) {
-	runApplication<ParkviewApplication>(*args)
+    runApplication<ParkviewApplication>(*args)
 }

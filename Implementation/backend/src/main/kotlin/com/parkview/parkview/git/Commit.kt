@@ -1,9 +1,9 @@
 package com.parkview.parkview.git
 
-import java.util.Date
+import java.util.*
 
 /**
- * Class that represents a single commit for a given branch, device, and benchmark type
+ * Class that represents a single commit for a given branch and benchmark type
  *
  * @param sha commit sha
  * @param message commit message
@@ -16,5 +16,5 @@ class Commit(
     val message: String,
     val date: Date,
     val previousCommit: Commit,
-    val benchmarkResultsByDevice: Map<String, BenchmarkResult> = emptyMap()
+    val benchmarkResultsByDevice: Map<Device, BenchmarkResult> = emptyMap()
 )

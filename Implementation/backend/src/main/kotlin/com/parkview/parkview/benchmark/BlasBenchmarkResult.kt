@@ -1,4 +1,4 @@
-package com.parkview.parkview.database
+package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkResult
@@ -6,20 +6,25 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
 /**
- * This class offers lazy loading of benchmark result. It loads the
- * benchmark result from the database only once it is actually needed.
+ * This is a benchmark result for the benchmarks
+ * of the BLAS format and type.
  *
- * @param commit chosen commit
- * @param device type of device
+ * @param commit commit this benchmark has been run on
+ * @param device device this benchmark has been run on
  * @param benchmark type of benchmark
- * @param databaseHandler handler for accessing the database
+ * @param datapoints datapoints for this benchmark
+ *
  */
-class LazyBenchmarkResult(
+class BlasBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: Benchmark,
-    private val databaseHandler: DatabaseHandler
+    /**
+     * Contains the datapoints for this benchmark
+     */
+    val datapoints: List<BlasDatapoint>
 ) : BenchmarkResult {
+
     override fun getSummaryValue(): Double {
         TODO("Not yet implemented")
     }

@@ -1,15 +1,19 @@
 package com.parkview.parkview.processing
 
+import com.parkview.parkview.git.BenchmarkResult
+
 /**
- * this class takes care of processing and storing raw benchmark results
+ * This class takes care of processing and storing raw benchmark results
  */
 class DataProcessor {
     /**
-     * processes and stores raw benchmark results
+     * Processes and stores raw benchmark results.
      *
      * @param results raw benchmark results that will be stored
      */
-    fun storeBenchmarkResults(results: List<RawBenchmarkResult>) {
+    fun storeBenchmarkResults(results: List<BenchmarkResult>) {
         TODO("Not yet implemented")
     }
+
+
 }

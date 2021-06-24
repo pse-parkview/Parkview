@@ -1,7 +1,9 @@
 package com.parkview.parkview.git
 
 /**
- * Class that represents an entire git history
+ * Class that represents an entire git history. It allows for retrieving branches
+ * for a given benchmark type, therefore containing the results of the benchmarks
+ * run on this branch.
  */
 interface History {
     /**
@@ -12,5 +14,5 @@ interface History {
      *
      * @return branch object
      */
-    fun getBranch(name: String, benchmark: String): Branch
+    fun getBranch(name: String, benchmark: Benchmark): BranchForBenchmark
 }

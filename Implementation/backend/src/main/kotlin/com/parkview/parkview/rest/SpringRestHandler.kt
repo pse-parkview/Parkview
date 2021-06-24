@@ -3,7 +3,7 @@ package com.parkview.parkview.rest
 /**
  * Class that implements a RestHandler using the Spring framework
  */
-class SpringRestHandler: RestHandler {
+class SpringRestHandler : RestHandler {
     override fun handlePost(json: String) {
         TODO("Not yet implemented")
     }

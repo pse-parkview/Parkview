@@ -1,13 +1,11 @@
 package com.parkview.parkview.database
 
-import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.Branch
-import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.*
 
 /**
- * [DatabaseHandler] for accessing a PostgreSQL database
+ * [DatabaseHandler] for accessing a PostgreSQL database.
  */
-class PostgreSQLHandler: DatabaseHandler {
+class PostgreSQLHandler : DatabaseHandler {
     override fun updateCommits(commits: List<Commit>) {
         TODO("Not yet implemented")
     }
@@ -16,15 +14,11 @@ class PostgreSQLHandler: DatabaseHandler {
         TODO("Not yet implemented")
     }
 
-    override fun fetchBranch(branch: String, benchmark: String): Branch {
+    override fun fetchBranch(branch: String, benchmark: Benchmark): BranchForBenchmark {
         TODO("Not yet implemented")
     }
 
-    override fun fetchCommit(sha: String): Commit {
-        TODO("Not yet implemented")
-    }
-
-    override fun fetchBenchmarkResult(commit: Commit, device: String, benchmark: String): BenchmarkResult {
+    override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark): BenchmarkResult {
         TODO("Not yet implemented")
     }
 }

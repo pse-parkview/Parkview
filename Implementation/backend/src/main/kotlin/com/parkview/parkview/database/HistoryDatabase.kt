@@ -1,17 +1,19 @@
 package com.parkview.parkview.database
 
-import com.parkview.parkview.git.Branch
+import com.parkview.parkview.git.Benchmark
+import com.parkview.parkview.git.BranchForBenchmark
 import com.parkview.parkview.git.History
 
 /**
- * Class that offers access to a history stored in a database
+ * This class offers access to a git history stored in a database.
+ * Access to the database is provided by a [DatabaseHandler] object.
  *
- * @param database [DatabaseHandler] for handling access to database
+ * @param databaseHandler [DatabaseHandler] for handling access to database
  */
 class HistoryDatabase(
-    private val database: DatabaseHandler
-): History {
-    override fun getBranch(name: String, benchmark: String): Branch {
+    private val databaseHandler: DatabaseHandler
+) : History {
+    override fun getBranch(name: String, benchmark: Benchmark): BranchForBenchmark {
         TODO("Not yet implemented")
     }
 }
