@@ -4,22 +4,344 @@ Class descriptions here
 
 
 \subsection{Frontend}
-Frontend classes here
 
-\class{Example Class : Parent Class}
-{An example class, \\ very cool}
+\subsubsection{ui}
+
+\label{f:1}
+\class{AppComponent}
+{Main app component.}
+{\\}
+{\\}
+
+\label{f:2}
+\class{HeaderComponent}
+{Component managing the topbar.}
+{\\}
+{\\}
+
+\label{f:3}
+\class{SideBarComponent}
+{Component managing the sidebar.}
+{\\}
+{\\}
+
+\label{f:4}
+\class{SideCurrentChosenCommitComponent}
+{Component managing the list containing the chosen commits.}
+{\\}
+{\\}
+
+\label{f:5}
+\class{SideBenchmarkSelectComponent}
+{Component managing the selection of the benchmark type.}
 {
   \begin{itemize}
-    \item \identifier{public int attr}{an attribute}
-    \item \identifier{private int attr2}{another attribute}
-    \item \identifier{private int attr3}{yet another attribute}
+      \item \identifier{public void spawnBenchmarkSelectDialog()}{Spawns the \texttt{BenchmarkSelectionDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:6}
+\class{SideBenchmarkCompareComponent}
+{Component managing the button for comparing commits.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnBenchmarkCompareDialog()}{Spawns the \texttt{BenchmarkCompareDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:7}
+\class{SideLoadFromTemplateComponent}
+{Component managing the button for comparing commits.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnLoadFromTemplateDialog()}{Spawns the \texttt{LoadFromTemplateDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:8}
+\class{SidePreviousPlotsComponent}
+{Component managing the list of previously generated plots.}
+{\\}
+{\\}
+
+\label{f:9}
+\class{PlotCardComponent}
+{Small card containing a previous plot.}
+{\\}
+{\\}
+
+\label{f:10}
+\class{AveragePerformanceComponent}
+{Component managing the overview of the average performance.}
+{\\}
+{\\}
+
+\label{f:11}
+\class{GitHistoryComponent}
+{Component managing the display of git history.}
+{\\}
+{\\}
+
+\label{f:12}
+\class{SingleBenchmarkPlotComponent}
+{Component managing the presentation of a single benchmark plot.}
+{\\}
+{\\}
+
+\label{f:13}
+\class{BenchmarkComparisonPlotComponent}
+{Component managing the presentation of a comparison of benchmarks.}
+{\\}
+{\\}
+
+\label{f:14}
+\class{ScatterPlotComponent}
+{Component managing the generation and presentation of a scatter plot.}
+{\\}
+{\\}
+
+\label{f:15}
+\class{LinePlotComponent}
+{Component managing the generation and presentation of a line plot.}
+{\\}
+{\\}
+
+\label{f:16}
+\class{BarPlotComponent}
+{Component managing the generation and presentation of a bar plot.}
+{\\}
+{\\}
+
+\label{f:17}
+\class{SummaryChartComponent}
+{Component managing the generation and presentation of a summary chart.}
+{\\}
+{\\}
+
+\label{f:18}
+\class{PlotConfigurationDialogComponent}
+{Component managing the configuration panel, where the user can configure his plot.}
+{
+  \begin{itemize}
+      \item \identifier{public void routeToPlotView()}{Reroutes the user to the plot view.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:19}
+\class{BenchmarkSelectDialogComponent}
+{Component managing the dialog for the selection of the benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:20}
+\class{LoadFromTemplateDialogComponent}
+{Component managing the dialog for loading configurations from templates.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:21}
+\class{ErrorDialogComponent}
+{Component managing the error dialog in case of exceptional behavior.}
+{\\}
+{\\}
+
+\label{f:22}
+\class{CookieConsentDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{\\}
+{\\}
+
+\label{f:23}
+\class{BenchmarkCompareDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+  }
+{\\}
+
+
+\subsubsection{datahandler}
+
+\label{f:24}
+\class{DataService}
+{A Service that gets injected into UI Classes that need to talk to the backend. Subject to change during implementation.}
+{
+  \begin{itemize}
+    \item \identifier{private final HttpClient http}{Within @angular/common/http and part of the Angular Framework.}
   \end{itemize}
 }
 {
   \begin{itemize}
-    \item \identifier{public String getName()}{a method}
-    \item \identifier{public int getNum()}{yet another method}
-    \item \identifier{public void setNum(int num)}{guess what, a method}
+    \item \identifier{public String[] getBranchNames()}{Gets a list of all branch names.}
+    \item \identifier{public Commit[] getCommitHistory(String branch)}{Retrieves the entire commit history of the given branch.}
+    \item \identifier{public T getBenchmarks<T extends Benchmarks>(Commit[] commits)}{Retrieves all benchmarks that have a commit given to them out of the given ones.}
+  \end{itemize}
+}
+
+\label{f:25}
+\interface{Commit}
+{Encapsulates information regarding a commit.}
+{
+  \begin{itemize}
+    \item \identifier{Date date()}{The date the commit was made.}
+    \item \identifier{String commitMessage()}{Self explanatory.}
+    \item \identifier{String author()}{Self explanatory.}
+    \item \identifier{boolean hasBenchmark()}{Whether this commit has a benchmark associated to it.}
+    \item \identifier{String sha()}{The identifying hash of the commit.}
+    \item \identifier{String branch()}{The branch name of this commit.}
+  \end{itemize}
+}
+
+\label{f:26}
+\interface{Summary}
+{Encapsulates information regarding the summary of a benchmark.}
+{
+  \begin{itemize}
+    \item \identifier{Map<K, V> summary()}{The different values associated to their name or key.}
+    \item \identifier{int amountTested()}{Self explanatory.}
+  \end{itemize}
+}
+
+\label{f:27}
+\interface{Benchmark}
+{Encapsulates information regarding one Benchmark Result, Keep in mind that this is the front end representation as it currently is. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{Commit commit()}{Corresponding commit of a benchmark}
+      \item \identifier{String device()}{Device this benchmark was run on}
+      \item \identifier{Summary summary()}{Summary of this benchmark.}
+      \item \identifier{BenchmarkType type()}{The type of this benchmark.}
+    \end{itemize}
+}
+
+\label{f:28}
+\interface{BenchmarkType}
+{Encapsulates information about a benchmark type, namely what its name is, and what is plottable. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{String name()}{What the type is called.}
+      \item \identifier{String[] validXKeys()}{Permissible keys of the benchmark result that can be used for the x axis.}
+      \item \identifier{String[] validYKeys()}{Permissible keys of the benchmark result that can be used for the y axis.}
+    \end{itemize}
+}
+
+\label{f:29}
+\interface{BenchmarkComparison}
+{Encapsulates information about the comparison between two Benchmark results.}
+{
+  \begin{itemize}
+    \item \identifier{Benchmark[] benchmarks()}{The benchmark results that are compared.}
+    \item \identifier{BenchmarkType comparisonType()}{Contains information like what the permissible key to compare for are.}
+  \end{itemize}
+}
+
+\label{f:30}
+\class{ConversionBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:31}
+\class{ConversionComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:32}
+\class{SpmvBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:34}
+\class{SpmvComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:35}
+\class{SolverBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:36}
+\class{SolverComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:37}
+\class{PreconditionerBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:38}
+\class{PreconditionerComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:39}
+\class{BlasBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:40}
+\class{BlasComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+
+
+\subsubsection{datahandler}
+
+\label{f:41}
+\class{PlotService}
+{A service that gets injected into UI classes that need them, like Components that are display plots.}
+{
+  \begin{itemize}
+    \item \identifier{private final DataService}{A dependency since the PlotService has to talk with the backend somehow.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateBarPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+  \end{itemize}
+}
+
+\label{f:42}
+\interface{PlotConfiguration}
+{An interface describing the configurations needed to immediately recreate a plot.}
+{
+  \begin{itemize}
+    \item \identifier{String benchmarkCommitSha()}{The commit referenced}
+    \item \identifier{String benchmarkComparedCommitSha()}{The commit that was compared to}
+    \item \identifier{String benchmarkType()}{The benchmark type to look for.}
+    \item \identifier{String xKey()}{The key value that was plotted on the x axis.}
+    \item \identifier{String yKey()}{The key value that was plotted on the y axis.}
+  \end{itemize}
+}
+
+\subsubsection{cookies}
+\label{f:43}
+\class{CookieService}
+{Handles the cookies used by the front end to save things like recently viewed plots and similar.}
+{
+  \begin{itemize}
+    \item \identifier{private final ngx-cookie-service.CookieService cookieService}{The utility that manages cookies for us.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public void saveConsent(given: boolean)}{Saved a decision made by the user, whether he allows cookies or not.}
+    \item \identifier{public boolean hasDecidedConsent()}{Whether the user has decided yet.}
+    \item \identifier{public boolean getConsent()}{The current status on whether the app is allowed to save cookies or not.}
+    \item \identifier{public void savePlotConfiguration(p: PlotConfiguration)}{Saves a configuration on the users browser.}
+    \item \identifier{public void appendRecentPlotConfiguration(p: PlotConfiguration)}{Saves and appends a recently used plot configuration on the users browser.}
+    \item \identifier{public PlotConfiguration[] getSavedPlotConfigurations()}{Gets the configurations actively saved by the user.}
+    \item \identifier{public PlotConfiguration[] getRecentPlotConfigurations()}{Gets the configurations that were recently used by the user.}
   \end{itemize}
 }
 
