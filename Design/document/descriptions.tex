@@ -471,6 +471,16 @@ Frontend classes here
   \end{itemize}
 }
 
+\class{BlasSinlgeScatterPlotTransform : BlasPlotTransform}
+{Scatter plot using a single \texttt{BlasBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{BlasTwoScatterPlotTransform : BlasPlotTransform}
+{Scatter plot using two \texttt{BlasBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
 \interface{ConversionPlotTransform}
 {Interface for transforms using multiple \texttt{ConversionBenchmarkResult}.}
 {
@@ -478,6 +488,16 @@ Frontend classes here
       \item \identifier{public JSON transform(List<ConversionBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
   \end{itemize}
 }
+
+\class{ConversionSingleScatterPlotTransform : ConversionPlotTransform}
+{Scatter plot using a single \texttt{ConversionBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{ConversionTwoScatterPlotTransform : ConversionPlotTransform}
+{Scatter plot using two \texttt{ConversionBenchmarkResult}.}
+{ \\ }
+{ \\ }
 
 \class{DataProcessor}
 {This class takes care of processing and storing raw benchmark results.}
@@ -489,10 +509,17 @@ Frontend classes here
   \end{itemize}
 }
 
-\class{PlotType}
-{TODO: ENUM}
-{}
-{}
+\enum{PlotType}
+{Type of Plot}
+{
+  \begin{itemize}
+      \item Blas
+      \item Solver
+      \item Spmv
+      \item Conversion
+      \item Preconditioner
+  \end{itemize}
+}
 
 \interface{PreconditionerPlotTransform}
 {Interface for transforms using multiple \texttt{PreconditionerBenchmarkResult}.}
@@ -502,6 +529,21 @@ Frontend classes here
   \end{itemize}
 }
 
+\class{PreconditionerSingleScatterPlotTransform : PreconditionerPlotTransform}
+{Scatter plot using a single \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{PreconditionerTwoScatterPlotTransform : PreconditionerPlotTransform}
+{Scatter plot using two \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{PreconditionerSingleComponentBreakdownPlotTransform : PreconditionerPlotTransform}
+{Breakdown of each component for a single \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
 \interface{SolverPlotTransform}
 {Interface for transforms using multiple \texttt{SolverBenchmarkResult}.}
 {
@@ -510,6 +552,36 @@ Frontend classes here
   \end{itemize}
 }
 
+\class{SolverMultiRuntimePlotTransform : SolverPlotTransform}
+{Plot showing the runtime for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SolverMultiIterationCountsPlotTransform : SolverPlotTransform}
+{Plot showing the interation counts for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SolverMultiTimeToSolutionPlotTransform : SolverPlotTransform}
+{Plot showing the time to solution for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SolverMultiAchievedBandwidthPlotTransform : SolverPlotTransform}
+{Plot showing the achieved bandwidth for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SolverSingleConvergencePlotTransform : SolverPlotTransform : SolverPlotTransform}
+{Plot showing the convergence for a single \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SolverTwoSpeedupPlotTransform : SolverPlotTransform}
+{Plot showing the speedup for two \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
 \interface{SpmvPlotTransform}
 {Interface for transforms using multiple \texttt{SpmvBenchmarkResult}.}
 {
@@ -517,6 +589,21 @@ Frontend classes here
       \item \identifier{public JSON transform(List<SpmvBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
   \end{itemize}
 }
+
+\class{SpmvSinglePerformanceProfilePlotTransform : SpmvPlotTransform}
+{Plot showing the performance for a single \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SpmvSingleScatterPlotTransform : SpmvPlotTransform}
+{ScatterPlot for a single \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\class{SpmvTwoSpeedupPlotTransform : SpmvPlotTransform}
+{Plot showing the speedup for two \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
 
 \subsubsection{rest}
 \class{GitApiHandler : RepositoryHandler}
