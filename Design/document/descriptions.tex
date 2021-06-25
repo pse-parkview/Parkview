@@ -6,22 +6,154 @@ Class descriptions here
 \subsection{Frontend}
 Frontend classes here
 
-\class{Example Class : Parent Class}
-{An example class, \\ very cool}
+\subsubsection{ui}
+
+\class{AppComponent}
+{Main app component.}
+{\\}
+{\\}
+
+\class{HeaderComponent}
+{Component managing the topbar.}
+{\\}
+{\\}
+
+\class{SideBarComponent}
+{Component managing the sidebar.}
+{\\}
+{\\}
+
+\class{SideCurrentChosenCommitComponent}
+{Component managing the list containing the chosen commits.}
+{\\}
+{\\}
+
+\class{SideBenchmarkSelectComponent}
+{Component managing the selection of the benchmark type.}
 {
   \begin{itemize}
-    \item \identifier{public int attr}{an attribute}
-    \item \identifier{private int attr2}{another attribute}
-    \item \identifier{private int attr3}{yet another attribute}
+      \item \identifier{public void spawnBenchmarkSelectDialog()}{Spawns the \texttt{BenchmarkSelectionDialogComponent}.}
   \end{itemize}
 }
+{\\}
+
+\class{SideBenchmarkCompareComponent}
+{Component managing the button for comparing commits.}
 {
   \begin{itemize}
-    \item \identifier{public String getName()}{a method}
-    \item \identifier{public int getNum()}{yet another method}
-    \item \identifier{public void setNum(int num)}{guess what, a method}
+      \item \identifier{public void spawnBenchmarkCompareDialog()}{Spawns the \texttt{BenchmarkCompareDialogComponent}.}
   \end{itemize}
 }
+{\\}
+
+\class{SideLoadFromTemplateComponent}
+{Component managing the button for comparing commits.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnLoadFromTemplateDialog()}{Spawns the \texttt{LoadFromTemplateDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\class{SidePreviousPlotsComponent}
+{Component managing the list of previously generated plots.}
+{\\}
+{\\}
+
+\class{PlotCardComponent}
+{Small card containing a previous plot.}
+{\\}
+{\\}
+
+\class{AveragePerformanceComponent}
+{Component managing the overview of the average performance.}
+{\\}
+{\\}
+
+\class{GitHistoryComponent}
+{Component managing the display of git history.}
+{\\}
+{\\}
+
+\class{SingleBenchmarkPlotComponent}
+{Component managing the presentation of a single benchmark plot.}
+{\\}
+{\\}
+
+\class{BenchmarkComparisonPlotComponent}
+{Component managing the presentation of a comparison of benchmarks.}
+{\\}
+{\\}
+
+\class{ScatterPlotComponent}
+{Component managing the generation and presentation of a scatter plot.}
+{\\}
+{\\}
+
+\class{LinePlotComponent}
+{Component managing the generation and presentation of a line plot.}
+{\\}
+{\\}
+
+\class{BarPlotComponent}
+{Component managing the generation and presentation of a bar plot.}
+{\\}
+{\\}
+
+\class{SummaryChartComponent}
+{Component managing the generation and presentation of a summary chart.}
+{\\}
+{\\}
+
+\class{PlotConfigurationDialogComponent}
+{Component managing the configuration panel, where the user can configure his plot.}
+{
+  \begin{itemize}
+      \item \identifier{public void routeToPlotView()}{Reroutes the user to the plot view.}
+  \end{itemize}
+}
+{\\}
+
+\class{BenchmarkSelectDialogComponent}
+{Component managing the dialog for the selection of the benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\class{LoadFromTemplateDialogComponent}
+{Component managing the dialog for loading configurations from templates.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\class{ErrorDialogComponent}
+{Component managing the error dialog in case of exceptional behavior.}
+{\\}
+{\\}
+
+\class{CookieConsentDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{\\}
+{\\}
+
+\class{BenchmarkCompareDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+  }
+{\\}
+
+
+
+
 
 \subsection{Backend}
 \subsubsection{benchmark}
