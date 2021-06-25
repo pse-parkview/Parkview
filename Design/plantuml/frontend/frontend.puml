@@ -133,16 +133,25 @@ package datahandler {
         get y() : double
     }
 
+    interface Summary {
+        getSummary() : Map<K, V>
+        getAmountTested() : int
+    }
+
     together {
         'The different benchmark types implement benchmark
         interface Benchmark {
             get name() : string
             get commit() : Commit
-            get summary() : DataPoint[]
             get device() : string
-            get plotTypes() : PlotType[]
-            get plotType<T super PlotType>() : T
-            get summary<T super Summary>() : T
+            get summary() : Summary
+            get type() : BenchmarkType
+        }
+
+        interface BenchmarkType {
+            get name() : string
+            get validXKeys() : string[]
+            get validYKeys() : string[]
         }
 
         interface BenchmarkComparison {
@@ -208,120 +217,6 @@ package plotter {
     interface BarPlottable extends PlotType {
         getBarPlotData(): MultiSeries
     }
-
-    interface Summary extends PlotType {
-        getSummary() : Map<K, V>
-        getAmountTested() : int
-    }
-
-
-    class ConversionRuntime implements ScatterPlottable
-    class ConversionBandwidth implements ScatterPlottable
-    class ConversionSpeedup implements ScatterPlottable
-    class ConversionSummary implements Summary
-    class SpmvTime implements ScatterPlottable
-    class SpmvBandwidth implements ScatterPlottable
-    class SpmvPerformanceProfile implements LinePlottable
-    class SpmvSpeedup implements LinePlottable
-    class SpmvSummary implements Summary
-
-    together {
-        together {
-            abstract class SolverConvergence implements LinePlottable
-            class SolverConvergenceRecurrentResiduals extends SolverConvergence
-            class SolverConvergenceTrueResiduals extends SolverConvergence
-            class SolverConvergenceImplicitResiduals extends SolverConvergence
-        }
-        together {
-            abstract class SolverConvergenceOverTimestamps implements LinePlottable
-            class SolverConvergenceRecurrentResidualsOverTimestamps extends SolverConvergenceOverTimestamps
-            class SolverConvergenceTrueResidualsOverTimestamps extends SolverConvergenceOverTimestamps
-            class SolverConvergenceImplicitResidualsOverTimeStamps extends SolverConvergenceOverTimestamps
-        }
-        together {
-            abstract class SolverRuntimeBreakdown implements BarPlottable
-            class SolverRuntimeBreakdownGenerate extends SolverRuntimeBreakdown
-            class SolverRuntimeBreakdownApply extends SolverRuntimeBreakdown
-        }
-        class SolverAchievedBandwith implements BarPlottable, ScatterPlottable
-        class SolverIterationCounts implements ScatterPlottable
-        together {
-            abstract class SolverTimeToSolution implements ScatterPlottable
-            class SolverTimeToSolutionApply extends SolverTimeToSolution
-            class SolverTimeToSolutionGenAndApply extends SolverTimeToSolution
-        }
-        together {
-            abstract class SolverSpeedup implements ScatterPlottable
-            class SolverSpeedupRuntime extends SolverSpeedup
-            class SolverSpeedupIterations extends SolverSpeedup
-        }
-        class SolverSummary implements Summary
-    }
-    together {
-        together {
-            abstract PreconditionerOverviewOverNonzeros implements ScatterPlottable
-            class PreconditionerOverviewGenerateTimeOverNonzeros extends PreconditionerOverviewOverNonzeros
-            class PreconditionerOverviewApplyTimeOverNonzeros extends PreconditionerOverviewOverNonzeros
-        }
-        
-        together {
-            abstract PreconditionerOverviewOverMatrixName implements ScatterPlottable
-            class PreconditionerOverviewGenerateTimeOverMatrixName extends PreconditionerOverviewOverMatrixName
-            class PreconditionerOverviewApplyTimeOverMatrixName extends PreconditionerOverviewOverMatrixName
-        }
-        together {
-            abstract class PreconditionerRuntimeBreakdown implements BarPlottable
-
-            class PreconditionerRuntimeBreakdownGenerate extends PreconditionerRuntimeBreakdown
-            class PreconditionerRuntimeBreakdownApply extends PreconditionerRuntimeBreakdown
-        }
-        together {
-            abstract class PreconditionerSpeedup implements ScatterPlottable
-            class PreconditionerSpeedupRuntime extends PreconditionerSpeedup
-            class PreconditionerSpeedupIterations extends PreconditionerSpeedup
-        }
-        class PreconditionerSummary implements Summary
-    }
-    together {
-        together {
-            abstract class BlasOverN implements ScatterPlottable, LinePlottable
-            class BlasTimeOverN extends BlasOverN
-            class BlasFlopsOverN extends BlasOverN
-            class BlasBandwithOverN extends BlasOverN
-        }
-        together {
-            abstract class BlasOverR implements ScatterPlottable, LinePlottable
-            class BlasTimeOverR extends BlasOverR
-            class BlasFlopsOverR extends BlasOverR
-            class BlasBandwithOverR extends BlasOverR
-        }
-        together {
-            abstract class BlasOverM implements ScatterPlottable, LinePlottable
-            class BlasTimeOverM extends BlasOverM
-            class BlasFlopsOverM extends BlasOverM
-            class BlasBandwithOverM extends BlasOverM
-        }
-        together {
-            abstract class BlasOverK implements ScatterPlottable, LinePlottable
-            class BlasTimeOverK extends BlasOverK
-            class BlasFlopsOverK extends BlasOverK
-            class BlasBandwithOverK extends BlasOverK
-        }
-        together {
-            abstract class BlasOverName implements ScatterPlottable, LinePlottable
-            class BlasTimeOverName extends BlasOverName
-            class BlasFlopsOverName extends BlasOverName
-            class BlasBandwithOverName extends BlasOverName
-        }
-        together {
-            abstract class BlasSpeedup implements ScatterPlottable, LinePlottable
-            class BlasSpeedupOverN extends BlasSpeedup
-            class BlasSpeedupOverR extends BlasSpeedup
-            class BlasSpeedupOverM extends BlasSpeedup
-            class BlasSpeedupOverK extends BlasSpeedup
-        }
-    }
-
 }
 
 package cookies {
