@@ -1,4 +1,4 @@
-@startuml frontend_angular
+@startuml frontend
 
 'maybe wihtout linetype ortho its more readable 
 'edit: no
@@ -61,7 +61,8 @@ package ui {
         class LoadFromTemplateDialogComponent {
             spawnPlotConfigurationDialog()
         }
-        class ErrorDialog
+        class ErrorDialogComponent
+        class CookieConsentDialogComponent
         class BenchmarkCompareDialogComponent {
             spawnPlotConfigurationDialog()
         }
@@ -72,8 +73,8 @@ package ui {
 
     AppComponent .d.> AveragePerformanceComponent : routes to
     AppComponent .d.> GitHistoryComponent : routes to
-    AppComponent .d.> SingleBenchmarkPlotComponent
-    AppComponent .d.> BenchmarkComparisonPlotComponent
+    AppComponent .d.> SingleBenchmarkPlotComponent : routes to
+    AppComponent .d.> BenchmarkComparisonPlotComponent : routes to
 
     SideBarComponent "1" *-- "1" SideCurrentChosenCommitComponent
     SideBarComponent "1" *-- "1" SideBenchmarkSelectComponent
@@ -93,6 +94,9 @@ package ui {
     PlotConfigurationDialogComponent ...> SingleBenchmarkPlotComponent : routes to
     PlotConfigurationDialogComponent ...> BenchmarkComparisonPlotComponent : routes to
 
+    LoadFromTemplateDialogComponent ...> SingleBenchmarkPlotComponent : routes to
+    LoadFromTemplateDialogComponent ...> BenchmarkComparisonPlotComponent : routes to
+
     SingleBenchmarkPlotComponent .d..> ScatterPlotComponent :<<uses>>
     SingleBenchmarkPlotComponent .d..> LinePlotComponent :<<uses>>
     SingleBenchmarkPlotComponent .d..> BarPlotComponent :<<uses>>
@@ -108,9 +112,10 @@ package ui {
 
 package datahandler {
     class DataService {
-        getBranchNames(): List<string>
-        getCommitHistory(branch: String): List<Commit> 
-        getBenchmarks<T super Benchmark>(List<Commit> commits): List<T super Benchmark>
+        getBranchNames(): string[]
+        getCommitHistory(branch: String): Commit[]
+        getBenchmarks<T extends Benchmark>(Commit[] commits): T[]
+        getBenchmarkComparison(b1 : Benchmark, b2 : Benchmark): BenchmarkComparison
     }
 
     interface Commit {
@@ -128,55 +133,228 @@ package datahandler {
         get y() : double
     }
 
-    'The different benchmark types implement benchmark
-    interface Benchmark {
-        get commit() : Commit
-        get summary() : List<DataPoint>
-        get device() : string
-        get plotTypes() : List<PlotTypes>
-    }
+    together {
+        'The different benchmark types implement benchmark
+        interface Benchmark {
+            get name() : string
+            get commit() : Commit
+            get summary() : DataPoint[]
+            get device() : string
+            get plotTypes() : PlotType[]
+            get plotType<T super PlotType>() : T
+            get summary<T super Summary>() : T
+        }
 
-    interface BenchmarkComparison {
-        get benchmarks() : List<T super Benchmark>
-        get plotTypes() : List<PlotTypes>
+        interface BenchmarkComparison {
+            get benchmarks() : Benchmark[]
+            get plotTypes() : PlotTypes[]
+        }
+
+        class ConversionBenchmark implements Benchmark
+        class ConversionComparison implements BenchmarkComparison
+        class SpmvBenchmark implements Benchmark
+        class SpmvComparison implements BenchmarkComparison
+        class SolverBenchmark implements Benchmark
+        class SolverComparison implements BenchmarkComparison
+        class PreconditionerBenchmark implements Benchmark
+        class PreconditionerComparison implements BenchmarkComparison
+        class BlasBenchmark implements Benchmark
+        class BlasComparison implements BenchmarkComparison
     }
+    
+    DataService ...> DataPoint
+    DataService ...> Commit
+    DataService ...> Benchmark
+    DataService ...> BenchmarkComparison
+    
 }
 
 package plotter {
 
     class PlotService {
-        generateScatterPlot(benchmark : ScatterPlottable) :  BubbleChartMultiSeries
-        generateLinePlot(benchmark : LinePlottable :  MultiSeries
-        generateBarPlot(benchmark : BarPlottable) :  MultiSeries
+        generateScatterPlot(benchmark : Benchmark, device : string, plotType : ScatterPlottable) :  BubbleChartMultiSeries
+        generateLinePlot(benchmark : Benchmark, device : string, plotType : LinePlottable :  MultiSeries
+        generateBarPlot(benchmark : Benchmark, device : string, plotType : BarPlottable) :  MultiSeries
+
+        generateScatterPlot(comparison : BenchmarkComparison, device : string, plotType : ScatterPlottable) :  BubbleChartMultiSeries
+        generateLinePlot(comparison : BenchmarkComparison, device : string, plotType : LinePlottable :  MultiSeries
+
+        compileConfiguration(benchmark: Benchmark, device : string, plotType: PlotType) : PlotConfiguration
+        generateScatterPlotBasedOnConfig(p : PlotConfiguration): BubbleChartMultiSeries
+        generateLinePlotBasedOnConfig(p : PlotConfiguration): MultiSeries
+        generateBarPlotBasedOnConfig(p : PlotConfiguration): MultiSeries
     }
 
-
-    interface ScatterPlottable {
-        name : String
-        getScatterPlotData()
+    class PlotConfiguration() {
+        get benchmarkCommitSha : string
+        get device : string
+        plotType : string
     }
 
-    interface LinePlottable {
-        name : String
-        getLinePlotData()
+    interface PlotType {
+        get name() : string
+        get xAxisName() : string
+        get yAxisName() : string
     }
 
-    interface BarPlottable {
-        name : String
-        getBarPlotData()
+    interface ScatterPlottable extends PlotType {
+        getScatterPlotData():  BubbleChartMultiSeries
     }
 
-    interface Summary {
-        name : String
+    interface LinePlottable extends PlotType {
+        getLinePlotData(): MultiSeries
+    }
+
+    interface BarPlottable extends PlotType {
+        getBarPlotData(): MultiSeries
+    }
+
+    interface Summary extends PlotType {
         getSummary() : Map<K, V>
         getAmountTested() : int
     }
+
+
+    class ConversionRuntime implements ScatterPlottable
+    class ConversionBandwidth implements ScatterPlottable
+    class ConversionSpeedup implements ScatterPlottable
+    class ConversionSummary implements Summary
+    class SpmvTime implements ScatterPlottable
+    class SpmvBandwidth implements ScatterPlottable
+    class SpmvPerformanceProfile implements LinePlottable
+    class SpmvSpeedup implements LinePlottable
+    class SpmvSummary implements Summary
+
+    together {
+        together {
+            abstract class SolverConvergence implements LinePlottable
+            class SolverConvergenceRecurrentResiduals extends SolverConvergence
+            class SolverConvergenceTrueResiduals extends SolverConvergence
+            class SolverConvergenceImplicitResiduals extends SolverConvergence
+        }
+        together {
+            abstract class SolverConvergenceOverTimestamps implements LinePlottable
+            class SolverConvergenceRecurrentResidualsOverTimestamps extends SolverConvergenceOverTimestamps
+            class SolverConvergenceTrueResidualsOverTimestamps extends SolverConvergenceOverTimestamps
+            class SolverConvergenceImplicitResidualsOverTimeStamps extends SolverConvergenceOverTimestamps
+        }
+        together {
+            abstract class SolverRuntimeBreakdown implements BarPlottable
+            class SolverRuntimeBreakdownGenerate extends SolverRuntimeBreakdown
+            class SolverRuntimeBreakdownApply extends SolverRuntimeBreakdown
+        }
+        class SolverAchievedBandwith implements BarPlottable, ScatterPlottable
+        class SolverIterationCounts implements ScatterPlottable
+        together {
+            abstract class SolverTimeToSolution implements ScatterPlottable
+            class SolverTimeToSolutionApply extends SolverTimeToSolution
+            class SolverTimeToSolutionGenAndApply extends SolverTimeToSolution
+        }
+        together {
+            abstract class SolverSpeedup implements ScatterPlottable
+            class SolverSpeedupRuntime extends SolverSpeedup
+            class SolverSpeedupIterations extends SolverSpeedup
+        }
+        class SolverSummary implements Summary
+    }
+    together {
+        together {
+            abstract PreconditionerOverviewOverNonzeros implements ScatterPlottable
+            class PreconditionerOverviewGenerateTimeOverNonzeros extends PreconditionerOverviewOverNonzeros
+            class PreconditionerOverviewApplyTimeOverNonzeros extends PreconditionerOverviewOverNonzeros
+        }
+        
+        together {
+            abstract PreconditionerOverviewOverMatrixName implements ScatterPlottable
+            class PreconditionerOverviewGenerateTimeOverMatrixName extends PreconditionerOverviewOverMatrixName
+            class PreconditionerOverviewApplyTimeOverMatrixName extends PreconditionerOverviewOverMatrixName
+        }
+        together {
+            abstract class PreconditionerRuntimeBreakdown implements BarPlottable
+
+            class PreconditionerRuntimeBreakdownGenerate extends PreconditionerRuntimeBreakdown
+            class PreconditionerRuntimeBreakdownApply extends PreconditionerRuntimeBreakdown
+        }
+        together {
+            abstract class PreconditionerSpeedup implements ScatterPlottable
+            class PreconditionerSpeedupRuntime extends PreconditionerSpeedup
+            class PreconditionerSpeedupIterations extends PreconditionerSpeedup
+        }
+        class PreconditionerSummary implements Summary
+    }
+    together {
+        together {
+            abstract class BlasOverN implements ScatterPlottable, LinePlottable
+            class BlasTimeOverN extends BlasOverN
+            class BlasFlopsOverN extends BlasOverN
+            class BlasBandwithOverN extends BlasOverN
+        }
+        together {
+            abstract class BlasOverR implements ScatterPlottable, LinePlottable
+            class BlasTimeOverR extends BlasOverR
+            class BlasFlopsOverR extends BlasOverR
+            class BlasBandwithOverR extends BlasOverR
+        }
+        together {
+            abstract class BlasOverM implements ScatterPlottable, LinePlottable
+            class BlasTimeOverM extends BlasOverM
+            class BlasFlopsOverM extends BlasOverM
+            class BlasBandwithOverM extends BlasOverM
+        }
+        together {
+            abstract class BlasOverK implements ScatterPlottable, LinePlottable
+            class BlasTimeOverK extends BlasOverK
+            class BlasFlopsOverK extends BlasOverK
+            class BlasBandwithOverK extends BlasOverK
+        }
+        together {
+            abstract class BlasOverName implements ScatterPlottable, LinePlottable
+            class BlasTimeOverName extends BlasOverName
+            class BlasFlopsOverName extends BlasOverName
+            class BlasBandwithOverName extends BlasOverName
+        }
+        together {
+            abstract class BlasSpeedup implements ScatterPlottable, LinePlottable
+            class BlasSpeedupOverN extends BlasSpeedup
+            class BlasSpeedupOverR extends BlasSpeedup
+            class BlasSpeedupOverM extends BlasSpeedup
+            class BlasSpeedupOverK extends BlasSpeedup
+        }
+    }
+
 }
 
+package cookies {
+    class CookieService {
+        saveConsent(given: boolean): void
+        hasDecidedConsent() : boolean
+        getConsent() : boolean
+        savePlotConfiguration(p: PlotConfiguration): void
+        appendRecentPlotConfiguration(PlotConfiguration): void
+        getSavedPlotConfigurations(): PlotConfiguration[]
+        getRecentPlotConfigurations(): PlotConfiguration[]
+    }
+}
+
+CookieService <-- AppComponent
+CookieService <-- CookieConsentDialogComponent
+CookieService <-- SidePreviousPlotsComponent
+CookieService <-- SideLoadFromTemplateComponent
+
+DataService <--- BenchmarkSelectDialogComponent
+
+DataService <--- SingleBenchmarkPlotComponent
+DataService <--- BenchmarkComparisonPlotComponent
+DataService <--- GitHistoryComponent
+DataService <--- AveragePerformanceComponent
 
 PlotService --> DataService
+
+PlotService <-- PlotCardComponent
+
 PlotService <-u- ScatterPlotComponent
 PlotService <-u- LinePlotComponent
 PlotService <-u- BarPlotComponent
+PlotService <-u- SummaryChartComponent
 
 @enduml
