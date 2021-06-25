@@ -10,11 +10,9 @@ end box
 
 box "Backend"
 participant ":RestHandler" as rh
-participant ":GitHistory" as ghist
-participant ":DatabaseHandler" as datah
+participant ":History" as ghist
+participant ":RepositoryHandler" as reph
 end box
-
-participant ":Git Api" as gitapi
 
 ted -> gui ++: opens
 
@@ -24,16 +22,11 @@ dh -> rh ++: get request for commit history
 rh -> ghist ++: getCommitHistory(branch: String, device: String, benchmark: String)
 
 alt git history is not up to date
-  ghist -> rh ++: fetchGitHistory()
-  rh -> gitapi ++: get request for history
-  gitapi --> rh --: commits: List<Commit>
-  rh --> ghist --: commits: List<Commit>
-  ghist -> datah ++: updateHistory(commits: List<Commit>)
-  datah --> ghist --:
+  ghist -> reph ++: fetchGitHistory()
+  reph --> ghist --: commits: List<Commit>
+  ghist -> ghist ++: updateHistory(commits: List<Commit>)
+  ghist --> ghist --
   end
-
-ghist -> datah ++: getHistory()
-datah --> ghist --: history: List<Commit>
 
 ghist --> rh --: history: List<Commit>
 rh --> dh --: commit history
