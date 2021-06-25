@@ -241,8 +241,8 @@ package benchmark {
 
 package processing {
   class DataProcessor {
-    void storeBenchmarkResults(results: List<BenchmarkResult>)
-    JSON transformBenchmarkResults(results: List<BenchmarkResult, plotType: PlotType)
+    void storeBenchmarkResults(results: JSON)
+    JSON transformBenchmarkResults(results: List<BenchmarkResult>, plotType: PlotType)
   }
   BenchmarkResultStorage <- DataProcessor
 
