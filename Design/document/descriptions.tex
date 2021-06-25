@@ -25,6 +25,7 @@ Frontend classes here
 
 \subsection{Backend}
 \subsubsection{benchmark}
+\label{b:1}
 \interface{BenchmarkResultStorage}
 {This interface provides methods for the storage of benchmark results.}
 {
@@ -33,6 +34,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:2}
 \class{BlasBenchmarkResult : BenchmarkResult}
 {This is a benchmark result for the benchmarks of the BLAS format and type.}
 {
@@ -46,6 +48,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:3}
 \class{BlasDatapoint}
 {A single datapoint for the \texttt{BlasBenchmarkResult}, contains the problem description (n, r, m, k) and a list of operations.}
 {
@@ -67,6 +70,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:4}
 \class{Component}
 {A single component, part of \texttt{PreconditionerBenchmarkResult} and \texttt{SolverBenchmarkResult}.}
 {
@@ -82,6 +86,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:5}
 \class{Conversion}
 {A single conversion, part of \texttt{ConversionBenchmarkResult}.}
 {
@@ -99,11 +104,13 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:6}
 \class{ConversionBenchmarkResult : MatrixBenchmarkResult}
 {This is a benchmark result for the benchmarks of the Conversion format and type.}
 { \\ }
 { \\ }
 
+\label{b:7}
 \class{ConversionDatapoint : MatrixDatapoint}
 {A single datapoint for \texttt{ConversionBenchmarkResult}, contains the problem description for the matrix and a list of conversions.}
 {
@@ -117,6 +124,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:8}
 \class{Format}
 {A single format, part of \texttt{SpmvBenchmarkResult}.}
 {
@@ -138,6 +146,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:9}
 \class{MatrixBenchmarkResult : BenchmarkResult}
 {Benchmark type that uses matrices.}
 {
@@ -151,6 +160,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:10}
 \class{MatrixDatapoint}
 {Single datapoint for a \texttt{MatrixBenchmarkResult}. Contains problem description (rows, columns, nonzeros).}
 {
@@ -170,6 +180,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:11}
 \class{Operation}
 {A single operation, part of \texttt{BlasBenchmarkResult}.}
 {
@@ -191,6 +202,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:12}
 \class{Preconditioner}
 {A single preconditioner, part of \texttt{PreconditionerBenchmarkResult}.}
 {
@@ -214,11 +226,13 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:13}
 \class{PreconditionerBenchmarkResult : MatrixBenchmarkResult}
 {This is a benchmark result for the benchmarks of the Preconditioner format and type.}
 { \\ }
 { \\ }
 
+\label{b:14}
 \class{PreconditionerDatapoint : MatrixDatapoint}
 {A single datapoint for \texttt{PreconditionerBenchmarkResult}, contains the problem description for the matrix and a list of preconditioners.}
 {
@@ -232,6 +246,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:15}
 \class{Solver}
 {A single Solver, part of \texttt{SolverBenchmarkResult}.}
 {
@@ -269,11 +284,13 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:16}
 \class{SolverBenchmarkResult : MatrixBenchmarkResult}
 {This is a benchmark result for the benchmarks of the Solver format and type.}
 { \\ }
 { \\ }
 
+\label{b:17}
 \class{SolverDatapoint : MatrixDatapoint}
 {A single datapoint for \texttt{SolverBenchmarkResult}, contains the problem description for the matrix and a list of solvers.}
 {
@@ -287,11 +304,13 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:18}
 \class{SpmvBenchmarkResult : MatrixBenchmarkResult}
 {This is a benchmark result for the benchmarks of the SPMV format and type.}
 { \\ }
 { \\ }
 
+\label{b:19}
 \class{SpmvDatapoint : MatrixDatapoint}
 {A single datapoint, contains the problem description for the matrix and a list of formats.}
 {
@@ -309,6 +328,7 @@ Frontend classes here
 
 \subsubsection{database}
 
+\label{b:20}
 \class{BenchmarkResultDatabase : BenchmarkResultStorage}
 {This class offers storage of benchmark results by using a database. Access to the database is provided by a \texttt{DatabaseHandler} object.}
 {
@@ -318,6 +338,7 @@ Frontend classes here
 }
 { \\ }
 
+\label{b:21}
 \interface{DatabaseHandler}
 {Interface for accessing a database. It offers methods for storing, updating and retrieving commits and benchmark results}
 {
@@ -329,6 +350,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:22}
 \class{HistoryDatabase}
 {This class offers access to a git history stored in a database. Access to the database is provided by a \texttt{DatabaseHandler} object.}
 {
@@ -338,6 +360,7 @@ Frontend classes here
 }
 { \\ }
 
+\label{b:23}
 \class{LazyBenchmarkResult : BenchmarkResult}
 {This class offers lazy loading of benchmark result. It loads the benchmark result from the database only once it is actually needed.}
 {
@@ -347,16 +370,19 @@ Frontend classes here
 }
 { \\ }
 
+\label{b:24}
 \class{PostgreSQLHandler : DatabaseHandler}
 {\texttt{DatabaseHandler} for accessing a PostgreSQL database.}
 { \\ }
 { \\ }
 
+\label{b:25}
 \class{MissingBenchmarkResultException : Exception}
 {Exception for handling missing benchmark results.}
 { \\ }
 { \\ }
 
+\label{b:60}
 \class{MissingCommitException : Exception}
 {Exception for handling missing branches.}
 { \\ }
@@ -364,19 +390,21 @@ Frontend classes here
 
 \subsubsection{git}
 
+\label{b:26}
 \class{Benchmark}
 {Contains information about a benchmark type.}
-{ 
+{
   \begin{itemize}
       \item \identifier{private String name}{Name of benchmark.}
   \end{itemize}
 }
-{ 
+{
   \begin{itemize}
       \item \identifier{private String getName()}{Getter for \texttt{name}.}
   \end{itemize}
 }
 
+\label{b:27}
 \interface{BenchmarkResult}
 {Interface for representing a single benchmark result for a given benchmark type.}
 {
@@ -388,6 +416,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:28}
 \class{BranchForBenchmark}
 {Class that represent a branch for a benchmark type. Benchmark is fixed since results can't be compared across benchmarks.}
 {
@@ -406,6 +435,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:29}
 \class{Commit}
 {Class that represents a single commit for a given branch and benchmark type.}
 {
@@ -427,6 +457,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:30}
 \class{Device}
 {Class that contains information about a device.}
 {
@@ -440,11 +471,13 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:31}
 \class{EmptyBenchmarkResult : BenchmarkResult}
 {Null object for representing an empty or non existing benchmark result}
 { \\ }
 { \\ }
 
+\label{b:32}
 \interface{History}
 {Interface that represents an entire git history. It allows for retrieving branches for a given benchmark type, therefore containing the results of the benchmarks run on this branch.}
 {
@@ -453,6 +486,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:33}
 \interface{RepositoryHandler}
 {Interface that provides access to repository for fetching new commits. This allow for updating the history with new commits.}
 {
@@ -463,6 +497,7 @@ Frontend classes here
 
 \subsubsection{processing}
 
+\label{b:34}
 \interface{BlasPlotTransform}
 {Interface for transforms using multiple \texttt{BlasBenchmarkResult}.}
 {
@@ -471,16 +506,19 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:35}
 \class{BlasSinlgeScatterPlotTransform : BlasPlotTransform}
 {Scatter plot using a single \texttt{BlasBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:36}
 \class{BlasTwoScatterPlotTransform : BlasPlotTransform}
 {Scatter plot using two \texttt{BlasBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:37}
 \interface{ConversionPlotTransform}
 {Interface for transforms using multiple \texttt{ConversionBenchmarkResult}.}
 {
@@ -489,16 +527,19 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:38}
 \class{ConversionSingleScatterPlotTransform : ConversionPlotTransform}
 {Scatter plot using a single \texttt{ConversionBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:39}
 \class{ConversionTwoScatterPlotTransform : ConversionPlotTransform}
 {Scatter plot using two \texttt{ConversionBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:40}
 \class{DataProcessor}
 {This class takes care of processing and storing raw benchmark results.}
 { \\ }
@@ -509,6 +550,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:41}
 \enum{PlotType}
 {Type of Plot}
 {
@@ -521,6 +563,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:42}
 \interface{PreconditionerPlotTransform}
 {Interface for transforms using multiple \texttt{PreconditionerBenchmarkResult}.}
 {
@@ -529,21 +572,25 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:43}
 \class{PreconditionerSingleScatterPlotTransform : PreconditionerPlotTransform}
 {Scatter plot using a single \texttt{PreconditionerBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:44}
 \class{PreconditionerTwoScatterPlotTransform : PreconditionerPlotTransform}
 {Scatter plot using two \texttt{PreconditionerBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:45}
 \class{PreconditionerSingleComponentBreakdownPlotTransform : PreconditionerPlotTransform}
 {Breakdown of each component for a single \texttt{PreconditionerBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:46}
 \interface{SolverPlotTransform}
 {Interface for transforms using multiple \texttt{SolverBenchmarkResult}.}
 {
@@ -552,36 +599,43 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:47}
 \class{SolverMultiRuntimePlotTransform : SolverPlotTransform}
 {Plot showing the runtime for multiple \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:48}
 \class{SolverMultiIterationCountsPlotTransform : SolverPlotTransform}
 {Plot showing the interation counts for multiple \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:49}
 \class{SolverMultiTimeToSolutionPlotTransform : SolverPlotTransform}
 {Plot showing the time to solution for multiple \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:50}
 \class{SolverMultiAchievedBandwidthPlotTransform : SolverPlotTransform}
 {Plot showing the achieved bandwidth for multiple \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:51}
 \class{SolverSingleConvergencePlotTransform : SolverPlotTransform : SolverPlotTransform}
 {Plot showing the convergence for a single \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:52}
 \class{SolverTwoSpeedupPlotTransform : SolverPlotTransform}
 {Plot showing the speedup for two \texttt{SolverBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:53}
 \interface{SpmvPlotTransform}
 {Interface for transforms using multiple \texttt{SpmvBenchmarkResult}.}
 {
@@ -590,27 +644,32 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:54}
 \class{SpmvSinglePerformanceProfilePlotTransform : SpmvPlotTransform}
 {Plot showing the performance for a single \texttt{SpmvBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:55}
 \class{SpmvSingleScatterPlotTransform : SpmvPlotTransform}
 {ScatterPlot for a single \texttt{SpmvBenchmarkResult}.}
 { \\ }
 { \\ }
 
+\label{b:56}
 \class{SpmvTwoSpeedupPlotTransform : SpmvPlotTransform}
 {Plot showing the speedup for two \texttt{SpmvBenchmarkResult}.}
 { \\ }
 { \\ }
 
 \subsubsection{rest}
+\label{b:57}
 \class{GitApiHandler : RepositoryHandler}
 {Implements RepositoryHandler by using the GitHub Api.}
 { \\ }
 { \\ }
 
+\label{b:58}
 \interface{RestHandler}
 {Interface that provides methods for handling POST and GET requests.}
 {
@@ -621,6 +680,7 @@ Frontend classes here
   \end{itemize}
 }
 
+\label{b:59}
 \class{SpringRestHandler}
 {Class that implements a RestHandler using the Spring framework.}
 { \\ }
