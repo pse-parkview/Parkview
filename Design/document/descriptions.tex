@@ -176,6 +176,7 @@ Class descriptions here
 
 \subsubsection{datahandler}
 
+\label{f:24}
 \class{DataService}
 {A Service that gets injected into UI Classes that need to talk to the backend. Subject to change during implementation.}
 {
@@ -191,6 +192,7 @@ Class descriptions here
   \end{itemize}
 }
 
+\label{f:25}
 \interface{Commit}
 {Encapsulates information regarding a commit.}
 {
@@ -204,6 +206,7 @@ Class descriptions here
   \end{itemize}
 }
 
+\label{f:26}
 \interface{Summary}
 {Encapsulates information regarding the summary of a benchmark.}
 {
@@ -213,6 +216,7 @@ Class descriptions here
   \end{itemize}
 }
 
+\label{f:27}
 \interface{Benchmark}
 {Encapsulates information regarding one Benchmark Result, Keep in mind that this is the front end representation as it currently is. May be subject to change.}
 {
@@ -224,6 +228,7 @@ Class descriptions here
     \end{itemize}
 }
 
+\label{f:28}
 \interface{BenchmarkType}
 {Encapsulates information about a benchmark type, namely what its name is, and what is plottable. May be subject to change.}
 {
@@ -234,6 +239,7 @@ Class descriptions here
     \end{itemize}
 }
 
+\label{f:29}
 \interface{BenchmarkComparison}
 {Encapsulates information about the comparison between two Benchmark results.}
 {
@@ -243,36 +249,47 @@ Class descriptions here
   \end{itemize}
 }
 
+\label{f:30}
 \class{ConversionBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:31}
 \class{ConversionComparison : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:32}
 \class{SpmvBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:33}
 \class{SpmvBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:34}
 \class{SpmvComparison : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:35}
 \class{SolverBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:36}
 \class{SolverComparison : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:37}
 \class{PreconditionerBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:38}
 \class{PreconditionerComparison : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:39}
 \class{BlasBenchmark : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
+\label{f:40}
 \class{BlasComparison : BenchmarkType}
 {Implements BenchmarkType and describes what it is and what is plottable.}
 {\\}{\\}
@@ -280,6 +297,7 @@ Class descriptions here
 
 \subsubsection{datahandler}
 
+\label{f:41}
 \class{PlotService}
 {A service that gets injected into UI classes that need them, like Components that are display plots.}
 {
@@ -297,7 +315,7 @@ Class descriptions here
   \end{itemize}
 }
 
-
+\label{f:42}
 \interface{PlotConfiguration}
 {An interface describing the configurations needed to immediately recreate a plot.}
 {
@@ -311,8 +329,9 @@ Class descriptions here
 }
 
 \subsubsection{cookies}
+\label{f:42}
 \class{CookieService}
-{An example class, \\ very cool}
+{Handles the cookies used by the front end to save things like recently viewed plots and similar.}
 {
   \begin{itemize}
     \item \identifier{private final ngx-cookie-service.CookieService cookieService}{The utility that manages cookies for us.}
