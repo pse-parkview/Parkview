@@ -28,12 +28,15 @@
 \usepackage{xcolor}
 \usepackage[nonumberlist, toc]{glossaries}     % provides glossary commands, [toc] to appear in table of contents
 \usepackage{graphicx}
+\usepackage{dirtree}
 \graphicspath{ {./images/} }
 \hypersetup{
 	pdftitle={Design},
-	bookmarks=true,
+	bookmarks=true
 }
+\usepackage{design}
 \usepackage{csquotes} % provides \enquote{} command
+
 
 \begin{document}
 
@@ -51,8 +54,27 @@
 \tableofcontents
 \clearpage
 
+\section{Introduction}
+This document describes in detail the architecture of \parkview{}. The overall structure of the front- and backend is laid out using class diagrams and a more detailed view into the different functionalities is provided with sequence diagrams.
+\clearpage
+
+\input{structure.tex}
+\clearpage
+
+\input{descriptions.tex}
+\clearpage
+
+\input{procedures.tex}
+\clearpage
+
+\input{design_data.tex}
+\clearpage
+
+
 \appendix
 
-\printnoidxglossaries
+\input{class_index.tex}
+\clearpage
+
 
 \end{document}
