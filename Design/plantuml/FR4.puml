@@ -2,18 +2,19 @@
 
 participant ":RestHandler" as rh
 participant ":DataProcessor" as dp
-participant ":Database\nController" as db
+participant ":BenchmarkResultStorage" as db
 
 [-> rh ++: POST request
 note left: contains benchmark results
 
-rh -> dp ++: process(jsonData)
+rh -> dp ++: storeBenchmarkResults(results: JSON)
 
-dp -> dp ++: format(jsonData)
-return cleanData:FormattedData
+dp -> dp ++: format(results: Json)
+dp --> dp --: List<BenchmarkResult>
+
 note right: Put data into correct\nformat for database
 
-dp -> db ++: insert(cleanData)
+dp -> db ++: storeBenchmarkResults(results: List<BenchmarkResult>)
 return status:Status
 
 return status:Status

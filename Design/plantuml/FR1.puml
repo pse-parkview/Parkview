@@ -17,9 +17,9 @@ end box
 ted -> gui ++: opens
 
 gui -> gh ++: updateView()
-gh -> dh ++: getCommitHistory(branch: String, device: String, benchmark: String)
+gh -> dh ++: getCommitHistory(branch: String, device: Device, benchmark: Benchmark)
 dh -> rh ++: get request for commit history
-rh -> ghist ++: getCommitHistory(branch: String, device: String, benchmark: String)
+rh -> ghist ++: getCommitHistory(branch: String, device: Device, benchmark: Benchmark)
 
 alt git history is not up to date
   ghist -> reph ++: fetchGitHistory()
