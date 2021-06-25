@@ -4,22 +4,155 @@ Class descriptions here
 
 
 \subsection{Frontend}
-Frontend classes here
 
-\class{Example Class : Parent Class}
-{An example class, \\ very cool}
+\subsubsection{datahandler}
+
+\class{DataService}
+{A Service that gets injected into UI Classes that need to talk to the backend. Subject to change during implementation.}
 {
   \begin{itemize}
-    \item \identifier{public int attr}{an attribute}
-    \item \identifier{private int attr2}{another attribute}
-    \item \identifier{private int attr3}{yet another attribute}
+    \item \identifier{private final HttpClient http}{Within @angular/common/http and part of the Angular Framework.}
   \end{itemize}
 }
 {
   \begin{itemize}
-    \item \identifier{public String getName()}{a method}
-    \item \identifier{public int getNum()}{yet another method}
-    \item \identifier{public void setNum(int num)}{guess what, a method}
+    \item \identifier{public String[] getBranchNames()}{Gets a list of all branch names.}
+    \item \identifier{public Commit[] getCommitHistory(String branch)}{Retrieves the entire commit history of the given branch.}
+    \item \identifier{public T getBenchmarks<T extends Benchmarks>(Commit[] commits)}{Retrieves all benchmarks that have a commit given to them out of the given ones.}
+  \end{itemize}
+}
+\interface{Commit}
+{Encapsulates information regarding a commit.}
+{
+  \begin{itemize}
+    \item \identifier{Date date()}{The date the commit was made.}
+    \item \identifier{String commitMessage()}{Self explanatory.}
+    \item \identifier{String author()}{Self explanatory.}
+    \item \identifier{boolean hasBenchmark()}{Whether this commit has a benchmark associated to it.}
+    \item \identifier{String sha()}{The identifying hash of the commit.}
+    \item \identifier{String branch()}{The branch name of this commit.}
+  \end{itemize}
+}
+\interface{Summary}
+{Encapsulates information regarding the summary of a benchmark.}
+{
+  \begin{itemize}
+    \item \identifier{Map<K, V> summary()}{The different values associated to their name or key.}
+    \item \identifier{int amountTested()}{Self explanatory.}
+  \end{itemize}
+}
+\interface{Benchmark}
+{Encapsulates information regarding one Benchmark Result, Keep in mind that this is the front end representation as it currently is. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{Commit commit()}{Corresponding commit of a benchmark}
+      \item \identifier{String device()}{Device this benchmark was run on}
+      \item \identifier{Summary summary()}{Summary of this benchmark.}
+      \item \identifier{BenchmarkType type()}{The type of this benchmark.}
+    \end{itemize}
+}
+\interface{BenchmarkType}
+{Encapsulates information about a benchmark type, namely what its name is, and what is plottable. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{String name()}{What the type is called.}
+      \item \identifier{String[] validXKeys()}{Permissible keys of the benchmark result that can be used for the x axis.}
+      \item \identifier{String[] validYKeys()}{Permissible keys of the benchmark result that can be used for the y axis.}
+    \end{itemize}
+}
+\interface{BenchmarkComparison}
+{Encapsulates information about the comparison between two Benchmark results.}
+{
+  \begin{itemize}
+    \item \identifier{Benchmark[] benchmarks()}{The benchmark results that are compared.}
+    \item \identifier{BenchmarkType comparisonType()}{Contains information like what the permissible key to compare for are.}
+  \end{itemize}
+}
+
+\class{ConversionBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{ConversionComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{SpmvBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{SpmvBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{SpmvComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{SolverBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{SolverComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{PreconditionerBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{PreconditionerComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{BlasBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+\class{BlasComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{}{}
+
+
+\subsubsection{datahandler}
+
+\class{PlotService}
+{A service that gets injected into UI classes that need them, like Components that are display plots.}
+{
+  \begin{itemize}
+    \item \identifier{private final DataService}{A dependency since the PlotService has to talk with the backend somehow.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateBarPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+  \end{itemize}
+}
+
+
+\interface{PlotConfiguration}
+{An interface describing the configurations needed to immediately recreate a plot.}
+{
+  \begin{itemize}
+    \item \identifier{String benchmarkCommitSha()}{The commit referenced}
+    \item \identifier{String benchmarkComparedCommitSha()}{The commit that was compared to}
+    \item \identifier{String benchmarkType()}{The benchmark type to look for.}
+    \item \identifier{String xKey()}{The key value that was plotted on the x axis.}
+    \item \identifier{String yKey()}{The key value that was plotted on the y axis.}
+  \end{itemize}
+}
+
+\subsubsection{cookies}
+\class{CookieService}
+{An example class, \\ very cool}
+{
+  \begin{itemize}
+    \item \identifier{private final ngx-cookie-service.CookieService cookieService}{The utility that manages cookies for us.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public void saveConsent(given: boolean)}{Saved a decision made by the user, whether he allows cookies or not.}
+    \item \identifier{public boolean hasDecidedConsent()}{Whether the user has decided yet.}
+    \item \identifier{public boolean getConsent()}{The current status on whether the app is allowed to save cookies or not.}
+    \item \identifier{public void savePlotConfiguration(p: PlotConfiguration)}{Saves a configuration on the users browser.}
+    \item \identifier{public void appendRecentPlotConfiguration(p: PlotConfiguration)}{Saves and appends a recently used plot configuration on the users browser.}
+    \item \identifier{public PlotConfiguration[] getSavedPlotConfigurations()}{Gets the configurations actively saved by the user.}
+    \item \identifier{public PlotConfiguration[] getRecentPlotConfigurations()}{Gets the configurations that were recently used by the user.}
   \end{itemize}
 }
 
