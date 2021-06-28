@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  parkview-postgres:
+    image: "postgres:9.6-alpine"
+    container_name: parkview-postgres
+    volumes:
+      - parkview-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: parkview
+      POSTGRES_USER: parkview
+      POSTGRES_PASSWORD: parkview
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  pgadmin-parkview:
+    container_name: pgadmin4-parkview
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@parkview.com
+      PGADMIN_DEFAULT_PASSWORD: parkview
+    ports:
+      - "5050:80"
+
+# parkview-backend:
+#   build: ./backend
+#   container_name: parkview-backend
+#   environment:
+#     - DB_SERVER=parkview-postgres
+#   ports:
+#     - 8080:8080
+#   links:
+#     - parkview-postgres
+
+# parkview-frontend:
+#   build: ./frontend
+#   container_name: parkview-frontend
+#   ports:
+#     - 4200:80
+#   links:
+#     - parkview-backend
+
+
+volumes:
+  parkview-data:
