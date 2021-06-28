@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS parkview.SolverBenchmark (
   solverRhsNorm DOUBLE PRECISION NULL,
   solverResidualNorm DOUBLE PRECISION NULL,
   solverCompleted SMALLINT NULL,
-  ´solverGenerateTotalTime DOUBLE PRECISION NULL,
+  solverGenerateTotalTime DOUBLE PRECISION NULL,
   solverApplyTotalTime DOUBLE PRECISION NULL,
   soverApplyIterations INT NULL,
   CONSTRAINT idMatrixBenchmark
