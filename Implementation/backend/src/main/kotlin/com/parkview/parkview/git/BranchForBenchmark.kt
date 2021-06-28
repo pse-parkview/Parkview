@@ -27,7 +27,5 @@ class BranchForBenchmark(
      *
      * @return list of [commits][Commit]
      */
-    fun toList(): List<Commit> {
-        TODO("Not yet implemented")
-    }
+    fun toList(): List<Commit> = commits
 }
