@@ -20,9 +20,7 @@ class BranchForBenchmark(
      * @param sha given sha for wanted commit
      * @return the wanted commit. If the commits does not exist, null is returned
      */
-    fun getCommit(sha: String): Commit {
-        TODO("Not yet implemented")
-    }
+    fun getCommit(sha: String) = commits.find {it.sha == sha}
 
     /**
      * Returns this branches commits as a list

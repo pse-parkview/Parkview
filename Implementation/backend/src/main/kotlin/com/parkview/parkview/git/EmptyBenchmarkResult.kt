@@ -8,7 +8,5 @@ class EmptyBenchmarkResult(
     override val device: Device,
     override val benchmark: Benchmark
 ) : BenchmarkResult {
-    override fun getSummaryValue(): Double {
-        TODO("Not yet implemented")
-    }
+    override fun getSummaryValue() = 0.0
 }

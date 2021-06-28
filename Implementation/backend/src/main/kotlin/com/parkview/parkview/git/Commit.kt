@@ -8,13 +8,13 @@ import java.util.*
  * @param sha commit sha
  * @param message commit message
  * @param date commit date
- * @param previousCommit parent commit
+ * @param parentCommit parent commit
  * @param benchmarkResultsByDevice a map from device names to benchmark results
  */
 class Commit(
     val sha: String,
     val message: String,
     val date: Date,
-    val previousCommit: Commit,
+    val parentCommit: Commit? = null, // TODO replace with null object, only problem is the initial commit
     val benchmarkResultsByDevice: Map<Device, BenchmarkResult> = emptyMap()
 )
