@@ -21,7 +21,7 @@ interface Commit {
   /**
    * True if the commit has a benchmark associated with it
    */
-  get hasBenchmark: boolean;
+  get hasBenchmark(): boolean;
 
   /**
    * The commit hash
