@@ -15,6 +15,13 @@ import { LoadFromTemplateDialogComponent } from './dialogs/load-from-template-di
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { BenchmarkCompareDialogComponent } from './dialogs/benchmark-compare-dialog/benchmark-compare-dialog.component';
 import { CookieConsentDialogComponent } from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
+import { SideCurrentChosenCommitComponent } from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
+import { SideBenchmarkSelectComponent } from './sidebar/side-benchmark-select/side-benchmark-select.component';
+import { SideBenchmarkCompareComponent } from './sidebar/side-benchmark-compare/side-benchmark-compare.component';
+import { SideLoadFromTemplateComponent } from './sidebar/side-load-from-template/side-load-from-template.component';
+import { SidePreviousPlotsComponent } from './sidebar/side-previous-plots/side-previous-plots.component';
+import { PlotCardComponent } from './sidebar/side-previous-plots/plot-card/plot-card.component';
+import {LibModule} from "../lib/lib.module";
 
 @NgModule({
   declarations: [
@@ -30,11 +37,19 @@ import { CookieConsentDialogComponent } from './dialogs/cookie-consent-dialog/co
     LoadFromTemplateDialogComponent,
     ErrorDialogComponent,
     BenchmarkCompareDialogComponent,
-    CookieConsentDialogComponent
+    CookieConsentDialogComponent,
+    SideCurrentChosenCommitComponent,
+    SideBenchmarkSelectComponent,
+    SideBenchmarkCompareComponent,
+    SideLoadFromTemplateComponent,
+    SidePreviousPlotsComponent,
+    PlotCardComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LibModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
