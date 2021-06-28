@@ -1,0 +1,12 @@
+*.png
+*.svg
+*.log
+*.aux
+*.out
+*.fdb_latexmk
+*.fls
+*.gz
+*.toc
+*.pdf
+*.nav
+*.snm

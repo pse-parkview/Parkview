@@ -1,0 +1,28 @@
+@startuml fr2
+
+participant ":PlotManager" as pm
+participant ":Configuration" as c
+participant ":PlotGenerator" as pg
+participant ":Plot" as p
+
+-> pm ++: "update plot" \n button clicked
+
+create c
+' TODO use proper params
+pm -> c ++: Configuration( params)
+c --> pm --: c: Configuration
+
+pm -> pg ++: generatePlot(c, currentPlot)
+create p
+pg -> p ++: Plot(c, currentPlot)
+note left: currentPlot is the plot being \n updated otherwise null
+p --> pg --: newPlot: Plot
+
+pg --> pm --: newPlot
+
+pm -> pm ++: updatePlot(newPlot)
+note right: the Plot gets updated
+pm --> pm --: 
+deactivate pm
+
+@enduml

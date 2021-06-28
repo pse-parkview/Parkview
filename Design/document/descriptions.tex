@@ -1,0 +1,1009 @@
+\section{Class descriptions}
+
+Class descriptions here
+
+
+\subsection{Frontend}
+
+\subsubsection{ui}
+
+\label{f:1}
+\class{AppComponent}
+{Main app component.}
+{\\}
+{\\}
+
+\label{f:2}
+\class{HeaderComponent}
+{Component managing the topbar.}
+{\\}
+{\\}
+
+\label{f:3}
+\class{SideBarComponent}
+{Component managing the sidebar.}
+{\\}
+{\\}
+
+\label{f:4}
+\class{SideCurrentChosenCommitComponent}
+{Component managing the list containing the chosen commits.}
+{\\}
+{\\}
+
+\label{f:5}
+\class{SideBenchmarkSelectComponent}
+{Component managing the selection of the benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnBenchmarkSelectDialog()}{Spawns the \texttt{BenchmarkSelectionDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:6}
+\class{SideBenchmarkCompareComponent}
+{Component managing the button for comparing commits.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnBenchmarkCompareDialog()}{Spawns the \texttt{BenchmarkCompareDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:7}
+\class{SideLoadFromTemplateComponent}
+{Component managing the button for comparing commits.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnLoadFromTemplateDialog()}{Spawns the \texttt{LoadFromTemplateDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:8}
+\class{SidePreviousPlotsComponent}
+{Component managing the list of previously generated plots.}
+{\\}
+{\\}
+
+\label{f:9}
+\class{PlotCardComponent}
+{Small card containing a previous plot.}
+{\\}
+{\\}
+
+\label{f:10}
+\class{AveragePerformanceComponent}
+{Component managing the overview of the average performance.}
+{\\}
+{\\}
+
+\label{f:11}
+\class{GitHistoryComponent}
+{Component managing the display of git history.}
+{\\}
+{\\}
+
+\label{f:12}
+\class{SingleBenchmarkPlotComponent}
+{Component managing the presentation of a single benchmark plot.}
+{\\}
+{\\}
+
+\label{f:13}
+\class{BenchmarkComparisonPlotComponent}
+{Component managing the presentation of a comparison of benchmarks.}
+{\\}
+{\\}
+
+\label{f:14}
+\class{ScatterPlotComponent}
+{Component managing the generation and presentation of a scatter plot.}
+{\\}
+{\\}
+
+\label{f:15}
+\class{LinePlotComponent}
+{Component managing the generation and presentation of a line plot.}
+{\\}
+{\\}
+
+\label{f:16}
+\class{BarPlotComponent}
+{Component managing the generation and presentation of a bar plot.}
+{\\}
+{\\}
+
+\label{f:17}
+\class{SummaryChartComponent}
+{Component managing the generation and presentation of a summary chart.}
+{\\}
+{\\}
+
+\label{f:18}
+\class{PlotConfigurationDialogComponent}
+{Component managing the configuration panel, where the user can configure his plot.}
+{
+  \begin{itemize}
+      \item \identifier{public void routeToPlotView()}{Reroutes the user to the plot view.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:19}
+\class{BenchmarkSelectDialogComponent}
+{Component managing the dialog for the selection of the benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:20}
+\class{LoadFromTemplateDialogComponent}
+{Component managing the dialog for loading configurations from templates.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+}
+{\\}
+
+\label{f:21}
+\class{ErrorDialogComponent}
+{Component managing the error dialog in case of exceptional behavior.}
+{\\}
+{\\}
+
+\label{f:22}
+\class{CookieConsentDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{\\}
+{\\}
+
+\label{f:23}
+\class{BenchmarkCompareDialogComponent}
+{Component managing the dialog asking the user about his cookie preferences.}
+{
+  \begin{itemize}
+      \item \identifier{public void spawnPlotConfigurationDialog()}{Spawns the \texttt{PlotConfigurationDialogComponent}.}
+  \end{itemize}
+  }
+{\\}
+
+
+\subsubsection{datahandler}
+
+\label{f:24}
+\class{DataService}
+{A Service that gets injected into UI Classes that need to talk to the backend. Subject to change during implementation.}
+{
+  \begin{itemize}
+    \item \identifier{private final HttpClient http}{Within @angular/common/http and part of the Angular Framework.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public String[] getBranchNames()}{Gets a list of all branch names.}
+    \item \identifier{public Commit[] getCommitHistory(String branch)}{Retrieves the entire commit history of the given branch.}
+    \item \identifier{public T getBenchmarks<T extends Benchmarks>(Commit[] commits)}{Retrieves all benchmarks that have a commit given to them out of the given ones.}
+  \end{itemize}
+}
+
+\label{f:25}
+\interface{Commit}
+{Encapsulates information regarding a commit.}
+{
+  \begin{itemize}
+    \item \identifier{Date date()}{The date the commit was made.}
+    \item \identifier{String commitMessage()}{Self explanatory.}
+    \item \identifier{String author()}{Self explanatory.}
+    \item \identifier{boolean hasBenchmark()}{Whether this commit has a benchmark associated to it.}
+    \item \identifier{String sha()}{The identifying hash of the commit.}
+    \item \identifier{String branch()}{The branch name of this commit.}
+  \end{itemize}
+}
+
+\label{f:26}
+\interface{Summary}
+{Encapsulates information regarding the summary of a benchmark.}
+{
+  \begin{itemize}
+    \item \identifier{Map<K, V> summary()}{The different values associated to their name or key.}
+    \item \identifier{int amountTested()}{Self explanatory.}
+  \end{itemize}
+}
+
+\label{f:27}
+\interface{Benchmark}
+{Encapsulates information regarding one Benchmark Result, Keep in mind that this is the front end representation as it currently is. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{Commit commit()}{Corresponding commit of a benchmark}
+      \item \identifier{String device()}{Device this benchmark was run on}
+      \item \identifier{Summary summary()}{Summary of this benchmark.}
+      \item \identifier{BenchmarkType type()}{The type of this benchmark.}
+    \end{itemize}
+}
+
+\label{f:28}
+\interface{BenchmarkType}
+{Encapsulates information about a benchmark type, namely what its name is, and what is plottable. May be subject to change.}
+{
+    \begin{itemize}
+      \item \identifier{String name()}{What the type is called.}
+      \item \identifier{String[] validXKeys()}{Permissible keys of the benchmark result that can be used for the x axis.}
+      \item \identifier{String[] validYKeys()}{Permissible keys of the benchmark result that can be used for the y axis.}
+    \end{itemize}
+}
+
+\label{f:29}
+\interface{BenchmarkComparison}
+{Encapsulates information about the comparison between two Benchmark results.}
+{
+  \begin{itemize}
+    \item \identifier{Benchmark[] benchmarks()}{The benchmark results that are compared.}
+    \item \identifier{BenchmarkType comparisonType()}{Contains information like what the permissible key to compare for are.}
+  \end{itemize}
+}
+
+\label{f:30}
+\class{ConversionBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:31}
+\class{ConversionComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:32}
+\class{SpmvBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:34}
+\class{SpmvComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:35}
+\class{SolverBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:36}
+\class{SolverComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:37}
+\class{PreconditionerBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:38}
+\class{PreconditionerComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:39}
+\class{BlasBenchmark : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+\label{f:40}
+\class{BlasComparison : BenchmarkType}
+{Implements BenchmarkType and describes what it is and what is plottable.}
+{\\}{\\}
+
+
+\subsubsection{datahandler}
+
+\label{f:41}
+\class{PlotService}
+{A service that gets injected into UI classes that need them, like Components that are display plots.}
+{
+  \begin{itemize}
+    \item \identifier{private final DataService}{A dependency since the PlotService has to talk with the backend somehow.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public BubbleChartMultiSeries generateScatterPlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateLinePlot(BenchmarkComparison comparison, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+    \item \identifier{public MultiSeries generateBarPlot(Benchmark benchmark, String xKey, String yKey)}{Requsts and transforms plotting data into an object that can be directly used by the UI.}
+  \end{itemize}
+}
+
+\label{f:42}
+\interface{PlotConfiguration}
+{An interface describing the configurations needed to immediately recreate a plot.}
+{
+  \begin{itemize}
+    \item \identifier{String benchmarkCommitSha()}{The commit referenced}
+    \item \identifier{String benchmarkComparedCommitSha()}{The commit that was compared to}
+    \item \identifier{String benchmarkType()}{The benchmark type to look for.}
+    \item \identifier{String xKey()}{The key value that was plotted on the x axis.}
+    \item \identifier{String yKey()}{The key value that was plotted on the y axis.}
+  \end{itemize}
+}
+
+\subsubsection{cookies}
+\label{f:43}
+\class{CookieService}
+{Handles the cookies used by the front end to save things like recently viewed plots and similar.}
+{
+  \begin{itemize}
+    \item \identifier{private final ngx-cookie-service.CookieService cookieService}{The utility that manages cookies for us.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+    \item \identifier{public void saveConsent(given: boolean)}{Saved a decision made by the user, whether he allows cookies or not.}
+    \item \identifier{public boolean hasDecidedConsent()}{Whether the user has decided yet.}
+    \item \identifier{public boolean getConsent()}{The current status on whether the app is allowed to save cookies or not.}
+    \item \identifier{public void savePlotConfiguration(p: PlotConfiguration)}{Saves a configuration on the users browser.}
+    \item \identifier{public void appendRecentPlotConfiguration(p: PlotConfiguration)}{Saves and appends a recently used plot configuration on the users browser.}
+    \item \identifier{public PlotConfiguration[] getSavedPlotConfigurations()}{Gets the configurations actively saved by the user.}
+    \item \identifier{public PlotConfiguration[] getRecentPlotConfigurations()}{Gets the configurations that were recently used by the user.}
+  \end{itemize}
+}
+
+\subsection{Backend}
+\subsubsection{benchmark}
+\label{b:1}
+\interface{BenchmarkResultStorage}
+{This interface provides methods for the storage of benchmark results.}
+{
+  \begin{itemize}
+      \item \identifier{void storeBenchmarkResults(results: List<BenchmarkResult>)}{Stores the given benchmark results in the database. If the benchmark result already exists, it gets replaced.}
+  \end{itemize}
+}
+
+\label{b:2}
+\class{BlasBenchmarkResult : BenchmarkResult}
+{This is a benchmark result for the benchmarks of the BLAS format and type.}
+{
+  \begin{itemize}
+    \item \identifier{private List<BlasDatapoint> datapoints}{List of datapoints belonging to this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public List<BlasDatapoint> getDatapoints()}{Getter for \texttt{datapoints}.}
+  \end{itemize}
+}
+
+\label{b:3}
+\class{BlasDatapoint}
+{A single datapoint for the \texttt{BlasBenchmarkResult}, contains the problem description (n, r, m, k) and a list of operations.}
+{
+  \begin{itemize}
+      \item \identifier{private int n}{n-value for this benchmark run.}
+      \item \identifier{private int r}{r-value for this benchmark run.}
+      \item \identifier{private int m}{m-value for this benchmark run.}
+      \item \identifier{private int k}{k-value for this benchmark run.}
+      \item \identifier{private List<Operation> operations}{List of operations, part of the benchmark.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public int getN()}{Getter for \texttt{n}.}
+      \item \identifier{public int getR()}{Getter for \texttt{r}.}
+      \item \identifier{public int getM()}{Getter for \texttt{m}.}
+      \item \identifier{public int getK()}{Getter for \texttt{k}.}
+      \item \identifier{public List<Operation> getOperations()}{Getter for \texttt{operations}.}
+  \end{itemize}
+}
+
+\label{b:4}
+\class{Component}
+{A single component, part of \texttt{PreconditionerBenchmarkResult} and \texttt{SolverBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of component.}
+      \item \identifier{private double runtime}{Runtime for component.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter for \texttt{name}.}
+      \item \identifier{public double getRuntime()}{Getter for \texttt{runtime}.}
+  \end{itemize}
+}
+
+\label{b:5}
+\class{Conversion}
+{A single conversion, part of \texttt{ConversionBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of component.}
+      \item \identifier{private double time}{Time to conversion.}
+      \item \identifier{private bool completed}{Whether or not the benchmark has completed.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter for \texttt{name}.}
+      \item \identifier{public double getTime()}{Getter for \texttt{time}.}
+      \item \identifier{public bool isCompleted()}{Getter for \texttt{completed}.}
+  \end{itemize}
+}
+
+\label{b:6}
+\class{ConversionBenchmarkResult : MatrixBenchmarkResult}
+{This is a benchmark result for the benchmarks of the Conversion format and type.}
+{ \\ }
+{ \\ }
+
+\label{b:7}
+\class{ConversionDatapoint : MatrixDatapoint}
+{A single datapoint for \texttt{ConversionBenchmarkResult}, contains the problem description for the matrix and a list of conversions.}
+{
+  \begin{itemize}
+      \item \identifier{private List<Conversion> conversions}{List of conversions belonging to this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public int getConversions()}{Getter for \texttt{conversions}.}
+  \end{itemize}
+}
+
+\label{b:8}
+\class{Format}
+{A single format, part of \texttt{SpmvBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of format.}
+      \item \identifier{private int storage}{}
+      \item \identifier{private double time}{Time to format.}
+      \item \identifier{private double maxRelativeNorm2}{}
+      \item \identifier{private bool completed}{Whether or not this format has completed.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter for \texttt{name}.}
+      \item \identifier{public int getStorage()}{Getter for \texttt{storage}.}
+      \item \identifier{public double getTime()}{Getter for \texttt{time}.}
+      \item \identifier{public double getMaxRelativeNorm2()}{Getter for \texttt{maxRelativeNorm2}.}
+      \item \identifier{public bool isCompleted()}{Getter for \texttt{completed}.}
+  \end{itemize}
+}
+
+\label{b:9}
+\class{MatrixBenchmarkResult : BenchmarkResult}
+{Benchmark type that uses matrices.}
+{
+  \begin{itemize}
+      \item \identifier{private List<MatrixDatapoint> datapoints}{List of datapoints belonging to this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public List<MatrixDatapoint> getDatapoints()}{Getter for \texttt{datapoints}.}
+  \end{itemize}
+}
+
+\label{b:10}
+\class{MatrixDatapoint}
+{Single datapoint for a \texttt{MatrixBenchmarkResult}. Contains problem description (rows, columns, nonzeros).}
+{
+  \begin{itemize}
+      \item \identifier{private String filename}{Filename for this benchmark run.}
+      \item \identifier{private int rows}{Number of rows.}
+      \item \identifier{private int columns}{Number of columns.}
+      \item \identifier{private int nonzeros}{Number of non-zeros.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getFilename()}{Getter for \texttt{filename}.}
+      \item \identifier{public int getRows()}{Getter for \texttt{rows}.}
+      \item \identifier{public int getColumns()}{Getter for \texttt{columns}.}
+      \item \identifier{public int getNonzeros()}{Getter for \texttt{nonzeros}.}
+  \end{itemize}
+}
+
+\label{b:11}
+\class{Operation}
+{A single operation, part of \texttt{BlasBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of operation.}
+      \item \identifier{private double time}{}
+      \item \identifier{private double flops}{}
+      \item \identifier{private double bandwidth}{}
+      \item \identifier{private bool completed}{Whether or not this operation has completed.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter of \texttt{name}.}
+      \item \identifier{public double getTime()}{Getter of \texttt{time}.}
+      \item \identifier{public double getFlops()}{Getter of \texttt{flops}.}
+      \item \identifier{public double getBandwidth()}{Getter of \texttt{bandwidth}.}
+      \item \identifier{public bool getCompleted()}{Getter of \texttt{completed}.}
+  \end{itemize}
+}
+
+\label{b:12}
+\class{Preconditioner}
+{A single preconditioner, part of \texttt{PreconditionerBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of preconditioner.}
+      \item \identifier{private List<Component> generateComponents}{}
+      \item \identifier{private double generateTime}{}
+      \item \identifier{private List<Component> applyComponents}{}
+      \item \identifier{private double applyTime}{}
+      \item \identifier{private bool completed}{Whether or not this preconditioner has completed.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{private String getName()}{Getter for \texttt{name}.}
+      \item \identifier{private List<Component> getGenerateComponents()}{Getter for \texttt{generateComponents}.}
+      \item \identifier{private double getGenerateTime()}{Getter for \texttt{generateTime}.}
+      \item \identifier{private List<Component> getApplyComponents()}{Getter for \texttt{applyComponents}.}
+      \item \identifier{private double getApplyTime()}{Getter for \texttt{applyTime}.}
+      \item \identifier{private bool isCompleted()}{Getter for \texttt{completed}.}
+  \end{itemize}
+}
+
+\label{b:13}
+\class{PreconditionerBenchmarkResult : MatrixBenchmarkResult}
+{This is a benchmark result for the benchmarks of the Preconditioner format and type.}
+{ \\ }
+{ \\ }
+
+\label{b:14}
+\class{PreconditionerDatapoint : MatrixDatapoint}
+{A single datapoint for \texttt{PreconditionerBenchmarkResult}, contains the problem description for the matrix and a list of preconditioners.}
+{
+  \begin{itemize}
+      \item \identifier{private List<Preconditioner> preconditioners}{List of preconditioners belonging to this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public List<Preconditioner> getPreconditioners()}{Getter for \texttt{preconditioners}.}
+  \end{itemize}
+}
+
+\label{b:15}
+\class{Solver}
+{A single Solver, part of \texttt{SolverBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of solver.}
+      \item \identifier{private List<double> recurrentResiduals}{}
+      \item \identifier{private List<double> trueResiduals}{}
+      \item \identifier{private List<double> implicitResiduals}{}
+      \item \identifier{private List<double> iterationTimestamps}{}
+      \item \identifier{private List<double> rhsNorm}{}
+      \item \identifier{private List<double> residualNorm}{}
+      \item \identifier{private List<Component> generateComponents}{}
+      \item \identifier{private double generateTime}{}
+      \item \identifier{private List<Component> applyComponents}{}
+      \item \identifier{private double applyTime}{}
+      \item \identifier{private int applyIterations}{}
+      \item \identifier{private bool completed}{Whether or not this solver has completed.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter for \texttt{name}.}
+      \item \identifier{public List<double> getRecurrentResiduals()}{Getter for \texttt{recurrentResiduals}.}
+      \item \identifier{public List<double> getTrueResiduals()}{Getter for \texttt{trueResiduals}.}
+      \item \identifier{public List<double> getImplicitResiduals()}{Getter for \texttt{implicitResiduals}.}
+      \item \identifier{public List<double> getIterationTimestamps()}{Getter for \texttt{iterationTimestamps}.}
+      \item \identifier{public List<double> getRhsNorm()}{Getter for \texttt{rhsNorm}.}
+      \item \identifier{public List<double> getResidualNorm()}{Getter for \texttt{residualNorm}.}
+      \item \identifier{public List<Component> getGenerateComponents()}{Getter for \texttt{generateComponents}.}
+      \item \identifier{public double getGenerateTime()}{Getter for \texttt{generateTime}.}
+      \item \identifier{public List<Component> getApplyComponents()}{Getter for \texttt{applyComponents}.}
+      \item \identifier{public double getApplyTime()}{Getter for \texttt{applyTime}.}
+      \item \identifier{public int getApplyIterations()}{Getter for \texttt{applyIterations}.}
+      \item \identifier{public bool getCompleted()}{Getter for \texttt{completed}.}
+  \end{itemize}
+}
+
+\label{b:16}
+\class{SolverBenchmarkResult : MatrixBenchmarkResult}
+{This is a benchmark result for the benchmarks of the Solver format and type.}
+{ \\ }
+{ \\ }
+
+\label{b:17}
+\class{SolverDatapoint : MatrixDatapoint}
+{A single datapoint for \texttt{SolverBenchmarkResult}, contains the problem description for the matrix and a list of solvers.}
+{
+  \begin{itemize}
+      \item \identifier{private List<Solver> solvers}{List of solvers belonging to this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public int getSolvers()}{Getter for \texttt{solvers}.}
+  \end{itemize}
+}
+
+\label{b:18}
+\class{SpmvBenchmarkResult : MatrixBenchmarkResult}
+{This is a benchmark result for the benchmarks of the SPMV format and type.}
+{ \\ }
+{ \\ }
+
+\label{b:19}
+\class{SpmvDatapoint : MatrixDatapoint}
+{A single datapoint, contains the problem description for the matrix and a list of formats.}
+{
+  \begin{itemize}
+      \item \identifier{private List<Format> formats}{List of formats belonging to this benchmark run.}
+      \item \identifier{private Format optimal}{Optimal format for this benchmark run.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public List<Format> getFormats()}{Getter for \texttt{formats}.}
+      \item \identifier{public Format getOptimal()}{Getter for \texttt{optimal}.}
+  \end{itemize}
+}
+
+\subsubsection{database}
+
+\label{b:20}
+\class{BenchmarkResultDatabase : BenchmarkResultStorage}
+{This class offers storage of benchmark results by using a database. Access to the database is provided by a \texttt{DatabaseHandler} object.}
+{
+  \begin{itemize}
+      \item \identifier{private DatabaseHandler databaseHandler}{\texttt{DatabaseHandler} that is used to access a database.}
+  \end{itemize}
+}
+{ \\ }
+
+\label{b:21}
+\interface{DatabaseHandler}
+{Interface for accessing a database. It offers methods for storing, updating and retrieving commits and benchmark results}
+{
+  \begin{itemize}
+      \item \identifier{public void updateCommits(List<Commit> commits)}{Updates existing commits in the database with the ones given as a parameter or adds them to the database if they dont exist yet. If a commit with the same sha as a given Commit already exists, the commit in the database gets replaced by the given commit.}
+      \item \identifier{public void updateBenchmarkResults(List<BenchmarkResult> results)}{Updates existing benchmark results in the database with the ones given as a parameter or adds them to the database if they dont exist yet. If a benchmark result for the same commit, device, benchmark, problem setup and time already exists, it gets replaced.}
+      \item \identifier{public BranchForBenchmark fetchBranch(String branch, Benchmark benchmark)}{Fetches all commits for a given branch and benchmark type and packs them into a branch object. The commits contain their corresponding benchmark results for every device available.}
+      \item \identifier{public BenchmarkResult fetchBenchmarkResult(Commit commit, Device device, Benchmark benchmark)}{Fetches a single benchmark result for the given commit, device and benchmark type.}
+  \end{itemize}
+}
+
+\label{b:22}
+\class{HistoryDatabase}
+{This class offers access to a git history stored in a database. Access to the database is provided by a \texttt{DatabaseHandler} object.}
+{
+  \begin{itemize}
+      \item \identifier{private DatabaseHandler databaseHandler}{\texttt{DatabaseHandler} that is used to access a database.}
+  \end{itemize}
+}
+{ \\ }
+
+\label{b:23}
+\class{LazyBenchmarkResult : BenchmarkResult}
+{This class offers lazy loading of benchmark result. It loads the benchmark result from the database only once it is actually needed.}
+{
+  \begin{itemize}
+      \item \identifier{private DatabaseHandler databaseHandler}{\texttt{DatabaseHandler} that is used to access a database.}
+  \end{itemize}
+}
+{ \\ }
+
+\label{b:24}
+\class{PostgreSQLHandler : DatabaseHandler}
+{\texttt{DatabaseHandler} for accessing a PostgreSQL database.}
+{ \\ }
+{ \\ }
+
+\label{b:25}
+\class{MissingBenchmarkResultException : Exception}
+{Exception for handling missing benchmark results.}
+{ \\ }
+{ \\ }
+
+\label{b:60}
+\class{MissingCommitException : Exception}
+{Exception for handling missing branches.}
+{ \\ }
+{ \\ }
+
+\subsubsection{git}
+
+\label{b:26}
+\class{Benchmark}
+{Contains information about a benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of benchmark.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{private String getName()}{Getter for \texttt{name}.}
+  \end{itemize}
+}
+
+\label{b:27}
+\interface{BenchmarkResult}
+{Interface for representing a single benchmark result for a given benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{public Commit getCommit()}{Returns the commit used for this benchmark.}
+      \item \identifier{public Device getDevice()}{Returns the device used for this benchmark.}
+      \item \identifier{public Benchmark getBenchmark()}{Returns the benchmark type.}
+      \item \identifier{public Commit getSummaryValue()}{Returns the summary value for this benchmark.}
+  \end{itemize}
+}
+
+\label{b:28}
+\class{BranchForBenchmark}
+{Class that represent a branch for a benchmark type. Benchmark is fixed since results can't be compared across benchmarks.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of branch.}
+      \item \identifier{private Benchmark benchmark}{Benchmark type for this branch.}
+      \item \identifier{private List<Commit> commits}{list of commits contained in this branch.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName}{Getter for \texttt{name}.}
+      \item \identifier{public Benchmark getBenchmark()}{Getter for \texttt{benchmark}.}
+      \item \identifier{public Commit getCommit(String sha)}{Returns the commit for the given sha.}
+      \item \identifier{public Commit toList()}{Returns this branch's commits.}
+  \end{itemize}
+}
+
+\label{b:29}
+\class{Commit}
+{Class that represents a single commit for a given branch and benchmark type.}
+{
+  \begin{itemize}
+      \item \identifier{private String sha}{Commit sha.}
+      \item \identifier{private String message}{Commit message.}
+      \item \identifier{private Date date}{Commit date.}
+      \item \identifier{private List<Commit> parents}{Parent commits.}
+      \item \identifier{private Map<Device, BenchmarkResult> benchmarkResultsByDevice}{A map from device types to benchmark results.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getSha()}{Getter for \texttt{sha}.}
+      \item \identifier{public String getMessage()}{Getter for \texttt{message}.}
+      \item \identifier{public Date getDate()}{Getter for \texttt{date}.}
+      \item \identifier{public List<Commit> getParents()}{Getter for \texttt{parents}.}
+      \item \identifier{public Map<Device, BenchmarkResult> getBenchmarkResultsByDevice()}{Getter for \texttt{benchmarkResultsByDevice}.}
+  \end{itemize}
+}
+
+\label{b:30}
+\class{Device}
+{Class that contains information about a device.}
+{
+  \begin{itemize}
+      \item \identifier{private String name}{Name of device.}
+  \end{itemize}
+}
+{
+  \begin{itemize}
+      \item \identifier{public String getName()}{Getter for \texttt{name}.}
+  \end{itemize}
+}
+
+\label{b:31}
+\class{EmptyBenchmarkResult : BenchmarkResult}
+{Null object for representing an empty or non existing benchmark result}
+{ \\ }
+{ \\ }
+
+\label{b:32}
+\interface{History}
+{Interface that represents an entire git history. It allows for retrieving branches for a given benchmark type, therefore containing the results of the benchmarks run on this branch.}
+{
+  \begin{itemize}
+      \item \identifier{public BranchForBenchmark getBranch(String name, Benchmark benchmark)}{Returns the branch with the given name for a given device and benchmark type.}
+  \end{itemize}
+}
+
+\label{b:33}
+\interface{RepositoryHandler}
+{Interface that provides access to repository for fetching new commits. This allow for updating the history with new commits.}
+{
+  \begin{itemize}
+      \item \identifier{public List<Commit> fetchGitHistory(String name)}{Returns the commits for a given branch as a List, since it doesn't contain any benchmark results.}
+  \end{itemize}
+}
+
+\subsubsection{processing}
+
+\label{b:34}
+\interface{BlasPlotTransform}
+{Interface for transforms using multiple \texttt{BlasBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{public JSON transform(List<BlasBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
+  \end{itemize}
+}
+
+\label{b:35}
+\class{BlasSinlgeScatterPlotTransform : BlasPlotTransform}
+{Scatter plot using a single \texttt{BlasBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:36}
+\class{BlasTwoScatterPlotTransform : BlasPlotTransform}
+{Scatter plot using two \texttt{BlasBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:37}
+\interface{ConversionPlotTransform}
+{Interface for transforms using multiple \texttt{ConversionBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{public JSON transform(List<ConversionBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
+  \end{itemize}
+}
+
+\label{b:38}
+\class{ConversionSingleScatterPlotTransform : ConversionPlotTransform}
+{Scatter plot using a single \texttt{ConversionBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:39}
+\class{ConversionTwoScatterPlotTransform : ConversionPlotTransform}
+{Scatter plot using two \texttt{ConversionBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:40}
+\class{DataProcessor}
+{This class takes care of processing and storing raw benchmark results.}
+{ \\ }
+{
+  \begin{itemize}
+      \item \identifier{public void storeBenchmarkResults(JSON results)}{Processes and stores benchmark results.}
+      \item \identifier{public JSON transformBenchmarkResults(List<BenchmarkResult> results, PlotType plotType)}{Transforms the given benchmark results to a json containing the values for plotting the given plot type.}
+  \end{itemize}
+}
+
+\label{b:41}
+\enum{PlotType}
+{Type of Plot}
+{
+  \begin{itemize}
+      \item Blas
+      \item Solver
+      \item Spmv
+      \item Conversion
+      \item Preconditioner
+  \end{itemize}
+}
+
+\label{b:42}
+\interface{PreconditionerPlotTransform}
+{Interface for transforms using multiple \texttt{PreconditionerBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{public JSON transform(List<PreconditionerBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
+  \end{itemize}
+}
+
+\label{b:43}
+\class{PreconditionerSingleScatterPlotTransform : PreconditionerPlotTransform}
+{Scatter plot using a single \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:44}
+\class{PreconditionerTwoScatterPlotTransform : PreconditionerPlotTransform}
+{Scatter plot using two \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:45}
+\class{PreconditionerSingleComponentBreakdownPlotTransform : PreconditionerPlotTransform}
+{Breakdown of each component for a single \texttt{PreconditionerBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:46}
+\interface{SolverPlotTransform}
+{Interface for transforms using multiple \texttt{SolverBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{public JSON transform(List<SolverBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
+  \end{itemize}
+}
+
+\label{b:47}
+\class{SolverMultiRuntimePlotTransform : SolverPlotTransform}
+{Plot showing the runtime for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:48}
+\class{SolverMultiIterationCountsPlotTransform : SolverPlotTransform}
+{Plot showing the interation counts for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:49}
+\class{SolverMultiTimeToSolutionPlotTransform : SolverPlotTransform}
+{Plot showing the time to solution for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:50}
+\class{SolverMultiAchievedBandwidthPlotTransform : SolverPlotTransform}
+{Plot showing the achieved bandwidth for multiple \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:51}
+\class{SolverSingleConvergencePlotTransform : SolverPlotTransform : SolverPlotTransform}
+{Plot showing the convergence for a single \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:52}
+\class{SolverTwoSpeedupPlotTransform : SolverPlotTransform}
+{Plot showing the speedup for two \texttt{SolverBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:53}
+\interface{SpmvPlotTransform}
+{Interface for transforms using multiple \texttt{SpmvBenchmarkResult}.}
+{
+  \begin{itemize}
+      \item \identifier{public JSON transform(List<SpmvBenchmarkResult> benchmarkResults)}{Transforms the benchmark data into a JSON containing the prepared values for plotting.}
+  \end{itemize}
+}
+
+\label{b:54}
+\class{SpmvSinglePerformanceProfilePlotTransform : SpmvPlotTransform}
+{Plot showing the performance for a single \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:55}
+\class{SpmvSingleScatterPlotTransform : SpmvPlotTransform}
+{ScatterPlot for a single \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\label{b:56}
+\class{SpmvTwoSpeedupPlotTransform : SpmvPlotTransform}
+{Plot showing the speedup for two \texttt{SpmvBenchmarkResult}.}
+{ \\ }
+{ \\ }
+
+\subsubsection{rest}
+\label{b:57}
+\class{GitApiHandler : RepositoryHandler}
+{Implements RepositoryHandler by using the GitHub Api.}
+{ \\ }
+{ \\ }
+
+\label{b:58}
+\interface{RestHandler}
+{Interface that provides methods for handling POST and GET requests.}
+{
+  \begin{itemize}
+      \item \identifier{public void handlePost(JSON json)}{Handles a POST request for uploading benchmark results.}
+      \item \identifier{public void handleGetHistory(JSON json)}{Handles a GET request for retrieving commit history.}
+      \item \identifier{public void handleGetBenchmarkResults(JSON json)}{Handles a GET request for retrieving benchmark results.}
+  \end{itemize}
+}
+
+\label{b:59}
+\class{SpringRestHandler}
+{Class that implements a RestHandler using the Spring framework.}
+{ \\ }
+{ \\ }

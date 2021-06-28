@@ -1,0 +1,28 @@
+@startuml fr4
+
+participant ":RestHandler" as rh
+participant ":DataProcessor" as dp
+participant ":BenchmarkResultStorage" as db
+
+[-> rh ++: POST request
+note left: contains benchmark results
+
+rh -> dp ++: storeBenchmarkResults(results: JSON)
+
+dp -> dp ++: format(results: Json)
+dp --> dp --: List<BenchmarkResult>
+
+note right: Put data into correct\nformat for database
+
+dp -> db ++: storeBenchmarkResults(results: List<BenchmarkResult>)
+return status:Status
+
+return status:Status
+
+rh -> rh ++: composeResponse(status)
+return responseCode:HttpStatus
+
+[<-- rh --: request.response(responseCode)
+note left: Indicates POST\nsuccess/failure
+
+@enduml

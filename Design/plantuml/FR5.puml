@@ -1,0 +1,29 @@
+@startuml FR5 
+
+participant ":DataProcessor" as dp
+participant ":Database\nController" as db
+
+[-> dp ++: obtainMetrics(benchmarkId, metricTypes:Set<MetricType>)
+note left: gets and perhaps calculates the metrics of a benchmark
+
+dp -> db ++: getMetricsByBenchmarkId(benchmarkId, metricTypes:Set<MetricType>)
+return metrics:Set<MetricData>|null
+
+'i am not sure if this will even be necessary as the json
+'files seemed to already have some metrics listed.
+'if metrics do have to be calculated from scratch, then storage is inevitable.
+alt benchmark metrics null (nonexistent in database)
+    dp -> db ++: getBenchmarkData(benchmarkId)
+    return benchmarkData:FormattedData
+
+    dp -> dp ++: calculateMetrics(benchmarkData, metricTypes:Set<MetricType>)
+    return metrics:Set<MetricData>
+
+    dp -> db ++: insertMetrics(benchmarkId, metrics:Set<MetricData>)
+    return status:Status
+    end
+
+[<-- dp --:metrics:Set<MetricData>
+note left: using the metric data from the database\nif it exists, or the newly calculated metric data\nif it didn't exist prior.
+
+@enduml
