@@ -15,6 +15,5 @@ class Commit(
     val sha: String,
     val message: String,
     val date: Date,
-    val parentCommit: Commit? = null, // TODO replace with null object, only problem is the initial commit
     val benchmarkResultsByDevice: Map<Device, BenchmarkResult> = emptyMap()
 )
