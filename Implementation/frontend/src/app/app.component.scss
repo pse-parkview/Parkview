@@ -1,0 +1,28 @@
+header {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  flex-grow: 1;
+}
+
+nav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  left: 0;
+  overflow-x: hidden;
+}
+
+main {
+  top: 50px;
+  left: 200px;
+  position: fixed;
+
+  background: var(--gb-light-gray);
+}
