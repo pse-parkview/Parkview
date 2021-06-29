@@ -26,6 +26,10 @@ class BlasBenchmarkResult(
 ) : BenchmarkResult {
 
     override fun getSummaryValue(): Double {
-        TODO("Not yet implemented")
+        val bandwidths = getBandwidths()
+        return bandwidths[bandwidths.size / 2]
     }
+
+    private fun getBandwidths() =
+        datapoints.fold(emptyList<Double>()) { total, problem -> total + problem.operations.map { it.bandwidth } }
 }
