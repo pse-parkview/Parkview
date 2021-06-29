@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { GitHistoryComponent } from './main-content/git-history/git-history.component';
+import { GitHistoryComponent } from './main-content/dashboard/git-history/git-history.component';
 import { SingleBenchmarkPlotComponent } from './main-content/single-benchmark-plot/single-benchmark-plot.component';
 import { BenchmarkComparisonPlotComponent } from './main-content/benchmark-comparison-plot/benchmark-comparison-plot.component';
-import { AveragePerformanceComponent } from './main-content/average-performance/average-performance.component';
+import { AveragePerformanceComponent } from './main-content/dashboard/average-performance/average-performance.component';
 import { PlotConfigurationDialogComponent } from './dialogs/plot-configuration-dialog/plot-configuration-dialog.component';
 import { BenchmarkSelectDialogComponent } from './dialogs/benchmark-select-dialog/benchmark-select-dialog.component';
 import { LoadFromTemplateDialogComponent } from './dialogs/load-from-template-dialog/load-from-template-dialog.component';
@@ -22,6 +22,7 @@ import { SideLoadFromTemplateComponent } from './sidebar/side-load-from-template
 import { SidePreviousPlotsComponent } from './sidebar/side-previous-plots/side-previous-plots.component';
 import { PlotCardComponent } from './sidebar/side-previous-plots/plot-card/plot-card.component';
 import {LibModule} from "../lib/lib.module";
+import { DashboardComponent } from './main-content/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {LibModule} from "../lib/lib.module";
     SideBenchmarkCompareComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
-    PlotCardComponent
+    PlotCardComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
