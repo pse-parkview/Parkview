@@ -1,7 +1,11 @@
 /**
  * Encapsulates information regarding one benchmark result
  */
-interface Benchmark {
+import {BenchmarkType} from "./benchmark-type";
+import {Summary} from "./summary";
+import {Commit} from "./commit";
+
+export interface Benchmark {
 
   /**
    * Corresponding commit of a benchmark

@@ -1,7 +1,7 @@
 /**
  * Represents a data point
  */
-interface DataPoint {
+export interface DataPoint {
 
   /**
    * The name of the data point

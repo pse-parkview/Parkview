@@ -1,7 +1,7 @@
 /**
  * Encapsulates information regarding a commit
  */
-interface Commit {
+export interface Commit {
 
   /**
    * The date on which the commit was made

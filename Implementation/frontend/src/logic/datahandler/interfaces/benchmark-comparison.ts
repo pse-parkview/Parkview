@@ -1,7 +1,10 @@
 /**
  * Encapsulates information about the comparison between two Benchmark results
  */
-interface BenchmarkComparison {
+import {Benchmark} from "./benchmark";
+import {BenchmarkType} from "./benchmark-type";
+
+export interface BenchmarkComparison {
 
   /**
    * The benchmark results that are compared
@@ -11,5 +14,5 @@ interface BenchmarkComparison {
   /**
    * Contains information like what the permissible keys to compare for are
    */
-  get plotTypes(): PlotType[];
+  get plotTypes(): BenchmarkType[];
 }
