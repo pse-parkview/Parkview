@@ -8,12 +8,17 @@ import java.util.*
  * @param sha commit sha
  * @param message commit message
  * @param date commit date
- * @param parentCommit parent commit
- * @param benchmarkResultsByDevice a map from device names to benchmark results
  */
 class Commit(
     val sha: String,
     val message: String,
     val date: Date,
-    val benchmarkResultsByDevice: Map<Device, BenchmarkResult> = emptyMap()
-)
+) {
+    private val benchmarkResults: MutableMap<Device, BenchmarkResult> = mutableMapOf()
+
+    val benchmarkResultsByDevice get() = benchmarkResults.toMap()
+
+    fun addBenchmarkResult(result: BenchmarkResult) {
+        benchmarkResults[result.device] = result
+    }
+}
