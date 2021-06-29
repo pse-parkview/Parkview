@@ -24,6 +24,14 @@ class ConversionBenchmarkResult(
     val datapoints: List<ConversionDatapoint>,
 ) : BenchmarkResult {
     override fun getSummaryValue(): Double {
-        TODO("Not yet implemented")
+        val bandwidths = calcBandwidths()
+        return bandwidths[bandwidths.size / 2]
     }
+
+    private fun calcBandwidths()  = datapoints.fold(emptyList<Double>()) {
+                total, problem -> total + problem.conversions.map {
+            // TODO: what is meant with some_number in benchmark.pdf
+            problem.nonzeros / it.time
+                }
+        }
 }
