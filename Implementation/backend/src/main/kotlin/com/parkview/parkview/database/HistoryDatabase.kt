@@ -16,4 +16,16 @@ class HistoryDatabase(
     override fun getBranch(name: String, benchmark: Benchmark): BranchForBenchmark {
         TODO("Not yet implemented")
     }
+
+    override fun getCurrentBranch(name: String, benchmark: Benchmark): BranchForBenchmark {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateHistory() {
+        TODO("Not yet implemented")
+    }
+
+    override fun isUpToDate(): Boolean {
+        TODO("Not yet implemented")
+    }
 }
