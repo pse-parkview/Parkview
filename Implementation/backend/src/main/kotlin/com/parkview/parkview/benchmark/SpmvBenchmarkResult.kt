@@ -1,6 +1,7 @@
 package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Benchmark
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
@@ -17,8 +18,8 @@ class SpmvBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: Benchmark,
-    datapoints: List<MatrixDatapoint>,
-) : MatrixBenchmarkResult(datapoints) {
+    val datapoints: List<SpmvDatapoint>,
+) : BenchmarkResult {
     override fun getSummaryValue(): Double {
         TODO("Not yet implemented")
     }

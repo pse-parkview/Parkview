@@ -1,7 +1,7 @@
 package com.parkview.parkview.benchmark
 
 /**
- * Single datapoint for a [MatrixBenchmarkResult]. Contains
+ * Single datapoint for a benchmark using matrices. Contains
  * a problem description (rows, columns, nonzeros).
  *
  * @param filename

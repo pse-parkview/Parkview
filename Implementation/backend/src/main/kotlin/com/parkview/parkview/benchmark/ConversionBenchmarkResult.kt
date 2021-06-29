@@ -1,6 +1,7 @@
 package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Benchmark
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
@@ -20,8 +21,8 @@ class ConversionBenchmarkResult(
     /**
      * Contains the datapoints for this benchmark
      */
-    datapoints: List<MatrixDatapoint>,
-) : MatrixBenchmarkResult(datapoints) {
+    val datapoints: List<ConversionDatapoint>,
+) : BenchmarkResult {
     override fun getSummaryValue(): Double {
         TODO("Not yet implemented")
     }
