@@ -24,5 +24,5 @@ interface BenchmarkResult {
      *
      * @return summary value
      */
-    fun getSummaryValue(): Double
+    fun getSummaryValue(): Map<String, Double>
 }

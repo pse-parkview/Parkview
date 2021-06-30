@@ -8,5 +8,5 @@ class EmptyBenchmarkResult(
     override val device: Device,
     override val benchmark: Benchmark
 ) : BenchmarkResult {
-    override fun getSummaryValue() = 0.0
+    override fun getSummaryValue() = emptyMap<String, Double>()
 }

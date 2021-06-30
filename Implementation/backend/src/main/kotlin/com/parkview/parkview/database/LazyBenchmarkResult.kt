@@ -20,7 +20,7 @@ class LazyBenchmarkResult(
     override val benchmark: Benchmark,
     private val databaseHandler: DatabaseHandler
 ) : BenchmarkResult {
-    override fun getSummaryValue(): Double {
+    override fun getSummaryValue(): Map<String, Double> {
         TODO("Not yet implemented")
     }
 }

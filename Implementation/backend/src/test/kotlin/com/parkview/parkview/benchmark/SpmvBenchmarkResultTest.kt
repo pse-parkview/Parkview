@@ -7,37 +7,38 @@ import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import java.util.*
 
-internal class BlasBenchmarkResultTest {
-    private lateinit var br: BlasBenchmarkResult
+internal class SpmvBenchmarkResultTest {
+    private lateinit var br: SpmvBenchmarkResult
 
     @BeforeEach
     fun setup() {
         val datapoints = (1..5).map {
-            BlasDatapoint(
-                10, operations = listOf(
-                    Operation("", 1.0, 1.0, it * 1.0, true),
-                )
+            val format = Format("", 1, 1.0, 1.0, true)
+            SpmvDatapoint(
+                "", it * 10, it * 10, it * 10, listOf(
+                    format
+                ), format
             )
         }
 
         val commit = Commit("", "", Date())
-        br = BlasBenchmarkResult(
+        br = SpmvBenchmarkResult(
             commit,
             Device(""),
-            Benchmark("", BenchmarkType.BlasBenchmark),
+            Benchmark("", BenchmarkType.ConversionBenchmark),
             datapoints
         )
     }
 
-
     @Test
-    fun `Test summary value for normal data`() {
+    fun `Get summary value for single format per datapoint`() {
         val summaryValue = br.getSummaryValue()
 
-        val medianBandwidth = 3.0
+        val medianBandwidth = 30.0
 
         assert(summaryValue[""] == medianBandwidth)
     }

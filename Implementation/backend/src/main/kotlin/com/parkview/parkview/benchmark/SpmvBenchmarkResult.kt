@@ -20,7 +20,17 @@ class SpmvBenchmarkResult(
     override val benchmark: Benchmark,
     val datapoints: List<SpmvDatapoint>,
 ) : BenchmarkResult {
-    override fun getSummaryValue(): Double {
-        TODO("Not yet implemented")
+    override fun getSummaryValue(): Map<String, Double> = calcBandwidths().mapValues {(key, values) -> values[values.size / 2]}
+
+    private fun calcBandwidths(): Map<String, List<Double>> {
+        val bandwidths = mutableMapOf<String, MutableList<Double>>()
+
+        for (datapoint in datapoints) {
+            for (format in datapoint.formats) {
+                bandwidths.getOrPut(format.name) { mutableListOf<Double>() }.add(datapoint.nonzeros / format.time)
+            }
+        }
+
+        return bandwidths
     }
 }

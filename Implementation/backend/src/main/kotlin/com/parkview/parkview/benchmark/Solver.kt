@@ -19,12 +19,12 @@ package com.parkview.parkview.benchmark
  */
 class Solver(
     val name: String,
-    val recurrentResiduals: List<Double>,
-    val trueResiduals: List<Double>,
-    val implicitResiduals: List<Double>,
-    val iterationTimestamps: List<Double>,
-    val rhsNorm: List<Double>,
-    val residualNorm: List<Double>,
+    val recurrentResiduals: List<Double> = emptyList(),
+    val trueResiduals: List<Double> = emptyList(),
+    val implicitResiduals: List<Double> = emptyList(),
+    val iterationTimestamps: List<Double> = emptyList(),
+    val rhsNorm: Double = 0.0,
+    val residualNorm: Double = 0.0,
     val completed: Boolean,
     val generateComponents: List<Component>,
     val generateTotalTime: Double,

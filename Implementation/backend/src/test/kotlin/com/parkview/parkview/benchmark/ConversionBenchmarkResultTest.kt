@@ -13,31 +13,29 @@ internal class ConversionBenchmarkResultTest {
 
     @BeforeEach
     fun setup() {
-        val d1 = ConversionDatapoint("", 10, 10, 10, listOf(
-            Conversion("", 1.0, true),
-        ))
-        val d2 = ConversionDatapoint("", 20, 20, 20, listOf(
-            Conversion("", 1.0, true),
-        ))
-        val d3 = ConversionDatapoint("", 30, 30, 30, listOf(
-            Conversion("", 1.0, true),
-        ))
+        val datapoints = (1..5).map {
+            ConversionDatapoint(
+                "", it * 10, it * 10, it * 10, listOf(
+                    Conversion("", 1.0, true),
+                )
+            )
+        }
 
         val commit = Commit("", "", Date())
         br = ConversionBenchmarkResult(
             commit,
             Device(""),
             Benchmark("", BenchmarkType.ConversionBenchmark),
-            listOf(d1, d2, d3)
+            datapoints
         )
     }
 
     @Test
-    fun `test summary value for normal values`() {
+    fun `test summary value for single conversion in each datapoint`() {
         val summaryValue = br.getSummaryValue()
 
-        val medianBandwidth = 20.0
+        val medianBandwidth = 30.0
 
-        assert(summaryValue == medianBandwidth)
+        assert(summaryValue[""] == medianBandwidth)
     }
 }

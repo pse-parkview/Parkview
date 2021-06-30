@@ -24,12 +24,17 @@ class BlasBenchmarkResult(
      */
     val datapoints: List<BlasDatapoint>
 ) : BenchmarkResult {
+    override fun getSummaryValue(): Map<String, Double> = calcBandwidths().mapValues {(key, values) -> values.sorted()[values.size / 2]}
 
-    override fun getSummaryValue(): Double {
-        val bandwidths = getBandwidths()
-        return bandwidths[bandwidths.size / 2]
+    private fun calcBandwidths(): Map<String, List<Double>> {
+        val bandwidths = mutableMapOf<String, MutableList<Double>>()
+
+        for (datapoint in datapoints) {
+            for (operation in datapoint.operations) {
+                bandwidths.getOrPut(operation.name) { mutableListOf() }.add(operation.bandwidth)
+            }
+        }
+
+        return bandwidths
     }
-
-    private fun getBandwidths() =
-        datapoints.fold(emptyList<Double>()) { total, problem -> total + problem.operations.map { it.bandwidth } }
 }

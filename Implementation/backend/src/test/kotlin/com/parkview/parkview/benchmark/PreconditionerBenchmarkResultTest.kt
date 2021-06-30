@@ -10,21 +10,28 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import java.util.*
 
-internal class BlasBenchmarkResultTest {
-    private lateinit var br: BlasBenchmarkResult
+internal class PreconditionerBenchmarkResultTest {
+    private lateinit var br: PreconditionerBenchmarkResult
 
     @BeforeEach
     fun setup() {
         val datapoints = (1..5).map {
-            BlasDatapoint(
-                10, operations = listOf(
-                    Operation("", 1.0, 1.0, it * 1.0, true),
+            PreconditionerDatapoint(
+                "", 10, 10, 10, listOf(
+                    Preconditioner(
+                        "", listOf(
+                            Component("", it.toDouble()),
+                        ),
+                        it.toDouble(), listOf(
+                            Component("", it.toDouble())
+                        ), it.toDouble(), true
+                    )
                 )
             )
         }
 
         val commit = Commit("", "", Date())
-        br = BlasBenchmarkResult(
+        br = PreconditionerBenchmarkResult(
             commit,
             Device(""),
             Benchmark("", BenchmarkType.BlasBenchmark),
@@ -37,8 +44,8 @@ internal class BlasBenchmarkResultTest {
     fun `Test summary value for normal data`() {
         val summaryValue = br.getSummaryValue()
 
-        val medianBandwidth = 3.0
+        val medianGenerateRuntime = 3.0
 
-        assert(summaryValue[""] == medianBandwidth)
+        assert(summaryValue[""] == medianGenerateRuntime)
     }
 }
