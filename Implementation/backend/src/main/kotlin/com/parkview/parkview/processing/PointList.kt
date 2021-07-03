@@ -1,7 +1,6 @@
 package com.parkview.parkview.processing
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
 data class LabeledPoint(
     val x: Double,
@@ -9,6 +8,9 @@ data class LabeledPoint(
     val label: String,
 )
 
+/**
+ * Contains a list of [LabeledPoint]. The list has no order.
+ */
 class PointList(
     private val points: List<LabeledPoint>,
 ) : PlottableData {
