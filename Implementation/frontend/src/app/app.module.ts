@@ -23,6 +23,7 @@ import { SidePreviousPlotsComponent } from './sidebar/side-previous-plots/side-p
 import { PlotCardComponent } from './sidebar/side-previous-plots/plot-card/plot-card.component';
 import {LibModule} from "../lib/lib.module";
 import { DashboardComponent } from './main-content/dashboard/dashboard.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { DashboardComponent } from './main-content/dashboard/dashboard.component
     BrowserModule,
     AppRoutingModule,
     LibModule,
+    NgxChartsModule,
 
   ],
   providers: [],
