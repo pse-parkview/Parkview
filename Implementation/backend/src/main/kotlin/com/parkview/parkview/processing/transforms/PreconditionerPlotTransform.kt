@@ -1,6 +1,7 @@
-package com.parkview.parkview.processing
+package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
+import com.parkview.parkview.processing.PlottableData
 
 /**
  * Interface for transforms using multiple [PreconditionerBenchmarkResult].
