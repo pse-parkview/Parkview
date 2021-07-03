@@ -17,7 +17,7 @@ internal class PreconditionerBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             PreconditionerDatapoint(
-                "", 10, 10, 10, listOf(
+                10, 10, 10, listOf(
                     Preconditioner(
                         "", listOf(
                             Component("", it.toDouble()),

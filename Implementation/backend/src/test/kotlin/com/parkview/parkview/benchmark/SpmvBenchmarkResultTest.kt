@@ -19,7 +19,7 @@ internal class SpmvBenchmarkResultTest {
         val datapoints = (1..5).map {
             val format = Format("", 1, 1.0, 1.0, true)
             SpmvDatapoint(
-                "", it * 10, it * 10, it * 10, listOf(
+                it * 10, it * 10, it * 10, listOf(
                     format
                 ), format
             )

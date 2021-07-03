@@ -10,8 +10,8 @@ package com.parkview.parkview.benchmark
  * @param nonzeros number of nonzeros
  * @param solvers list of [Solver]
  */
-class SolverDatapoint(filename: String, rows: Int, columns: Int, nonzeros: Int, val solvers: List<Solver>) :
+class SolverDatapoint(rows: Int, columns: Int, nonzeros: Int, val solvers: List<Solver>) :
     MatrixDatapoint(
-        filename, rows, columns,
+        rows, columns,
         nonzeros
     )

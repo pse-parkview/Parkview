@@ -17,7 +17,7 @@ internal class SolverBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             SolverDatapoint(
-                "", it * 10, it * 10, it * 10, listOf(
+                it * 10, it * 10, it * 10, listOf(
                     Solver(
                         "",
                         generateComponents = listOf(Component("", 1.0)),

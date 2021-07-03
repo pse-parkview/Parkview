@@ -10,7 +10,6 @@ package com.parkview.parkview.benchmark
  * @param nonzeros number of nonzeros
  */
 abstract class MatrixDatapoint(
-    val filename: String,
     val rows: Int,
     val columns: Int,
     val nonzeros: Int,
