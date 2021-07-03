@@ -12,5 +12,5 @@ interface BlasPlotTransform {
      * @param benchmarkResults list of benchmark results
      * @return a String containing the transformed data in json format
      */
-    fun transform(benchmarkResults: List<BlasBenchmarkResult>): String
+    fun transform(benchmarkResults: List<BlasBenchmarkResult>): PlottableData
 }

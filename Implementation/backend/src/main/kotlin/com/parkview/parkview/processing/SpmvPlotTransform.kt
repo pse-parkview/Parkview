@@ -12,5 +12,5 @@ interface SpmvPlotTransform {
      * @param benchmarkResults list of benchmark results
      * @return a String containing the transformed data in json format
      */
-    fun transform(benchmarkResults: List<SpmvBenchmarkResult>): String
+    fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData
 }
