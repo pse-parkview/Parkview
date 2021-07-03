@@ -23,5 +23,5 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handleGetBenchmarkResults(json: String)
+    fun handleGetBenchmarkResults(json: String): String
 }

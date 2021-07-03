@@ -24,10 +24,10 @@ data class SpmvDatapointModel(
     var spmv: Map<String, FormatModel> = emptyMap(),
 ) {
     fun toBenchmarkResultDatapoint(): SpmvDatapoint {
-        // return SpmvDatapoint(0, 0, 0, spmv.map{(name, format) -> Format(name, format.time, format.completed) })
-        // return SpmvDatapoint(problem.rows, problem.cols, problem.nonzeros, emptyList())
         val formats: MutableList<Format> = mutableListOf()
 
+        // spmv can never be null because it is null safe. But somehow gson manages it to still give it a null value
+        // if no spmv property exists.
         if (spmv == null) spmv = emptyMap()
 
         for ((key, value) in spmv) {
@@ -38,7 +38,6 @@ data class SpmvDatapointModel(
 }
 
 class Util private constructor() {
-
     companion object {
         fun benchmarkResultFromJson(json: String, type: BenchmarkType): BenchmarkResult = when (type) {
             BenchmarkType.SpmvBenchmark -> spmvFromJson(json)
