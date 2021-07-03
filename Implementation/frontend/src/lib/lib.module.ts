@@ -4,6 +4,7 @@ import { ScatterPlotComponent } from './plotviews/scatter-plot/scatter-plot.comp
 import { BarPlotComponent } from './plotviews/bar-plot/bar-plot.component';
 import { LinePlotComponent } from './plotviews/line-plot/line-plot.component';
 import { SummaryChartComponent } from './plotviews/summary-chart/summary-chart.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 
 
@@ -14,8 +15,12 @@ import { SummaryChartComponent } from './plotviews/summary-chart/summary-chart.c
     LinePlotComponent,
     SummaryChartComponent
   ],
+  exports: [
+    LinePlotComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxChartsModule
   ]
 })
 export class LibModule { }
