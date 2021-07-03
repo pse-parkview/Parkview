@@ -11,7 +11,7 @@ data class LabeledPoint(
 /**
  * Contains a list of [LabeledPoint]. The list has no order.
  */
-class PointList(
+class SeriesList(
     private val points: List<LabeledPoint>,
 ) : PlottableData {
     private val gson = Gson()
