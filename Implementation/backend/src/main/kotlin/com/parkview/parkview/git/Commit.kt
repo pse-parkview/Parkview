@@ -13,6 +13,7 @@ class Commit(
     val sha: String,
     val message: String,
     val date: Date,
+    val author: String,
 ) {
     private val benchmarkResults: MutableMap<Device, BenchmarkResult> = mutableMapOf()
 

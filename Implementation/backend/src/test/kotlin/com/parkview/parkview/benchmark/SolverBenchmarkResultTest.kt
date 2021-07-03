@@ -17,7 +17,7 @@ internal class SolverBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             SolverDatapoint(
-                it * 10, it * 10, it * 10, listOf(
+                it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                     Solver(
                         "",
                         generateComponents = listOf(Component("", 1.0)),
@@ -31,7 +31,7 @@ internal class SolverBenchmarkResultTest {
             )
         }
 
-        val commit = Commit("", "", Date())
+        val commit = Commit("", "", Date(), "")
         br = SolverBenchmarkResult(
             commit,
             Device(""),

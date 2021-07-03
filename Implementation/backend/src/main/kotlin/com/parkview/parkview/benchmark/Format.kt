@@ -10,10 +10,10 @@ package com.parkview.parkview.benchmark
  * @param maxRelativeNorm2
  * @param completed
  */
-class Format(
+data class Format(
     val name: String,
-    val storage: Int,
     val time: Double,
-    val maxRelativeNorm2: Double,
     val completed: Boolean,
+    val storage: Int = 0,
+    val maxRelativeNorm2: Double = 0.0,
 )

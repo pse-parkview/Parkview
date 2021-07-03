@@ -1,0 +1,49 @@
+[
+    {
+        "problem": {
+            "posdef": true,
+            "id": 1,
+            "cols": 1138,
+            "group": "HB",
+            "rows": 1138,
+            "nonzeros": 4054,
+            "2d3d": false,
+            "real": true,
+            "binary": false,
+            "name": "1138_bus",
+            "nsym": 1,
+            "psym": 1,
+            "kind": "power network problem"
+        },
+        "dataset": {
+            "provider": "SuiteSparse",
+            "system": "E5-2670",
+            "executor": "omp",
+            "problem": "1138_bus.json",
+            "collection": "HB"
+        },
+        "spmv": {
+            "coo": {
+                "completed": true,
+                "time": 46033550.0
+            },
+            "hybrid": {
+                "completed": true,
+                "time": 6633021.6
+            },
+            "csr": {
+                "completed": true,
+                "time": 12966.5
+            },
+            "sellp": {
+                "completed": true,
+                "time": 17339.3
+            },
+            "ell": {
+                "completed": true,
+                "time": 23980.8
+            }
+        },
+        "optimal_format": "csr"
+    }
+]

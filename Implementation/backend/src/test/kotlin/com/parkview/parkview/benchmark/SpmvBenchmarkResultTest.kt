@@ -17,15 +17,15 @@ internal class SpmvBenchmarkResultTest {
     @BeforeEach
     fun setup() {
         val datapoints = (1..5).map {
-            val format = Format("", 1, 1.0, 1.0, true)
+            val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             SpmvDatapoint(
-                it * 10, it * 10, it * 10, listOf(
+                it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                     format
                 ), format
             )
         }
 
-        val commit = Commit("", "", Date())
+        val commit = Commit("", "", Date(), "")
         br = SpmvBenchmarkResult(
             commit,
             Device(""),

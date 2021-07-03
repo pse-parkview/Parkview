@@ -23,7 +23,7 @@ internal class BlasBenchmarkResultTest {
             )
         }
 
-        val commit = Commit("", "", Date())
+        val commit = Commit("", "", Date(), "")
         br = BlasBenchmarkResult(
             commit,
             Device(""),

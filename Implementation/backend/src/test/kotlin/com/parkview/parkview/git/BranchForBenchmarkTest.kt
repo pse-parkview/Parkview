@@ -7,9 +7,9 @@ import java.util.*
 
 internal class BranchForBenchmarkTest {
     private lateinit var branch: BranchForBenchmark
-    private val a = Commit("a", "", Date())
-    private val b = Commit("b", "", Date())
-    private val c = Commit("c", "", Date())
+    private val a = Commit("a", "", Date(), "")
+    private val b = Commit("b", "", Date(), "")
+    private val c = Commit("c", "", Date(), "")
 
     @BeforeEach
     fun setup() {

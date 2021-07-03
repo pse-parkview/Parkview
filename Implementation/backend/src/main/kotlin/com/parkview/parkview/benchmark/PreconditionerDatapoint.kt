@@ -11,5 +11,5 @@ package com.parkview.parkview.benchmark
  * @param preconditioners list of [Preconditioner]
  */
 class PreconditionerDatapoint(
-    rows: Int, columns: Int, nonzeros: Int, val preconditioners: List<Preconditioner>
+    rows: Long, columns: Long, nonzeros: Long, val preconditioners: List<Preconditioner>
 ) : MatrixDatapoint(rows, columns, nonzeros)

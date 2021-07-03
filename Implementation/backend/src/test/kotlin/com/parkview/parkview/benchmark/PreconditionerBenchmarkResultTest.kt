@@ -30,7 +30,7 @@ internal class PreconditionerBenchmarkResultTest {
             )
         }
 
-        val commit = Commit("", "", Date())
+        val commit = Commit("", "", Date(), "")
         br = PreconditionerBenchmarkResult(
             commit,
             Device(""),

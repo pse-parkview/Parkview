@@ -12,6 +12,8 @@ enum class SpmvSingleScatterPlotYAxis {
 
 class SpmvSingleScatterPlot(
     private val yAxis: SpmvSingleScatterPlotYAxis,
+    private val rows: Long = -1,
+    private val cols: Long = -1,
 ) : SpmvPlotTransform {
     override fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 1) throw InvalidPlotTransformException("SpmvSingleScatterPlot can only be used with a single BenchmarkResult")
@@ -21,6 +23,9 @@ class SpmvSingleScatterPlot(
         val pointList = emptyList<LabeledPoint>().toMutableList()
 
         for (datapoint in benchmarkResult.datapoints) {
+            if (rows > 0 && datapoint.rows != rows) continue
+            if (cols > 0 && datapoint.columns != cols) continue
+
             for (format in datapoint.formats) {
                 pointList += LabeledPoint(
                     x = datapoint.nonzeros.toDouble(),

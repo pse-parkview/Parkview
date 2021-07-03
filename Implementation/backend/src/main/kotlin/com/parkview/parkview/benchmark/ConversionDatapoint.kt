@@ -11,7 +11,7 @@ package com.parkview.parkview.benchmark
  * @param nonzeros number of nonzeros
  * @param conversions list of conversions
  */
-class ConversionDatapoint(rows: Int, columns: Int, nonzeros: Int, val conversions: List<Conversion>) :
+class ConversionDatapoint(rows: Long, columns: Long, nonzeros: Long, val conversions: List<Conversion>) :
     MatrixDatapoint(
         rows, columns, nonzeros
     )

@@ -12,9 +12,9 @@ package com.parkview.parkview.benchmark
  * @param optimal optimal format
  */
 class SpmvDatapoint(
-    rows: Int, columns: Int, nonzeros: Int,
+    rows: Long, columns: Long, nonzeros: Long,
     val formats: List<Format>,
-    val optimal: Format,
+    val optimal: Format? = null,
 ) : MatrixDatapoint(
     rows, columns, nonzeros,
 )
