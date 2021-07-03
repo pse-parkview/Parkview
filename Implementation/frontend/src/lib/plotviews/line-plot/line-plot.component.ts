@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import data from "./small.json";
 
 @Component({
   selector: 'app-line-plot',
@@ -9,7 +10,9 @@ export class LinePlotComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  view: [number, number] = [700, 300];
+
+  formatted: any[] = JSON.parse(JSON.stringify(data));
+  view: [number, number] = [1500, 900];
 
   // options
   legend: boolean = true;
