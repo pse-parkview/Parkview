@@ -4,9 +4,9 @@
 export interface Summary {
 
   /**
-   * The different values associated to theit name or key
+   * The different values associated to their name or key
    */
-  get summary(): Map<any, any>;
+  get summary(): Map<string, number>;
 
   /**
    * The amount tested
