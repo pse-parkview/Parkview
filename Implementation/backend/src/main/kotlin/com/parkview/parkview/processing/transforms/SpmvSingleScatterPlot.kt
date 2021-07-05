@@ -1,9 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.LabeledPoint
-import com.parkview.parkview.processing.PlottableData
-import com.parkview.parkview.processing.PointList
+import com.parkview.parkview.processing.*
 
 enum class SpmvSingleScatterPlotYAxis {
     Time,
@@ -20,24 +18,25 @@ class SpmvSingleScatterPlot(
 
         val benchmarkResult = benchmarkResults[0]
 
-        val pointList = emptyList<LabeledPoint>().toMutableList()
+        val seriesByName = mutableMapOf<String, Series>()
 
         for (datapoint in benchmarkResult.datapoints) {
             if (rows > 0 && datapoint.rows != rows) continue
             if (cols > 0 && datapoint.columns != cols) continue
 
             for (format in datapoint.formats) {
-                pointList += LabeledPoint(
-                    x = datapoint.nonzeros.toDouble(),
-                    y = when (yAxis) {
-                        SpmvSingleScatterPlotYAxis.Bandwidth -> format.storage + (datapoint.rows + datapoint.columns) / format.time
-                        SpmvSingleScatterPlotYAxis.Time -> format.time
-                    },
-                    label = format.name,
-                )
+                seriesByName.getOrPut(format.name) { Series(format.name, mutableListOf()) }
+                    .series += Point(
+                        datapoint.nonzeros.toString(),
+                        when (yAxis) {
+                            SpmvSingleScatterPlotYAxis.Bandwidth -> format.storage + (datapoint.rows + datapoint.columns) / format.time
+                            SpmvSingleScatterPlotYAxis.Time -> format.time
+                        }
+                    )
+
             }
         }
 
-        return PointList(pointList)
+        return SeriesList(seriesByName.values.toList())
     }
 }

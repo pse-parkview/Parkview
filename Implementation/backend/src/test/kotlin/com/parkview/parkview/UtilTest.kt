@@ -23,7 +23,7 @@ internal class UtilTest {
     }
 
     @Test
-    fun `test json deserialization for mutliple entries`() {
+    fun `test json deserialization for multiple entries`() {
         // TODO use class loader instead of relative path
         // testJson = this.javaClass::class.java.getResource("test_single_spmv.json").readText()
         val path = "src/test/resources/test_multiple_spmv.json"

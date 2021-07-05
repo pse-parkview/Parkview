@@ -2,19 +2,23 @@ package com.parkview.parkview.processing
 
 import com.google.gson.Gson
 
-data class LabeledPoint(
-    val x: Double,
-    val y: Double,
-    val label: String,
+data class Series(
+    val name: String,
+    var series: List<Point>
+)
+
+data class Point(
+    val name: String,
+    val value: Double,
 )
 
 /**
  * Contains a list of [LabeledPoint]. The list has no order.
  */
 class SeriesList(
-    private val points: List<LabeledPoint>,
+    private val series: List<Series>,
 ) : PlottableData {
     private val gson = Gson()
 
-    override fun toJson(): String = gson.toJson(points)
+    override fun toJson(): String = gson.toJson(series)
 }
