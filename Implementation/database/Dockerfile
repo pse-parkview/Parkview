@@ -1,2 +1,2 @@
 FROM "postgres:9.6-alpine"
-COPY schema.sql /docker-entrypoint-initdb.d/
+# COPY schema.sql /docker-entrypoint-initdb.d/

@@ -15,16 +15,21 @@ repositories {
 	mavenCentral()
 }
 
+val exposedVersion: String by project
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.google.code.gson:gson:2.8.5")
+	implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+	implementation("org.postgresql:postgresql:42.2.2")
 
-
-    // test deps
+	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
 	testImplementation(kotlin("test"))
 }
 
