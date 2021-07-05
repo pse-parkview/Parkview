@@ -1,26 +1,41 @@
 import {Injectable} from '@angular/core';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
+import {Data} from "../plothandler/interfaces/data";
+import {PlotType} from "../plothandler/interfaces/plot-type";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
+  private URL: string = "";
 
-  private readonly URL: string;
-  json = [
-    {"x": 4054.0, "y": 4.603355E7, "label": "coo"},
-    {"x": 4054.0, "y": 6633021.6, "label": "hybrid"},
-    {"x": 4054.0, "y": 12966.5, "label": "csr"},
-    {"x": 4054.0, "y": 17339.3, "label": "sellp"},
-    {"x": 4054.0, "y": 23980.8, "label": "ell"},
-  ];
-
-  requestData() {
-    return this.json;
+  constructor(private http: HttpClient) {
   }
 
-  constructor(url: string) {
-    this.URL = url;
+  set withURL(URL: string) {
+    this.URL = URL;
+  }
+
+  private requestGraphData(type: PlotType) {
+    switch (type) {
+
+      case PlotType.LINE: // fallthrough because data has the same format
+      case PlotType.BAR:
+        return this.http.get<Data[]>(this.URL);
+
+      case PlotType.SCATTER:
+        let res = this.http.get<Data[]>(this.URL);
+        let data: any[] = [];
+        res.subscribe((values: Data[]) => data = values);
+        for (let d of data) {
+          d.series.x = d.series.name;
+          d.series.y = d.series.value;
+          d.series.r = 1;
+        }
+        return data;
+    }
   }
 }
