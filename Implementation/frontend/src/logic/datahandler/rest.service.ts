@@ -4,6 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {Data} from "../plothandler/interfaces/data";
 import {PlotType} from "../plothandler/interfaces/plot-type";
+import * as json from "./small.json";
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +28,20 @@ export class RestService {
         return this.http.get<Data[]>(this.URL);
 
       case PlotType.SCATTER:
-        let res = this.http.get<Data[]>(this.URL);
-        let data: any[] = [];
-        res.subscribe((values: Data[]) => data = values);
+        /*
+                let res = this.http.get<Data[]>(this.URL);
+                let data: any[] = [];
+                res.subscribe((values: Data[]) => data = values);
+        */
+        let data: Data[] = json;
         for (let d of data) {
-          d.series.x = d.series.name;
-          d.series.y = d.series.value;
-          d.series.r = 1;
+          for (let s of d.series) {
+            s.x = s.name;
+            s.y = s.value;
+            s.r = 1;
+          }
         }
+        console.log(data);
         return data;
     }
   }

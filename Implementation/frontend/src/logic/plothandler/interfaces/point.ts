@@ -4,4 +4,7 @@
 export interface Point {
   "name": string,
   "value": number
+  "x"?: string,
+  "y"?: number,
+  "r"?: number
 }

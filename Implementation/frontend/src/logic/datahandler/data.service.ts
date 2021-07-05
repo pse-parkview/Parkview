@@ -23,9 +23,9 @@ export class DataService {
     return [];
   }
 
-/*  getBenchmarkComparison(b1: Benchmark, b2: Benchmark): BenchmarkComparison {
-    return {};
-  }*/
+  /*  getBenchmarkComparison(b1: Benchmark, b2: Benchmark): BenchmarkComparison {
+      return {};
+    }*/
 
   constructor(private readonly restService: RestService) {
     this.restService.withURL = this.URL;
