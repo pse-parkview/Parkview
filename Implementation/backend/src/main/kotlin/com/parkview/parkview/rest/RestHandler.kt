@@ -1,5 +1,7 @@
 package com.parkview.parkview.rest
 
+import org.springframework.web.bind.annotation.RequestParam
+
 /**
  * Interface that provides methods for handling POST and GET requests
  */
@@ -16,12 +18,14 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handleGetHistory(json: String): String
+    fun handleGetHistory(branch: String, page: Int): String
 
     /**
      * Handles a GET request for retrieving benchmark results
      *
      * @param json request body as json
      */
-    fun handleGetBenchmarkResults(json: String): String
+    fun handleGetBenchmarkResults(@RequestParam benchmark: String, @RequestParam sha: String, @RequestParam device: String): String
+
+    fun getAvailableBranches(): String
 }

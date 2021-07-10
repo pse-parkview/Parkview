@@ -4,25 +4,25 @@ import com.google.gson.Gson
 import com.parkview.parkview.Util
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.ExposedHandler
-import com.parkview.parkview.git.BenchmarkType
-import com.parkview.parkview.git.RepositoryHandler
+import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.io.File
+import java.util.*
 
-private data class GetBenchmarkResultRequest(
-    val yaxis: String,
-    val rows: Int,
-    val cols: Int,
+private data class GetPlotDataRequest(
+//    val yaxis: String,
+//    val rows: Int,
+//    val cols: Int,
     val benchmark: String,
+    val sha: String,
+    val device: String,
 )
 
 private data class GetHistoryRequest(
     val branch: String,
+    val page: Int,
 )
 
 /**
@@ -30,9 +30,11 @@ private data class GetHistoryRequest(
  */
 @RestController
 class SpringRestHandler : RestHandler {
+    val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
+
     @PostMapping("/post")
     override fun handlePost(@RequestBody json: String) {
-        println(json.subSequence(0, 30))
+//        println(json.subSequence(0, 30))
         val benchmarkResult = Util.benchmarkResultFromJson(json, BenchmarkType.SpmvBenchmark)
 //        val path = "src/test/resources/test_multiple_spmv.json"
 //        val file = File(path)
@@ -44,26 +46,45 @@ class SpringRestHandler : RestHandler {
     }
 
     @GetMapping("/history")
-    override fun handleGetHistory(@RequestBody json: String): String {
-        val repositoryHandler: RepositoryHandler = GitApiHandler("ginkgo", "ginkgo-project")
+    override fun handleGetHistory(@RequestParam branch: String, @RequestParam page: Int): String {
+//        val repositoryHandler: RepositoryHandler = GitApiHandler("ginkgo", "ginkgo-project")
 
         val gson = Gson()
-        val request = gson.fromJson(json, GetHistoryRequest::class.java)
 
-        val commits = repositoryHandler.fetchGitHistory(request.branch)
+        val commits = repHandler.fetchGitHistory(branch, page)
         return gson.toJson(commits)
     }
 
 
-    @GetMapping("/benchmarkResult")
-    override fun handleGetBenchmarkResults(@RequestBody json: String): String {
+    @GetMapping("/getPlotData")
+    override fun handleGetBenchmarkResults(@RequestParam benchmark: String, @RequestParam sha: String, @RequestParam device: String): String {
         // dummy implementation
-        val path = "src/test/resources/test_multiple_spmv.json"
-        val file = File(path)
-        val testJson = file.readText()
+        val databaseHandler = ExposedHandler()
 
-        val benchmarkResult = Util.benchmarkResultFromJson(testJson, BenchmarkType.SpmvBenchmark)
-        val points = SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(listOf(benchmarkResult as SpmvBenchmarkResult))
+        val gson = Gson()
+//        val request = gson.fromJson(json, GetPlotDataRequest::class.java)
+        val benchmarkResult = databaseHandler.fetchBenchmarkResult(
+            Commit(sha, "", Date(), ""),
+            Device(device),
+            Benchmark(benchmark, BenchmarkType.SpmvBenchmark)
+        )
+
+//        val path = "src/test/resources/test_multiple_spmv.json"
+//        val file = File(path)
+//        val testJson = file.readText()
+//
+//        val benchmarkResult = Util.benchmarkResultFromJson(testJson, BenchmarkType.SpmvBenchmark)
+        val points =
+            SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(listOf(benchmarkResult as SpmvBenchmarkResult))
         return points.toJson()
+    }
+
+    @GetMapping("/branches")
+    override fun getAvailableBranches(): String {
+        // val repositoryHandler: RepositoryHandler = GitApiHandler("ginkgo", "ginkgo-project")
+
+        val branches = repHandler.getAvailableBranches()
+        val gson = Gson()
+        return gson.toJson(branches)
     }
 }
