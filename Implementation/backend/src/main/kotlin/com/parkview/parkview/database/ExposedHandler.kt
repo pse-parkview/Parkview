@@ -1,6 +1,8 @@
 package com.parkview.parkview.database
 
+import com.parkview.parkview.benchmark.Format
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -32,8 +34,10 @@ private object SpmvFormat : Table() {
  */
 class ExposedHandler : DatabaseHandler {
     // TODO: use spring stuff to get database object
-    val db = Database.connect("jdbc:postgresql://localhost:5432/parkview", driver = "org.postgresql.Driver",
-            user = "parkview", password = "parkview")
+    val db = Database.connect(
+        "jdbc:postgresql://parkview-postgres:5432/parkview", driver = "org.postgresql.Driver",
+        user = "parkview", password = "parkview"
+    )
 
     init {
         transaction {
@@ -48,11 +52,13 @@ class ExposedHandler : DatabaseHandler {
         transaction {
             addLogger(StdOutSqlLogger) // debug logger
 
+            // TODO use a batch insert instead of whatever this is
             for (result in results) {
                 if (result !is SpmvBenchmarkResult) continue
                 for (datapoint in result.datapoints) {
                     val benchmark = MatrixBenchmarkResult.insert {
-                        it[sha] = "ba0c3f47d6095b17ae91f3bb3739b9f0e36f79e5"
+                        it[sha] = result.commit.sha
+                        it[name] = result.benchmark.name
                         it[device] = result.device.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
@@ -74,7 +80,48 @@ class ExposedHandler : DatabaseHandler {
         }
     }
 
-    override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark): BenchmarkResult {
-        TODO("Not yet implemented")
+    override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark) = when (benchmark.type) {
+        BenchmarkType.SpmvBenchmark -> fetchSpmvResult(commit, device, benchmark)
+        BenchmarkType.SolverBenchmark -> TODO()
+        BenchmarkType.PreconditionerBenchmark -> TODO()
+        BenchmarkType.ConversionBenchmark -> TODO()
+        BenchmarkType.BlasBenchmark -> TODO()
+    }
+
+    private fun fetchSpmvResult(commitInfo: Commit, device: Device, benchmarkType: Benchmark): BenchmarkResult {
+        val datapoints = mutableListOf<SpmvDatapoint>()
+        transaction {
+            val benchmarks = MatrixBenchmarkResult.select {
+                (MatrixBenchmarkResult.sha eq commitInfo.sha) and
+                        (MatrixBenchmarkResult.device eq device.name) and
+                        (MatrixBenchmarkResult.name eq benchmarkType.name) and
+                        (MatrixBenchmarkResult.rows eq 1138)
+            }
+
+            // TODO: make this faster
+            datapoints += benchmarks.map { spmvEntry ->
+                SpmvDatapoint(
+                    rows = spmvEntry[MatrixBenchmarkResult.rows],
+                    columns = spmvEntry[MatrixBenchmarkResult.cols],
+                    nonzeros = spmvEntry[MatrixBenchmarkResult.nonzeros],
+                    formats = SpmvFormat
+                        .select { SpmvFormat.benchmarkId eq spmvEntry[MatrixBenchmarkResult.id] }
+                        .map { formatEntry ->
+                            Format(
+                                name = formatEntry[SpmvFormat.name],
+                                time = formatEntry[SpmvFormat.time],
+                                completed = formatEntry[SpmvFormat.completed],
+                            )
+                        }.toList()
+                )
+            }
+        }
+        println(datapoints)
+        return SpmvBenchmarkResult(
+            commit = commitInfo,
+            device = device,
+            benchmark = benchmarkType,
+            datapoints = datapoints
+        )
     }
 }
