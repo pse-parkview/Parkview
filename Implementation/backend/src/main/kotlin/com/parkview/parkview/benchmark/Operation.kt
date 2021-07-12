@@ -15,4 +15,5 @@ class Operation(
     val flops: Double,
     val bandwidth: Double,
     val completed: Boolean,
+    val repetitions: Long = 0,
 )

@@ -11,9 +11,9 @@ package com.parkview.parkview.benchmark
  * @param operations list of operations
  */
 class BlasDatapoint(
-    val n: Int,
-    val r: Int = 1,
-    val m: Int = n,
-    val k: Int = n,
+    val n: Long,
+    val r: Long = 1,
+    val m: Long = n,
+    val k: Long = n,
     val operations: List<Operation>
 )

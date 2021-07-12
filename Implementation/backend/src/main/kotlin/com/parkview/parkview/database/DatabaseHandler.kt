@@ -27,5 +27,5 @@ interface DatabaseHandler {
      *
      * @throws MissingBenchmarkResultException if the wanted benchmark result is not available
      */
-    fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark): BenchmarkResult
+    fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark, rowLim: Int = 0, colLim: Int = 0, nonzerosLim: Int = 0): BenchmarkResult
 }

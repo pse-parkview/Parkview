@@ -66,7 +66,8 @@ class SpringRestHandler : RestHandler {
         val benchmarkResult = databaseHandler.fetchBenchmarkResult(
             Commit(sha, "", Date(), ""),
             Device(device),
-            Benchmark(benchmark, BenchmarkType.SpmvBenchmark)
+            Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
+            nonzerosLim = 500000,
         )
 
 //        val path = "src/test/resources/test_multiple_spmv.json"
