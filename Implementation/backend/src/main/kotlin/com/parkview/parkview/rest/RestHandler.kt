@@ -11,7 +11,7 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handlePost(json: String)
+    fun handlePost(sha: String, device: String, benchmark: String, blas: Boolean, json: String)
 
     /**
      * Handles a GET request for retrieving commit history
@@ -25,10 +25,11 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handleGetBenchmarkResults(
-        @RequestParam benchmark: String,
-        @RequestParam sha: String,
-        @RequestParam device: String
+    fun handleGetPlotData(
+        benchmark: String,
+        sha: List<String>,
+        devices: List<String>,
+        plotType: String,
     ): String
 
     fun getAvailableBranches(): String

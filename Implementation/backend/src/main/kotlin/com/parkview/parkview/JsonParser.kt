@@ -151,13 +151,13 @@ private data class BlasOperationModel(
 // TODO: move this to better fitting class
 class JsonParser private constructor() {
     companion object {
-        fun benchmarkResultsFromJson(json: String, blas: Boolean = false): List<BenchmarkResult> = if (!blas) {
-            matrixBenchmarkResultsFromJson(json)
+        fun benchmarkResultsFromJson(sha: String, benchmark: String, device: String, json: String, blas: Boolean = false): List<BenchmarkResult> = if (!blas) {
+            matrixBenchmarkResultsFromJson(sha, benchmark, device, json)
         } else {
-            blasBenchmarkResultFromJson(json)
+            blasBenchmarkResultFromJson(sha, benchmark, device, json)
         }
 
-        private fun matrixBenchmarkResultsFromJson(json: String): List<BenchmarkResult> {
+        private fun matrixBenchmarkResultsFromJson(sha: String, benchmark: String, device: String, json: String): List<BenchmarkResult> {
             val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
 
             val datapoints: List<MatrixDatapointModel> = Gson().fromJson(json, arrayType)
@@ -182,17 +182,15 @@ class JsonParser private constructor() {
             }
 
             val results: MutableList<BenchmarkResult> = mutableListOf()
-            // TODO how to get those?
-            val commit = Commit("ba0c3f47d6095b17ae91f3bb3739b9f0e36f79e5", "", Date(), "")
-            val device = Device("gamer")
-            val benchmarkName = "benchmark"
+            val commit = Commit(sha, "", Date(), "")
+            val device = Device(device)
 
             if (spmvDatapoints.isNotEmpty()) results.add(
                 SpmvBenchmarkResult(
                     commit = commit,
                     datapoints = spmvDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmarkName, BenchmarkType.SpmvBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
                 )
             )
 
@@ -201,7 +199,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = conversionDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmarkName, BenchmarkType.ConversionBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.ConversionBenchmark),
                 )
             )
 
@@ -210,7 +208,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = solverDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmarkName, BenchmarkType.SolverBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.SolverBenchmark),
                 )
             )
 
@@ -219,26 +217,23 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = preconditionerDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmarkName, BenchmarkType.PreconditionerBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.PreconditionerBenchmark),
                 )
             )
 
             return results
         }
 
-        private fun blasBenchmarkResultFromJson(json: String): List<BenchmarkResult> {
-            val commit = Commit("ba0c3f47d6095b17ae91f3bb3739b9f0e36f79e5", "", Date(), "")
-            val device = Device("gamer")
-            val benchmarkName = "benchmark"
+        private fun blasBenchmarkResultFromJson(sha: String, benchmark: String, device: String, json: String): List<BenchmarkResult> {
             val arrayType = object : TypeToken<List<BlasDatapointModel>>() {}.type
 
             val datapoints: List<BlasDatapointModel> = Gson().fromJson(json, arrayType)
 
             return listOf(
                 BlasBenchmarkResult(
-                    commit = commit,
-                    device = device,
-                    benchmark = Benchmark(benchmarkName, BenchmarkType.BlasBenchmark),
+                    commit = Commit(sha, "", Date(), ""),
+                    device = Device(device),
+                    benchmark = Benchmark(benchmark, BenchmarkType.BlasBenchmark),
                     datapoints = datapoints.map { it.toBlasDatapoint() },
                 )
             )
