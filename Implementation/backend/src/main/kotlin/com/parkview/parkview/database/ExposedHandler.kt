@@ -41,20 +41,20 @@ private object BlasBenchmarkResultTable : Table() {
     val r: Column<Long> = long("r")
     val m: Column<Long> = long("m")
     val k: Column<Long> = long("k")
-    override val primaryKey = PrimaryKey(BlasBenchmarkResultTable.id, name = "PK_BlasBenchmarkResult_Id")
+    override val primaryKey = PrimaryKey(id, name = "PK_BlasBenchmarkResult_Id")
 }
 
 private object BlasOperationTable : Table() {
     override val tableName: String = "BlasOperation"
     val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
-    val benchmarkId: Column<UUID> = reference("benchmarkId", MatrixBenchmarkResultTable.id)
+    val benchmarkId: Column<UUID> = reference("benchmarkId", BlasBenchmarkResultTable.id)
     val name: Column<String> = varchar("name", 40) // TODO either use TEXT or check about max format name length
     val time: Column<Double> = double("time")
     val flops: Column<Double> = double("flops")
     val bandwidth: Column<Double> = double("bandwidth")
     val repetitions: Column<Long> = long("repetitions")
     val completed: Column<Boolean> = bool("completed")
-    override val primaryKey = PrimaryKey(BlasOperationTable.id, name = "PK_BlasOperation_Id")
+    override val primaryKey = PrimaryKey(id, name = "PK_BlasOperation_Id")
 }
 
 /**
@@ -75,7 +75,7 @@ class ExposedHandler : DatabaseHandler {
         transaction {
             addLogger(StdOutSqlLogger) // debug logger
             SchemaUtils.createSchema(Schema("parkview"))
-            SchemaUtils.create(MatrixBenchmarkResultTable, SpmvFormatTabe)
+            SchemaUtils.create(MatrixBenchmarkResultTable, SpmvFormatTabe, BlasBenchmarkResultTable, BlasOperationTable)
         }
     }
 
@@ -131,6 +131,8 @@ class ExposedHandler : DatabaseHandler {
                     it[m] = datapoint.m
                     it[k] = datapoint.k
                 }
+
+                println(benchmark[BlasBenchmarkResultTable.id])
 
                 for (operation in datapoint.operations) {
                     BlasOperationTable.insert {
