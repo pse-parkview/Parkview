@@ -1,50 +1,50 @@
 [
-    {
-        "n": 100,
-        "r": 1,
-        "blas": {
-            "copy": {
-                "time": 0.00000421086438164291,
-                "flops": 23748093.25038961,
-                "bandwidth": 379969492.00623378,
-                "repetitions": 12137,
-                "completed": true
-            },
-            "axpy": {
-                "time": 0.000005009196012194117,
-                "flops": 39926566.96067209,
-                "bandwidth": 479118803.528065,
-                "repetitions": 12137,
-                "completed": true
-            },
-            "multiaxpy": {
-                "time": 0.000005044501194693911,
-                "flops": 39647131.06032588,
-                "bandwidth": 475765572.7239106,
-                "repetitions": 12137,
-                "completed": true
-            },
-            "scal": {
-                "time": 0.000004242716404383291,
-                "flops": 23569805.395592005,
-                "bandwidth": 377116886.32947209,
-                "repetitions": 12137,
-                "completed": true
-            },
-            "multiscal": {
-                "time": 0.000004289105050671501,
-                "flops": 23314887.096165677,
-                "bandwidth": 373038193.5386508,
-                "repetitions": 12137,
-                "completed": true
-            },
-            "dot": {
-                "time": 0.000004808978248331548,
-                "flops": 41588875.98823909,
-                "bandwidth": 332711007.9059127,
-                "repetitions": 12137,
-                "completed": true
-            }
-        }
+  {
+    "n": 100,
+    "r": 1,
+    "blas": {
+      "copy": {
+        "time": 0.00000421086438164291,
+        "flops": 23748093.25038961,
+        "bandwidth": 379969492.00623378,
+        "repetitions": 12137,
+        "completed": true
+      },
+      "axpy": {
+        "time": 0.000005009196012194117,
+        "flops": 39926566.96067209,
+        "bandwidth": 479118803.528065,
+        "repetitions": 12137,
+        "completed": true
+      },
+      "multiaxpy": {
+        "time": 0.000005044501194693911,
+        "flops": 39647131.06032588,
+        "bandwidth": 475765572.7239106,
+        "repetitions": 12137,
+        "completed": true
+      },
+      "scal": {
+        "time": 0.000004242716404383291,
+        "flops": 23569805.395592005,
+        "bandwidth": 377116886.32947209,
+        "repetitions": 12137,
+        "completed": true
+      },
+      "multiscal": {
+        "time": 0.000004289105050671501,
+        "flops": 23314887.096165677,
+        "bandwidth": 373038193.5386508,
+        "repetitions": 12137,
+        "completed": true
+      },
+      "dot": {
+        "time": 0.000004808978248331548,
+        "flops": 41588875.98823909,
+        "bandwidth": 332711007.9059127,
+        "repetitions": 12137,
+        "completed": true
+      }
     }
+  }
 ]

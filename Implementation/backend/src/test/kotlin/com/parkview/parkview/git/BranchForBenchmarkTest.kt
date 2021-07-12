@@ -1,8 +1,7 @@
 package com.parkview.parkview.git
 
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
-
+import org.junit.jupiter.api.Test
 import java.util.*
 
 internal class BranchForBenchmarkTest {

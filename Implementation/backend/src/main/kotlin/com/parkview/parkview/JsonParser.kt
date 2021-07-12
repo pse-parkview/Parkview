@@ -151,13 +151,24 @@ private data class BlasOperationModel(
 // TODO: move this to better fitting class
 class JsonParser private constructor() {
     companion object {
-        fun benchmarkResultsFromJson(sha: String, benchmark: String, device: String, json: String, blas: Boolean = false): List<BenchmarkResult> = if (!blas) {
+        fun benchmarkResultsFromJson(
+            sha: String,
+            benchmark: String,
+            device: String,
+            json: String,
+            blas: Boolean = false
+        ): List<BenchmarkResult> = if (!blas) {
             matrixBenchmarkResultsFromJson(sha, benchmark, device, json)
         } else {
             blasBenchmarkResultFromJson(sha, benchmark, device, json)
         }
 
-        private fun matrixBenchmarkResultsFromJson(sha: String, benchmark: String, device: String, json: String): List<BenchmarkResult> {
+        private fun matrixBenchmarkResultsFromJson(
+            sha: String,
+            benchmark: String,
+            device: String,
+            json: String
+        ): List<BenchmarkResult> {
             val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
 
             val datapoints: List<MatrixDatapointModel> = Gson().fromJson(json, arrayType)
@@ -224,7 +235,12 @@ class JsonParser private constructor() {
             return results
         }
 
-        private fun blasBenchmarkResultFromJson(sha: String, benchmark: String, device: String, json: String): List<BenchmarkResult> {
+        private fun blasBenchmarkResultFromJson(
+            sha: String,
+            benchmark: String,
+            device: String,
+            json: String
+        ): List<BenchmarkResult> {
             val arrayType = object : TypeToken<List<BlasDatapointModel>>() {}.type
 
             val datapoints: List<BlasDatapointModel> = Gson().fromJson(json, arrayType)

@@ -44,7 +44,11 @@ internal class JsonParserTest {
         val testJson = file.readText()
 
         val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, benchmark, device, testJson)
-        val points = SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time, 443, 443).transform(benchmarkResults as List<SpmvBenchmarkResult>)
+        val points = SpmvSingleScatterPlot(
+            SpmvSingleScatterPlotYAxis.Time,
+            443,
+            443
+        ).transform(benchmarkResults as List<SpmvBenchmarkResult>)
         println(points.toJson())
 
         // TODO: actual assertion

@@ -54,17 +54,20 @@ class SpringRestHandler : RestHandler {
         @RequestParam plotType: String,
     ): String {
         // dummy implementation
-        val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) -> databaseHandler.fetchBenchmarkResult(
-            Commit(sha, "", Date(), ""),
-            Device(device),
-            Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
-            nonzerosLim = 5000000,
-        )}
+        val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
+            databaseHandler.fetchBenchmarkResult(
+                Commit(sha, "", Date(), ""),
+                Device(device),
+                Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
+                nonzerosLim = 5000000,
+            )
+        }
 
         println(results)
 
-        return when(plotType) {
-            "spmvSingleScatter" -> SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(results as List<SpmvBenchmarkResult>).toJson()
+        return when (plotType) {
+            "spmvSingleScatter" -> SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(results as List<SpmvBenchmarkResult>)
+                .toJson()
             else -> ""
         }
     }
