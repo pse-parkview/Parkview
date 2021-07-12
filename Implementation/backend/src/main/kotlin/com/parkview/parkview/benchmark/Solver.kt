@@ -30,5 +30,5 @@ class Solver(
     val generateTotalTime: Double,
     val applyComponents: List<Component>,
     val applyTotalTime: Double,
-    val applyIterations: Int,
+    val applyIterations: Long,
 )

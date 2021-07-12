@@ -81,7 +81,7 @@ class ExposedHandler : DatabaseHandler {
 
     override fun updateBenchmarkResults(results: List<BenchmarkResult>) {
         for (result in results) {
-            when(result) {
+            when (result) {
                 is SpmvBenchmarkResult -> insertSmpvDatapoint(result)
                 is BlasBenchmarkResult -> insertBlasBenchmarkResult(result)
             }
@@ -148,7 +148,14 @@ class ExposedHandler : DatabaseHandler {
         }
     }
 
-    override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark, rowLim: Int, colLim: Int, nonzerosLim: Int) = when (benchmark.type) {
+    override fun fetchBenchmarkResult(
+        commit: Commit,
+        device: Device,
+        benchmark: Benchmark,
+        rowLim: Int,
+        colLim: Int,
+        nonzerosLim: Int
+    ) = when (benchmark.type) {
         BenchmarkType.SpmvBenchmark -> fetchSpmvResult(commit, device, benchmark, rowLim, colLim, nonzerosLim)
         BenchmarkType.SolverBenchmark -> TODO()
         BenchmarkType.PreconditionerBenchmark -> TODO()
@@ -156,7 +163,14 @@ class ExposedHandler : DatabaseHandler {
         BenchmarkType.BlasBenchmark -> TODO()
     }
 
-    private fun fetchSpmvResult(commitInfo: Commit, device: Device, benchmarkType: Benchmark, rowLim: Int, colLim: Int, nonzerosLim: Int): BenchmarkResult {
+    private fun fetchSpmvResult(
+        commitInfo: Commit,
+        device: Device,
+        benchmarkType: Benchmark,
+        rowLim: Int,
+        colLim: Int,
+        nonzerosLim: Int
+    ): BenchmarkResult {
         val datapoints = mutableListOf<SpmvDatapoint>()
         val benchmarks = transaction {
             MatrixBenchmarkResultTable.select {

@@ -23,7 +23,7 @@ internal class SolverBenchmarkResultTest {
                         generateComponents = listOf(Component("", 1.0)),
                         generateTotalTime = 1.0,
                         applyComponents = listOf(Component("", 1.0)),
-                        applyIterations = it * 10,
+                        applyIterations = it.toLong() * 10,
                         applyTotalTime = 1.0,
                         completed = true
                     )

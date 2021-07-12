@@ -23,14 +23,16 @@ class ConversionBenchmarkResult(
      */
     val datapoints: List<ConversionDatapoint>,
 ) : BenchmarkResult {
-    override fun getSummaryValue(): Map<String, Double> = calcBandwidths().mapValues {(_, values) -> values[values.size / 2]}
+    override fun getSummaryValue(): Map<String, Double> =
+        calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()
 
         for (datapoint in datapoints) {
             for (conversion in datapoint.conversions) {
-                bandwidths.getOrPut(conversion.name) { mutableListOf<Double>() }.add(datapoint.nonzeros / conversion.time)
+                bandwidths.getOrPut(conversion.name) { mutableListOf<Double>() }
+                    .add(datapoint.nonzeros / conversion.time)
             }
         }
 

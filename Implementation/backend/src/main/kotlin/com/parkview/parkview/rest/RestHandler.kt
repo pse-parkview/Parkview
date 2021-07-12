@@ -25,7 +25,11 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handleGetBenchmarkResults(@RequestParam benchmark: String, @RequestParam sha: String, @RequestParam device: String): String
+    fun handleGetBenchmarkResults(
+        @RequestParam benchmark: String,
+        @RequestParam sha: String,
+        @RequestParam device: String
+    ): String
 
     fun getAvailableBranches(): String
 }

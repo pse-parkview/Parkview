@@ -20,7 +20,8 @@ class SolverBenchmarkResult(
     override val benchmark: Benchmark,
     val datapoints: List<SolverDatapoint>
 ) : BenchmarkResult {
-    override fun getSummaryValue(): Map<String, Double> = calcBandwidths().mapValues {(_, values) -> values[values.size / 2]}
+    override fun getSummaryValue(): Map<String, Double> =
+        calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()

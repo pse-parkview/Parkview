@@ -1,29 +1,14 @@
 package com.parkview.parkview.rest
 
 import com.google.gson.Gson
-import com.parkview.parkview.Util
+import com.parkview.parkview.JsonParser
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.ExposedHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
 import org.springframework.web.bind.annotation.*
-import java.io.File
 import java.util.*
-
-private data class GetPlotDataRequest(
-//    val yaxis: String,
-//    val rows: Int,
-//    val cols: Int,
-    val benchmark: String,
-    val sha: String,
-    val device: String,
-)
-
-private data class GetHistoryRequest(
-    val branch: String,
-    val page: Int,
-)
 
 /**
  * Class that implements a RestHandler using the Spring framework
@@ -34,15 +19,10 @@ class SpringRestHandler : RestHandler {
 
     @PostMapping("/post")
     override fun handlePost(@RequestBody json: String) {
-//        println(json.subSequence(0, 30))
-        val benchmarkResult = Util.benchmarkResultFromJson(json, BenchmarkType.SpmvBenchmark)
-//        val path = "src/test/resources/test_multiple_spmv.json"
-//        val file = File(path)
-//        val testJson = file.readText()
-//        val benchmarkResult = Util.benchmarkResultFromJson(testJson, BenchmarkType.SpmvBenchmark)
+        val benchmarkResults = JsonParser.benchmarkResultsFromJson(json)
 
         val databaseHandler = ExposedHandler()
-        databaseHandler.updateBenchmarkResults(listOf(benchmarkResult))
+        databaseHandler.updateBenchmarkResults(benchmarkResults)
     }
 
     @GetMapping("/history")
@@ -57,7 +37,11 @@ class SpringRestHandler : RestHandler {
 
 
     @GetMapping("/getPlotData")
-    override fun handleGetBenchmarkResults(@RequestParam benchmark: String, @RequestParam sha: String, @RequestParam device: String): String {
+    override fun handleGetBenchmarkResults(
+        @RequestParam benchmark: String,
+        @RequestParam sha: String,
+        @RequestParam device: String
+    ): String {
         // dummy implementation
         val databaseHandler = ExposedHandler()
 
@@ -70,11 +54,6 @@ class SpringRestHandler : RestHandler {
             nonzerosLim = 500000,
         )
 
-//        val path = "src/test/resources/test_multiple_spmv.json"
-//        val file = File(path)
-//        val testJson = file.readText()
-//
-//        val benchmarkResult = Util.benchmarkResultFromJson(testJson, BenchmarkType.SpmvBenchmark)
         val points =
             SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(listOf(benchmarkResult as SpmvBenchmarkResult))
         return points.toJson()
@@ -82,8 +61,6 @@ class SpringRestHandler : RestHandler {
 
     @GetMapping("/branches")
     override fun getAvailableBranches(): String {
-        // val repositoryHandler: RepositoryHandler = GitApiHandler("ginkgo", "ginkgo-project")
-
         val branches = repHandler.getAvailableBranches()
         val gson = Gson()
         return gson.toJson(branches)

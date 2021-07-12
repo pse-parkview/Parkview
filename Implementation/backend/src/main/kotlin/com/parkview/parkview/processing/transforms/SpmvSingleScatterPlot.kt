@@ -1,7 +1,10 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.PlottableData
+import com.parkview.parkview.processing.ScatterPlotData
+import com.parkview.parkview.processing.ScatterPoint
+import com.parkview.parkview.processing.ScatterSeries
 
 enum class SpmvSingleScatterPlotYAxis {
     Time,
@@ -28,16 +31,16 @@ class SpmvSingleScatterPlot(
 
             for (format in datapoint.formats) {
                 seriesByName.getOrPut(format.name) { mutableListOf() } += ScatterPoint(
-                        x = datapoint.nonzeros.toDouble(),
-                        y = when (yAxis) {
-                            SpmvSingleScatterPlotYAxis.Bandwidth ->
-                                format.storage + (datapoint.rows + datapoint.columns) / format.time
-                            SpmvSingleScatterPlotYAxis.Time -> format.time
-                        },
-                    )
+                    x = datapoint.nonzeros.toDouble(),
+                    y = when (yAxis) {
+                        SpmvSingleScatterPlotYAxis.Bandwidth ->
+                            format.storage + (datapoint.rows + datapoint.columns) / format.time
+                        SpmvSingleScatterPlotYAxis.Time -> format.time
+                    },
+                )
             }
         }
 
-        return ScatterPlotData(seriesByName.map { (key, value) -> ScatterSeries(label = key, data = value)})
+        return ScatterPlotData(seriesByName.map { (key, value) -> ScatterSeries(label = key, data = value) })
     }
 }

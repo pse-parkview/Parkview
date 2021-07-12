@@ -38,7 +38,7 @@ class CachingRepositoryHandler(
         }
 
         // too old
-        if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > minutesSinceLastGitHistoryFetch ) {
+        if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > minutesSinceLastGitHistoryFetch) {
             val newBranch = handler.fetchGitHistory(branch, page)
             branchCache.remove(wantedBranch)
             addToCache(
@@ -59,7 +59,7 @@ class CachingRepositoryHandler(
     }
 
     override fun getAvailableBranches(): List<String> {
-        if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > minutesSinceLastAvailableBranchesFetch ) {
+        if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > minutesSinceLastAvailableBranchesFetch) {
             availableBranches = handler.getAvailableBranches()
             availableBranchesFetchDate = Date()
         }
