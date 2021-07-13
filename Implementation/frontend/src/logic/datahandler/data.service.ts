@@ -21,7 +21,7 @@ export class DataService {
     return ["branch1", "branch2", "branch3"];
   }
 
-  getCommitHistory(): Commit[] {
+  getCommitHistory(branchName: string): Commit[] {
     return [];
   }
 

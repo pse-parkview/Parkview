@@ -33,6 +33,8 @@ import {CookieService} from "../logic/cookiehandler/cookie.service";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
+import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import {MatOptionModule} from "@angular/material/core";
     MatDialogModule,
     MatSlideToggleModule,
     MatButtonModule,
+    MatCardModule,
+    MatMenuModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,

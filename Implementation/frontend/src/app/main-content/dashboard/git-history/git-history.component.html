@@ -1,1 +1,28 @@
 <p>git-history works!</p>
+<mat-card class="git-history-wrapper">
+  <mat-card-title>
+    Git History
+  </mat-card-title>
+
+  <mat-form-field>
+    <mat-label>Selected Branch</mat-label>
+    <mat-select [(value)]="currentlySelectedBranch"
+                (selectionChange)="selectBranch(currentlySelectedBranch)">
+      <mat-option *ngFor="let branchname of branchNames"
+                  [value]="branchname"
+                  (select)="selectBranch(branchname)">
+        {{branchname}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <mat-card *ngFor="let commit of commits">
+      date: {{commit.date}}
+      author: {{commit.author}}
+      message: {{commit.commitMessage}}
+      hasBenchmark: {{commit.hasBenchmark}}
+    </mat-card>
+  </div>
+
+</mat-card>
