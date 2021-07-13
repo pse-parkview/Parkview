@@ -10,7 +10,6 @@ import {BenchmarkComparisonPlotComponent} from "../../app/main-content/benchmark
 })
 export class DataService {
   private readonly URL: string = "backend.soos";
-  private readonly restService: RestService;
 
   getBranchNames(): string[] {
     return ["branch1", "branch2", "branch3"];
@@ -28,7 +27,7 @@ export class DataService {
     return {};
   }*/
 
-  constructor() {
-    this.restService = new RestService(this.URL);
+  constructor(private readonly restService: RestService) {
+    this.restService.withURL = this.URL;
   }
 }
