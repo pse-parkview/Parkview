@@ -13,3 +13,9 @@ export class PlotConfigurationDialogComponent implements OnInit {
   }
 
 }
+
+enum PLotTypes {
+  BAR_PLOT = "Bar Plot",
+  LINE_PLOT = "Line Plot",
+  SCATTER_PLOT = "Scatter Plot"
+}

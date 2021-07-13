@@ -15,9 +15,10 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     LinePlotComponent,
     SummaryChartComponent
   ],
-  exports: [
-    LinePlotComponent
-  ],
+    exports: [
+        LinePlotComponent,
+        BarPlotComponent
+    ],
   imports: [
     CommonModule,
     NgxChartsModule
