@@ -12,7 +12,7 @@ private data class CachedBranch(
 class CachingRepositoryHandler(
     private val handler: RepositoryHandler,
     private val maxCached: Int = 10,
-    private val minutesSinceLastGitHistoryFetch: Int = 1,
+    private val minutesSinceLastGitHistoryFetch: Int = 5,
     private val minutesSinceLastAvailableBranchesFetch: Int = 5,
 ) : RepositoryHandler {
     private val branchCache = mutableListOf<CachedBranch>()

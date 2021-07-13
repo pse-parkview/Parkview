@@ -13,7 +13,7 @@ data class Point(
 )
 
 /**
- * Contains a list of [LabeledPoint]. The list has no order.
+ * Contains a list of [Point]. The list has no order.
  */
 class SeriesList(
     private val series: List<Series>,

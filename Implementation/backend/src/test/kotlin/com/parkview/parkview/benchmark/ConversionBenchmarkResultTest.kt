@@ -25,7 +25,7 @@ internal class ConversionBenchmarkResultTest {
         br = ConversionBenchmarkResult(
             commit,
             Device(""),
-            Benchmark("", BenchmarkType.ConversionBenchmark),
+            Benchmark("", BenchmarkType.Conversion),
             datapoints
         )
     }

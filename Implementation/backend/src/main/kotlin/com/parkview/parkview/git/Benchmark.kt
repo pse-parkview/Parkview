@@ -5,7 +5,7 @@ package com.parkview.parkview.git
  *
  * @param name name of benchmark
  */
-class Benchmark(
+data class Benchmark(
     val name: String,
     val type: BenchmarkType
 )

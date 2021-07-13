@@ -16,7 +16,7 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handleGetHistory(branch: String, page: Int): String
+    fun handleGetHistory(branch: String, page: Int, benchmark: String): String
 
     /**
      * Handles a GET request for retrieving benchmark results

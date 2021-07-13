@@ -8,6 +8,7 @@ import com.parkview.parkview.database.ExposedHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
+import com.parkview.parkview.processing.transforms.SpmvSpeedupPlot
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -16,8 +17,8 @@ import java.util.*
  */
 @RestController
 class SpringRestHandler : RestHandler {
-    val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
-    val databaseHandler: DatabaseHandler = ExposedHandler()
+    private val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
+    private val databaseHandler: DatabaseHandler = ExposedHandler()
 
     @PostMapping("/post")
     override fun handlePost(
@@ -36,13 +37,30 @@ class SpringRestHandler : RestHandler {
     override fun handleGetHistory(
         @RequestParam branch: String,
         @RequestParam page: Int,
+        @RequestParam benchmark: String,
     ): String {
-//        val repositoryHandler: RepositoryHandler = GitApiHandler("ginkgo", "ginkgo-project")
-
-        val gson = Gson()
 
         val commits = repHandler.fetchGitHistory(branch, page)
-        return gson.toJson(commits)
+        val benchmarkInfo = Benchmark(benchmark, databaseHandler.getBenchmarkTypeForName(benchmark))
+
+        for (commit in commits) {
+            val devices = databaseHandler.getAvailableDevices(
+                commit,
+                benchmark = benchmarkInfo,
+            )
+            if (commit.device.isEmpty()) {
+                for (device in devices) {
+                    if (databaseHandler.hasDataAvailable(
+                            commit,
+                            device,
+                            benchmarkInfo,
+                        )
+                    ) commit.addDevice(device)
+                }
+            }
+        }
+
+        return Gson().toJson(commits)
     }
 
 
@@ -58,16 +76,15 @@ class SpringRestHandler : RestHandler {
             databaseHandler.fetchBenchmarkResult(
                 Commit(sha, "", Date(), ""),
                 Device(device),
-                Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
-                nonzerosLim = 5000000,
+                Benchmark(benchmark, databaseHandler.getBenchmarkTypeForName(benchmark)),
+//                nonzerosLim = 5000000,
             )
         }
-
-        println(results)
 
         return when (plotType) {
             "spmvSingleScatter" -> SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(results as List<SpmvBenchmarkResult>)
                 .toJson()
+            "spmvSpeedup" -> SpmvSpeedupPlot().transform(results as List<SpmvBenchmarkResult>).toJson()
             else -> ""
         }
     }
@@ -77,5 +94,11 @@ class SpringRestHandler : RestHandler {
         val branches = repHandler.getAvailableBranches()
         val gson = Gson()
         return gson.toJson(branches)
+    }
+
+    @GetMapping("/benchmarks")
+    fun getAvailableBenchmarks(): String {
+        val benchmarks = databaseHandler.getAvailableBenchmarks()
+        return Gson().toJson(benchmarks)
     }
 }

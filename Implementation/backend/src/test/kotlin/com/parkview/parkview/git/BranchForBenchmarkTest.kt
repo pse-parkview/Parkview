@@ -13,7 +13,7 @@ internal class BranchForBenchmarkTest {
     @BeforeEach
     fun setup() {
         val commits = listOf(a, b, c)
-        branch = BranchForBenchmark("schmock", Benchmark("schmack", BenchmarkType.BlasBenchmark), commits)
+        branch = BranchForBenchmark("schmock", Benchmark("schmack", BenchmarkType.Blas), commits)
     }
 
     @Test

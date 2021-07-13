@@ -201,7 +201,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = spmvDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.SpmvBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.Spmv),
                 )
             )
 
@@ -210,7 +210,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = conversionDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.ConversionBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.Conversion),
                 )
             )
 
@@ -219,7 +219,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = solverDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.SolverBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.Solver),
                 )
             )
 
@@ -228,7 +228,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = preconditionerDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.PreconditionerBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.Preconditioner),
                 )
             )
 
@@ -249,7 +249,7 @@ class JsonParser private constructor() {
                 BlasBenchmarkResult(
                     commit = Commit(sha, "", Date(), ""),
                     device = Device(device),
-                    benchmark = Benchmark(benchmark, BenchmarkType.BlasBenchmark),
+                    benchmark = Benchmark(benchmark, BenchmarkType.Blas),
                     datapoints = datapoints.map { it.toBlasDatapoint() },
                 )
             )

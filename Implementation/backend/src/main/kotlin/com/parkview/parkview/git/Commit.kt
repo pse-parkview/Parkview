@@ -15,11 +15,11 @@ class Commit(
     val date: Date,
     val author: String,
 ) {
-    private val benchmarkResults: MutableMap<Device, BenchmarkResult> = mutableMapOf()
+    private val availableDevices: MutableList<Device> = mutableListOf()
+    val device: List<Device> get() = availableDevices.toList()
 
-    val benchmarkResultsByDevice get() = benchmarkResults.toMap()
-
-    fun addBenchmarkResult(result: BenchmarkResult) {
-        benchmarkResults[result.device] = result
+    fun addDevice(device: Device) {
+        availableDevices.add(device)
     }
+
 }

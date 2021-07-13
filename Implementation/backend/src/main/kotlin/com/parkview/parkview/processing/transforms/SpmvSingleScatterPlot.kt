@@ -2,9 +2,9 @@ package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.processing.PlottableData
-import com.parkview.parkview.processing.ScatterPlotData
-import com.parkview.parkview.processing.ScatterPoint
-import com.parkview.parkview.processing.ScatterSeries
+import com.parkview.parkview.processing.DatasetSeries
+import com.parkview.parkview.processing.PlotPoint
+import com.parkview.parkview.processing.Dataset
 
 enum class SpmvSingleScatterPlotYAxis {
     Time,
@@ -13,8 +13,6 @@ enum class SpmvSingleScatterPlotYAxis {
 
 class SpmvSingleScatterPlot(
     private val yAxis: SpmvSingleScatterPlotYAxis,
-    private val rows: Long = -1,
-    private val cols: Long = -1,
 ) : SpmvPlotTransform {
     override fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 1) throw InvalidPlotTransformException(
@@ -23,14 +21,11 @@ class SpmvSingleScatterPlot(
 
         val benchmarkResult = benchmarkResults[0]
 
-        val seriesByName: MutableMap<String, MutableList<ScatterPoint>> = mutableMapOf()
+        val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (datapoint in benchmarkResult.datapoints) {
-            if (rows > 0 && datapoint.rows != rows) continue
-            if (cols > 0 && datapoint.columns != cols) continue
-
             for (format in datapoint.formats) {
-                seriesByName.getOrPut(format.name) { mutableListOf() } += ScatterPoint(
+                seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.nonzeros.toDouble(),
                     y = when (yAxis) {
                         SpmvSingleScatterPlotYAxis.Bandwidth ->
@@ -41,6 +36,6 @@ class SpmvSingleScatterPlot(
             }
         }
 
-        return ScatterPlotData(seriesByName.map { (key, value) -> ScatterSeries(label = key, data = value) })
+        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value) })
     }
 }

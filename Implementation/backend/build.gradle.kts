@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
 	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 	implementation("org.postgresql:postgresql:42.2.2")
+	implementation("com.zaxxer:HikariCP:2.3.2")
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -1,9 +1,6 @@
 package com.parkview.parkview.database
 
-import com.parkview.parkview.git.Benchmark
-import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.Commit
-import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.*
 
 /**
  * Interface for accessing a database. It offers methods for
@@ -34,8 +31,14 @@ interface DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: Benchmark,
-        rowLim: Int = 0,
-        colLim: Int = 0,
-        nonzerosLim: Int = 0
+        rowLim: Long = 0,
+        colLim: Long = 0,
+        nonzerosLim: Long = 0
     ): BenchmarkResult
+
+    fun hasDataAvailable(commit: Commit, device: Device, benchmark: Benchmark): Boolean
+
+    fun getAvailableDevices(commit: Commit, benchmark: Benchmark): List<Device>
+    fun getAvailableBenchmarks(): List<Benchmark>
+    fun getBenchmarkTypeForName(benchmarkName: String): BenchmarkType
 }
