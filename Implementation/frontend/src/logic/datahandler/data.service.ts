@@ -5,7 +5,7 @@ import {BenchmarkComparison} from "./interfaces/benchmark-comparison";
 import {RestService} from "./rest.service";
 import {BenchmarkComparisonPlotComponent} from "../../app/main-content/benchmark-comparison-plot/benchmark-comparison-plot.component";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Data} from "../plothandler/interfaces/data";
 
 @Injectable({
@@ -17,16 +17,41 @@ export class DataService {
   constructor(private readonly restService: RestService) {
   }
 
-  getBranchNames(): string[] {
-    return ["branch1", "branch2", "branch3"];
+  getBranchNames(): Observable<string[]> {
+    return of(["branch1", "branch2", "branch3"]);
   }
 
-  getCommitHistory(branchName: string): Commit[] {
-    return [];
+  getCommitHistory(branchName: string): Observable<Commit[]> {
+    return of([
+      {
+        date: new Date(),
+        commitMessage: `mockcommit 1 from ${branchName}`,
+        author: 'max',
+        hasBenchmark: false,
+        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
+        branch: branchName
+      },
+      {
+        date: new Date(),
+        commitMessage: `mockcommit 2 from ${branchName}`,
+        author: 'ted',
+        hasBenchmark: true,
+        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
+        branch: branchName
+      },
+      {
+        date: new Date(),
+        commitMessage: `mockcommit 3 from ${branchName}`,
+        author: 'rstallman',
+        hasBenchmark: true,
+        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
+        branch: branchName
+      },
+    ]);
   }
 
-  getBenchmarks<T extends Benchmark>(commits: Commit[]): T[] {
-    return [];
+  getBenchmarks<T extends Benchmark>(commits: Commit[]): Observable<T[]> {
+    return of([]);
   }
 
   getData(config: PlotConfiguration): Observable<Data[]> {
