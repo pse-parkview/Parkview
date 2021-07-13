@@ -5,6 +5,43 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
+
+/**
+ * A single operation, part of [BlasBenchmarkResult].
+ *
+ * @param name
+ * @param time
+ * @param flops
+ * @param bandwidth
+ * @param completed
+ */
+data class Operation(
+    val name: String,
+    val time: Double,
+    val flops: Double,
+    val bandwidth: Double,
+    val completed: Boolean,
+    val repetitions: Long = 0,
+)
+
+/**
+ * A single datapoint, contains the problem description (n, r, m, k) and
+ * a list of operations.
+ *
+ * @param n the given n value
+ * @param r the given r value, defaults to 1
+ * @param m the given m value, defaults to n
+ * @param k the given k value, defaults to n
+ * @param operations list of operations
+ */
+data class BlasDatapoint(
+    val n: Long,
+    val r: Long = 1,
+    val m: Long = n,
+    val k: Long = n,
+    val operations: List<Operation>
+)
+
 /**
  * This is a benchmark result for the benchmarks
  * of the BLAS format and type.
@@ -15,13 +52,10 @@ import com.parkview.parkview.git.Device
  * @param datapoints datapoints for this benchmark
  *
  */
-class BlasBenchmarkResult(
+data class BlasBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: Benchmark,
-    /**
-     * Contains the datapoints for this benchmark
-     */
     val datapoints: List<BlasDatapoint>
 ) : BenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =

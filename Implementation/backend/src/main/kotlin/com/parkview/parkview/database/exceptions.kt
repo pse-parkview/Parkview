@@ -11,12 +11,3 @@ class MissingBenchmarkResultException(benchmarkResult: BenchmarkResult) : Except
     "Error, the benchmark result for ${benchmarkResult.benchmark.name} on " +
             "commit ${benchmarkResult.commit.sha} using device ${benchmarkResult.device.name} could not be found."
 )
-
-/**
- * Exception for handling missing branches.
- *
- * @param branchName name of branch that is missing
- */
-class MissingBranchException(branchName: String) : Exception(
-    "Error, the branch with name $branchName could not be found."
-)

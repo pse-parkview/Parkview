@@ -1,9 +1,8 @@
-package com.parkview.parkview
+package com.parkview.parkview.benchmark
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.git.*
 import java.util.*
 

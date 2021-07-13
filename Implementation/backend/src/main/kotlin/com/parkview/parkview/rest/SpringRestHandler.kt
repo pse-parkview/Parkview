@@ -1,7 +1,7 @@
 package com.parkview.parkview.rest
 
 import com.google.gson.Gson
-import com.parkview.parkview.JsonParser
+import com.parkview.parkview.benchmark.JsonParser
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.ExposedHandler

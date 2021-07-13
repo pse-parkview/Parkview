@@ -7,7 +7,7 @@ package com.parkview.parkview.benchmark
  * @param name component name
  * @param runtime runtime for component
  */
-class Component(
+data class Component(
     val name: String,
     val runtime: Double,
 )

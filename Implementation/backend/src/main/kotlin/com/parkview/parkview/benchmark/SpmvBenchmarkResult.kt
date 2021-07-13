@@ -7,6 +7,42 @@ import com.parkview.parkview.git.Device
 
 
 /**
+ * A single format, part of [SpmvBenchmarkResult].
+ *
+ * TODO don't know what any of this is
+ * @param name format name
+ * @param storage
+ * @param time
+ * @param maxRelativeNorm2
+ * @param completed
+ */
+data class Format(
+    val name: String,
+    val time: Double,
+    val completed: Boolean,
+    val storage: Int = 0,
+    val maxRelativeNorm2: Double = 0.0,
+)
+
+/**
+ * A single datapoint, contains the problem description for the matrix and
+ * a list of formats.
+ *
+ * @param rows number of rows
+ * @param columns number of columns
+ * @param nonzeros number of nonzeros
+ * @param formats list of [Format]
+ * @param optimal optimal format
+ */
+data class SpmvDatapoint(
+    val rows: Long,
+    val columns: Long,
+    val nonzeros: Long,
+    val formats: List<Format>,
+    val optimal: Format? = null,
+)
+
+/**
  * This is a benchmark result for the benchmarks
  * of the SPMV format and type.
  *
@@ -15,7 +51,7 @@ import com.parkview.parkview.git.Device
  * @param benchmark type of benchmark
  * @param datapoints datapoints for this benchmark
  */
-class SpmvBenchmarkResult(
+data class SpmvBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: Benchmark,

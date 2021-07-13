@@ -451,7 +451,7 @@ class ExposedHandler : DatabaseHandler {
     override fun getBenchmarkTypeForName(benchmarkName: String): BenchmarkType {
         val firstOccurrence = transaction(db) {
             BenchmarkTypeTable.select { BenchmarkTypeTable.name eq benchmarkName }
-                .firstOrNull()?.get(BenchmarkTypeTable.format) ?: "" // todo fix here
+                .firstOrNull()?.get(BenchmarkTypeTable.format) ?: throw Exception("This benchmark name does not exist in the database")
         }
 
         return BenchmarkType.valueOf(firstOccurrence)

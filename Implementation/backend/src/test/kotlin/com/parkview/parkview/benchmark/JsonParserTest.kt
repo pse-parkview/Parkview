@@ -1,9 +1,5 @@
-package com.parkview.parkview
+package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.benchmark.BlasBenchmarkResult
-import com.parkview.parkview.benchmark.ConversionBenchmarkResult
-import com.parkview.parkview.benchmark.SolverBenchmarkResult
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
 import org.junit.jupiter.api.Test
@@ -46,8 +42,6 @@ internal class JsonParserTest {
         val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, benchmark, device, testJson)
         val points = SpmvSingleScatterPlot(
             SpmvSingleScatterPlotYAxis.Time,
-            443,
-            443
         ).transform(benchmarkResults as List<SpmvBenchmarkResult>)
         println(points.toJson())
 
