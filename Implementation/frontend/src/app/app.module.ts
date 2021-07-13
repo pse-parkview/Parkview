@@ -25,6 +25,11 @@ import {LibModule} from "../lib/lib.module";
 import {LogicModule} from "../logic/logic.module";
 import {DashboardComponent} from './main-content/dashboard/dashboard.component';
 import {TestComponent} from './main-content/test/test.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatButtonModule} from "@angular/material/button";
+import {CookieService} from "../logic/cookiehandler/cookie.service";
 
 @NgModule({
   declarations: [
@@ -55,8 +60,14 @@ import {TestComponent} from './main-content/test/test.component';
     AppRoutingModule,
     LibModule,
     LogicModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

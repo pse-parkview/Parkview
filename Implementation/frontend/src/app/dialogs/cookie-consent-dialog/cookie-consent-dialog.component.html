@@ -1,1 +1,29 @@
-<p>cookie-consent-dialog works!</p>
+<h1 mat-dialog-title>
+  Regarding cookies...
+</h1>
+
+This site uses cookies to save the last viewed plots,
+and to save whether we can use any cookies at all.
+There aren't any non-functional cookies.
+The cookie saving these settings is essential.
+
+<mat-dialog-actions class="actions">
+  <mat-slide-toggle
+    class="toggle"
+    [checked]="cookies_storing_plot_configs"
+    (change)="toggleStoringPlotConfigs($event)"
+  >
+    Storing plot configurations
+  </mat-slide-toggle>
+
+  <button
+    mat-button
+    mat-dialog-close="true"
+    class="saveSettings"
+    (click)="saveSettings()"
+  >
+    Save Settings
+  </button>
+</mat-dialog-actions>
+
+
