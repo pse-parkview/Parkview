@@ -1,15 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
+import {ChartOptions, ChartType} from "chart.js";
+import {PlotService} from "../../../../logic/plothandler/plot.service";
 
 @Component({
   selector: 'app-average-performance',
   templateUrl: './average-performance.component.html',
   styleUrls: ['./average-performance.component.scss']
 })
-export class AveragePerformanceComponent implements OnInit {
+export class AveragePerformanceComponent implements AfterViewInit {
 
-  constructor() { }
+  public chartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {display: false},
+  };
 
-  ngOnInit(): void {
+  public chartData = Array();
+  public chartType: ChartType = 'line';
+  public chartLabels = Array();
+
+  constructor(private plotProvider: PlotService) {
   }
 
+  update() {
+    this.chartData = data;
+    this.chartType = 'line';
+    this.chartLabels = labels;
+  }
+
+
+  ngAfterViewInit(): void {
+    this.chartData = data;
+    this.chartType = 'line';
+    this.chartLabels = labels;
+  }
 }
+
+const data = [
+  {
+    label: 'poggers',
+    data: [11, 15, 73, 21, 3, 29]
+  }
+];
+
+const labels = ['1', '2', '3', '4', '5', '6'];

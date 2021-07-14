@@ -3,5 +3,30 @@
 }
 
 mat-card {
-  margin: 5px;
+  margin: 1vh;
 }
+
+mat-card button {
+  margin-right: 20px;
+}
+
+mat-card span {
+  margin: 0 10px;
+}
+
+.date {
+  color: gray;
+}
+
+.author {
+  color: var(--gb-purple);
+}
+
+.benchmark {
+  color: var(--gb-green);
+}
+
+.noBenchmark {
+  color: var(--gb-red);
+}
+

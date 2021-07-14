@@ -1,4 +1,3 @@
-<p>git-history works!</p>
 <mat-card class="git-history-wrapper">
 
   <mat-card class="git-history-title">
@@ -21,9 +20,10 @@
 
   <div>
     <mat-card *ngFor="let commit of commits">
-      date: {{commit.date}}
-      author: {{commit.author}}
-      message: {{commit.message}}
+      <button mat-flat-button color="primary" (click)="selectCommit(commit)">+</button>
+      <span>date: {{commit.date}}</span>
+      <span>author: {{commit.author}}</span>
+      <span>message: {{commit.message}}</span>
       hasBenchmark:
       <div *ngFor="let device of commit.availableDevices">
         {{device.name}}
