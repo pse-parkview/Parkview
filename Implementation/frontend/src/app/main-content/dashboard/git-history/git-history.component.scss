@@ -6,19 +6,19 @@ mat-card {
   margin: 1vh;
 }
 
-mat-card button {
-  margin-right: 20px;
+mat-expansion-panel {
+  margin: 1vh;
 }
 
-mat-card span {
-  margin: 0 10px;
+mat-expansion-panel span {
+  margin: 0 auto;
 }
 
-.date {
-  color: gray;
+.benchmark .date {
+  color: var(--gb-dark-blue);
 }
 
-.author {
+.benchmark .author {
   color: var(--gb-purple);
 }
 
@@ -26,7 +26,15 @@ mat-card span {
   color: var(--gb-green);
 }
 
-.noBenchmark {
-  color: var(--gb-red);
+.message {
+  margin: 12px;
 }
 
+.devices {
+  margin: 12px 0;
+  float: right;
+}
+
+.device-margin {
+  margin: 0 12px;
+}

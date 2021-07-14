@@ -26,7 +26,6 @@ export class GitHistoryComponent implements OnInit {
   }
 
   selectBranch(branchChoice: string): void {
-    console.log(branchChoice);
     this.currentlySelectedBranch = branchChoice;
     this.dataService.getCommitHistory(this.currentlySelectedBranch).subscribe((commits: Commit[]) => {
       this.commits = commits;
@@ -37,5 +36,10 @@ export class GitHistoryComponent implements OnInit {
     this.selectedCommits.push(commit);
     alert(`Selected commit: ${commit.commitMessage}`);
   }
+
+  selectDevice(commit: string, device: string, checked: boolean) {
+    alert(`${checked ? 'Selected' : 'Unselected'} device ${device} of commit "${commit}"`)
+  }
+
 
 }
