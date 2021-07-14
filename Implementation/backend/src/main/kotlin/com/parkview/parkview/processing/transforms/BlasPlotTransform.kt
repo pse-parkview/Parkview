@@ -6,7 +6,7 @@ import com.parkview.parkview.processing.PlottableData
 /**
  * Interface for transforms using multiple [BlasBenchmarkResult].
  */
-interface BlasPlotTransform {
+interface BlasPlotTransform : PlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *

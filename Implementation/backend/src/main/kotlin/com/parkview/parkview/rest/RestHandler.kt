@@ -1,5 +1,7 @@
 package com.parkview.parkview.rest
 
+import org.springframework.web.bind.annotation.RequestParam
+
 /**
  * Interface that provides methods for handling POST and GET requests
  */
@@ -31,4 +33,12 @@ interface RestHandler {
     ): String
 
     fun getAvailableBranches(): String
+
+    fun getAvailablePlots(
+        @RequestParam benchmark: String,
+        @RequestParam shas: List<String>,
+        @RequestParam devices: List<String>
+    ): String
+
+    fun getAvailableBenchmarks(): String
 }

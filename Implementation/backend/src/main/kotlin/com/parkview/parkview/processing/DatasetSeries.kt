@@ -13,7 +13,7 @@ data class Dataset(
 )
 
 /**
- * data type for chart.js scatter plots
+ * data type for chart.js line and scatter plots
  */
 class DatasetSeries(
     private val series: List<Dataset>,

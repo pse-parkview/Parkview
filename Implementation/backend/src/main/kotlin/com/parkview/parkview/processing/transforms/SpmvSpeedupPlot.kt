@@ -1,13 +1,14 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.Dataset
-import com.parkview.parkview.processing.DatasetSeries
-import com.parkview.parkview.processing.PlotPoint
-import com.parkview.parkview.processing.PlottableData
+import com.parkview.parkview.processing.*
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {
+    override val numAllowedInputs = Pair(2, 2)
+    override val plottableAs = listOf(PlotType.Line)
+    override val name = "spmvSpeedup"
+
     override fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 2) throw InvalidPlotTransformException(
             "SpmvSpeedupPlot can only be used with a two SpmvBenchmarkResult"

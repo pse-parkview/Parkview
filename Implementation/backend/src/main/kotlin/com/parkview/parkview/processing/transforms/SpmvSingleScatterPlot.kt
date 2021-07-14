@@ -1,10 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.Dataset
-import com.parkview.parkview.processing.DatasetSeries
-import com.parkview.parkview.processing.PlotPoint
-import com.parkview.parkview.processing.PlottableData
+import com.parkview.parkview.processing.*
 
 enum class SpmvSingleScatterPlotYAxis {
     Time,
@@ -38,4 +35,8 @@ class SpmvSingleScatterPlot(
 
         return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value) })
     }
+
+    override val numAllowedInputs = Pair(1, 1);
+    override val plottableAs = listOf(PlotType.Scatter)
+    override val name = "spmvSingleScatter"
 }

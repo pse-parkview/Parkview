@@ -6,7 +6,7 @@ import com.parkview.parkview.processing.PlottableData
 /**
  * Interface for transforms using multiple [PreconditionerBenchmarkResult].
  */
-interface PreconditionerPlotTransform {
+interface PreconditionerPlotTransform : PlotTransform {
     /**
      * Transforms the benchmark data into a JSON containing the prepared values for plotting
      *

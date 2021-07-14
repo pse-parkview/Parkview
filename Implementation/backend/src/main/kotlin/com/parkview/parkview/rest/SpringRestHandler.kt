@@ -6,6 +6,7 @@ import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.ExposedHandler
 import com.parkview.parkview.git.*
+import com.parkview.parkview.processing.AvailablePlots
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
 import com.parkview.parkview.processing.transforms.SpmvSpeedupPlot
@@ -101,8 +102,22 @@ class SpringRestHandler : RestHandler {
     }
 
     @GetMapping("/benchmarks")
-    fun getAvailableBenchmarks(): String {
+    override fun getAvailableBenchmarks(): String {
         val benchmarks = databaseHandler.getAvailableBenchmarks()
         return Gson().toJson(benchmarks)
     }
+
+    @GetMapping("/availablePlots")
+    override fun getAvailablePlots(
+        @RequestParam benchmark: String,
+        @RequestParam shas: List<String>,
+        @RequestParam devices: List<String>,
+    ): String = Gson().toJson(
+        AvailablePlots.getPlotList(
+            Benchmark(
+                benchmark,
+                databaseHandler.getBenchmarkTypeForName(benchmark)
+            ), shas.size
+        )
+    )
 }

@@ -121,7 +121,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
 
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         for (result in results) {
-            insertOrUpdateTypeTable(result)
+            insertOrUpdateTypeTable(result.benchmark)
             when (result.benchmark.type) {
                 BenchmarkType.Spmv -> insertSpmvBenchmarkResult(result as SpmvBenchmarkResult)
                 BenchmarkType.Solver -> TODO("SOLVER NOT YET IMPLEMENTED")
@@ -132,16 +132,16 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         }
     }
 
-    private fun insertOrUpdateTypeTable(result: BenchmarkResult) {
+    private fun insertOrUpdateTypeTable(benchmark: Benchmark) {
         transaction {
-            if (BenchmarkTypeTable.select { BenchmarkTypeTable.name eq result.benchmark.name }.count() > 0) {
-                BenchmarkTypeTable.update({ BenchmarkTypeTable.name eq result.benchmark.name }) {
-                    it[format] = result.benchmark.type.name
+            if (BenchmarkTypeTable.select { BenchmarkTypeTable.name eq benchmark.name }.count() > 0) {
+                BenchmarkTypeTable.update({ BenchmarkTypeTable.name eq benchmark.name }) {
+                    it[format] = benchmark.type.name
                 }
             } else {
                 BenchmarkTypeTable.insert {
-                    it[name] = result.benchmark.name
-                    it[format] = result.benchmark.type.name
+                    it[name] = benchmark.name
+                    it[format] = benchmark.type.name
                 }
             }
         }
