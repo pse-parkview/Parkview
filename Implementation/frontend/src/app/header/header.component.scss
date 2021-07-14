@@ -2,4 +2,31 @@
   height: 100%;
   width: 100%;
   background-color: var(--gb-dark-purple);
+  overflow: hidden;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.header ul li {
+  display: inline-block;
+}
+
+.header img {
+  padding-left: 1vw;
+  padding-right: 1vw;
+  height: 4vh;
+  padding-top: 0.5vh;
+}
+
+.header .parkview {
+  font-size: 4vh;
+  color: white;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
