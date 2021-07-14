@@ -1,1 +1,14 @@
-<p>average-performance works!</p>
+<mat-card>
+  <mat-card-title>Average Performance Score</mat-card-title>
+
+  <div class="performance-wrapper">
+    <canvas [chartType]="chartType" [datasets]="chartData"
+            [options]="chartOptions" [labels]="chartLabels"
+            baseChart
+            class="chart">
+    </canvas>
+  </div>
+  <mat-card-content>
+    <h2>Some info about current state</h2>
+  </mat-card-content>
+</mat-card>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../../logic/datahandler/data.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 
@@ -13,6 +13,7 @@ export class GitHistoryComponent implements OnInit {
   branchNames: string[] = [];
 
   commits: Commit[] = [];
+  selectedCommits: Commit[] = [];
 
   constructor(private readonly dataService: DataService) {
   }
@@ -25,11 +26,16 @@ export class GitHistoryComponent implements OnInit {
   }
 
   selectBranch(branchChoice: string): void {
-    console.log(branchChoice)
+    console.log(branchChoice);
     this.currentlySelectedBranch = branchChoice;
     this.dataService.getCommitHistory(this.currentlySelectedBranch).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
+  }
+
+  selectCommit(commit: Commit) {
+    this.selectedCommits.push(commit);
+    alert(`Selected commit: ${commit.commitMessage}`);
   }
 
 }
