@@ -35,6 +35,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -60,21 +61,22 @@ import {MatMenuModule} from "@angular/material/menu";
     DashboardComponent,
     TestComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LibModule,
-    LogicModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        LibModule,
+        LogicModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatCardModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        ChartsModule,
+    ],
   providers: [
     CookieService
   ],
