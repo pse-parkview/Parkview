@@ -33,6 +33,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
                     "",
                     generateComponents = listOf(Component("", 1.0)),
                     generateTotalTime = 1.0,
+                    recurrentResiduals = (1..100).map { it.toDouble() },
                     applyComponents = listOf(Component("", 1.0)),
                     applyIterations = it.toLong() * 10,
                     applyTotalTime = 1.0,

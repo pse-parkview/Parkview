@@ -4,12 +4,11 @@ import BLAS_RESULT
 import CONVERSION_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
-import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import javax.sql.DataSource
 
 internal class ExposedHandlerTest {
@@ -52,13 +51,15 @@ internal class ExposedHandlerTest {
         assert(result.dirtyEquals(returned))
     }
 
-    //    @Test
-    fun `test storing and loading solver spmv benchmark`() {
+    @Test
+    fun `test storing and loading solver benchmark`() {
         val result = SOLVER_RESULT
 
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
+        println(result.toString())
+        println(returned.toString())
         assert(result.dirtyEquals(returned))
     }
 

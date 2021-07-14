@@ -1,7 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
-import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.fail

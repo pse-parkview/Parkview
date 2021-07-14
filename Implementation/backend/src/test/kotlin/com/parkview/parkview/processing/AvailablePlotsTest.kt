@@ -4,8 +4,6 @@ import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkType
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-
 internal class AvailablePlotsTest {
     @Test
     fun `test getAvailablePlots for subset of plots`() {
