@@ -19,16 +19,30 @@
   </mat-card>
 
   <div>
-    <mat-card *ngFor="let commit of commits">
-      <button mat-flat-button color="primary" (click)="selectCommit(commit)">+</button>
-      <span>date: {{commit.date}}</span>
-      <span>author: {{commit.author}}</span>
-      <span>message: {{commit.message}}</span>
-      hasBenchmark:
-      <div *ngFor="let device of commit.availableDevices">
-        {{device.name}}
-      </div>
-    </mat-card>
+    <mat-expansion-panel hideToggle *ngFor="let commit of commits" [disabled]="commit.hasBenchmark === false">
+
+      <mat-expansion-panel-header>
+
+        <mat-panel-title
+          [ngClass]="{'benchmark' : commit.hasBenchmark == true, 'noBenchmark' : commit.hasBenchmark == false}">
+          <span class="date">{{commit.date}} </span>
+          <span class="author">{{commit.author}} </span>
+        </mat-panel-title>
+        <mat-panel-description>
+          <p class="message-preview">{{commit.commitMessage}}</p>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <section class="message">{{commit.commitMessage}}</section>
+      <section class="devices"> <!-- TODO somehow get available devices and only show those -->
+        <mat-checkbox class="device-margin" id="intel">Intel</mat-checkbox>
+        <mat-checkbox class="device-margin" id="nvidia">Nvidia</mat-checkbox>
+        <mat-checkbox class="device-margin" id="amd">Amd</mat-checkbox>
+      </section>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="selectCommit(commit)">Select</button>
+      </mat-action-row>
+    </mat-expansion-panel>
   </div>
 
 </mat-card>
