@@ -12,4 +12,5 @@ export class SideCurrentChosenCommitComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
 }

@@ -1,1 +1,17 @@
-<p>side-benchmark-select works!</p>
+<mat-card>
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>Select a Benchmark</mat-label>
+    <mat-select id="select" [(value)]="currentlySelectedBenchmark"
+                (selectionChange)="selectBenchmark(currentlySelectedBenchmark)">
+      <mat-option *ngFor="let benchmark of benchmarks"
+                  [value]="benchmark"
+                  (select)="selectBenchmark(benchmark)">
+        {{benchmark}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+</mat-card>
