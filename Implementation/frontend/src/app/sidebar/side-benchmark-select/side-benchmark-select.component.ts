@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-side-benchmark-select',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideBenchmarkSelectComponent implements OnInit {
 
-  constructor() { }
+  currentlySelectedBenchmark: Benchmark = "Solver";
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  benchmarks: Benchmark[] = ["Blas", "Conversion", "Preconditioner", "Solver", "SpMV"];
+
+
+  selectBenchmark(benchmark: Benchmark) {
+    this.currentlySelectedBenchmark = benchmark;
+  }
 }
+
+type Benchmark = "Blas" | "Conversion" | "Preconditioner" | "Solver" | "SpMV"
