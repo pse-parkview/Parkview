@@ -11,17 +11,12 @@ export interface Commit {
   /**
    * The commit message
    */
-  get commitMessage(): string;
+  get message(): string;
 
   /**
    * The commit author
    */
   get author(): string;
-
-  /**
-   * True if the commit has a benchmark associated with it
-   */
-  get hasBenchmark(): boolean;
 
   /**
    * The commit hash
@@ -32,4 +27,15 @@ export interface Commit {
    * The name of the branch the commit is on
    */
   get branch(): string;
+
+  /**
+   * Avaliable devices?
+   */
+  get availableDevices(): { name: string }[];
+
+  /**
+   * benchmark results?
+   * why does a commit have benchmark results already?
+   */
+  get benchmarkResults(): object;
 }

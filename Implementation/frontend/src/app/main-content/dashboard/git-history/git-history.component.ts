@@ -21,11 +21,13 @@ export class GitHistoryComponent implements OnInit {
     this.dataService.getBranchNames().subscribe((receivedBranchNames: string[]) => {
       this.branchNames = receivedBranchNames;
       this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : 'No branches exist?';
+      this.selectBranch(this.currentlySelectedBranch);
     });
+
+    this.dataService.getBenchmarks().subscribe((d => d.forEach(o => console.log(o))))
   }
 
   selectBranch(branchChoice: string): void {
-    console.log(branchChoice)
     this.currentlySelectedBranch = branchChoice;
     this.dataService.getCommitHistory(this.currentlySelectedBranch).subscribe((commits: Commit[]) => {
       this.commits = commits;

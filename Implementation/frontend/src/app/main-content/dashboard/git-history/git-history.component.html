@@ -23,8 +23,11 @@
     <mat-card *ngFor="let commit of commits">
       date: {{commit.date}}
       author: {{commit.author}}
-      message: {{commit.commitMessage}}
-      hasBenchmark: {{commit.hasBenchmark}}
+      message: {{commit.message}}
+      hasBenchmark:
+      <div *ngFor="let device of commit.availableDevices">
+        {{device.name}}
+      </div>
     </mat-card>
   </div>
 

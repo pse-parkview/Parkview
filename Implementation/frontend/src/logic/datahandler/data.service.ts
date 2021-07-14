@@ -7,21 +7,31 @@ import {BenchmarkComparisonPlotComponent} from "../../app/main-content/benchmark
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {Observable, of} from "rxjs";
 import {Data} from "../plothandler/interfaces/data";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private readonly URL: string = "backend.soos";
+  private readonly url: string = "/backend";
 
-  constructor(private readonly restService: RestService) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getBranchNames(): Observable<string[]> {
-    return of(["branch1", "branch2", "branch3"]);
+    return this.http.get<Array<string>>(this.url + '/branches');
+    // uncomment if you dont have a backend to test with // return of(["branch1", "branch2", "branch3"]);
   }
 
-  getCommitHistory(branchName: string): Observable<Commit[]> {
+  getCommitHistory(branchName: string, benchmark: string|undefined = undefined, page: number = 1): Observable<Commit[]> {
+    const params: HttpParams = new HttpParams()
+      .set('branch', branchName)
+      .set('page', page.toString(10))
+      .set('benchmark', 'AMD');
+    return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
+
+    /* uncomment and maybe extend if you dont have a backend to test with
+
     return of([
       {
         date: new Date(),
@@ -48,14 +58,17 @@ export class DataService {
         branch: branchName
       },
     ]);
+    */
   }
 
-  getBenchmarks<T extends Benchmark>(commits: Commit[]): Observable<T[]> {
-    return of([]);
+  getBenchmarks() {
+    return this.http.get<Array<{
+      name: string,
+      type: string,
+    }>>(`${this.url}/benchmarks`);
   }
 
   getData(config: PlotConfiguration): Observable<Data[]> {
-     return this.restService.makeRequest(config, this.URL);
+    return this.http.get<Data[]>(this.url);
   }
-
 }
