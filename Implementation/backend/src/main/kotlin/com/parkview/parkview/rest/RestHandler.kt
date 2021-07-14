@@ -25,7 +25,7 @@ interface RestHandler {
      */
     fun handleGetPlotData(
         benchmark: String,
-        sha: List<String>,
+        shas: List<String>,
         devices: List<String>,
         plotType: String,
     ): String

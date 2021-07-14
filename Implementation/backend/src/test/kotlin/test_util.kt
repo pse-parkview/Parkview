@@ -1,0 +1,71 @@
+import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.git.*
+import java.util.*
+
+fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
+
+private val commit = Commit("sha", "", Date(), "")
+private val device = Device("gamer")
+
+val SPMV_RESULT = SpmvBenchmarkResult(
+    commit,
+    device,
+    Benchmark("spmvBenchmark", BenchmarkType.Spmv),
+    (1..5).map {
+        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+        SpmvDatapoint(
+            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
+                format
+            ),
+        )
+    }
+)
+
+val SOLVER_RESULT = SolverBenchmarkResult(
+    commit,
+    device,
+    Benchmark("solverBenchmark", BenchmarkType.Solver),
+    (1..5).map {
+        SolverDatapoint(
+            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+                Solver(
+                    "",
+                    generateComponents = listOf(Component("", 1.0)),
+                    generateTotalTime = 1.0,
+                    applyComponents = listOf(Component("", 1.0)),
+                    applyIterations = it.toLong() * 10,
+                    applyTotalTime = 1.0,
+                    completed = true
+                )
+            )
+        )
+    }
+)
+
+
+val CONVERSION_RESULT = ConversionBenchmarkResult(
+    commit,
+    device,
+    Benchmark("conversionBenchmark", BenchmarkType.Conversion),
+    (1..5).map {
+        ConversionDatapoint(
+            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+                Conversion("", 1.0, true),
+            )
+        )
+    },
+)
+
+val BLAS_RESULT = BlasBenchmarkResult(
+    commit,
+    device,
+    Benchmark("blasBenchmark", BenchmarkType.Blas),
+    (1..5).map {
+        BlasDatapoint(
+            10, operations = listOf(
+                Operation("", 1.0, 1.0, it * 1.0, true),
+            )
+        )
+    }
+)

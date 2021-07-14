@@ -9,7 +9,7 @@ import java.util.*
  * @param message commit message
  * @param date commit date
  */
-class Commit(
+data class Commit(
     val sha: String,
     val message: String,
     val date: Date,

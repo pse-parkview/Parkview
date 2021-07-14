@@ -165,7 +165,7 @@ class JsonParser private constructor() {
         private fun matrixBenchmarkResultsFromJson(
             sha: String,
             benchmark: String,
-            device: String,
+            deviceName: String,
             json: String
         ): List<BenchmarkResult> {
             val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
@@ -193,7 +193,7 @@ class JsonParser private constructor() {
 
             val results: MutableList<BenchmarkResult> = mutableListOf()
             val commit = Commit(sha, "", Date(), "")
-            val device = Device(device)
+            val device = Device(deviceName)
 
             if (spmvDatapoints.isNotEmpty()) results.add(
                 SpmvBenchmarkResult(

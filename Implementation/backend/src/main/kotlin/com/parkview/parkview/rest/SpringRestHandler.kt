@@ -18,7 +18,11 @@ import java.util.*
 @RestController
 class SpringRestHandler : RestHandler {
     private val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
-    private val databaseHandler: DatabaseHandler = ExposedHandler()
+
+//    private val url = "jdbc:postgresql://localhost:5432/parkview"
+//    private val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
+
+    private val databaseHandler: DatabaseHandler = ExposedHandler.withConnectionPool()
 
     @PostMapping("/post")
     override fun handlePost(
@@ -30,7 +34,7 @@ class SpringRestHandler : RestHandler {
     ) {
         val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, benchmark, device, json, blas = blas)
 
-        databaseHandler.updateBenchmarkResults(benchmarkResults)
+        databaseHandler.insertBenchmarkResults(benchmarkResults)
     }
 
     @GetMapping("/history")

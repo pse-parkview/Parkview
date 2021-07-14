@@ -33,7 +33,7 @@ internal class SolverBenchmarkResultTest {
         br = SolverBenchmarkResult(
             commit,
             Device(""),
-            Benchmark("", BenchmarkType.Conversion),
+            Benchmark("", BenchmarkType.Solver),
             datapoints
         )
     }

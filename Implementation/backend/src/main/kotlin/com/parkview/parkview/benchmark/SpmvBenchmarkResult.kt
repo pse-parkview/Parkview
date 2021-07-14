@@ -20,7 +20,7 @@ data class Format(
     val name: String,
     val time: Double,
     val completed: Boolean,
-    val storage: Int = 0,
+    val storage: Long = 0,
     val maxRelativeNorm2: Double = 0.0,
 )
 
@@ -32,14 +32,12 @@ data class Format(
  * @param columns number of columns
  * @param nonzeros number of nonzeros
  * @param formats list of [Format]
- * @param optimal optimal format
  */
 data class SpmvDatapoint(
     val rows: Long,
     val columns: Long,
     val nonzeros: Long,
     val formats: List<Format>,
-    val optimal: Format? = null,
 )
 
 /**

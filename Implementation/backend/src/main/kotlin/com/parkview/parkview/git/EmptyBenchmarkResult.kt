@@ -3,7 +3,7 @@ package com.parkview.parkview.git
 /**
  * Null object for representing an empty or non existing benchmark result
  */
-class EmptyBenchmarkResult(
+data class EmptyBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: Benchmark

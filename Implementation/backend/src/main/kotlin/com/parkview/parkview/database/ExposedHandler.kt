@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
+import javax.sql.DataSource
 
 private object BenchmarkTypeTable : Table() {
     override val tableName: String = "BenchmarkType"
@@ -44,6 +45,8 @@ private object SpmvFormatTable : Table() {
     val benchmarkId: Column<UUID> = reference("benchmarkId", MatrixBenchmarkResultTable.id)
     val name: Column<String> = varchar("name", 40)
     val completed: Column<Boolean> = bool("completed")
+    val storage: Column<Long> = long("storage")
+    val maxRelativeNorm2: Column<Double> = double("max_relative_norm2")
     val time: Column<Double> = double("time")
     override val primaryKey = PrimaryKey(id, name = "PK_SpmvFormat_Id")
 }
@@ -74,7 +77,7 @@ private object BlasOperationTable : Table() {
     override val primaryKey = PrimaryKey(id, name = "PK_BlasOperation_Id")
 }
 
-private object DataSource {
+private object ConnectionPoolSource {
     private val config: HikariConfig = HikariConfig()
     val ds: HikariDataSource
 
@@ -87,26 +90,20 @@ private object DataSource {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
         config.addDataSourceProperty("reWriteBatchedInserts", "true")
         ds = HikariDataSource(config)
-
     }
 }
 
 /**
  * [DatabaseHandler] using the Exposed library
  */
-class ExposedHandler : DatabaseHandler {
+class ExposedHandler(source: DataSource) : DatabaseHandler {
     // TODO: use spring stuff to get database object
     // TODO: enable batch insert for database controller
-//    val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
-    private val url = "jdbc:postgresql://localhost:5432/parkview"
-    private val props = Properties()
-        .apply { setProperty("user", "parkview") }
-        .apply { setProperty("password", "parkview") }
-        .apply { setProperty("reWriteBatchedInserts", "true") } // TODO make this work somehow
+    private var db: Database = Database.connect(datasource = source)
 
-    private val db = Database.connect(datasource = DataSource.ds)
-//      private val db = Database.connect(getNewConnection = { DriverManager.getConnection(url, props) })
-
+    companion object {
+        fun withConnectionPool() = ExposedHandler(ConnectionPoolSource.ds)
+    }
 
     init {
         transaction(db) {
@@ -122,7 +119,7 @@ class ExposedHandler : DatabaseHandler {
         }
     }
 
-    override fun updateBenchmarkResults(results: List<BenchmarkResult>) {
+    override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         for (result in results) {
             insertOrUpdateTypeTable(result)
             when (result.benchmark.type) {
@@ -213,6 +210,8 @@ class ExposedHandler : DatabaseHandler {
                 this[SpmvFormatTable.name] = format.name
                 this[SpmvFormatTable.completed] = format.completed
                 this[SpmvFormatTable.time] = format.time
+                this[SpmvFormatTable.storage] = format.storage
+                this[SpmvFormatTable.maxRelativeNorm2] = format.maxRelativeNorm2
             }
 
             commit()
@@ -236,7 +235,7 @@ class ExposedHandler : DatabaseHandler {
             allBenchmarkIDs.zip(listOfOperations).fold(emptyList<Pair<UUID, Operation>>()) { acc, pair ->
                 acc + pair.second.map {
                     Pair(
-                        pair.first[MatrixBenchmarkResultTable.id],
+                        pair.first[BlasBenchmarkResultTable.id],
                         it
                     )
                 }.toList()
@@ -349,6 +348,8 @@ class ExposedHandler : DatabaseHandler {
                                 name = formatEntry[SpmvFormatTable.name],
                                 time = formatEntry[SpmvFormatTable.time],
                                 completed = formatEntry[SpmvFormatTable.completed],
+                                storage = formatEntry[SpmvFormatTable.storage],
+                                maxRelativeNorm2 = formatEntry[SpmvFormatTable.maxRelativeNorm2],
                             )
                         }
                 }
@@ -434,7 +435,7 @@ class ExposedHandler : DatabaseHandler {
                                 completed = operationEntry[BlasOperationTable.completed],
                                 bandwidth = operationEntry[BlasOperationTable.bandwidth],
                                 flops = operationEntry[BlasOperationTable.flops],
-                                repetitions = operationEntry[BlasOperationTable.repetitions]
+                                repetitions = operationEntry[BlasOperationTable.repetitions],
                             )
                         }
                 }
@@ -451,7 +452,8 @@ class ExposedHandler : DatabaseHandler {
     override fun getBenchmarkTypeForName(benchmarkName: String): BenchmarkType {
         val firstOccurrence = transaction(db) {
             BenchmarkTypeTable.select { BenchmarkTypeTable.name eq benchmarkName }
-                .firstOrNull()?.get(BenchmarkTypeTable.format) ?: throw Exception("This benchmark name does not exist in the database")
+                .firstOrNull()?.get(BenchmarkTypeTable.format)
+                ?: throw Exception("This benchmark name does not exist in the database")
         }
 
         return BenchmarkType.valueOf(firstOccurrence)

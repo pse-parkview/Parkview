@@ -30,6 +30,7 @@ dependencies {
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.zonky.test:embedded-postgres:1.2.10")
 
 	testImplementation(kotlin("test"))
 }

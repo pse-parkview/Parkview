@@ -1,7 +1,10 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.Dataset
+import com.parkview.parkview.processing.DatasetSeries
+import com.parkview.parkview.processing.PlotPoint
+import com.parkview.parkview.processing.PlottableData
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {
@@ -21,7 +24,10 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
             for (formatA in datapointA.formats) {
                 val formatB = datapointB.formats.find { it.name == formatA.name } ?: continue
 
-                seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(x = datapointA.nonzeros.toDouble(), formatA.time / formatB.time)
+                seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
+                    x = datapointA.nonzeros.toDouble(),
+                    formatA.time / formatB.time
+                )
             }
         }
 

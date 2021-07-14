@@ -14,7 +14,7 @@ interface DatabaseHandler {
      *
      * @param results list of [benchmark results][BenchmarkResult] to update
      */
-    fun updateBenchmarkResults(results: List<BenchmarkResult>)
+    fun insertBenchmarkResults(results: List<BenchmarkResult>)
 
     /**
      * Fetches a single benchmark result for the given commit, device and

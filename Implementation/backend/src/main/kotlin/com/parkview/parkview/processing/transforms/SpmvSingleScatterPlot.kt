@@ -1,10 +1,10 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.PlottableData
+import com.parkview.parkview.processing.Dataset
 import com.parkview.parkview.processing.DatasetSeries
 import com.parkview.parkview.processing.PlotPoint
-import com.parkview.parkview.processing.Dataset
+import com.parkview.parkview.processing.PlottableData
 
 enum class SpmvSingleScatterPlotYAxis {
     Time,
