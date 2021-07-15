@@ -1,7 +1,9 @@
+@import "node_modules/nord/src/sass/nord";
+
 .header {
   height: 100%;
   width: 100%;
-  background-color: var(--gb-dark-purple);
+  background-color: $nord15;
   overflow: hidden;
 }
 
@@ -24,7 +26,7 @@
 
 .header .parkview {
   font-size: 4vh;
-  color: white;
+  color: $nord6;
   position: absolute;
   top: 50%;
   -ms-transform: translateY(-50%);

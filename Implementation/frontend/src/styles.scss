@@ -1,3 +1,5 @@
+@import "node_modules/nord/src/sass/nord";
+
 :root {
   --gb-bg: #fbf1c7;
   --gb-light-gray: #928374;
@@ -18,8 +20,10 @@
   --gb-orange: #d65d0e;
   --gb-dark-orange: #af3a03;
 
-  color: var(--gb-fg);
-  background: var(--gb-bg);
+
+
+  color: $nord0;
+  background: $nord6;
 }
 
 html, body { height: 100%; }
