@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CookieService } from './cookie.service';
 import {CookieModule} from "ngx-cookie";
+import {MatDialogModule} from "@angular/material/dialog";
 
 describe('CookieService', () => {
   let service: CookieService;
@@ -9,6 +10,7 @@ describe('CookieService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        MatDialogModule,
         CookieModule.forChild(),
       ]
     });
