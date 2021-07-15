@@ -1,6 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {ChartOptions, ChartType} from "chart.js";
-import {PlotService} from "../../../../logic/plothandler/plot.service";
 
 @Component({
   selector: 'app-average-performance',
@@ -19,7 +18,7 @@ export class AveragePerformanceComponent implements AfterViewInit {
   public chartType: ChartType = 'line';
   public chartLabels = Array();
 
-  constructor(private plotProvider: PlotService) {
+  constructor() {
   }
 
   update() {

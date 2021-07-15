@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Commit} from "./interfaces/commit";
-import {Benchmark} from "./interfaces/benchmark";
-import {BenchmarkComparison} from "./interfaces/benchmark-comparison";
-import {RestService} from "./rest.service";
-import {BenchmarkComparisonPlotComponent} from "../../app/main-content/benchmark-comparison-plot/benchmark-comparison-plot.component";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {Observable, of} from "rxjs";
-import {Data} from "../plothandler/interfaces/data";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {Benchmark} from "./interfaces/benchmark";
+import {ChartDataSets} from "chart.js";
 
 @Injectable({
   providedIn: 'root'
@@ -62,13 +59,17 @@ export class DataService {
   }
 
   getBenchmarks() {
-    return this.http.get<Array<{
-      name: string,
-      type: string,
-    }>>(`${this.url}/benchmarks`);
+    return this.http.get<Array<Benchmark>>(`${this.url}/benchmarks`);
   }
 
-  getData(config: PlotConfiguration): Observable<Data[]> {
-    return of([]);
+
+  getPlotData(config: PlotConfiguration): Observable<ChartDataSets[]> {
+    const params: HttpParams = new HttpParams()
+      .set('benchmark', config.benchmark.name)
+      .set('plotType', config.plotType);
+    config.commits.forEach(c => params.append('shas', c.sha));
+    config.devices.forEach(d => params.append('devices', d));
+
+    return this.http.get<Array<ChartDataSets>>(`${this.url}/plot`, {params: params});
   }
 }

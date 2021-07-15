@@ -1,5 +1,2 @@
-export enum PlotType {
-  SCATTER,
-  LINE,
-  BAR
-}
+export type PlotType =
+  'spmvSingleScatter' | 'spmvSpeedup';

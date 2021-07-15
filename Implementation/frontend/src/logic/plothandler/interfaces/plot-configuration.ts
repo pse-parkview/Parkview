@@ -1,6 +1,6 @@
 import {PlotType} from "./plot-type";
-import {BenchmarkComparison} from "../../datahandler/interfaces/benchmark-comparison"
 import {Benchmark} from "../../datahandler/interfaces/benchmark";
+import {Commit} from "../../datahandler/interfaces/commit";
 
 /**
  * Encapsulates information regarding a plot
@@ -8,6 +8,6 @@ import {Benchmark} from "../../datahandler/interfaces/benchmark";
 export interface PlotConfiguration {
   get plotType(): PlotType;
   get benchmark(): Benchmark;
-  get isComparison(): boolean;
-  get benchmarkComparison(): BenchmarkComparison;
+  get commits(): Commit[];
+  get devices(): string[];
 }

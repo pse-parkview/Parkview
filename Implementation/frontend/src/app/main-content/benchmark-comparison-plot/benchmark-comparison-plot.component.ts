@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {PlotService} from "../../../logic/plothandler/plot.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
@@ -9,8 +8,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 })
 export class BenchmarkComparisonPlotComponent implements OnInit {
 
-  constructor(private readonly route: ActivatedRoute,
-              private readonly plotService: PlotService) {}
+  constructor(private readonly route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(
