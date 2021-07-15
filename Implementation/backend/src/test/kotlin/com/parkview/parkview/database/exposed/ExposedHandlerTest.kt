@@ -2,6 +2,7 @@ package com.parkview.parkview.database.exposed
 
 import BLAS_RESULT
 import CONVERSION_RESULT
+import PRECONDITIONER_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
 import com.parkview.parkview.database.DatabaseHandler
@@ -31,6 +32,20 @@ internal class ExposedHandlerTest {
 
         assert(result.dirtyEquals(returned))
     }
+
+//    @Test
+    fun `test storing and loading single preconditioner benchmark`() {
+        val result = PRECONDITIONER_RESULT
+
+        dbHandler.insertBenchmarkResults(listOf(result))
+        val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
+
+
+        println(result.toString())
+        println(returned.toString())
+        assert(result.dirtyEquals(returned))
+    }
+
 
     @Test
     fun `test storing and loading single conversion benchmark`() {

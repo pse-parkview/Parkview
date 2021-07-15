@@ -1,6 +1,9 @@
 package com.parkview.parkview.database
 
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 /**
  * Interface for accessing a database. It offers methods for

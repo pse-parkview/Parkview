@@ -1,5 +1,8 @@
 import com.parkview.parkview.benchmark.*
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 import java.util.*
 
 fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
@@ -66,6 +69,26 @@ val BLAS_RESULT = BlasBenchmarkResult(
         BlasDatapoint(
             10, operations = listOf(
                 Operation("", 1.0, 1.0, it * 1.0, true),
+            )
+        )
+    }
+)
+
+val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
+    commit,
+    device,
+    BenchmarkType.Preconditioner,
+    (1..5).map {
+        PreconditionerDatapoint(
+            10, 10, 10, listOf(
+                Preconditioner(
+                    "", listOf(
+                        Component("", it.toDouble()),
+                    ),
+                    it.toDouble(), listOf(
+                        Component("", it.toDouble())
+                    ), it.toDouble(), true
+                )
             )
         )
     }

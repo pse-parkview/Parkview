@@ -1,6 +1,9 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.*
+import com.google.gson.GsonBuilder
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 
 /**
@@ -31,11 +34,14 @@ data class Format(
  * @param formats list of [Format]
  */
 data class SpmvDatapoint(
-    val rows: Long,
-    val columns: Long,
-    val nonzeros: Long,
+    override val rows: Long,
+    override val columns: Long,
+    override val nonzeros: Long,
     val formats: List<Format>,
-)
+) : MatrixDatapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(formats)
+}
 
 /**
  * This is a benchmark result for the benchmarks
@@ -50,8 +56,8 @@ data class SpmvBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    val datapoints: List<SpmvDatapoint>,
-) : BenchmarkResult {
+    override val datapoints: List<SpmvDatapoint>,
+) : MatrixBenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =
         calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 

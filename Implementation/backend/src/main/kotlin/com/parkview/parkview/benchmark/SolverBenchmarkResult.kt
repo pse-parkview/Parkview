@@ -1,6 +1,9 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.*
+import com.google.gson.GsonBuilder
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 /**
  * A single Solver, part of [SolverBenchmarkResult].
@@ -44,7 +47,15 @@ data class Solver(
  * @param nonzeros number of nonzeros
  * @param solvers list of [Solver]
  */
-data class SolverDatapoint(val rows: Long, val columns: Long, val nonzeros: Long, val solvers: List<Solver>)
+data class SolverDatapoint(
+    override val rows: Long,
+    override val columns: Long,
+    override val nonzeros: Long,
+    val solvers: List<Solver>
+) : MatrixDatapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(solvers)
+}
 
 /**
  * This is a benchmark result for the benchmarks
@@ -59,8 +70,8 @@ data class SolverBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    val datapoints: List<SolverDatapoint>
-) : BenchmarkResult {
+    override val datapoints: List<SolverDatapoint>
+) : MatrixBenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =
         calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 
@@ -69,7 +80,7 @@ data class SolverBenchmarkResult(
 
         for (datapoint in datapoints) {
             for (solver in datapoint.solvers) {
-                bandwidths.getOrPut(solver.name) { mutableListOf<Double>() }.add(solver.applyIterations.toDouble())
+                bandwidths.getOrPut(solver.name) { mutableListOf() }.add(solver.applyIterations.toDouble())
             }
         }
 

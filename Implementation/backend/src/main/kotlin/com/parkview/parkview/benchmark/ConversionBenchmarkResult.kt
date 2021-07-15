@@ -1,6 +1,9 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.*
+import com.google.gson.GsonBuilder
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 
 /**
@@ -26,11 +29,14 @@ data class Conversion(
  * @param conversions list of conversions
  */
 data class ConversionDatapoint(
-    val rows: Long,
-    val columns: Long,
-    val nonzeros: Long,
+    override val rows: Long,
+    override val columns: Long,
+    override val nonzeros: Long,
     val conversions: List<Conversion>
-)
+) : MatrixDatapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(conversions)
+}
 
 /**
  * This is a benchmark result for the benchmarks
@@ -45,8 +51,8 @@ data class ConversionBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    val datapoints: List<ConversionDatapoint>,
-) : BenchmarkResult {
+    override val datapoints: List<ConversionDatapoint>,
+) : MatrixBenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =
         calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 

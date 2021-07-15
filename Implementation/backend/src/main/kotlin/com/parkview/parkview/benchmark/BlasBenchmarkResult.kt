@@ -1,5 +1,6 @@
 package com.parkview.parkview.benchmark
 
+import com.google.gson.GsonBuilder
 import com.parkview.parkview.git.*
 
 
@@ -37,7 +38,10 @@ data class BlasDatapoint(
     val m: Long = n,
     val k: Long = n,
     val operations: List<Operation>
-)
+) : Datapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(operations)
+}
 
 /**
  * This is a benchmark result for the benchmarks
@@ -53,7 +57,7 @@ data class BlasBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    val datapoints: List<BlasDatapoint>
+    override val datapoints: List<BlasDatapoint>
 ) : BenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =
         calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] }

@@ -3,8 +3,6 @@ package com.parkview.parkview.rest
 import com.google.gson.Gson
 import com.parkview.parkview.benchmark.JsonParser
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.database.exposed.ConnectionPoolSource
-import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.database.exposed.ExposedJsonHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
@@ -18,10 +16,10 @@ import java.util.*
 class SpringRestHandler : RestHandler {
     private val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
 
-//    private val url = "jdbc:postgresql://localhost:5432/parkview"
-//    private val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
+    private val url = "jdbc:postgresql://localhost:5432/parkview"
 
-    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(ConnectionPoolSource.ds)
+    //    private val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
+    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(url, "parkview", "parkview")
 
     @PostMapping("/post")
     override fun handlePost(
@@ -82,8 +80,8 @@ class SpringRestHandler : RestHandler {
             )
         }
 
-        val plotType = AvailablePlots.getPlotByName(plotType) ?: throw Exception("Invalid plot type")
-        return plotType.transform(results).toJson()
+        val plot = AvailablePlots.getPlotByName(plotType) ?: throw Exception("Invalid plot type")
+        return plot.transform(results).toJson()
     }
 
     @GetMapping("/branches")

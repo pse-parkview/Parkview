@@ -1,6 +1,5 @@
 package com.parkview.parkview.database.exposed
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.benchmark.*
@@ -9,6 +8,8 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -52,6 +53,16 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
     private var db: Database = Database.connect(datasource = source)
     private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
 
+    constructor(jdbcUrl: String, username: String, password: String) : this(
+        HikariDataSource(
+            HikariConfig().apply {
+                this.jdbcUrl = jdbcUrl
+                this.username = username
+                this.password = password
+            }
+        )
+    )
+
     init {
         transaction(db) {
             SchemaUtils.createSchema(Schema("parkview"))
@@ -84,57 +95,24 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
             }
 
             when (result.benchmark) {
-                BenchmarkType.Spmv -> insertSpmvDatapoints(result as SpmvBenchmarkResult, benchmarkId)
-                BenchmarkType.Solver -> insertSolverDatapoint(result as SolverBenchmarkResult, benchmarkId)
-                BenchmarkType.Preconditioner -> insertPreconditionerDatapoints(
-                    result as PreconditionerBenchmarkResult,
+                BenchmarkType.Spmv, BenchmarkType.Solver, BenchmarkType.Preconditioner, BenchmarkType.Conversion -> insertMatrixDatapoints(
+                    result as MatrixBenchmarkResult,
                     benchmarkId
                 )
-                BenchmarkType.Conversion -> insertConversionDatapoints(result as ConversionBenchmarkResult, benchmarkId)
                 BenchmarkType.Blas -> insertBlasDatapoints(result as BlasBenchmarkResult, benchmarkId)
             }
         }
     }
 
-    private fun insertSpmvDatapoints(result: SpmvBenchmarkResult, benchmarkId: UUID) {
+    private fun insertMatrixDatapoints(result: MatrixBenchmarkResult, benchmarkId: UUID) {
         transaction(db) {
             MatrixDatapointTable.batchInsert(result.datapoints) {
                 this[MatrixDatapointTable.cols] = it.columns
                 this[MatrixDatapointTable.rows] = it.rows
                 this[MatrixDatapointTable.nonzeros] = it.nonzeros
-                this[MatrixDatapointTable.data] = gson.toJson(it.formats)
+                this[MatrixDatapointTable.data] = it.serializeComponentsToJson()
                 this[MatrixDatapointTable.benchmarkId] = benchmarkId
             }
-
-            commit()
-        }
-    }
-
-    private fun insertConversionDatapoints(result: ConversionBenchmarkResult, benchmarkId: UUID) {
-        transaction(db) {
-            MatrixDatapointTable.batchInsert(result.datapoints) {
-                this[MatrixDatapointTable.cols] = it.columns
-                this[MatrixDatapointTable.rows] = it.rows
-                this[MatrixDatapointTable.nonzeros] = it.nonzeros
-                this[MatrixDatapointTable.data] = gson.toJson(it.conversions)
-                this[MatrixDatapointTable.benchmarkId] = benchmarkId
-            }
-
-            commit()
-        }
-    }
-
-    private fun insertPreconditionerDatapoints(result: PreconditionerBenchmarkResult, benchmarkId: UUID) {
-        transaction(db) {
-            MatrixDatapointTable.batchInsert(result.datapoints) {
-                this[MatrixDatapointTable.cols] = it.columns
-                this[MatrixDatapointTable.rows] = it.rows
-                this[MatrixDatapointTable.nonzeros] = it.nonzeros
-                this[MatrixDatapointTable.data] = gson.toJson(it.preconditioners)
-                this[MatrixDatapointTable.benchmarkId] = benchmarkId
-            }
-
-            commit()
         }
     }
 
@@ -148,22 +126,6 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 this[BlasDatapointTable.data] = gson.toJson(it.operations)
                 this[BlasDatapointTable.benchmarkId] = benchmarkId
             }
-
-            commit()
-        }
-    }
-
-    private fun insertSolverDatapoint(result: SolverBenchmarkResult, benchmarkId: UUID) {
-        transaction(db) {
-            MatrixDatapointTable.batchInsert(result.datapoints) {
-                this[MatrixDatapointTable.cols] = it.columns
-                this[MatrixDatapointTable.rows] = it.rows
-                this[MatrixDatapointTable.nonzeros] = it.nonzeros
-                this[MatrixDatapointTable.data] = gson.toJson(it.solvers)
-                this[MatrixDatapointTable.benchmarkId] = benchmarkId
-            }
-
-            commit()
         }
     }
 
@@ -335,7 +297,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         colLim: Long,
         nonzerosLim: Long
     ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Solver>>() {}.type
+        val arrayType = object : TypeToken<List<Preconditioner>>() {}.type
         val datapoints = transaction(db) {
             MatrixDatapointTable.select {
                 (MatrixDatapointTable.benchmarkId eq benchmarkId) and
@@ -343,16 +305,16 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                         (MatrixDatapointTable.cols greaterEq colLim) and
                         (MatrixDatapointTable.nonzeros greaterEq nonzerosLim)
             }.map {
-                SolverDatapoint(
+                PreconditionerDatapoint(
                     rows = it[MatrixDatapointTable.rows],
                     columns = it[MatrixDatapointTable.cols],
                     nonzeros = it[MatrixDatapointTable.nonzeros],
-                    solvers = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
+                    preconditioners = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
                 )
             }
         }
 
-        return SolverBenchmarkResult(
+        return PreconditionerBenchmarkResult(
             commit = commit,
             device = device,
             benchmark = benchmark,

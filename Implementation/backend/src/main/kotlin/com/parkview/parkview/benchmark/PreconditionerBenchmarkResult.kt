@@ -1,6 +1,9 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.*
+import com.google.gson.GsonBuilder
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 
 /**
@@ -13,11 +16,14 @@ import com.parkview.parkview.git.*
  * @param preconditioners list of [Preconditioner]
  */
 data class PreconditionerDatapoint(
-    val rows: Long,
-    val columns: Long,
-    val nonzeros: Long,
+    override val rows: Long,
+    override val columns: Long,
+    override val nonzeros: Long,
     val preconditioners: List<Preconditioner>
-)
+) : MatrixDatapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(preconditioners)
+}
 
 /**
  * A single preconditioner, part of [PreconditionerBenchmarkResult].
@@ -51,8 +57,8 @@ data class PreconditionerBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    val datapoints: List<PreconditionerDatapoint>,
-) : BenchmarkResult {
+    override val datapoints: List<PreconditionerDatapoint>,
+) : MatrixBenchmarkResult {
     override fun getSummaryValue() = getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] }
 
     private fun getGenerateTimes(): Map<String, List<Double>> {

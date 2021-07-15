@@ -2,7 +2,10 @@ package com.parkview.parkview.database.exposed
 
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.*
@@ -135,22 +138,6 @@ private object IterationTimestampsTable : Table() {
     override val primaryKey = PrimaryKey(SolverGenerateComponentTable.id, name = "PK_IterationTimestamps_Id")
 }
 
-object ConnectionPoolSource {
-    private val config: HikariConfig = HikariConfig()
-    val ds: HikariDataSource
-
-    init {
-        config.jdbcUrl = "jdbc:postgresql://localhost:5432/parkview"
-        config.username = "parkview"
-        config.password = "parkview"
-        config.addDataSourceProperty("cachePrepStmts", "true")
-        config.addDataSourceProperty("prepStmtCacheSize", "250")
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-        config.addDataSourceProperty("reWriteBatchedInserts", "true")
-        ds = HikariDataSource(config)
-    }
-}
-
 /**
  * [DatabaseHandler] using the Exposed library
  */
@@ -158,6 +145,16 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     // TODO: use spring stuff to get database object
     // TODO: enable batch insert for database controller
     private var db: Database = Database.connect(datasource = source)
+
+    constructor(jdbcUrl: String, username: String, password: String) : this(
+        HikariDataSource(
+            HikariConfig().apply {
+                this.jdbcUrl = jdbcUrl
+                this.username = username
+                this.password = password
+            }
+        )
+    )
 
     init {
         transaction(db) {
@@ -204,7 +201,8 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             }
         }
 
-        val conversionsWithId = allBenchmarkIDs.zip(listOfConversions).fold(emptyList<Pair<UUID, Conversion>>()) { acc, pair ->
+        val conversionsWithId =
+            allBenchmarkIDs.zip(listOfConversions).fold(emptyList<Pair<UUID, Conversion>>()) { acc, pair ->
                 acc + pair.second.map {
                     Pair(
                         pair.first[MatrixBenchmarkResultTable.id],
