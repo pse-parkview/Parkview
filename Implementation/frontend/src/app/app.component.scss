@@ -26,6 +26,7 @@ main {
   width: 85vw;
   position: fixed;
   height: 95vh;
+  overflow-y: scroll;
 
   background: var(--od-dark-gray);
 }

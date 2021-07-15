@@ -1,15 +1,8 @@
 @import "node_modules/nord/src/sass/nord";
 
-.git-history-wrapper {
-  width: available;
-}
-
 mat-card {
   margin: 1vh;
-  background-color: $nord4;
-}
-mat-card mat-card {
-  background-color: white;
+  // background-color: white;
 }
 
 mat-expansion-panel {
