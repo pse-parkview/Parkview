@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from "chart.js";
 
 @Component({
@@ -6,7 +6,7 @@ import {ChartOptions, ChartType} from "chart.js";
   templateUrl: './average-performance.component.html',
   styleUrls: ['./average-performance.component.scss']
 })
-export class AveragePerformanceComponent implements AfterViewInit {
+export class AveragePerformanceComponent implements OnInit {
 
   public chartOptions: ChartOptions = {
     responsive: true,
@@ -27,11 +27,8 @@ export class AveragePerformanceComponent implements AfterViewInit {
     this.chartLabels = labels;
   }
 
-
-  ngAfterViewInit(): void {
-    this.chartData = data;
-    this.chartType = 'line';
-    this.chartLabels = labels;
+  ngOnInit() {
+    this.update();
   }
 }
 

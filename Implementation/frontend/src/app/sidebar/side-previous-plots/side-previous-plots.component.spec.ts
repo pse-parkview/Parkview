@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SidePreviousPlotsComponent } from './side-previous-plots.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {SidePreviousPlotsComponent} from './side-previous-plots.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {CookieModule} from "ngx-cookie";
 
 describe('SidePreviousPlotsComponent', () => {
   let component: SidePreviousPlotsComponent;
@@ -8,7 +9,13 @@ describe('SidePreviousPlotsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SidePreviousPlotsComponent ]
+      declarations: [
+        SidePreviousPlotsComponent
+      ],
+      imports: [
+        MatDialogModule,
+        CookieModule.forRoot(),
+      ]
     })
     .compileComponents();
   });

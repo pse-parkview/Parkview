@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GitHistoryComponent } from './git-history.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('GitHistoryComponent', () => {
   let component: GitHistoryComponent;
@@ -8,7 +9,12 @@ describe('GitHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GitHistoryComponent ]
+      declarations: [
+        GitHistoryComponent,
+      ],
+      imports: [
+        HttpClientTestingModule,
+      ]
     })
     .compileComponents();
   });

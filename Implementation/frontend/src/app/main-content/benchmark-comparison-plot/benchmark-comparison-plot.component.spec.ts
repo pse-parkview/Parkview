@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BenchmarkComparisonPlotComponent } from './benchmark-comparison-plot.component';
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('BenchmarkComparisonPlotComponent', () => {
   let component: BenchmarkComparisonPlotComponent;
@@ -8,7 +9,12 @@ describe('BenchmarkComparisonPlotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BenchmarkComparisonPlotComponent ]
+      declarations: [
+        BenchmarkComparisonPlotComponent
+      ],
+      imports: [
+        RouterTestingModule,
+      ]
     })
     .compileComponents();
   });
