@@ -22,6 +22,16 @@ object AvailablePlots {
     private val conversionPlots: Map<String, ConversionPlotTransform> = mapOf()
     private val solverPlots: Map<String, SolverPlotTransform> = mapOf()
 
+    fun getPlotByName(plotName: String): PlotTransform? {
+        if (spmvPlots.containsKey(plotName)) return spmvPlots[plotName]
+        if (blasPlots.containsKey(plotName)) return blasPlots[plotName]
+        if (preconditionerPlots.containsKey(plotName)) return preconditionerPlots[plotName]
+        if (conversionPlots.containsKey(plotName)) return conversionPlots[plotName]
+        if (solverPlots.containsKey(plotName)) return solverPlots[plotName]
+
+        return null
+    }
+
     fun getPlotList(benchmark: Benchmark, numberInputs: Int): PlotList {
         val availablePlots: Map<String, PlotTransform> = when (benchmark.type) {
             BenchmarkType.Spmv -> spmvPlots

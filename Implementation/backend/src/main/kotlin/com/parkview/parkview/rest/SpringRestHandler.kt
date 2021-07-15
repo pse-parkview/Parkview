@@ -2,14 +2,10 @@ package com.parkview.parkview.rest
 
 import com.google.gson.Gson
 import com.parkview.parkview.benchmark.JsonParser
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.database.ExposedHandler
+import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
-import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlot
-import com.parkview.parkview.processing.transforms.SpmvSingleScatterPlotYAxis
-import com.parkview.parkview.processing.transforms.SpmvSpeedupPlot
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -82,16 +78,11 @@ class SpringRestHandler : RestHandler {
                 Commit(sha, "", Date(), ""),
                 Device(device),
                 Benchmark(benchmark, databaseHandler.getBenchmarkTypeForName(benchmark)),
-//                nonzerosLim = 5000000,
             )
         }
 
-        return when (plotType) {
-            "spmvSingleScatter" -> SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Time).transform(results as List<SpmvBenchmarkResult>)
-                .toJson()
-            "spmvSpeedup" -> SpmvSpeedupPlot().transform(results as List<SpmvBenchmarkResult>).toJson()
-            else -> ""
-        }
+        val plotType = AvailablePlots.getPlotByName(plotType) ?: throw Exception("Invalid plot type")
+        return plotType.transform(results).toJson()
     }
 
     @GetMapping("/branches")

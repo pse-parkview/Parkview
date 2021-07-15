@@ -4,6 +4,7 @@ import BLAS_RESULT
 import CONVERSION_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
+import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.git.BenchmarkResult
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres

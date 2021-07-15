@@ -9,7 +9,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
     override val plottableAs = listOf(PlotType.Line)
     override val name = "spmvSpeedup"
 
-    override fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
+    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 2) throw InvalidPlotTransformException(
             "SpmvSpeedupPlot can only be used with a two SpmvBenchmarkResult"
         )
@@ -24,6 +24,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
 
             for (formatA in datapointA.formats) {
                 val formatB = datapointB.formats.find { it.name == formatA.name } ?: continue
+                if (!formatA.completed or !formatB.completed) continue
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
                     x = datapointA.nonzeros.toDouble(),

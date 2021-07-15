@@ -11,7 +11,7 @@ enum class SpmvSingleScatterPlotYAxis {
 class SpmvSingleScatterPlot(
     private val yAxis: SpmvSingleScatterPlotYAxis,
 ) : SpmvPlotTransform {
-    override fun transform(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
+    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 1) throw InvalidPlotTransformException(
             "SpmvSingleScatterPlot can only be used with a single BenchmarkResult"
         )
@@ -22,11 +22,11 @@ class SpmvSingleScatterPlot(
 
         for (datapoint in benchmarkResult.datapoints) {
             for (format in datapoint.formats) {
+                if (!format.completed) continue
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.nonzeros.toDouble(),
                     y = when (yAxis) {
-                        SpmvSingleScatterPlotYAxis.Bandwidth ->
-                            format.storage + (datapoint.rows + datapoint.columns) / format.time
+                        SpmvSingleScatterPlotYAxis.Bandwidth -> (format.storage + (datapoint.rows + datapoint.columns) / format.time)
                         SpmvSingleScatterPlotYAxis.Time -> format.time
                     },
                 )
