@@ -1,5 +1,4 @@
 import {PlotType} from "./plot-type";
-import {Benchmark} from "../../datahandler/interfaces/benchmark";
 import {Commit} from "../../datahandler/interfaces/commit";
 
 /**
@@ -7,7 +6,7 @@ import {Commit} from "../../datahandler/interfaces/commit";
  */
 export interface PlotConfiguration {
   get plotType(): PlotType;
-  get benchmark(): Benchmark;
+  get benchmark(): string;
   get commits(): Commit[];
   get devices(): string[];
 }

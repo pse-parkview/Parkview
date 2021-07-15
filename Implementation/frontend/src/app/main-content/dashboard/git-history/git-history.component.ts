@@ -30,7 +30,7 @@ export class GitHistoryComponent implements OnInit {
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
-    this.dataService.getCommitHistory(this.currentlySelectedBranch).subscribe((commits: Commit[]) => {
+    this.dataService.getCommitHistory(this.currentlySelectedBranch, 'Spmv').subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
   }

@@ -3,7 +3,6 @@ import {Commit} from "./interfaces/commit";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {Observable, of} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Benchmark} from "./interfaces/benchmark";
 import {ChartDataSets} from "chart.js";
 
 @Injectable({
@@ -20,11 +19,11 @@ export class DataService {
     // uncomment if you dont have a backend to test with // return of(["branch1", "branch2", "branch3"]);
   }
 
-  getCommitHistory(branchName: string, benchmark: string|undefined = undefined, page: number = 1): Observable<Commit[]> {
+  getCommitHistory(branchName: string, benchmarkType: string, page: number = 1): Observable<Commit[]> {
     const params: HttpParams = new HttpParams()
       .set('branch', branchName)
       .set('page', page.toString(10))
-      .set('benchmark', 'AMD');
+      .set('benchmark', benchmarkType);
     return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
 
     /* uncomment and maybe extend if you dont have a backend to test with
@@ -59,13 +58,13 @@ export class DataService {
   }
 
   getBenchmarks() {
-    return this.http.get<Array<Benchmark>>(`${this.url}/benchmarks`);
+    return this.http.get<Array<string>>(`${this.url}/benchmarks`);
   }
 
 
   getPlotData(config: PlotConfiguration): Observable<ChartDataSets[]> {
     const params: HttpParams = new HttpParams()
-      .set('benchmark', config.benchmark.name)
+      .set('benchmark', config.benchmark)
       .set('plotType', config.plotType);
     config.commits.forEach(c => params.append('shas', c.sha));
     config.devices.forEach(d => params.append('devices', d));
