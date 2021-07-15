@@ -69,6 +69,6 @@ export class DataService {
   }
 
   getData(config: PlotConfiguration): Observable<Data[]> {
-    return this.http.get<Data[]>(this.url);
+    return of([]);
   }
 }

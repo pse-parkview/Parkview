@@ -32,10 +32,4 @@ export interface Commit {
    * Avaliable devices?
    */
   get availableDevices(): { name: string }[];
-
-  /**
-   * benchmark results?
-   * why does a commit have benchmark results already?
-   */
-  get benchmarkResults(): object;
 }
