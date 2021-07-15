@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
@@ -32,7 +31,7 @@ internal class PreconditionerBenchmarkResultTest {
         br = PreconditionerBenchmarkResult(
             commit,
             Device(""),
-            Benchmark("", BenchmarkType.Preconditioner),
+            BenchmarkType.Preconditioner,
             datapoints
         )
     }

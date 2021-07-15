@@ -17,7 +17,7 @@ interface BenchmarkResult {
     /**
      * name of benchmark
      */
-    val benchmark: Benchmark
+    val benchmark: BenchmarkType
 
     /**
      * Returns a summary value for this benchmark result

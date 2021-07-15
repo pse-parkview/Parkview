@@ -27,7 +27,7 @@ for device_dir in os.listdir(args.data):
 
             for datapoint in os.listdir(benchmark_path):
                 datapoint_path = os.path.join(benchmark_path, datapoint)
-                params = {'sha': args.sha, 'device': device_name, 'benchmark': benchmark_name}
+                params = {'sha': args.sha, 'device': device_name}
 
                 try:
                     with open(datapoint_path) as f:

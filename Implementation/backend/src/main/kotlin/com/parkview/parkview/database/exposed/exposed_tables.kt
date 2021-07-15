@@ -4,13 +4,6 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 import java.util.*
 
-object BenchmarkTypeTable : Table() {
-    override val tableName: String = "BenchmarkType"
-    val name: Column<String> = varchar("name", 30).uniqueIndex()
-    val format: Column<String> = varchar("format", 30)
-    override val primaryKey = PrimaryKey(BenchmarkTypeTable.name, name = "PK_BenchmarkType_Name")
-}
-
 object MatrixBenchmarkResultTable : Table() {
     override val tableName: String = "MatrixBenchmarkResult"
     val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()

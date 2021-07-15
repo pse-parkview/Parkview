@@ -1,9 +1,6 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.Benchmark
-import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.Commit
-import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.*
 
 
 /**
@@ -53,7 +50,7 @@ data class Preconditioner(
 data class PreconditionerBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: Benchmark,
+    override val benchmark: BenchmarkType,
     val datapoints: List<PreconditionerDatapoint>,
 ) : BenchmarkResult {
     override fun getSummaryValue() = getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] }

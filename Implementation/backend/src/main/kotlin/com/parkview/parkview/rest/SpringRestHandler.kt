@@ -25,11 +25,10 @@ class SpringRestHandler : RestHandler {
     override fun handlePost(
         @RequestParam sha: String,
         @RequestParam device: String,
-        @RequestParam benchmark: String,
         @RequestParam(defaultValue = "false") blas: Boolean,
         @RequestBody json: String,
     ) {
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, benchmark, device, json, blas = blas)
+        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, json, blas = blas)
 
         databaseHandler.insertBenchmarkResults(benchmarkResults)
     }
@@ -42,7 +41,7 @@ class SpringRestHandler : RestHandler {
     ): String {
 
         val commits = repHandler.fetchGitHistory(branch, page)
-        val benchmarkInfo = Benchmark(benchmark, databaseHandler.getBenchmarkTypeForName(benchmark))
+        val benchmarkInfo = BenchmarkType.valueOf(benchmark)
 
         for (commit in commits) {
             val devices = databaseHandler.getAvailableDevices(
@@ -77,7 +76,7 @@ class SpringRestHandler : RestHandler {
             databaseHandler.fetchBenchmarkResult(
                 Commit(sha, "", Date(), ""),
                 Device(device),
-                Benchmark(benchmark, databaseHandler.getBenchmarkTypeForName(benchmark)),
+                BenchmarkType.valueOf(benchmark),
             )
         }
 
@@ -94,7 +93,7 @@ class SpringRestHandler : RestHandler {
 
     @GetMapping("/benchmarks")
     override fun getAvailableBenchmarks(): String {
-        val benchmarks = databaseHandler.getAvailableBenchmarks()
+        val benchmarks = BenchmarkType.values()
         return Gson().toJson(benchmarks)
     }
 
@@ -105,10 +104,8 @@ class SpringRestHandler : RestHandler {
         @RequestParam devices: List<String>,
     ): String = Gson().toJson(
         AvailablePlots.getPlotList(
-            Benchmark(
-                benchmark,
-                databaseHandler.getBenchmarkTypeForName(benchmark)
-            ), shas.size
+            BenchmarkType.valueOf(benchmark),
+            shas.size,
         )
     )
 }

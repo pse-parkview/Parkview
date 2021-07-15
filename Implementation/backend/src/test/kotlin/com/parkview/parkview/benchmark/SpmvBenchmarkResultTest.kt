@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
@@ -27,7 +26,7 @@ internal class SpmvBenchmarkResultTest {
         br = SpmvBenchmarkResult(
             commit,
             Device(""),
-            Benchmark("", BenchmarkType.Spmv),
+            BenchmarkType.Spmv,
             datapoints
         )
     }

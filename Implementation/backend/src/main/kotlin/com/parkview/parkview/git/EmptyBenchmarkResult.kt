@@ -6,7 +6,7 @@ package com.parkview.parkview.git
 data class EmptyBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: Benchmark
+    override val benchmark: BenchmarkType,
 ) : BenchmarkResult {
     override fun getSummaryValue() = emptyMap<String, Double>()
 }

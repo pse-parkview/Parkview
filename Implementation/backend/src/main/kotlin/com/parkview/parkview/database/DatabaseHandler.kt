@@ -30,15 +30,13 @@ interface DatabaseHandler {
     fun fetchBenchmarkResult(
         commit: Commit,
         device: Device,
-        benchmark: Benchmark,
+        benchmark: BenchmarkType,
         rowLim: Long = 0,
         colLim: Long = 0,
         nonzerosLim: Long = 0
     ): BenchmarkResult
 
-    fun hasDataAvailable(commit: Commit, device: Device, benchmark: Benchmark): Boolean
+    fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean
 
-    fun getAvailableDevices(commit: Commit, benchmark: Benchmark): List<Device>
-    fun getAvailableBenchmarks(): List<Benchmark>
-    fun getBenchmarkTypeForName(benchmarkName: String): BenchmarkType
+    fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device>
 }

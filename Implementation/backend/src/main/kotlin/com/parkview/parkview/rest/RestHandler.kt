@@ -11,7 +11,7 @@ interface RestHandler {
      *
      * @param json request body as json
      */
-    fun handlePost(sha: String, device: String, benchmark: String, blas: Boolean, json: String)
+    fun handlePost(sha: String, device: String, blas: Boolean, json: String)
 
     /**
      * Handles a GET request for retrieving commit history

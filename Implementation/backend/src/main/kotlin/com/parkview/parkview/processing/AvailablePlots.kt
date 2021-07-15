@@ -1,6 +1,5 @@
 package com.parkview.parkview.processing
 
-import com.parkview.parkview.git.Benchmark
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.*
 
@@ -32,8 +31,8 @@ object AvailablePlots {
         return null
     }
 
-    fun getPlotList(benchmark: Benchmark, numberInputs: Int): PlotList {
-        val availablePlots: Map<String, PlotTransform> = when (benchmark.type) {
+    fun getPlotList(benchmark: BenchmarkType, numberInputs: Int): PlotList {
+        val availablePlots: Map<String, PlotTransform> = when (benchmark) {
             BenchmarkType.Spmv -> spmvPlots
             BenchmarkType.Solver -> solverPlots
             BenchmarkType.Preconditioner -> preconditionerPlots

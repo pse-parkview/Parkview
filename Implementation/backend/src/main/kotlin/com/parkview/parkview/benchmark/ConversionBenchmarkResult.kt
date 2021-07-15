@@ -1,9 +1,6 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.Benchmark
-import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.Commit
-import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.*
 
 
 /**
@@ -47,7 +44,7 @@ data class ConversionDatapoint(
 data class ConversionBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: Benchmark,
+    override val benchmark: BenchmarkType,
     val datapoints: List<ConversionDatapoint>,
 ) : BenchmarkResult {
     override fun getSummaryValue(): Map<String, Double> =

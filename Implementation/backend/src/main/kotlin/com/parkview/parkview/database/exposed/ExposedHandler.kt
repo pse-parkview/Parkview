@@ -48,7 +48,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
                 SpmvFormatTable,
                 BlasBenchmarkResultTable,
                 BlasOperationTable,
-                BenchmarkTypeTable,
                 SolverTable,
                 RecurrentResidualsTable,
                 ImplicitResidualsTable,
@@ -62,8 +61,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
 
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         for (result in results) {
-            insertOrUpdateTypeTable(result.benchmark)
-            when (result.benchmark.type) {
+            when (result.benchmark) {
                 BenchmarkType.Spmv -> insertSpmvBenchmarkResult(result as SpmvBenchmarkResult)
                 BenchmarkType.Solver -> insertSolverBenchmarkResult(result as SolverBenchmarkResult)
                 BenchmarkType.Preconditioner -> TODO("PRECONDITIONER NOT YET IMPLEMENTED")
@@ -73,27 +71,12 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         }
     }
 
-    private fun insertOrUpdateTypeTable(benchmark: Benchmark) {
-        transaction {
-            if (BenchmarkTypeTable.select { BenchmarkTypeTable.name eq benchmark.name }.count() > 0) {
-                BenchmarkTypeTable.update({ BenchmarkTypeTable.name eq benchmark.name }) {
-                    it[format] = benchmark.type.name
-                }
-            } else {
-                BenchmarkTypeTable.insert {
-                    it[name] = benchmark.name
-                    it[format] = benchmark.type.name
-                }
-            }
-        }
-    }
-
     private fun insertConversionBenchmarkResult(result: ConversionBenchmarkResult) {
         val listOfConversions: List<List<Conversion>> = result.datapoints.map { it.conversions }
         val allBenchmarkIDs = transaction(db) {
             MatrixBenchmarkResultTable.batchInsert(result.datapoints) { datapoint ->
                 this[MatrixBenchmarkResultTable.sha] = result.commit.sha
-                this[MatrixBenchmarkResultTable.name] = result.benchmark.name
+                this[MatrixBenchmarkResultTable.name] = result.benchmark.toString()
                 this[MatrixBenchmarkResultTable.device] = result.device.name
                 this[MatrixBenchmarkResultTable.cols] = datapoint.columns
                 this[MatrixBenchmarkResultTable.rows] = datapoint.rows
@@ -101,8 +84,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             }
         }
 
-        val conversionsWithId =
-            allBenchmarkIDs.zip(listOfConversions).fold(emptyList<Pair<UUID, Conversion>>()) { acc, pair ->
+        val conversionsWithId = allBenchmarkIDs.zip(listOfConversions).fold(emptyList<Pair<UUID, Conversion>>()) { acc, pair ->
                 acc + pair.second.map {
                     Pair(
                         pair.first[MatrixBenchmarkResultTable.id],
@@ -128,7 +110,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         val allBenchmarkIDs = transaction(db) {
             MatrixBenchmarkResultTable.batchInsert(result.datapoints) { datapoint ->
                 this[MatrixBenchmarkResultTable.sha] = result.commit.sha
-                this[MatrixBenchmarkResultTable.name] = result.benchmark.name
+                this[MatrixBenchmarkResultTable.name] = result.benchmark.toString()
                 this[MatrixBenchmarkResultTable.device] = result.device.name
                 this[MatrixBenchmarkResultTable.cols] = datapoint.columns
                 this[MatrixBenchmarkResultTable.rows] = datapoint.rows
@@ -164,7 +146,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         val allBenchmarkIDs = transaction(db) {
             MatrixBenchmarkResultTable.batchInsert(result.datapoints) { datapoint ->
                 this[MatrixBenchmarkResultTable.sha] = result.commit.sha
-                this[MatrixBenchmarkResultTable.name] = result.benchmark.name
+                this[MatrixBenchmarkResultTable.name] = result.benchmark.toString()
                 this[MatrixBenchmarkResultTable.device] = result.device.name
                 this[MatrixBenchmarkResultTable.cols] = datapoint.columns
                 this[MatrixBenchmarkResultTable.rows] = datapoint.rows
@@ -233,7 +215,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         val allBenchmarkIDs = transaction(db) {
             BlasBenchmarkResultTable.batchInsert(result.datapoints) { datapoint ->
                 this[BlasBenchmarkResultTable.sha] = result.commit.sha
-                this[BlasBenchmarkResultTable.name] = result.benchmark.name
+                this[BlasBenchmarkResultTable.name] = result.benchmark.toString()
                 this[BlasBenchmarkResultTable.device] = result.device.name
                 this[BlasBenchmarkResultTable.n] = datapoint.n
                 this[BlasBenchmarkResultTable.r] = datapoint.r
@@ -266,53 +248,47 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     }
 
 
-    override fun hasDataAvailable(commit: Commit, device: Device, benchmark: Benchmark) = when (benchmark.type) {
+    override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = when (benchmark) {
         BenchmarkType.Blas -> transaction(db) {
             BlasBenchmarkResultTable.select(
                 (BlasBenchmarkResultTable.sha eq commit.sha) and
                         (BlasBenchmarkResultTable.device eq device.name) and
-                        (BlasBenchmarkResultTable.name eq benchmark.name)
+                        (BlasBenchmarkResultTable.name eq benchmark.toString())
             ).count() > 0
         }
         else -> transaction(db) {
             MatrixBenchmarkResultTable.select(
                 (MatrixBenchmarkResultTable.sha eq commit.sha) and
                         (MatrixBenchmarkResultTable.device eq device.name) and
-                        (MatrixBenchmarkResultTable.name eq benchmark.name)
+                        (MatrixBenchmarkResultTable.name eq benchmark.toString())
             ).count() > 0
         }
     }
 
-    override fun getAvailableDevices(commit: Commit, benchmark: Benchmark): List<Device> = when (benchmark.type) {
+    override fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device> = when (benchmark) {
         BenchmarkType.Blas -> transaction(db) {
             BlasBenchmarkResultTable.slice(BlasBenchmarkResultTable.device, BlasBenchmarkResultTable.name).select {
                 (BlasBenchmarkResultTable.sha eq commit.sha) and
-                        (BlasBenchmarkResultTable.name eq benchmark.name)
+                        (BlasBenchmarkResultTable.name eq benchmark.toString())
             }.map { it[BlasBenchmarkResultTable.device] }.toSet().map { Device(name = it) }.toList()
         }
         else -> transaction(db) {
             MatrixBenchmarkResultTable.slice(MatrixBenchmarkResultTable.device, MatrixBenchmarkResultTable.name)
                 .select {
                     (MatrixBenchmarkResultTable.sha eq commit.sha) and
-                            (MatrixBenchmarkResultTable.name eq benchmark.name)
+                            (MatrixBenchmarkResultTable.name eq benchmark.toString())
                 }.map { it[MatrixBenchmarkResultTable.device] }.toSet().map { Device(name = it) }.toList()
         }
     }
 
-    override fun getAvailableBenchmarks(): List<Benchmark> = transaction(db) {
-        BenchmarkTypeTable.selectAll()
-            .map { Benchmark(it[BenchmarkTypeTable.name], BenchmarkType.valueOf(it[BenchmarkTypeTable.format])) }
-    }
-
-
     override fun fetchBenchmarkResult(
         commit: Commit,
         device: Device,
-        benchmark: Benchmark,
+        benchmark: BenchmarkType,
         rowLim: Long,
         colLim: Long,
         nonzerosLim: Long,
-    ) = when (benchmark.type) {
+    ) = when (benchmark) {
         BenchmarkType.Spmv -> fetchSpmvResult(commit, device, benchmark, rowLim, colLim, nonzerosLim)
         BenchmarkType.Solver -> fetchSolverResult(commit, device, benchmark, rowLim, colLim, nonzerosLim)
         BenchmarkType.Preconditioner -> TODO()
@@ -330,7 +306,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     private fun fetchSpmvResult(
         commit: Commit,
         device: Device,
-        benchmarkType: Benchmark,
+        benchmark: BenchmarkType,
         rowLim: Long,
         colLim: Long,
         nonzerosLim: Long,
@@ -340,7 +316,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             MatrixBenchmarkResultTable.select {
                 (MatrixBenchmarkResultTable.sha eq commit.sha) and
                         (MatrixBenchmarkResultTable.device eq device.name) and
-                        (MatrixBenchmarkResultTable.name eq benchmarkType.name) and
+                        (MatrixBenchmarkResultTable.name eq benchmark.toString()) and
                         (MatrixBenchmarkResultTable.rows greaterEq rowLim) and
                         (MatrixBenchmarkResultTable.cols greaterEq colLim) and
                         (MatrixBenchmarkResultTable.nonzeros greaterEq nonzerosLim)
@@ -370,7 +346,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return SpmvBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmarkType,
+            benchmark = benchmark,
             datapoints = datapoints
         )
     }
@@ -378,7 +354,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     private fun fetchConversionBenchmarkResult(
         commit: Commit,
         device: Device,
-        benchmarkType: Benchmark,
+        benchmark: BenchmarkType,
         rowLim: Long,
         colLim: Long,
         nonzerosLim: Long,
@@ -388,7 +364,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             MatrixBenchmarkResultTable.select {
                 (MatrixBenchmarkResultTable.sha eq commit.sha) and
                         (MatrixBenchmarkResultTable.device eq device.name) and
-                        (MatrixBenchmarkResultTable.name eq benchmarkType.name) and
+                        (MatrixBenchmarkResultTable.name eq benchmark.toString()) and
                         (MatrixBenchmarkResultTable.rows greaterEq rowLim) and
                         (MatrixBenchmarkResultTable.cols greaterEq colLim) and
                         (MatrixBenchmarkResultTable.nonzeros greaterEq nonzerosLim)
@@ -416,18 +392,18 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return ConversionBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmarkType,
+            benchmark = benchmark,
             datapoints = datapoints
         )
     }
 
-    private fun fetchBlasBenchmarkResult(commit: Commit, device: Device, benchmark: Benchmark): BenchmarkResult {
+    private fun fetchBlasBenchmarkResult(commit: Commit, device: Device, benchmark: BenchmarkType): BenchmarkResult {
         val datapoints = mutableListOf<BlasDatapoint>()
         val benchmarks = transaction(db) {
             BlasBenchmarkResultTable.select {
                 (BlasBenchmarkResultTable.sha eq commit.sha) and
                         (BlasBenchmarkResultTable.device eq device.name) and
-                        (BlasBenchmarkResultTable.name eq benchmark.name)
+                        (BlasBenchmarkResultTable.name eq benchmark.toString())
             }.toList()
         }
 
@@ -464,7 +440,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     private fun fetchSolverResult(
         commit: Commit,
         device: Device,
-        benchmarkType: Benchmark,
+        benchmark: BenchmarkType,
         rowLim: Long,
         colLim: Long,
         nonzerosLim: Long,
@@ -474,7 +450,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             MatrixBenchmarkResultTable.select {
                 (MatrixBenchmarkResultTable.sha eq commit.sha) and
                         (MatrixBenchmarkResultTable.device eq device.name) and
-                        (MatrixBenchmarkResultTable.name eq benchmarkType.name) and
+                        (MatrixBenchmarkResultTable.name eq benchmark.toString()) and
                         (MatrixBenchmarkResultTable.rows greaterEq rowLim) and
                         (MatrixBenchmarkResultTable.cols greaterEq colLim) and
                         (MatrixBenchmarkResultTable.nonzeros greaterEq nonzerosLim)
@@ -526,19 +502,9 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return SolverBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmarkType,
+            benchmark = benchmark,
             datapoints = datapoints,
         )
-    }
-
-    override fun getBenchmarkTypeForName(benchmarkName: String): BenchmarkType {
-        val firstOccurrence = transaction(db) {
-            BenchmarkTypeTable.select { BenchmarkTypeTable.name eq benchmarkName }
-                .firstOrNull()?.get(BenchmarkTypeTable.format)
-                ?: throw Exception("This benchmark name does not exist in the database")
-        }
-
-        return BenchmarkType.valueOf(firstOccurrence)
     }
 }
 

@@ -6,6 +6,7 @@ import SOLVER_RESULT
 import SPMV_RESULT
 import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.junit.jupiter.api.BeforeEach
@@ -39,6 +40,9 @@ internal class ExposedHandlerTest {
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
+
+        println(result.toString())
+        println(returned.toString())
         assert(result.dirtyEquals(returned))
     }
 
@@ -58,9 +62,6 @@ internal class ExposedHandlerTest {
 
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
-
-        println(result.toString())
-        println(returned.toString())
         assert(result.dirtyEquals(returned))
     }
 
@@ -70,27 +71,6 @@ internal class ExposedHandlerTest {
 
         val devices = dbHandler.getAvailableDevices(SPMV_RESULT.commit, SPMV_RESULT.benchmark)
         assert(devices.first() == SPMV_RESULT.device)
-    }
-
-    @Test
-    fun `test list available benchmarks`() {
-        val results = listOf(SPMV_RESULT, BLAS_RESULT, CONVERSION_RESULT)
-
-        dbHandler.insertBenchmarkResults(results)
-
-        val benchmarks = dbHandler.getAvailableBenchmarks()
-
-        results.forEach { assert(benchmarks.contains(it.benchmark)) }
-    }
-
-    @Test
-    fun `test get benchmark format for benchmark name`() {
-        val results = listOf(SPMV_RESULT, BLAS_RESULT, CONVERSION_RESULT)
-
-        dbHandler.insertBenchmarkResults(results)
-
-        results.forEach { assert(it.benchmark.type == dbHandler.getBenchmarkTypeForName(it.benchmark.name)) }
-
     }
 
     @Test

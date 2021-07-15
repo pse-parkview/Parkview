@@ -10,7 +10,7 @@ private val device = Device("gamer")
 val SPMV_RESULT = SpmvBenchmarkResult(
     commit,
     device,
-    Benchmark("spmvBenchmark", BenchmarkType.Spmv),
+    BenchmarkType.Spmv,
     (1..5).map {
         val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
@@ -25,7 +25,7 @@ val SPMV_RESULT = SpmvBenchmarkResult(
 val SOLVER_RESULT = SolverBenchmarkResult(
     commit,
     device,
-    Benchmark("solverBenchmark", BenchmarkType.Solver),
+    BenchmarkType.Solver,
     (1..5).map {
         SolverDatapoint(
             it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
@@ -48,7 +48,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
 val CONVERSION_RESULT = ConversionBenchmarkResult(
     commit,
     device,
-    Benchmark("conversionBenchmark", BenchmarkType.Conversion),
+    BenchmarkType.Conversion,
     (1..5).map {
         ConversionDatapoint(
             it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
@@ -61,7 +61,7 @@ val CONVERSION_RESULT = ConversionBenchmarkResult(
 val BLAS_RESULT = BlasBenchmarkResult(
     commit,
     device,
-    Benchmark("blasBenchmark", BenchmarkType.Blas),
+    BenchmarkType.Blas,
     (1..5).map {
         BlasDatapoint(
             10, operations = listOf(

@@ -152,19 +152,17 @@ class JsonParser private constructor() {
     companion object {
         fun benchmarkResultsFromJson(
             sha: String,
-            benchmark: String,
             device: String,
             json: String,
             blas: Boolean = false
         ): List<BenchmarkResult> = if (!blas) {
-            matrixBenchmarkResultsFromJson(sha, benchmark, device, json)
+            matrixBenchmarkResultsFromJson(sha, device, json)
         } else {
-            blasBenchmarkResultFromJson(sha, benchmark, device, json)
+            blasBenchmarkResultFromJson(sha, device, json)
         }
 
         private fun matrixBenchmarkResultsFromJson(
             sha: String,
-            benchmark: String,
             deviceName: String,
             json: String
         ): List<BenchmarkResult> {
@@ -200,7 +198,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = spmvDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.Spmv),
+                    benchmark = BenchmarkType.Spmv,
                 )
             )
 
@@ -209,7 +207,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = conversionDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.Conversion),
+                    benchmark = BenchmarkType.Conversion,
                 )
             )
 
@@ -218,7 +216,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = solverDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.Solver),
+                    benchmark = BenchmarkType.Solver,
                 )
             )
 
@@ -227,7 +225,7 @@ class JsonParser private constructor() {
                     commit = commit,
                     datapoints = preconditionerDatapoints,
                     device = device,
-                    benchmark = Benchmark(benchmark, BenchmarkType.Preconditioner),
+                    benchmark = BenchmarkType.Preconditioner,
                 )
             )
 
@@ -236,7 +234,6 @@ class JsonParser private constructor() {
 
         private fun blasBenchmarkResultFromJson(
             sha: String,
-            benchmark: String,
             device: String,
             json: String
         ): List<BenchmarkResult> {
@@ -248,7 +245,7 @@ class JsonParser private constructor() {
                 BlasBenchmarkResult(
                     commit = Commit(sha, "", Date(), ""),
                     device = Device(device),
-                    benchmark = Benchmark(benchmark, BenchmarkType.Blas),
+                    benchmark = BenchmarkType.Blas,
                     datapoints = datapoints.map { it.toBlasDatapoint() },
                 )
             )
