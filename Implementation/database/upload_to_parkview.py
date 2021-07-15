@@ -21,21 +21,23 @@ for device_dir in os.listdir(args.data):
         lib_path = os.path.join(device_path, lib_dir, 'SuiteSparse')
 
         device_name = device_dir + '_' + lib_dir
-        
+        data = []
+
         for benchmark_name in os.listdir(lib_path):
             benchmark_path = os.path.join(lib_path, benchmark_name)
 
             for datapoint in os.listdir(benchmark_path):
                 datapoint_path = os.path.join(benchmark_path, datapoint)
-                params = {'sha': args.sha, 'device': device_name}
 
                 try:
                     with open(datapoint_path) as f:
-                        json_data = json.load(f)
-                        requests.post(url = PARKVIEW_ENDPOINT, json = json_data, params = params)
+                        data.append(*json.load(f))
                     print(f'{datapoint_path} is fine')
                 except KeyboardInterrupt:
                     exit()
                 except:
                     print(f'### ERROR: {datapoint_path} is fucked')
+
+        params = {'sha': args.sha, 'device': device_name}
+        requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
 

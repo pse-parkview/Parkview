@@ -1,12 +1,11 @@
-package com.parkview.parkview.database
+package com.parkview.parkview.database.exposed
 
 import BLAS_RESULT
 import CONVERSION_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
-import com.parkview.parkview.database.exposed.ExposedHandler
+import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.junit.jupiter.api.BeforeEach

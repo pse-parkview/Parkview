@@ -40,6 +40,7 @@ internal class JsonParserTest {
         // TODO actual assertion
     }
 
+
     @Test
     fun `test json deserialization for file containing spmv and conversion types`() {
         val path = "src/test/resources/test_single_conversion_spmv.json"
@@ -47,7 +48,6 @@ internal class JsonParserTest {
         val testJson = file.readText()
 
         val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
-        assert(benchmarkResults.size == 2)
         assert((benchmarkResults[0] is ConversionBenchmarkResult) xor (benchmarkResults[1] is ConversionBenchmarkResult))
         assert((benchmarkResults[0] is SpmvBenchmarkResult) xor (benchmarkResults[1] is SpmvBenchmarkResult))
     }

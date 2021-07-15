@@ -1,9 +1,13 @@
 package com.parkview.parkview.benchmark
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 import java.util.*
 
 private data class ProblemModel(
@@ -146,110 +150,106 @@ private data class BlasOperationModel(
     val repetitions: Long?,
 )
 
-
-// TODO: move this to better fitting class
-class JsonParser private constructor() {
-    companion object {
-        fun benchmarkResultsFromJson(
-            sha: String,
-            device: String,
-            json: String,
-            blas: Boolean = false
-        ): List<BenchmarkResult> = if (!blas) {
-            matrixBenchmarkResultsFromJson(sha, device, json)
-        } else {
-            blasBenchmarkResultFromJson(sha, device, json)
-        }
-
-        private fun matrixBenchmarkResultsFromJson(
-            sha: String,
-            deviceName: String,
-            json: String
-        ): List<BenchmarkResult> {
-            val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
-
-            val datapoints: List<MatrixDatapointModel> = Gson().fromJson(json, arrayType)
-
-            val spmvDatapoints: MutableList<SpmvDatapoint> = mutableListOf()
-            val conversionDatapoints: MutableList<ConversionDatapoint> = mutableListOf()
-            val solverDatapoints: MutableList<SolverDatapoint> = mutableListOf()
-            val preconditionerDatapoints: MutableList<PreconditionerDatapoint> = mutableListOf()
-
-            for (datapoint in datapoints) {
-                val spmvDatapoint = datapoint.toSpmvDatapoint()
-                if (spmvDatapoint != null) spmvDatapoints.add(spmvDatapoint)
-
-                val conversionDatapoint = datapoint.toConversionDatapoint()
-                if (conversionDatapoint != null) conversionDatapoints.add(conversionDatapoint)
-
-                val solverDatapoint = datapoint.toSolverDatapoint()
-                if (solverDatapoint != null) solverDatapoints.add(solverDatapoint)
-
-                val preconditionerDatapoint = datapoint.toPreconditionerDatapoint()
-                if (preconditionerDatapoint != null) preconditionerDatapoints.add(preconditionerDatapoint)
-            }
-
-            val results: MutableList<BenchmarkResult> = mutableListOf()
-            val commit = Commit(sha, "", Date(), "")
-            val device = Device(deviceName)
-
-            if (spmvDatapoints.isNotEmpty()) results.add(
-                SpmvBenchmarkResult(
-                    commit = commit,
-                    datapoints = spmvDatapoints,
-                    device = device,
-                    benchmark = BenchmarkType.Spmv,
-                )
-            )
-
-            if (conversionDatapoints.isNotEmpty()) results.add(
-                ConversionBenchmarkResult(
-                    commit = commit,
-                    datapoints = conversionDatapoints,
-                    device = device,
-                    benchmark = BenchmarkType.Conversion,
-                )
-            )
-
-            if (solverDatapoints.isNotEmpty()) results.add(
-                SolverBenchmarkResult(
-                    commit = commit,
-                    datapoints = solverDatapoints,
-                    device = device,
-                    benchmark = BenchmarkType.Solver,
-                )
-            )
-
-            if (preconditionerDatapoints.isNotEmpty()) results.add(
-                PreconditionerBenchmarkResult(
-                    commit = commit,
-                    datapoints = preconditionerDatapoints,
-                    device = device,
-                    benchmark = BenchmarkType.Preconditioner,
-                )
-            )
-
-            return results
-        }
-
-        private fun blasBenchmarkResultFromJson(
-            sha: String,
-            device: String,
-            json: String
-        ): List<BenchmarkResult> {
-            val arrayType = object : TypeToken<List<BlasDatapointModel>>() {}.type
-
-            val datapoints: List<BlasDatapointModel> = Gson().fromJson(json, arrayType)
-
-            return listOf(
-                BlasBenchmarkResult(
-                    commit = Commit(sha, "", Date(), ""),
-                    device = Device(device),
-                    benchmark = BenchmarkType.Blas,
-                    datapoints = datapoints.map { it.toBlasDatapoint() },
-                )
-            )
-        }
+object JsonParser {
+    fun benchmarkResultsFromJson(
+        sha: String,
+        device: String,
+        json: String,
+        blas: Boolean = false
+    ): List<BenchmarkResult> = if (!blas) {
+        matrixBenchmarkResultsFromJson(sha, device, json)
+    } else {
+        blasBenchmarkResultFromJson(sha, device, json)
     }
 
+    private fun matrixBenchmarkResultsFromJson(
+        sha: String,
+        deviceName: String,
+        json: String
+    ): List<BenchmarkResult> {
+        val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
+
+        val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
+        val datapoints: List<MatrixDatapointModel> = gson.fromJson(json, arrayType)
+
+        val spmvDatapoints: MutableList<SpmvDatapoint> = mutableListOf()
+        val conversionDatapoints: MutableList<ConversionDatapoint> = mutableListOf()
+        val solverDatapoints: MutableList<SolverDatapoint> = mutableListOf()
+        val preconditionerDatapoints: MutableList<PreconditionerDatapoint> = mutableListOf()
+
+        for (datapoint in datapoints) {
+            val spmvDatapoint = datapoint.toSpmvDatapoint()
+            if (spmvDatapoint != null) spmvDatapoints.add(spmvDatapoint)
+
+            val conversionDatapoint = datapoint.toConversionDatapoint()
+            if (conversionDatapoint != null) conversionDatapoints.add(conversionDatapoint)
+
+            val solverDatapoint = datapoint.toSolverDatapoint()
+            if (solverDatapoint != null) solverDatapoints.add(solverDatapoint)
+
+            val preconditionerDatapoint = datapoint.toPreconditionerDatapoint()
+            if (preconditionerDatapoint != null) preconditionerDatapoints.add(preconditionerDatapoint)
+        }
+
+        val results: MutableList<BenchmarkResult> = mutableListOf()
+        val commit = Commit(sha, "", Date(), "")
+        val device = Device(deviceName)
+
+        if (spmvDatapoints.isNotEmpty()) results.add(
+            SpmvBenchmarkResult(
+                commit = commit,
+                datapoints = spmvDatapoints,
+                device = device,
+                benchmark = BenchmarkType.Spmv,
+            )
+        )
+
+        if (conversionDatapoints.isNotEmpty()) results.add(
+            ConversionBenchmarkResult(
+                commit = commit,
+                datapoints = conversionDatapoints,
+                device = device,
+                benchmark = BenchmarkType.Conversion,
+            )
+        )
+
+        if (solverDatapoints.isNotEmpty()) results.add(
+            SolverBenchmarkResult(
+                commit = commit,
+                datapoints = solverDatapoints,
+                device = device,
+                benchmark = BenchmarkType.Solver,
+            )
+        )
+
+        if (preconditionerDatapoints.isNotEmpty()) results.add(
+            PreconditionerBenchmarkResult(
+                commit = commit,
+                datapoints = preconditionerDatapoints,
+                device = device,
+                benchmark = BenchmarkType.Preconditioner,
+            )
+        )
+
+        return results
+    }
+
+    private fun blasBenchmarkResultFromJson(
+        sha: String,
+        device: String,
+        json: String
+    ): List<BenchmarkResult> {
+        val arrayType = object : TypeToken<List<BlasDatapointModel>>() {}.type
+
+        val datapoints: List<BlasDatapointModel> = Gson().fromJson(json, arrayType)
+
+        return listOf(
+            BlasBenchmarkResult(
+                commit = Commit(sha, "", Date(), ""),
+                device = Device(device),
+                benchmark = BenchmarkType.Blas,
+                datapoints = datapoints.map { it.toBlasDatapoint() },
+            )
+        )
+    }
 }

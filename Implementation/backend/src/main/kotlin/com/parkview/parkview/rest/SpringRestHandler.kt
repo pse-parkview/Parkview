@@ -3,7 +3,9 @@ package com.parkview.parkview.rest
 import com.google.gson.Gson
 import com.parkview.parkview.benchmark.JsonParser
 import com.parkview.parkview.database.DatabaseHandler
+import com.parkview.parkview.database.exposed.ConnectionPoolSource
 import com.parkview.parkview.database.exposed.ExposedHandler
+import com.parkview.parkview.database.exposed.ExposedJsonHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
 import org.springframework.web.bind.annotation.*
@@ -19,7 +21,7 @@ class SpringRestHandler : RestHandler {
 //    private val url = "jdbc:postgresql://localhost:5432/parkview"
 //    private val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
 
-    private val databaseHandler: DatabaseHandler = ExposedHandler.withConnectionPool()
+    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(ConnectionPoolSource.ds)
 
     @PostMapping("/post")
     override fun handlePost(
