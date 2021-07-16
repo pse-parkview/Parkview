@@ -9,8 +9,6 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -57,16 +55,6 @@ private object BlasDatapointTable : Table() {
 class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
     private var db: Database = Database.connect(datasource = source)
     private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
-
-    constructor(jdbcUrl: String, username: String, password: String) : this(
-        HikariDataSource(
-            HikariConfig().apply {
-                this.jdbcUrl = jdbcUrl
-                this.username = username
-                this.password = password
-            }
-        )
-    )
 
     init {
         transaction(db) {

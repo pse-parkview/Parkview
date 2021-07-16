@@ -1,11 +1,15 @@
 package com.parkview.parkview.rest
 
 import com.google.gson.Gson
+import com.parkview.parkview.AppConfig
 import com.parkview.parkview.benchmark.JsonParser
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.exposed.ExposedJsonHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -13,13 +17,26 @@ import java.util.*
  * Class that implements a RestHandler using the Spring framework
  */
 @RestController
-class SpringRestHandler : RestHandler {
-    private val repHandler = CachingRepositoryHandler(GitApiHandler("ginkgo", "ginkgo-project"))
+class SpringRestHandler(
+    private val appConfig: AppConfig
+) : RestHandler {
+    private val repHandler = CachingRepositoryHandler(
+        GitApiHandler(appConfig.gitApi.repoName, appConfig.gitApi.owner),
+        maxCached = appConfig.gitApi.maxCached,
+        branchLifetime = appConfig.gitApi.branchLifetime,
+        branchListLifetime = appConfig.gitApi.branchListLifetime,
+    )
 
-    private val url = "jdbc:postgresql://localhost:5432/parkview"
+    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(
+        HikariDataSource(HikariConfig()
+            .apply {
+                jdbcUrl = appConfig.datasource.jdbcUrl
+                username = appConfig.datasource.username
+                password = appConfig.datasource.password
+            }
+        )
+    )
 
-    //    private val url = "jdbc:postgresql://parkview-postgres:5432/parkview"
-    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(url, "parkview", "parkview")
 
     @PostMapping("/post")
     override fun handlePost(

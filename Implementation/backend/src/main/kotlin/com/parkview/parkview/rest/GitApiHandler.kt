@@ -29,7 +29,7 @@ private data class BranchInfoModel(
     val name: String,
 )
 
-class GitApiException(message: String): Exception(message)
+class GitApiException(message: String) : Exception(message)
 
 /**
  * Implements RepositoryHandler by using the GitHub Api

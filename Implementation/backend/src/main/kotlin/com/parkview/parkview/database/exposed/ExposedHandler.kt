@@ -6,8 +6,6 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -146,16 +144,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     // TODO: use spring stuff to get database object
     // TODO: enable batch insert for database controller
     private var db: Database = Database.connect(datasource = source)
-
-    constructor(jdbcUrl: String, username: String, password: String) : this(
-        HikariDataSource(
-            HikariConfig().apply {
-                this.jdbcUrl = jdbcUrl
-                this.username = username
-                this.password = password
-            }
-        )
-    )
 
     init {
         transaction(db) {

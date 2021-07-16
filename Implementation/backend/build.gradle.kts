@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.5.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	kotlin("kapt") version "1.5.21"
 	kotlin("jvm") version "1.5.10"
 	kotlin("plugin.spring") version "1.5.10"
 }
@@ -31,8 +32,9 @@ dependencies {
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.zonky.test:embedded-postgres:1.2.10")
-
 	testImplementation(kotlin("test"))
+
+	kapt("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<KotlinCompile> {

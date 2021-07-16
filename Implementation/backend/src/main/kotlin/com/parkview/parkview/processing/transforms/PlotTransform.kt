@@ -9,10 +9,12 @@ interface PlotTransform {
      * number of allowed inputs as Pair(min, max)
      */
     val numAllowedInputs: Pair<Int, Int>
+
     /**
      * list of representations possible
      */
     val plottableAs: List<PlotType>
+
     /**
      * plot name
      */

@@ -8,6 +8,8 @@ FROM openjdk:11-jre-slim
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/ /app/
+COPY --from=build /home/gradle/src/src/main/resources/application.properties /app/
 
-ENTRYPOINT ["java","-jar","/app/parkview-0.0.1-SNAPSHOT.jar"]
+
+ENTRYPOINT ["java","-jar","/app/parkview-0.0.1-SNAPSHOT.jar", "--parkview.datasource.jdbc-url=jdbc:postgresql://parkview-postgres:5432/parkview"]
 
