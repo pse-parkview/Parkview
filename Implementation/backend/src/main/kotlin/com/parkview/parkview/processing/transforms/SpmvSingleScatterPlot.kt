@@ -11,6 +11,10 @@ enum class SpmvSingleScatterPlotYAxis {
 class SpmvSingleScatterPlot(
     private val yAxis: SpmvSingleScatterPlotYAxis,
 ) : SpmvPlotTransform {
+    override val numAllowedInputs = Pair(1, 1)
+    override val plottableAs = listOf(PlotType.Scatter)
+    override val name = "spmv$yAxis"
+
     override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 1) throw InvalidPlotTransformException(
             "SpmvSingleScatterPlot can only be used with a single BenchmarkResult"
@@ -35,8 +39,4 @@ class SpmvSingleScatterPlot(
 
         return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value) })
     }
-
-    override val numAllowedInputs = Pair(1, 1);
-    override val plottableAs = listOf(PlotType.Scatter)
-    override val name = "spmvSingleScatter"
 }

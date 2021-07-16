@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
+import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
@@ -47,9 +48,13 @@ private object BlasDatapointTable : Table() {
     override val primaryKey = PrimaryKey(BenchmarkResultTable.id, name = "PK_BlasDatapoint_Id")
 }
 
+/**
+ * This class handles database access using the Exposed library. It stores components like [Solver], [Preconditioner]
+ * etc. as a json dump.
+ *
+ * @param source data source for database access
+ */
 class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
-    // TODO: use spring stuff to get database object
-    // TODO: enable batch insert for database controller
     private var db: Database = Database.connect(datasource = source)
     private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
 
@@ -129,6 +134,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         }
     }
 
+    // TODO: still about 200 lines too long, simplify this somehow
     override fun fetchBenchmarkResult(
         commit: Commit,
         device: Device,
@@ -142,8 +148,10 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 (BenchmarkResultTable.device eq device.name) and
                         (BenchmarkResultTable.name eq benchmark.toString()) and
                         (BenchmarkResultTable.sha eq commit.sha)
-            }.first()[BenchmarkResultTable.id]
-        }
+            }.firstOrNull()?.get(BenchmarkResultTable.id)
+        } ?: throw MissingBenchmarkResultException(commit, device, benchmark)
+
+
 
         return when (benchmark) {
             BenchmarkType.Spmv -> fetchSpmvBenchmarkResult(

@@ -8,6 +8,7 @@ import java.util.*
  * @param sha commit sha
  * @param message commit message
  * @param date commit date
+ * @param author commit author
  */
 data class Commit(
     val sha: String,

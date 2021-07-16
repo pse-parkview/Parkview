@@ -14,5 +14,10 @@ interface RepositoryHandler {
      */
     fun fetchGitHistory(branch: String, page: Int): List<Commit>
 
+    /**
+     * Returns a list of all available branches
+     *
+     * @return list of branch names
+     */
     fun getAvailableBranches(): List<String>
 }

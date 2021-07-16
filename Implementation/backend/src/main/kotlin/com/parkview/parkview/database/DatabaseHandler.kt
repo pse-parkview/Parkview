@@ -39,7 +39,24 @@ interface DatabaseHandler {
         nonzerosLim: Long = 0
     ): BenchmarkResult
 
+    /**
+     * Returns true if there is at least one datapoint available
+     *
+     * @param commit chosen commit
+     * @param device type of device
+     * @param benchmark type of benchmark
+     *
+     * @return true if at least one commit is available
+     */
     fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean
 
+    /**
+     * Lists all available devices with data for a specific commit and benchmark
+     *
+     * @param commit chosen commit
+     * @param benchmark type of benchmark
+     *
+     * @return list of devices
+     */
     fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device>
 }

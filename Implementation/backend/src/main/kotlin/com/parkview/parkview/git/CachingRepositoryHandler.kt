@@ -9,11 +9,19 @@ private data class CachedBranch(
     val page: Int,
 )
 
+/**
+ * Decorator for [RepositoryHandler], enables it to cache previous requests
+ *
+ * @param handler [RepositoryHandler] that gets decorated
+ * @param maxCached maximum number of cached branches
+ * @param branchLifetime lifetime of branch before it has to be refetched in minutes
+ * @param branchListLifetime lifetime of branch list before it has to be refetched in minutes
+ */
 class CachingRepositoryHandler(
     private val handler: RepositoryHandler,
     private val maxCached: Int = 10,
-    private val minutesSinceLastGitHistoryFetch: Int = 5,
-    private val minutesSinceLastAvailableBranchesFetch: Int = 5,
+    private val branchLifetime: Int = 5,
+    private val branchListLifetime: Int = 5,
 ) : RepositoryHandler {
     private val branchCache = mutableListOf<CachedBranch>()
     private var availableBranches = handler.getAvailableBranches()
@@ -38,7 +46,7 @@ class CachingRepositoryHandler(
         }
 
         // too old
-        if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > minutesSinceLastGitHistoryFetch) {
+        if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
             val newBranch = handler.fetchGitHistory(branch, page)
             branchCache.remove(wantedBranch)
             addToCache(
@@ -59,7 +67,7 @@ class CachingRepositoryHandler(
     }
 
     override fun getAvailableBranches(): List<String> {
-        if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > minutesSinceLastAvailableBranchesFetch) {
+        if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > branchListLifetime) {
             availableBranches = handler.getAvailableBranches()
             availableBranchesFetchDate = Date()
         }

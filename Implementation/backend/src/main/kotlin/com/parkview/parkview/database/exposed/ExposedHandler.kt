@@ -141,6 +141,7 @@ private object IterationTimestampsTable : Table() {
 /**
  * [DatabaseHandler] using the Exposed library
  */
+@Deprecated("Terrible implementation, kept in case ExposedJsonHandler has it's own problems.")
 class ExposedHandler(source: DataSource) : DatabaseHandler {
     // TODO: use spring stuff to get database object
     // TODO: enable batch insert for database controller

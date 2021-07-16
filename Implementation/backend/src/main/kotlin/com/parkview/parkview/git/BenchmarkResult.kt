@@ -1,6 +1,14 @@
 package com.parkview.parkview.git
 
+/**
+ * Single datapoint for a benchmark result
+ */
 interface Datapoint {
+    /**
+     * Serializes components like Solver, Preconditioner etc
+     *
+     * @return serialized components in json format
+     */
     fun serializeComponentsToJson(): String
 }
 

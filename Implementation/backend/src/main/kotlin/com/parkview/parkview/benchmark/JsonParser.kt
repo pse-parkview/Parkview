@@ -150,7 +150,20 @@ private data class BlasOperationModel(
     val repetitions: Long?,
 )
 
+/**
+ * Singleton that takes care of parsing the json representation used in ginkgo-data to [BenchmarkResult] objects
+ */
 object JsonParser {
+    /**
+     * Converts a json list of objects to a list of benchmark results
+     *
+     * @param sha sha for commit these benchmarks have been run on
+     * @param device device these benchmarks have been run on
+     * @param json json as a string
+     * @param blas flag whether or not the benchmark is in blas formatthe
+     *
+     * @return list of [BenchmarkResult]
+     */
     fun benchmarkResultsFromJson(
         sha: String,
         device: String,

@@ -29,6 +29,7 @@ private data class BranchInfoModel(
     val name: String,
 )
 
+class GitApiException(message: String): Exception(message)
 
 /**
  * Implements RepositoryHandler by using the GitHub Api
@@ -39,11 +40,11 @@ class GitApiHandler(
 ) : RepositoryHandler {
     override fun fetchGitHistory(branch: String, page: Int): List<Commit> {
         val uri =
-            "https://api.github.com/repos/$owner/$repoName/commits?sha=$branch&page=$page" // TODO: better use json
+            "https://api.github.com/repos/$owner/$repoName/commits?sha=$branch&page=$page"
 
         val restTemplate = RestTemplate()
         val result = restTemplate.getForObject(uri, Array<CommitModel>::class.java)?.toList()
-            ?: throw Exception() // TODO: replace with fitting exception
+            ?: throw GitApiException("Error while parsing git history response")
 
         val commits = mutableListOf<Commit>()
 
@@ -60,11 +61,11 @@ class GitApiHandler(
     }
 
     override fun getAvailableBranches(): List<String> {
-        val uri = "https://api.github.com/repos/$owner/$repoName/branches" // TODO: better use json
+        val uri = "https://api.github.com/repos/$owner/$repoName/branches"
 
         val restTemplate = RestTemplate()
         val result = restTemplate.getForObject(uri, Array<BranchInfoModel>::class.java)?.toList()
-            ?: throw Exception() // TODO: replace with fitting exception
+            ?: throw GitApiException("Error while parsing branch list response")
 
         return result.map { branch -> branch.name }
     }

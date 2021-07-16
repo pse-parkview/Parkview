@@ -29,16 +29,16 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     commit,
     device,
     BenchmarkType.Solver,
-    (1..5).map {
+    (1..5).map { index ->
         SolverDatapoint(
-            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, listOf(
                 Solver(
                     "",
                     generateComponents = listOf(Component("", 1.0)),
                     generateTotalTime = 1.0,
                     recurrentResiduals = (1..100).map { it.toDouble() },
                     applyComponents = listOf(Component("", 1.0)),
-                    applyIterations = it.toLong() * 10,
+                    applyIterations = index.toLong() * 10,
                     applyTotalTime = 1.0,
                     completed = true
                 )

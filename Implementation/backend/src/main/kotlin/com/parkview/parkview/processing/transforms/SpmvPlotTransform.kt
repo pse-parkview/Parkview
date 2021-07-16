@@ -5,7 +5,7 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlottableData
 
 /**
- * Interface for transforms using multiple [SpmvBenchmarkResult].
+ * Interface for transforms using [SpmvBenchmarkResult].
  */
 interface SpmvPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>): PlottableData {
@@ -15,10 +15,10 @@ interface SpmvPlotTransform : PlotTransform {
     }
 
     /**
-     * Transforms the benchmark data into a JSON containing the prepared values for plotting
+     * Transforms the benchmark data to data that is plottable
      *
-     * @param benchmarkResults list of benchmark results
-     * @return a String containing the transformed data in json format
+     * @param benchmarkResults list of spmv benchmark results
+     * @return [PlottableData] object containing the data
      */
     fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData
 }
