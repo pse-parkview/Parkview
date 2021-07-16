@@ -22,13 +22,12 @@ for device_dir in os.listdir(args.data):
         device_name = device_dir + '_' + lib_dir
 
         if os.path.isfile(blas_path):
-            print(blas_path)
             try:
                 with open(blas_path) as f:
                     blas_data = json.load(f)
-                print(f'{blas_path} is fine')
                 blas_params = {'sha': args.sha, 'device': device_name, 'blas': True}
                 requests.post(url = PARKVIEW_ENDPOINT, json = blas_data, params = blas_params)
+                print(f'{blas_path} is fine')
             except KeyboardInterrupt:
                 exit()
             except:
@@ -48,12 +47,12 @@ for device_dir in os.listdir(args.data):
                 try:
                     with open(datapoint_path) as f:
                         data.append(*json.load(f))
-                    print(f'{datapoint_path} is fine')
                 except KeyboardInterrupt:
                     exit()
                 except:
                     print(f'### ERROR: {datapoint_path} is fucked')
 
+        print(f'{lib_path} is fine')
         params = {'sha': args.sha, 'device': device_name}
         requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
 
