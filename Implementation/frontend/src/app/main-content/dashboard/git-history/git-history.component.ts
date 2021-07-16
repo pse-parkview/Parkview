@@ -9,8 +9,13 @@ import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 })
 export class GitHistoryComponent implements OnInit {
 
+  // template instance variables
   currentlySelectedBranch: string = '';
   branchNames: string[] = [];
+  currentlySelectedBenchmarkName: string = '';
+  benchmarkNames: string[] = [];
+  hideUnusableCommits: boolean = false;
+
 
   commits: Commit[] = [];
   selectedCommits: Commit[] = [];
@@ -19,20 +24,35 @@ export class GitHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataService.getBenchmarks().subscribe((receivedBenchmarkNames: string[]) => {
+      this.benchmarkNames = receivedBenchmarkNames;
+      this.currentlySelectedBenchmarkName = this.benchmarkNames.length > 0 ? this.benchmarkNames[0] : '';
+      this.updateCommitHistory();
+    })
     this.dataService.getBranchNames().subscribe((receivedBranchNames: string[]) => {
       this.branchNames = receivedBranchNames;
-      this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : 'No branches exist?';
-      this.selectBranch(this.currentlySelectedBranch);
+      this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : '';
+      this.updateCommitHistory();
     });
+  }
 
-    this.dataService.getBenchmarks().subscribe((d => d.forEach(o => console.log(o))))
+  updateCommitHistory(): void {
+    if (this.currentlySelectedBranch.trim() === '' || this.currentlySelectedBenchmarkName.trim() === '') {
+      return;
+    }
+    this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
+      this.commits = commits;
+    });
   }
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
-    this.dataService.getCommitHistory(this.currentlySelectedBranch, 'Spmv').subscribe((commits: Commit[]) => {
-      this.commits = commits;
-    });
+    this.updateCommitHistory();
+  }
+
+  selectBenchmarkName(benchmarkNameChoice: string): void {
+    this.currentlySelectedBenchmarkName = benchmarkNameChoice;
+    this.updateCommitHistory();
   }
 
   selectCommit(commit: Commit) {
@@ -43,6 +63,4 @@ export class GitHistoryComponent implements OnInit {
   selectDevice(commit: string, device: string, checked: boolean) {
     alert(`${checked ? 'Selected' : 'Unselected'} device ${device} of commit "${commit}"`)
   }
-
-
 }

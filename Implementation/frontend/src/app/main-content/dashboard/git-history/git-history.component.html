@@ -2,28 +2,43 @@
   <mat-card-title>
     Git History
   </mat-card-title>
-  <mat-form-field>
-    <mat-label>Selected Branch</mat-label>
-    <mat-select [(value)]="currentlySelectedBranch"
-                (selectionChange)="selectBranch(currentlySelectedBranch)">
-      <mat-option *ngFor="let branchname of branchNames"
-                  [value]="branchname"
-                  (select)="selectBranch(branchname)">
-        {{branchname}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="selection">
+    <mat-form-field>
+      <mat-label>Selected Branch</mat-label>
+      <mat-select [(value)]="currentlySelectedBranch"
+                  (selectionChange)="selectBranch(currentlySelectedBranch)">
+        <mat-option *ngFor="let branchname of branchNames"
+                    [value]="branchname">
+          {{branchname}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="divider"></div>
+    <mat-form-field>
+      <mat-label>Selected Benchmark</mat-label>
+      <mat-select [(value)]="currentlySelectedBenchmarkName"
+                  (selectionChange)="selectBenchmarkName(currentlySelectedBenchmarkName)">
+        <mat-option *ngFor="let benchmarkName of benchmarkNames"
+                    [value]="benchmarkName">
+          {{benchmarkName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="divider"></div>
+    <mat-checkbox [checked]="hideUnusableCommits"
+                  (change)="this.hideUnusableCommits = !this.hideUnusableCommits">
+      Hide unusable commits
+    </mat-checkbox>
+  </div>
 </mat-card>
-<mat-expansion-panel hideToggle *ngFor="let commit of commits" [disabled]="commit.availableDevices.length == 0">
-  <mat-expansion-panel-header>
-    <mat-panel-title
-      [ngClass]="{'benchmark' : commit.availableDevices.length > 0, 'noBenchmark' : commit.availableDevices.length > 0}">
-      <span class="date">{{commit.date}} </span>
-      <span class="author">{{commit.author}} </span>
-    </mat-panel-title>
-    <mat-panel-description>
-      <p class="message-preview">{{commit.message}}</p>
-    </mat-panel-description>
+<mat-expansion-panel hideToggle
+                     *ngFor="let commit of commits"
+                     [disabled]="commit.availableDevices.length == 0"
+                     [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
+  <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0}">
+    <span class="date">{{commit.date}} </span>
+    <span class="author">{{commit.author}} </span>
+    <span class="message-preview">{{commit.message.length > 50 ? commit.message.substr(0, 50) + '…' : commit.message}}</span>
   </mat-expansion-panel-header>
   <section class="message">{{commit.message}}</section>
   <section class="devices">

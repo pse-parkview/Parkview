@@ -13,6 +13,18 @@ mat-expansion-panel span {
   margin: 0 auto;
 }
 
+.selection {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.divider {
+  margin-right: 1vh;
+}
+
 .benchmark .date {
   color: var(--gb-dark-blue);
 }
@@ -23,6 +35,31 @@ mat-expansion-panel span {
 
 .benchmark {
   color: var(--gb-green);
+}
+
+.date {
+  flex: 1;
+  justify-content: left;
+}
+
+.author {
+  flex: 1;
+  justify-content: left;
+}
+
+.message-preview {
+  flex: 2;
+  justify-content: left;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+}
+
+.hidden {
+  display: none;
 }
 
 .message {
