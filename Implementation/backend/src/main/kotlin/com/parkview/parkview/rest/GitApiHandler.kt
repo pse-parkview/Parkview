@@ -1,6 +1,7 @@
 package com.parkview.parkview.rest
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
 import org.springframework.web.client.RestTemplate
@@ -38,7 +39,7 @@ class GitApiHandler(
     private val repoName: String,
     private val owner: String,
 ) : RepositoryHandler {
-    override fun fetchGitHistory(branch: String, page: Int): List<Commit> {
+    override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
         val uri =
             "https://api.github.com/repos/$owner/$repoName/commits?sha=$branch&page=$page"
 

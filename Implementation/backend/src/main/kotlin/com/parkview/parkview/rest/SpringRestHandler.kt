@@ -3,13 +3,13 @@ package com.parkview.parkview.rest
 import com.google.gson.Gson
 import com.parkview.parkview.AppConfig
 import com.parkview.parkview.benchmark.JsonParser
+import com.parkview.parkview.database.AnnotatingRepositoryHandler
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.exposed.ExposedJsonHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -20,13 +20,6 @@ import java.util.*
 class SpringRestHandler(
     private val appConfig: AppConfig
 ) : RestHandler {
-    private val repHandler = CachingRepositoryHandler(
-        GitApiHandler(appConfig.gitApi.repoName, appConfig.gitApi.owner),
-        maxCached = appConfig.gitApi.maxCached,
-        branchLifetime = appConfig.gitApi.branchLifetime,
-        branchListLifetime = appConfig.gitApi.branchListLifetime,
-    )
-
     private val databaseHandler: DatabaseHandler = ExposedJsonHandler(
         HikariDataSource(HikariConfig()
             .apply {
@@ -35,6 +28,16 @@ class SpringRestHandler(
                 password = appConfig.datasource.password
             }
         )
+    )
+
+    private val repHandler = AnnotatingRepositoryHandler(
+        CachingRepositoryHandler(
+            GitApiHandler(appConfig.gitApi.repoName, appConfig.gitApi.owner),
+            maxCached = appConfig.gitApi.maxCached,
+            branchLifetime = appConfig.gitApi.branchLifetime,
+            branchListLifetime = appConfig.gitApi.branchListLifetime,
+        ),
+        databaseHandler
     )
 
 
@@ -56,27 +59,7 @@ class SpringRestHandler(
         @RequestParam page: Int,
         @RequestParam benchmark: String,
     ): String {
-
-        val commits = repHandler.fetchGitHistory(branch, page)
-        val benchmarkInfo = BenchmarkType.valueOf(benchmark)
-
-        for (commit in commits) {
-            val devices = databaseHandler.getAvailableDevices(
-                commit,
-                benchmark = benchmarkInfo,
-            )
-            if (commit.device.isEmpty()) {
-                for (device in devices) {
-                    if (databaseHandler.hasDataAvailable(
-                            commit,
-                            device,
-                            benchmarkInfo,
-                        )
-                    ) commit.addDevice(device)
-                }
-            }
-        }
-
+        val commits = repHandler.fetchGitHistory(branch, page, BenchmarkType.valueOf(benchmark))
         return Gson().toJson(commits)
     }
 

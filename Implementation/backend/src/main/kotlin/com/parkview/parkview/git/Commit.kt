@@ -17,10 +17,10 @@ data class Commit(
     val author: String,
 ) {
     private val availableDevices: MutableList<Device> = mutableListOf()
-    val device: List<Device> get() = availableDevices.toList()
+    val devices: List<Device> get() = availableDevices.toList()
 
     fun addDevice(device: Device) {
-        availableDevices.add(device)
+        if (!availableDevices.contains(device)) availableDevices.add(device)
     }
 
 }

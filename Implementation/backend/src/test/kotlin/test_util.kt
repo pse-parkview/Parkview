@@ -7,11 +7,12 @@ import java.util.*
 
 fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
 
-private val commit = Commit("sha", "", Date(), "")
+val COMMIT_A = Commit("sha", "", Date(), "")
+val COMMIT_B = Commit("ash", "", Date(), "")
 private val device = Device("gamer")
 
 val SPMV_RESULT = SpmvBenchmarkResult(
-    commit,
+    COMMIT_A,
     device,
     BenchmarkType.Spmv,
     (1..5).map {
@@ -26,7 +27,7 @@ val SPMV_RESULT = SpmvBenchmarkResult(
 )
 
 val SOLVER_RESULT = SolverBenchmarkResult(
-    commit,
+    COMMIT_A,
     device,
     BenchmarkType.Solver,
     (1..5).map { index ->
@@ -49,7 +50,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
 
 
 val CONVERSION_RESULT = ConversionBenchmarkResult(
-    commit,
+    COMMIT_A,
     device,
     BenchmarkType.Conversion,
     (1..5).map {
@@ -62,7 +63,7 @@ val CONVERSION_RESULT = ConversionBenchmarkResult(
 )
 
 val BLAS_RESULT = BlasBenchmarkResult(
-    commit,
+    COMMIT_A,
     device,
     BenchmarkType.Blas,
     (1..5).map {
@@ -75,7 +76,7 @@ val BLAS_RESULT = BlasBenchmarkResult(
 )
 
 val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
-    commit,
+    COMMIT_A,
     device,
     BenchmarkType.Preconditioner,
     (1..5).map {
