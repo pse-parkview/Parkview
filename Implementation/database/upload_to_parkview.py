@@ -18,11 +18,27 @@ for device_dir in os.listdir(args.data):
         continue
 
     for lib_dir in os.listdir(device_path):
+        blas_path = os.path.join(device_path, lib_dir, 'blas.json')
+        device_name = device_dir + '_' + lib_dir
+
+        if os.path.isfile(blas_path):
+            print(blas_path)
+            try:
+                with open(blas_path) as f:
+                    blas_data = json.load(f)
+                print(f'{blas_path} is fine')
+                blas_params = {'sha': args.sha, 'device': device_name, 'blas': True}
+                requests.post(url = PARKVIEW_ENDPOINT, json = blas_data, params = blas_params)
+            except KeyboardInterrupt:
+                exit()
+            except:
+                print(f'### ERROR: {blas_path} is fucked')
+
         lib_path = os.path.join(device_path, lib_dir, 'SuiteSparse')
 
-        device_name = device_dir + '_' + lib_dir
         data = []
 
+    
         for benchmark_name in os.listdir(lib_path):
             benchmark_path = os.path.join(lib_path, benchmark_name)
 
