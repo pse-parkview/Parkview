@@ -71,7 +71,6 @@ class SpringRestHandler(
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
     ): String {
-        // dummy implementation
         val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
             databaseHandler.fetchBenchmarkResult(
                 Commit(sha, "", Date(), ""),

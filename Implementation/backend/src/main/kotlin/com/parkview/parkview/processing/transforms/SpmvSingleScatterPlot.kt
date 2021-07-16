@@ -30,7 +30,7 @@ class SpmvSingleScatterPlot(
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.nonzeros.toDouble(),
                     y = when (yAxis) {
-                        SpmvSingleScatterPlotYAxis.Bandwidth -> (format.storage + (datapoint.rows + datapoint.columns) / format.time)
+                        SpmvSingleScatterPlotYAxis.Bandwidth -> format.storage + (datapoint.rows + datapoint.columns) / format.time
                         SpmvSingleScatterPlotYAxis.Time -> format.time
                     },
                 )

@@ -20,8 +20,15 @@ object AvailablePlots {
         "spmvSpeedup" to SpmvSpeedupPlot(),
     )
     private val blasPlots: Map<String, BlasPlotTransform> = mapOf()
+
     private val preconditionerPlots: Map<String, PreconditionerPlotTransform> = mapOf()
-    private val conversionPlots: Map<String, ConversionPlotTransform> = mapOf()
+
+    private val conversionPlots: Map<String, ConversionPlotTransform> = mapOf(
+        "conversionTime" to ConversionSingleScatterPlot(ConversionSingleScatterPlotYAxis.Time),
+        "conversionBandwidth" to ConversionSingleScatterPlot(ConversionSingleScatterPlotYAxis.Bandwidth),
+        "ConversionSpeedup" to ConversionSpeedupPlot(),
+    )
+
     private val solverPlots: Map<String, SolverPlotTransform> = mapOf()
 
     /**

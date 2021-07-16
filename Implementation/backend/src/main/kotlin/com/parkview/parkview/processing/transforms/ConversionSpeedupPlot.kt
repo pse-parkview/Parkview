@@ -1,17 +1,16 @@
 package com.parkview.parkview.processing.transforms
 
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.processing.*
 
-
-class SpmvSpeedupPlot : SpmvPlotTransform {
+class ConversionSpeedupPlot : ConversionPlotTransform {
     override val numAllowedInputs = Pair(2, 2)
     override val plottableAs = listOf(PlotType.Line)
-    override val name = "spmvSpeedup"
+    override val name = "conversionSpeedup"
 
-    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData {
+    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>): PlottableData {
         if (benchmarkResults.size != 2) throw InvalidPlotTransformException(
-            "SpmvSpeedupPlot can only be used with two SpmvBenchmarkResult"
+            "ConversionSpeedupPlot can only be used with two ConversionBenchmarkResult"
         )
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
@@ -22,13 +21,13 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find { it.nonzeros == datapointA.nonzeros } ?: continue
 
-            for (formatA in datapointA.formats) {
-                val formatB = datapointB.formats.find { it.name == formatA.name } ?: continue
-                if (!formatA.completed or !formatB.completed) continue
+            for (conversionA in datapointA.conversions) {
+                val conversionB = datapointB.conversions.find { it.name == conversionA.name } ?: continue
+                if (!conversionA.completed or !conversionB.completed) continue
 
-                seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
+                seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
                     x = datapointA.nonzeros.toDouble(),
-                    formatA.time / formatB.time
+                    conversionA.time / conversionB.time
                 )
             }
         }
