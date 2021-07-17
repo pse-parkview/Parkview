@@ -31,7 +31,7 @@ for device_dir in os.listdir(args.data):
             except KeyboardInterrupt:
                 exit()
             except:
-                print(f'### ERROR: {blas_path} is fucked')
+                print(f'### ERROR: {blas_path} is broken')
 
         lib_path = os.path.join(device_path, lib_dir, 'SuiteSparse')
 
@@ -50,7 +50,7 @@ for device_dir in os.listdir(args.data):
                 except KeyboardInterrupt:
                     exit()
                 except:
-                    print(f'### ERROR: {datapoint_path} is fucked')
+                    print(f'### ERROR: {datapoint_path} is broken')
 
         print(f'{lib_path} is fine')
         params = {'sha': args.sha, 'device': device_name}
