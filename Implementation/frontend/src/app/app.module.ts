@@ -16,7 +16,6 @@ import {ErrorDialogComponent} from './dialogs/error-dialog/error-dialog.componen
 import {BenchmarkCompareDialogComponent} from './dialogs/benchmark-compare-dialog/benchmark-compare-dialog.component';
 import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
-import {SideBenchmarkSelectComponent} from './sidebar/side-benchmark-select/side-benchmark-select.component';
 import {SideBenchmarkCompareComponent} from './sidebar/side-benchmark-compare/side-benchmark-compare.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
 import {SidePreviousPlotsComponent} from './sidebar/side-previous-plots/side-previous-plots.component';
@@ -38,6 +37,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {ChartsModule} from "ng2-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { AbbreviatePipe } from './pipes/abbreviate.pipe';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -55,13 +56,13 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     BenchmarkCompareDialogComponent,
     CookieConsentDialogComponent,
     SideCurrentChosenCommitComponent,
-    SideBenchmarkSelectComponent,
     SideBenchmarkCompareComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
     PlotCardComponent,
     DashboardComponent,
-    TestComponent
+    TestComponent,
+    AbbreviatePipe
   ],
   imports: [
     BrowserModule,
@@ -80,6 +81,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     ChartsModule,
     MatExpansionModule,
     MatCheckboxModule,
+    FormsModule,
   ],
   providers: [
     CookieService
