@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Commit} from "./interfaces/commit";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ChartDataSets} from "chart.js";
 import {AvailablePlotTypes} from "../plothandler/interfaces/available-plot-types";
@@ -63,20 +63,21 @@ export class DataService {
   }
 
   getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<AvailablePlotTypes> {
-    const params: HttpParams = new HttpParams()
+    let params: HttpParams = new HttpParams()
       .set('benchmark', benchmarkType);
-    commits.forEach(c => params.append('shas', c.sha));
-    devices.forEach(d => params.append('devices', d));
+    commits.forEach(c => params = params.append('shas', c.sha));
+    devices.forEach(d => params = params.append('devices', d));
 
     return this.http.get<AvailablePlotTypes>(`${this.url}/availablePlots`, {params: params});
   }
 
   getPlotData(config: PlotConfiguration): Observable<ChartDataSets[]> {
-    const params: HttpParams = new HttpParams()
+    let params: HttpParams = new HttpParams()
       .set('benchmark', config.benchmark)
-      .set('plotType', config.plotType);
-    config.commits.forEach(c => params.append('shas', c.sha));
-    config.devices.forEach(d => params.append('devices', d));
+      .set('plotType', config.plotType)
+      .set('xAxis', config.xAxis);
+    config.commits.forEach(c => params = params.append('shas', c.sha));
+    config.devices.forEach(d => params = params.append('devices', d));
 
     return this.http.get<Array<ChartDataSets>>(`${this.url}/plot`, {params: params});
   }
