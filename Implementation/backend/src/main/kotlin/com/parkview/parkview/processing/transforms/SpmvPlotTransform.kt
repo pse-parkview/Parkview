@@ -8,10 +8,10 @@ import com.parkview.parkview.processing.PlottableData
  * Interface for transforms using [SpmvBenchmarkResult].
  */
 interface SpmvPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
         for (result in results) if (result !is SpmvBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
 
-        return transformSpmv(results as List<SpmvBenchmarkResult>)
+        return transformSpmv(results as List<SpmvBenchmarkResult>, xAxis)
     }
 
     /**
@@ -20,5 +20,5 @@ interface SpmvPlotTransform : PlotTransform {
      * @param benchmarkResults list of spmv benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>): PlottableData
+    fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, xAxis: String): PlottableData
 }

@@ -7,8 +7,9 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
     override val numAllowedInputs = Pair(2, 2)
     override val plottableAs = listOf(PlotType.Line)
     override val name = "conversionSpeedup"
+    override val xAxis: List<String> = listOf("nonzeros")
 
-    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>): PlottableData {
+    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: String): PlottableData {
         if (benchmarkResults.size != 2) throw InvalidPlotTransformException(
             "ConversionSpeedupPlot can only be used with two ConversionBenchmarkResult"
         )

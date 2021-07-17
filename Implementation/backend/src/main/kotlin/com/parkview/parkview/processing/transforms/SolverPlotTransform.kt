@@ -8,10 +8,10 @@ import com.parkview.parkview.processing.PlottableData
  * Interface for transforms using [SolverBenchmarkResult].
  */
 interface SolverPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
         for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
 
-        return transformSolver(results as List<SolverBenchmarkResult>)
+        return transformSolver(results as List<SolverBenchmarkResult>, xAxis)
     }
 
     /**
@@ -20,5 +20,5 @@ interface SolverPlotTransform : PlotTransform {
      * @param benchmarkResults list of solver benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformSolver(benchmarkResults: List<SolverBenchmarkResult>): PlottableData
+    fun transformSolver(benchmarkResults: List<SolverBenchmarkResult>, xAxis: String): PlottableData
 }

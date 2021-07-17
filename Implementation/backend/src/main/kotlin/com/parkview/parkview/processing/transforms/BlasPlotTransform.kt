@@ -8,10 +8,10 @@ import com.parkview.parkview.processing.PlottableData
  * Interface for transforms using [BlasBenchmarkResult].
  */
 interface BlasPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
         for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
 
-        return transformBlas(results as List<BlasBenchmarkResult>)
+        return transformBlas(results as List<BlasBenchmarkResult>, xAxis)
     }
 
     /**
@@ -20,5 +20,5 @@ interface BlasPlotTransform : PlotTransform {
      * @param benchmarkResults list of blas benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>): PlottableData
+    fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>, xAxis: String): PlottableData
 }

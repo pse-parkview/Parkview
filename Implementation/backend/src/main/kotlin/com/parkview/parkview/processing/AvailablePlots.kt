@@ -4,10 +4,15 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.*
 
 data class PlotList(
-    val line: List<String>,
-    val scatter: List<String>,
-    val bar: List<String>,
-    val stackedBar: List<String>,
+    val line: List<PlotOption>,
+    val scatter: List<PlotOption>,
+    val bar: List<PlotOption>,
+    val stackedBar: List<PlotOption>,
+)
+
+data class PlotOption(
+    val name: String,
+    val xAxis: List<String>,
 )
 
 /**
@@ -66,10 +71,18 @@ object AvailablePlots {
         }.filter { (_, transform) -> transform.numAllowedInputs.inRange(numberInputs) }
 
         return PlotList(
-            line = availablePlots.filter { (_, transform) -> transform.plottableAs.contains(PlotType.Line) }.keys.toList(),
-            scatter = availablePlots.filter { (_, transform) -> transform.plottableAs.contains(PlotType.Scatter) }.keys.toList(),
-            bar = availablePlots.filter { (_, transform) -> transform.plottableAs.contains(PlotType.Bar) }.keys.toList(),
-            stackedBar = availablePlots.filter { (_, transform) -> transform.plottableAs.contains(PlotType.StackedBar) }.keys.toList(),
+            line = availablePlots
+                .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Line) }
+                .map { PlotOption(it.key, it.value.xAxis) },
+            scatter = availablePlots
+                .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Scatter) }
+                .map { PlotOption(it.key, it.value.xAxis) },
+            bar = availablePlots
+                .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Bar) }
+                .map { PlotOption(it.key, it.value.xAxis) },
+            stackedBar = availablePlots
+                .filter { (_, transform) -> transform.plottableAs.contains(PlotType.StackedBar) }
+                .map { PlotOption(it.key, it.value.xAxis) },
         )
     }
 

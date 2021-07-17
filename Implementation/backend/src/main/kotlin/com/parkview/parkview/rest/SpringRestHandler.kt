@@ -70,6 +70,7 @@ class SpringRestHandler(
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
+        @RequestParam xAxis: String,
     ): String {
         val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
             databaseHandler.fetchBenchmarkResult(
@@ -80,7 +81,7 @@ class SpringRestHandler(
         }
 
         val plot = AvailablePlots.getPlotByName(plotType) ?: throw Exception("Invalid plot type")
-        return plot.transform(results).toJson()
+        return plot.transform(results, xAxis).toJson()
     }
 
     @GetMapping("/branches")

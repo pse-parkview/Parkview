@@ -21,10 +21,15 @@ interface PlotTransform {
     val name: String
 
     /**
+     * Values that can be used for the xAxis
+     */
+    val xAxis: List<String>
+
+    /**
      * Transforms the benchmark data to data that is plottable
      *
      * @param results list of benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transform(results: List<BenchmarkResult>): PlottableData
+    fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData
 }
