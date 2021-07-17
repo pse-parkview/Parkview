@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
+import org.springframework.http.HttpHeaders
 import org.springframework.web.client.RestTemplate
 import java.util.*
 
@@ -34,17 +35,26 @@ class GitApiException(message: String) : Exception(message)
 
 /**
  * Implements RepositoryHandler by using the GitHub Api
+ *
+ * @param repoName name of repository
+ * @param owner owner of repository
+ * @param username github account username for auth
+ * @param token github account auth token for auth
  */
 class GitApiHandler(
     private val repoName: String,
     private val owner: String,
+    private val username: String = "",
+    private val token: String = "",
 ) : RepositoryHandler {
     override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
         val uri =
             "https://api.github.com/repos/$owner/$repoName/commits?sha=$branch&page=$page"
+        val headers = HttpHeaders()
+        headers.setBasicAuth(username, token)
 
         val restTemplate = RestTemplate()
-        val result = restTemplate.getForObject(uri, Array<CommitModel>::class.java)?.toList()
+        val result = restTemplate.getForObject(uri, Array<CommitModel>::class.java, headers)?.toList()
             ?: throw GitApiException("Error while parsing git history response")
 
         val commits = mutableListOf<Commit>()

@@ -32,7 +32,12 @@ class SpringRestHandler(
 
     private val repHandler = AnnotatingRepositoryHandler(
         CachingRepositoryHandler(
-            GitApiHandler(appConfig.gitApi.repoName, appConfig.gitApi.owner),
+            GitApiHandler(
+                appConfig.gitApi.repoName,
+                appConfig.gitApi.owner,
+                appConfig.gitApi.username,
+                appConfig.gitApi.token,
+            ),
             maxCached = appConfig.gitApi.maxCached,
             branchLifetime = appConfig.gitApi.branchLifetime,
             branchListLifetime = appConfig.gitApi.branchListLifetime,
