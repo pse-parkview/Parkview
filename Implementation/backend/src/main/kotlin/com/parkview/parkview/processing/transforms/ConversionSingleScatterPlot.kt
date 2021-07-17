@@ -11,16 +11,12 @@ enum class ConversionSingleScatterPlotYAxis {
 class ConversionSingleScatterPlot(
     private val yAxis: ConversionSingleScatterPlotYAxis,
 ) : ConversionPlotTransform {
-    override val numAllowedInputs: Pair<Int, Int> = Pair(1, 1)
+    override val numInputsRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
     override val name: String = "conversion$yAxis"
-    override val xAxis: List<String> = listOf("nonzeros")
+    override val availableXAxis: List<String> = listOf("nonzeros")
 
     override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: String): PlottableData {
-        if (benchmarkResults.size != 1) throw InvalidPlotTransformException(
-            "ConversionSingleScatterPlot can only be used with a single BenchmarkResult"
-        )
-
         val benchmarkResult = benchmarkResults[0]
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()

@@ -9,7 +9,11 @@ import com.parkview.parkview.processing.PlottableData
  */
 interface BlasPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
-        for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
+        for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only BlasBenchmarkResult is allowed")
+
+        checkNumInputs(results)
+        checkXAxis(xAxis)
+
 
         return transformBlas(results as List<BlasBenchmarkResult>, xAxis)
     }

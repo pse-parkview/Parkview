@@ -5,16 +5,12 @@ import com.parkview.parkview.processing.*
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {
-    override val numAllowedInputs = Pair(2, 2)
+    override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line)
     override val name = "spmvSpeedup"
-    override val xAxis: List<String> = listOf("nonzeros")
+    override val availableXAxis: List<String> = listOf("nonzeros")
 
     override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, xAxis: String): PlottableData {
-        if (benchmarkResults.size != 2) throw InvalidPlotTransformException(
-            "SpmvSpeedupPlot can only be used with two SpmvBenchmarkResult"
-        )
-
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         val datapointsA = benchmarkResults[0].datapoints.sortedBy { it.nonzeros }

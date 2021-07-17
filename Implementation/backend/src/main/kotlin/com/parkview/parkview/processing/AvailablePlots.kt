@@ -68,23 +68,21 @@ object AvailablePlots {
             BenchmarkType.Preconditioner -> preconditionerPlots
             BenchmarkType.Conversion -> conversionPlots
             BenchmarkType.Blas -> blasPlots
-        }.filter { (_, transform) -> transform.numAllowedInputs.inRange(numberInputs) }
+        }.filter { (_, transform) -> numberInputs in transform.numInputsRange }
 
         return PlotList(
             line = availablePlots
                 .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Line) }
-                .map { PlotOption(it.key, it.value.xAxis) },
+                .map { PlotOption(it.key, it.value.availableXAxis) },
             scatter = availablePlots
                 .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Scatter) }
-                .map { PlotOption(it.key, it.value.xAxis) },
+                .map { PlotOption(it.key, it.value.availableXAxis) },
             bar = availablePlots
                 .filter { (_, transform) -> transform.plottableAs.contains(PlotType.Bar) }
-                .map { PlotOption(it.key, it.value.xAxis) },
+                .map { PlotOption(it.key, it.value.availableXAxis) },
             stackedBar = availablePlots
                 .filter { (_, transform) -> transform.plottableAs.contains(PlotType.StackedBar) }
-                .map { PlotOption(it.key, it.value.xAxis) },
+                .map { PlotOption(it.key, it.value.availableXAxis) },
         )
     }
-
-    private fun Pair<Int, Int>.inRange(n: Int) = (n >= this.first) and (n <= this.second)
 }

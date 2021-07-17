@@ -9,7 +9,11 @@ import com.parkview.parkview.processing.PlottableData
  */
 interface PreconditionerPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
-        for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
+        for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
+
+        checkNumInputs(results)
+        checkXAxis(xAxis)
+
 
         return transformPreconditioner(results as List<PreconditionerBenchmarkResult>, xAxis)
     }

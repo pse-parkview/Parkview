@@ -9,7 +9,10 @@ import com.parkview.parkview.processing.PlottableData
  */
 interface SolverPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
-        for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type")
+        for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only SolverBenchmarkResult is allowed")
+
+        checkNumInputs(results)
+        checkXAxis(xAxis)
 
         return transformSolver(results as List<SolverBenchmarkResult>, xAxis)
     }

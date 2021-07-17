@@ -8,7 +8,7 @@ interface PlotTransform {
     /**
      * number of allowed inputs as Pair(min, max)
      */
-    val numAllowedInputs: Pair<Int, Int>
+    val numInputsRange: IntRange
 
     /**
      * list of representations possible
@@ -23,7 +23,7 @@ interface PlotTransform {
     /**
      * Values that can be used for the xAxis
      */
-    val xAxis: List<String>
+    val availableXAxis: List<String>
 
     /**
      * Transforms the benchmark data to data that is plottable
@@ -32,4 +32,16 @@ interface PlotTransform {
      * @return [PlottableData] object containing the data
      */
     fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData
+
+    fun checkXAxis(xAxis: String) {
+        if (xAxis !in availableXAxis) throw InvalidPlotTransformException(
+            "$xAxis is not an available xAxis value, pick from $availableXAxis"
+        )
+    }
+
+    fun checkNumInputs(results: List<BenchmarkResult>) {
+        if (results.size !in numInputsRange) throw InvalidPlotTransformException(
+            "This plot can only be used with ${numInputsRange.first} to ${numInputsRange.last} inputs"
+        )
+    }
 }
