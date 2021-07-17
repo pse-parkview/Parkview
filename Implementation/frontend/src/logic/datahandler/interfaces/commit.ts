@@ -29,7 +29,7 @@ export interface Commit {
   get branch(): string;
 
   /**
-   * Avaliable devices?
+   * Available devices?
    */
   get availableDevices(): { name: string }[];
 }
