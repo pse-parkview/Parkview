@@ -1,5 +1,16 @@
+@import "node_modules/nord/src/sass/nord";
+
 mat-card {
 
   margin: 1vh 0;
 
+}
+
+mat-card h4 {
+  color: $nord0;
+  margin-bottom: 0;
+}
+
+mat-card h5 {
+  color: $nord3;
 }

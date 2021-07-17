@@ -1,3 +1,6 @@
 <mat-card>
-  Currently chosen commits:
+  <h4>Currently chosen commits:</h4>
+  <h5>(Click to remove)</h5>
+
+  <mat-card-content *ngFor="let pair of commitService.getCommits()">{{pair.commit.sha | abbreviate: 15}}<br> {{pair.device}}</mat-card-content>
 </mat-card>
