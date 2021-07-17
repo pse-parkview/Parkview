@@ -2,6 +2,7 @@
 
 mat-card {
   margin: 1vh;
+  color: $nord0;
   // background-color: white;
 }
 
@@ -31,15 +32,15 @@ ul li {
 }
 
 .benchmark .date {
-  color: var(--gb-dark-blue);
+  color: $nord3;
 }
 
 .benchmark .author {
-  color: var(--gb-purple);
+  color: $nord0;
 }
 
 .benchmark {
-  color: var(--gb-green);
+  color: $nord14;
 }
 
 .date {
@@ -69,18 +70,29 @@ ul li {
 
 .message {
   margin: 12px;
+  color: $nord0;
 }
 
 .hash {
-  color: gray;
+  color: $nord9;
   margin: 12px;
 }
 
 .devices {
   margin: 12px 0;
   float: right;
+  color: $nord0;
 }
 
 .device-margin {
   margin: 0 12px;
+}
+
+.checkbox {
+  color: $nord14
+}
+
+.noData {
+  font-style: oblique;
+  color: $nord4;
 }

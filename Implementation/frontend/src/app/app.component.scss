@@ -17,7 +17,7 @@ nav {
   z-index: 1;
   top: 5vh;
   left: 0;
-  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 main {
@@ -27,6 +27,4 @@ main {
   position: fixed;
   height: 95vh;
   overflow-y: scroll;
-
-  background: var(--od-dark-gray);
 }
