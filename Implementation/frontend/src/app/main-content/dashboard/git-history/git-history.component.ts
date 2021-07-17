@@ -19,6 +19,7 @@ export class GitHistoryComponent implements OnInit {
 
 
   commits: Commit[] = [];
+  selected: { commit: Commit, device: string }[] = [];
 
   constructor(private readonly dataService: DataService, private readonly commitService: CommitService) {
   }
@@ -55,7 +56,25 @@ export class GitHistoryComponent implements OnInit {
     this.updateCommitHistory();
   }
 
-  selectCommit(commit: Commit, device: string) {
-    this.commitService.addCommit(commit, device);
+  selectCommit(commit: Commit) {
+    for (let s of this.selected) {
+      if (s.commit.sha === commit.sha) {
+        this.commitService.addCommit(s.commit, s.device);
+      }
+    }
+  }
+
+  selectDevice(commit: Commit, device: string, checked: boolean) {
+    if (checked) {
+      if (this.selected.filter(c => c.commit.sha === commit.sha && c.device === device).length === 0) {
+        this.selected.push({commit, device});
+      }
+    } else { // not checked
+      for (let i = 0; i < this.selected.length; i++) {
+        if (this.selected[i].commit.sha === commit.sha && this.selected[i].device === device) {
+          this.selected.splice(i, 1);
+        }
+      }
+    }
   }
 }
