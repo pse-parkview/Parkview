@@ -13,6 +13,11 @@ mat-expansion-panel span {
   margin: 0 auto;
 }
 
+ul li {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .selection {
   margin-top: 1vh;
   margin-bottom: 1vh;
@@ -63,6 +68,11 @@ mat-expansion-panel span {
 }
 
 .message {
+  margin: 12px;
+}
+
+.hash {
+  color: gray;
   margin: 12px;
 }
 

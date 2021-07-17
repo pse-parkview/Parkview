@@ -27,7 +27,7 @@
     <div class="divider"></div>
     <mat-checkbox [checked]="hideUnusableCommits"
                   (change)="this.hideUnusableCommits = !this.hideUnusableCommits">
-      Hide unusable commits
+      Hide commits without data
     </mat-checkbox>
   </div>
 </mat-card>
@@ -38,16 +38,21 @@
   <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0}">
     <span class="date">{{commit.date}} </span>
     <span class="author">{{commit.author}} </span>
-    <span class="message-preview">{{commit.message.length > 50 ? commit.message.substr(0, 50) + '…' : commit.message}}</span>
+    <span class="message-preview">{{commit.message | abbreviate: 50}}</span>
   </mat-expansion-panel-header>
+  <section class="hash">{{commit.sha}}</section>
   <section class="message">{{commit.message}}</section>
   <section class="devices">
-    <mat-checkbox class="device-margin"
-                  *ngFor="let device of commit.availableDevices">
-      {{device.name}}
-    </mat-checkbox>
+    <ul>
+      <li *ngFor="let device of commit.availableDevices">
+
+        <mat-checkbox class="device-margin">
+          {{device.name}}
+        </mat-checkbox>
+      </li>
+    </ul>
   </section>
   <mat-action-row>
-    <button mat-button color="primary" (click)="selectCommit(commit)">Select</button>
+    <button mat-button color="primary" (click)="selectCommit(commit, commit.message)">Select</button>
   </mat-action-row>
 </mat-expansion-panel>
