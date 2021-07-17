@@ -25,7 +25,7 @@ internal class AnnotatingRepositoryHandlerTest {
         override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == "sha"
 
         override fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device> =
-            if (commit.sha == "sha") listOf(Device("gamer")) else emptyList()
+            if ((commit.sha == "sha") and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
     }
 
     private object MockRepositoryHandler : RepositoryHandler {
@@ -59,6 +59,17 @@ internal class AnnotatingRepositoryHandlerTest {
 
         assert(commits.first().devices == listOf(Device("gamer")))
         assert(commits[1].devices.isEmpty())
+    }
 
+    @Test
+    fun `test annotation of commits with benchmark type change`() {
+        var commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
+
+        assert(commits.first().devices == listOf(Device("gamer")))
+        assert(commits[1].devices.isEmpty())
+        commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Conversion)
+
+        assert(commits.first().devices.isEmpty())
+        assert(commits[1].devices.isEmpty())
     }
 }

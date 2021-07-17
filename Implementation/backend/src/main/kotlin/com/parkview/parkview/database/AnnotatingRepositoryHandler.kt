@@ -9,11 +9,10 @@ class AnnotatingRepositoryHandler(
     private val databaseHandler: DatabaseHandler,
 ) : RepositoryHandler {
     override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
-        repHandler.fetchGitHistory(branch, page, benchmarkType).map { commit ->
-            Commit(commit.sha, commit.message, commit.date, commit.author)
+        repHandler.fetchGitHistory(branch, page, benchmarkType).map {
+            it.copy()
                 .apply {
-                    for (device in databaseHandler.getAvailableDevices(this, benchmarkType))
-                        this.addDevice(device)
+                    for (device in databaseHandler.getAvailableDevices(this, benchmarkType)) addDevice(device)
                 }
         }
 
