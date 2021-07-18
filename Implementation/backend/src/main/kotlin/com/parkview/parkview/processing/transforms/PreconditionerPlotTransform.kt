@@ -8,14 +8,14 @@ import com.parkview.parkview.processing.PlottableData
  * Interface for transforms using [PreconditionerBenchmarkResult].
  */
 interface PreconditionerPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkXAxis(xAxis)
+        checkOptions(options)
 
 
-        return transformPreconditioner(results as List<PreconditionerBenchmarkResult>, xAxis)
+        return transformPreconditioner(results as List<PreconditionerBenchmarkResult>, options)
     }
 
     /**
@@ -24,5 +24,5 @@ interface PreconditionerPlotTransform : PlotTransform {
      * @param benchmarkResults list of preconditioner benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformPreconditioner(benchmarkResults: List<PreconditionerBenchmarkResult>, xAxis: String): PlottableData
+    fun transformPreconditioner(benchmarkResults: List<PreconditionerBenchmarkResult>, options: Map<String, String>): PlottableData
 }

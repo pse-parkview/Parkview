@@ -8,14 +8,14 @@ import com.parkview.parkview.processing.PlottableData
  * Interface for transforms using [ConversionBenchmarkResult].
  */
 interface ConversionPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>, xAxis: String): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is ConversionBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only ConversionBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkXAxis(xAxis)
+        checkOptions(options)
 
 
-        return transformConversion(results as List<ConversionBenchmarkResult>, xAxis)
+        return transformConversion(results as List<ConversionBenchmarkResult>, options)
     }
 
     /**
@@ -24,5 +24,5 @@ interface ConversionPlotTransform : PlotTransform {
      * @param benchmarkResults list of conversion benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: String): PlottableData
+    fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, options: Map<String, String>): PlottableData
 }

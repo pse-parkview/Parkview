@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
 internal class SpmvSingleScatterPlotTest {
-    private val transform = SpmvSingleScatterPlot(SpmvSingleScatterPlotYAxis.Bandwidth)
+    private val transform = SpmvSingleScatterPlot()
 
     @Test
     fun `test exception on calling with invalid number inputs`() {
         val results = listOf(SPMV_RESULT, SPMV_RESULT)
 
         assertFailsWith<InvalidPlotTransformException> {
-            transform.transform(results, "nonzeros")
+            transform.transform(results, mapOf("xAxis" to "nonzeros"))
         }
     }
 
@@ -21,7 +21,7 @@ internal class SpmvSingleScatterPlotTest {
         val results = listOf(SPMV_RESULT, SPMV_RESULT)
 
         assertFailsWith<InvalidPlotTransformException> {
-            transform.transform(results, "eine kleine ente")
+            transform.transform(results, mapOf("eine kleine ente" to "schmwimmt im see"))
         }
     }
 }

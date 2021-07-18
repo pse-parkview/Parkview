@@ -41,7 +41,7 @@ interface RestHandler {
         shas: List<String>,
         devices: List<String>,
         plotType: String,
-        xAxis: String,
+        plotParams: Map<String, String>,
     ): String
 
     /**

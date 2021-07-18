@@ -3,20 +3,22 @@ package com.parkview.parkview.processing.transforms
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.processing.*
 
-enum class SpmvSingleScatterPlotYAxis {
-    Time,
-    Bandwidth,
-}
-
-class SpmvSingleScatterPlot(
-    private val yAxis: SpmvSingleScatterPlotYAxis,
-) : SpmvPlotTransform {
+class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
-    override val name = "spmv$yAxis"
-    override val availableXAxis: List<String> = listOf("nonzeros")
+    override val name = "spmvSingleScatterPlot"
+    override val availableOptions: List<PlotOption> = listOf(
+        PlotOption(
+            name = "yAxis",
+            options = listOf("bandwidth", "time"),
+        ),
+        PlotOption(
+                name = "xAxis",
+                options = listOf("nonzeros"),
+        ),
+    )
 
-    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, xAxis: String): PlottableData {
+    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, options: Map<String, String>): PlottableData {
         val benchmarkResult = benchmarkResults[0]
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
@@ -26,9 +28,10 @@ class SpmvSingleScatterPlot(
                 if (!format.completed) continue
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.nonzeros.toDouble(),
-                    y = when (yAxis) {
-                        SpmvSingleScatterPlotYAxis.Bandwidth -> format.storage + (datapoint.rows + datapoint.columns) / format.time
-                        SpmvSingleScatterPlotYAxis.Time -> format.time
+                    y = when (options["yAxis"]) {
+                        "bandwidth"-> format.storage + (datapoint.rows + datapoint.columns) / format.time
+                        "time" -> format.time
+                        else -> throw InvalidPlotTransformException("Illegal value for yAxis")
                     },
                 )
             }

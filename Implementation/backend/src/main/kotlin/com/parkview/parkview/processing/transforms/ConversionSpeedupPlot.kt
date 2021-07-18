@@ -7,9 +7,14 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line)
     override val name = "conversionSpeedup"
-    override val availableXAxis: List<String> = listOf("nonzeros")
+    override val availableOptions: List<PlotOption> = listOf(
+        PlotOption(
+            name = "xAxis",
+            options = listOf("nonzeros")
+        )
+    )
 
-    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: String): PlottableData {
+    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: Map<String, String>): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         val datapointsA = benchmarkResults[0].datapoints.sortedBy { it.nonzeros }
