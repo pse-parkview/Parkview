@@ -1,15 +1,33 @@
-selected benchmark name {{ benchmarkName }}<br>
-selected commits:<br>
-<span *ngFor="let pair of commitsAndDevices">
-commit: {{pair.commit.sha | abbreviate: 15}} <br>
-device: {{pair.device}} <br>
-</span>
-
+<h3>{{ benchmarkName }}</h3>
+<table mat-table
+       [dataSource]="commitsAndDevices"
+       class="mat-elevation-z0">
+  <ng-container matColumnDef="sha">
+    <th mat-header-cell *matHeaderCellDef> Sha </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.sha | abbreviate: 6}} </td>
+  </ng-container>
+  <ng-container matColumnDef="timestamp">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.date.toString()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="author">
+    <th mat-header-cell *matHeaderCellDef> Author </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.author.split() | abbreviate: 6}} </td>
+  </ng-container>
+  <ng-container matColumnDef="device">
+    <th mat-header-cell *matHeaderCellDef> Device </th>
+    <td mat-cell *matCellDef="let p"> {{p.device}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['sha', 'timestamp', 'author', 'device']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['sha', 'timestamp', 'author', 'device'];"></tr>
+</table>
+<br>
+<br>
 <span *ngIf="commitsAndDevices.length > 2"
       class="warning">
   Comparing more than 2 commits is currently impossible. <br>
 </span>
-
+<br>
 <mat-form-field>
   <mat-label>Available Chart Types</mat-label>
   <mat-select [(value)]="currentPlotTypeKey"
@@ -44,3 +62,14 @@ device: {{pair.device}} <br>
     </mat-option>
   </mat-select>
 </mat-form-field>
+<br>
+<br>
+<!--TODO make them look palatable-->
+<button mat-button
+        (click)="saveAndStoreCurrentConfig()">
+  Save Plotconfig
+</button>
+<button mat-button
+        (click)="navigateToPlotView()">
+  Plot
+</button>

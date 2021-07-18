@@ -39,6 +39,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { AbbreviatePipe } from '../lib/pipes/abbreviate.pipe';
 import {FormsModule} from "@angular/forms";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -64,25 +65,26 @@ import {FormsModule} from "@angular/forms";
     TestComponent,
     AbbreviatePipe
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LibModule,
-    LogicModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    ChartsModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    FormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        LibModule,
+        LogicModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatCardModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        ChartsModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatTableModule,
+    ],
   providers: [
     CookieService
   ],
