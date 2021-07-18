@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CommitService} from "../../../logic/commithandler/commit.service";
+import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
 
 @Component({
   selector: 'app-side-current-chosen-commit',
@@ -8,7 +8,7 @@ import {CommitService} from "../../../logic/commithandler/commit.service";
 })
 export class SideCurrentChosenCommitComponent implements OnInit {
 
-  constructor(readonly commitService: CommitService) { }
+  constructor(readonly commitService: CommitSelectionService) { }
 
   ngOnInit(): void {
   }

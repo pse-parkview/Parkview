@@ -1,4 +1,4 @@
-import {Commit} from "../datahandler/interfaces/commit";
+import {Commit} from "../../datahandler/interfaces/commit";
 
 export interface Pair{
   commit: Commit

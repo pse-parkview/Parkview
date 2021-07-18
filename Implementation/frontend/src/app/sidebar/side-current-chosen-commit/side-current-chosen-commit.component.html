@@ -1,6 +1,14 @@
 <mat-card>
+  <h4>Current benchmark: {{commitService.getSelectedCommits().benchmarkName | defaultvalue: '(none)'}}</h4>
   <h4>Currently chosen commits:</h4>
   <h5>(Click to remove)</h5>
+  <mat-card-content *ngFor="let pair of commitService.getSelectedCommits().commitsAndDevices"
+                    (click)="commitService.removeCommit(pair.commit, pair.device)">
+    {{pair.commit.sha | abbreviate: 15}}<br>
+    {{pair.device}}
+  </mat-card-content>
 
-  <mat-card-content *ngFor="let pair of commitService.getCommits()">{{pair.commit.sha | abbreviate: 15}}<br> {{pair.device}}</mat-card-content>
+  <button mat-stroked-button>
+    Configure Plot
+  </button>
 </mat-card>

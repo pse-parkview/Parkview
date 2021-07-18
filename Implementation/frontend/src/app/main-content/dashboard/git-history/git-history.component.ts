@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../../logic/datahandler/data.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
-import {CommitService} from "../../../../logic/commithandler/commit.service";
+import {CommitSelectionService} from "../../../../logic/commit-selection-handler/commit-selection.service";
 
 @Component({
   selector: 'app-git-history',
@@ -21,7 +21,7 @@ export class GitHistoryComponent implements OnInit {
   commits: Commit[] = [];
   selected: { commit: Commit, device: string }[] = [];
 
-  constructor(private readonly dataService: DataService, private readonly commitService: CommitService) {
+  constructor(private readonly dataService: DataService, private readonly commitService: CommitSelectionService) {
   }
 
   ngOnInit(): void {
@@ -41,6 +41,7 @@ export class GitHistoryComponent implements OnInit {
     if (this.currentlySelectedBranch.trim() === '' || this.currentlySelectedBenchmarkName.trim() === '') {
       return;
     }
+    this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
     this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
@@ -59,7 +60,7 @@ export class GitHistoryComponent implements OnInit {
   selectCommit(commit: Commit) {
     for (let s of this.selected) {
       if (s.commit.sha === commit.sha) {
-        this.commitService.addCommit(s.commit, s.device);
+        this.commitService.addCommit(this.currentlySelectedBenchmarkName, s.commit, s.device);
       }
     }
   }
