@@ -39,7 +39,7 @@ internal class SolverBenchmarkResultTest {
 
     @Test
     fun `Get summary value for single solver per datapoint`() {
-        val summaryValue = br.getSummaryValue()
+        val summaryValue = br.summaryValues
 
         val medianIterations = 30.0
 

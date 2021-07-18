@@ -39,7 +39,7 @@ internal class PreconditionerBenchmarkResultTest {
 
     @Test
     fun `Test summary value for normal data`() {
-        val summaryValue = br.getSummaryValue()
+        val summaryValue = br.summaryValues
 
         val medianGenerateRuntime = 3.0
 

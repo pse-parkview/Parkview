@@ -33,7 +33,7 @@ internal class SpmvBenchmarkResultTest {
 
     @Test
     fun `Get summary value for single format per datapoint`() {
-        val summaryValue = br.getSummaryValue()
+        val summaryValue = br.summaryValues
 
         val medianBandwidth = 30.0
 

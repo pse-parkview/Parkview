@@ -53,8 +53,8 @@ data class ConversionBenchmarkResult(
     override val benchmark: BenchmarkType,
     override val datapoints: List<ConversionDatapoint>,
 ) : MatrixBenchmarkResult {
-    override fun getSummaryValue(): Map<String, Double> =
-        calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
+    override val summaryValues: Map<String, Double>
+        get() = calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()

@@ -31,6 +31,9 @@ interface BenchmarkResult {
      */
     val benchmark: BenchmarkType
 
+    /**
+     * datapoints of benchmark
+     */
     val datapoints: List<Datapoint>
 
     /**
@@ -38,5 +41,5 @@ interface BenchmarkResult {
      *
      * @return summary value
      */
-    fun getSummaryValue(): Map<String, Double>
+    val summaryValues: Map<String, Double>
 }

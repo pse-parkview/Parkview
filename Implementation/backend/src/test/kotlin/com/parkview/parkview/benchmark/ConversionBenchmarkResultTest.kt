@@ -31,7 +31,7 @@ internal class ConversionBenchmarkResultTest {
 
     @Test
     fun `test summary value for single conversion in each datapoint`() {
-        val summaryValue = br.getSummaryValue()
+        val summaryValue = br.summaryValues
 
         val medianBandwidth = 30.0
 

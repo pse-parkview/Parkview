@@ -59,7 +59,7 @@ data class PreconditionerBenchmarkResult(
     override val benchmark: BenchmarkType,
     override val datapoints: List<PreconditionerDatapoint>,
 ) : MatrixBenchmarkResult {
-    override fun getSummaryValue() = getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] }
+    override val summaryValues get() = getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] }
 
     private fun getGenerateTimes(): Map<String, List<Double>> {
         val times = mutableMapOf<String, MutableList<Double>>()

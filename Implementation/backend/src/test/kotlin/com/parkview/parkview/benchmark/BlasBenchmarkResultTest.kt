@@ -32,7 +32,7 @@ internal class BlasBenchmarkResultTest {
 
     @Test
     fun `Test summary value for normal data`() {
-        val summaryValue = br.getSummaryValue()
+        val summaryValue = br.summaryValues
 
         val medianBandwidth = 3.0
 
