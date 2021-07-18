@@ -1,8 +1,46 @@
+selected benchmark name {{ benchmarkName }}<br>
+selected commits:<br>
+<span *ngFor="let pair of commitsAndDevices">
+commit: {{pair.commit.sha | abbreviate: 15}} <br>
+device: {{pair.device}} <br>
+</span>
+
+<span *ngIf="commitsAndDevices.length > 2"
+      class="warning">
+  Comparing more than 2 commits is currently impossible. <br>
+</span>
 
 <mat-form-field>
-  <mat-select>
-    <mat-option>Line Plot</mat-option>
-    <mat-option>Bar Plot</mat-option>
-    <mat-option>Scatter Plot</mat-option>
+  <mat-label>Available Chart Types</mat-label>
+  <mat-select [(value)]="currentPlotTypeKey"
+              [disabled]="availablePlotTypeKeys.length === 0"
+              (selectionChange)="selectPlotTypeKey()">
+    <mat-option *ngFor="let plottype of availablePlotTypeKeys"
+                [value]="plottype">
+      {{plottype}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Available Plot Types</mat-label>
+  <mat-select [(value)]="currentPlotName"
+              [disabled]="availablePlotNames.length === 0"
+              (selectionChange)="selectPlotName()">
+    <mat-option *ngFor="let plotName of availablePlotNames"
+                [value]="plotName">
+      {{plotName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Available x Axis Labels</mat-label>
+  <mat-select [(value)]="currentxAxis"
+              [disabled]="availableXAxis.length === 0">
+    <mat-option *ngFor="let xAxisLabel of availableXAxis"
+                [value]="xAxisLabel">
+      {{xAxisLabel}}
+    </mat-option>
   </mat-select>
 </mat-form-field>

@@ -1,11 +1,11 @@
 export interface AvailablePlotTypes {
-  get line(): AvailableXAxis[];
-  get scatter(): AvailableXAxis[];
-  get bar(): AvailableXAxis[];
-  get stackedBar(): AvailableXAxis[];
+  get line(): NameWithAvailableXAxis[];
+  get scatter(): NameWithAvailableXAxis[];
+  get bar(): NameWithAvailableXAxis[];
+  get stackedBar(): NameWithAvailableXAxis[];
 }
 
-export interface AvailableXAxis {
+export interface NameWithAvailableXAxis {
   get name(): string;
   get xAxis(): string[];
 }
