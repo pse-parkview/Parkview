@@ -1,3 +1,5 @@
+@import "node_modules/nord/src/sass/nord";
+
 .performance-wrapper {
   width: available;
 }
@@ -5,3 +7,11 @@
 mat-card {
   margin: 1vh;
 }
+
+mat-card-title {
+  color: $nord0;
+}
+
+ mat-card-content {
+   color: $nord0;
+ }

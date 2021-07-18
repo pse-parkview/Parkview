@@ -20,11 +20,12 @@
   --gb-orange: #d65d0e;
   --gb-dark-orange: #af3a03;
 
-
-
-  color: $nord0;
   background: $nord6;
 }
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+  color: $nord0;
+}
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
