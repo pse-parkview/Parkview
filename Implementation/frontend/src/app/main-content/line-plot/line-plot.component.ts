@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {DataService} from "../../../logic/datahandler/data.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {BaseChartDirective} from "ng2-charts";
+import {
+  X_AXIS_PLOT_OPTION_NAME,
+  Y_AXIS_PLOT_OPTION_NAME
+} from "../../../logic/plothandler/interfaces/available-plot-types";
 
 @Component({
   selector: 'app-line-plot',
@@ -11,11 +16,16 @@ import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-conf
   styleUrls: ['./line-plot.component.scss']
 })
 export class LinePlotComponent implements OnInit {
+
+  @ViewChild(BaseChartDirective)
+  private chart: { refresh: () => void } = { refresh: () => console.log('chart not initialized yet') };
+
+  public readonly chartType: ChartType = 'line';
   public chartData: ChartDataSets[] = Array();
-  public chartType: ChartType = 'line';
-  public labels = Array();
-  public yType = 'logarithmic';
-  public xType = 'logarithmic';
+  public xLabel: string = 'x';
+  public yLabel: string = 'y';
+  public yType: ScaleType = 'logarithmic';
+  public xType: ScaleType = 'linear';
 
   public chartOptions: ChartOptions = {
     responsive: true,
@@ -36,15 +46,14 @@ export class LinePlotComponent implements OnInit {
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'y Label here'
-
+          labelString: this.yLabel
         },
         type: this.yType
       }],
       xAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'x Label here'
+          labelString: this.xLabel
         },
         type: this.xType,
       }]
@@ -61,21 +70,16 @@ export class LinePlotComponent implements OnInit {
 
   readParams(params: Observable<ParamMap>) {
     params.subscribe(p => {
-      this.yType = 'linear';
-      this.xType = 'linear';
       if (p.has('benchmark') && p.has('commits') && p.has('devices') && p.has('plotType')) {
         // Get additional configuration
-        let extraOptions: { [key: string]: string } = {};
-        for (let param of p.keys) {
-          if (param !== 'benchmark' && param !== 'commits' && param !== 'devices' && param !== 'plotType') {
-            extraOptions[param] = p.get(param) as string;
-          }
-        }
+        const extraOptions: { [key: string]: string } = {};
+        p.keys.filter(k => !['benchmark', 'commits', 'devices', 'plotType'].includes(k))
+              .forEach((k => extraOptions[k] = p.get(k) as string));
         // Build request
         let config: PlotConfiguration = {
           benchmark: p.get("benchmark") as string,
-          commits: p.getAll("commits") as string[],
-          devices: p.getAll("devices") as string[],
+          commits: p.getAll("commits"),
+          devices: p.getAll("devices"),
           plotType: p.get("plotType") as string,
           options: extraOptions
         };
@@ -83,6 +87,27 @@ export class LinePlotComponent implements OnInit {
         // Make request and read data
         this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
       }
+      const xLabelParam = p.get(X_AXIS_PLOT_OPTION_NAME);
+      this.xLabel = xLabelParam ? xLabelParam : 'x';
+      const yLabelParam = p.get(Y_AXIS_PLOT_OPTION_NAME);
+      this.yLabel = yLabelParam ? yLabelParam : 'y';
+      this.updateChart();
     });
+  }
+
+  updateChart() {
+    if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
+      this.chartOptions.scales.xAxes[0].type = this.xType;
+      if (this.chartOptions.scales.xAxes[0].scaleLabel) {
+        this.chartOptions.scales.xAxes[0].scaleLabel.labelString = this.xLabel;
+      }
+    }
+    if (this.chartOptions.scales?.yAxes !== undefined && this.chartOptions.scales.yAxes.length > 0) {
+      this.chartOptions.scales.yAxes[0].type = this.yType;
+      if (this.chartOptions.scales.yAxes[0].scaleLabel) {
+        this.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.yLabel;
+      }
+    }
+    this.chart.refresh();
   }
 }

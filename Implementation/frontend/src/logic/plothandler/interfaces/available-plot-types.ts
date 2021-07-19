@@ -16,3 +16,5 @@ export interface PlotOption {
   get number(): boolean;
 }
 
+export const X_AXIS_PLOT_OPTION_NAME = 'xAxis';
+export const Y_AXIS_PLOT_OPTION_NAME = 'yAxis';
