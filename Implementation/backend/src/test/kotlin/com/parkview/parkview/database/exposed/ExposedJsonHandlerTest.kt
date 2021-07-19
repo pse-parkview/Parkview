@@ -1,13 +1,16 @@
 package com.parkview.parkview.database.exposed
 
 import BLAS_RESULT
+import COMMIT_A
 import CONVERSION_RESULT
+import DEVICE
 import PRECONDITIONER_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.junit.jupiter.api.BeforeEach
@@ -100,14 +103,204 @@ internal class ExposedJsonHandlerTest {
     }
 
     @Test
-    fun `aggregation of datapoints for spmv`() {
-        val result = SPMV_RESULT
+    fun `test joins component runs after each other BLAS`() {
+        val resultA = BlasBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Blas,
+            (1..5).map {
+                BlasDatapoint(
+                    it.toLong() * 10, operations = listOf(
+                        Operation("A", 1.0, 1.0, it * 1.0, true),
+                    )
+                )
+            }
+        )
+        val resultB = BlasBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Blas,
+            (1..5).map {
+                BlasDatapoint(
+                    it.toLong() * 10, operations = listOf(
+                        Operation("B", 1.0, 1.0, it * 1.0, true),
+                    )
+                )
+            }
+        )
 
-        dbHandler.insertBenchmarkResults(listOf(result))
-        var returned = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
+
+        dbHandler.insertBenchmarkResults(listOf(resultA))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.operations.size == 1)
+        }
+        dbHandler.insertBenchmarkResults(listOf(resultB))
+
+        returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        println(returned.toString())
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.operations.size == 2)
+        }
+    }
+
+    @Test
+    fun `test joins component runs after each other SPMV`() {
+        val resultA = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        val resultB = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        dbHandler.insertBenchmarkResults(listOf(resultA))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.formats.size == 1)
+        }
+        dbHandler.insertBenchmarkResults(listOf(resultB))
+
+        returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        println(returned.toString())
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.formats.size == 2)
+        }
+    }
+
+    @Test
+    fun `test joins component runs same insert SPMV`() {
+        val resultA = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        val resultB = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.formats.size == 2)
+        }
+    }
+
+    @Test
+    fun `test joins component runs same insert BLAS`() {
+        val resultA = BlasBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Blas,
+            (1..5).map {
+                BlasDatapoint(
+                    (it * 10).toLong(), operations = listOf(
+                        Operation("A", 1.0, 1.0, it * 1.0, true),
+                    )
+                )
+            }
+        )
+        val resultB = BlasBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Blas,
+            (1..5).map {
+                BlasDatapoint(
+                    (it * 10).toLong(), operations = listOf(
+                        Operation("B", 1.0, 1.0, it * 1.0, true),
+                    )
+                )
+            }
+        )
+
+
+        dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.operations.size == 2)
+        }
+    }
+
+    @Test
+    fun `aggregation of datapoints for spmv`() {
+        val resultA = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 2 + 1, it.toLong() * 2 + 1, it.toLong() * 2 + 1,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        val resultB = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    it.toLong() * 2, it.toLong() * 2, it.toLong() * 2,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        dbHandler.insertBenchmarkResults(listOf(resultA))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, resultA.benchmark)
         assert((returned as SpmvBenchmarkResult).datapoints.size == 5)
-        dbHandler.insertBenchmarkResults(listOf(result))
-        returned = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
+        dbHandler.insertBenchmarkResults(listOf(resultB))
+        returned = dbHandler.fetchBenchmarkResult(resultB.commit, resultB.device, resultB.benchmark)
         assert((returned as SpmvBenchmarkResult).datapoints.size == 10)
     }
 

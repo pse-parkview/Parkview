@@ -9,11 +9,11 @@ fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == oth
 
 val COMMIT_A = Commit("sha", "", Date(), "")
 val COMMIT_B = Commit("ash", "", Date(), "")
-private val device = Device("gamer")
+val DEVICE = Device("gamer")
 
 val SPMV_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
-    device,
+    DEVICE,
     BenchmarkType.Spmv,
     (1..5).map {
         val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
@@ -28,7 +28,7 @@ val SPMV_RESULT = SpmvBenchmarkResult(
 
 val SOLVER_RESULT = SolverBenchmarkResult(
     COMMIT_A,
-    device,
+    DEVICE,
     BenchmarkType.Solver,
     (1..5).map { index ->
         SolverDatapoint(
@@ -51,7 +51,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
 
 val CONVERSION_RESULT = ConversionBenchmarkResult(
     COMMIT_A,
-    device,
+    DEVICE,
     BenchmarkType.Conversion,
     (1..5).map {
         ConversionDatapoint(
@@ -64,11 +64,11 @@ val CONVERSION_RESULT = ConversionBenchmarkResult(
 
 val BLAS_RESULT = BlasBenchmarkResult(
     COMMIT_A,
-    device,
+    DEVICE,
     BenchmarkType.Blas,
     (1..5).map {
         BlasDatapoint(
-            10, operations = listOf(
+            it.toLong() * 10, operations = listOf(
                 Operation("", 1.0, 1.0, it * 1.0, true),
             )
         )
@@ -77,11 +77,11 @@ val BLAS_RESULT = BlasBenchmarkResult(
 
 val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
     COMMIT_A,
-    device,
+    DEVICE,
     BenchmarkType.Preconditioner,
     (1..5).map {
         PreconditionerDatapoint(
-            10, 10, 10, listOf(
+            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                 Preconditioner(
                     "", listOf(
                         Component("", it.toDouble()),
