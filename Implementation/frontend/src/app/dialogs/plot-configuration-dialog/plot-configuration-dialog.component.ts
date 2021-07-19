@@ -9,6 +9,7 @@ import {
   PlotTypeOption
 } from "../../../logic/plothandler/interfaces/available-plot-types";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -39,7 +40,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
   currentPlotOptions: { [key: string]: string | number } = {};
 
   constructor(private readonly commitSelectService: CommitSelectionService,
-              private readonly dataService: DataService) {
+              private readonly dataService: DataService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -122,14 +124,19 @@ export class PlotConfigurationDialogComponent implements OnInit {
   navigateToPlotView() {
     // this.router.navigate(['singleBenchmark_plot_or_so'], {queryParams: {pc: compilePlotConfig()}});
     // and let them do the work or something
-    alert(`navigate to plot view with these query params or something similar ${JSON.stringify(this.compilePlotConfig())} `);
-    console.log(this.compilePlotConfig());
+    const config: PlotConfiguration = this.compilePlotConfig();
+    const qp = {
+      ...config,
+      options: null,
+      ...config.options
+    };
+    this.router.navigate(['test'], {queryParams: qp});
   }
 
   compilePlotConfig(): PlotConfiguration {
-    const optionsObject = new Map<string, string>();
+    const optionsObject: {[keys: string]: string}= {};
     this.currentPlotTypeOption.options.forEach(o => {
-      optionsObject.set(o.name, this.currentPlotOptions[o.name].toString());
+      optionsObject[o.name] = this.currentPlotOptions[o.name].toString();
     });
     return {
       benchmark: this.benchmarkName,

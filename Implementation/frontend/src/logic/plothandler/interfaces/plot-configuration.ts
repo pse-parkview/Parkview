@@ -6,5 +6,5 @@ export interface PlotConfiguration {
   get commits(): string[];
   get devices(): string[];
   get plotType(): string;
-  get options(): Map<string, string>;
+  get options(): { [key: string]: string} ;
 }

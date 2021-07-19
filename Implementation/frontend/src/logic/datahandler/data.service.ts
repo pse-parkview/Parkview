@@ -77,7 +77,7 @@ export class DataService {
       .set('plotType', config.plotType)
     config.commits.forEach(sha => params = params.append('shas', sha));
     config.devices.forEach(d => params = params.append('devices', d));
-    config.options.forEach(((value, key) => params = params.append(key, value)));
+    Object.keys(config.options).forEach(k => params = params.append(k, config.options[k]));
     return this.http.get<Array<ChartDataSets>>(`${this.url}/plot`, {params: params});
   }
 }
