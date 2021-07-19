@@ -6,8 +6,6 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {GitHistoryComponent} from './main-content/dashboard/git-history/git-history.component';
-import {SingleBenchmarkPlotComponent} from './main-content/single-benchmark-plot/single-benchmark-plot.component';
-import {BenchmarkComparisonPlotComponent} from './main-content/benchmark-comparison-plot/benchmark-comparison-plot.component';
 import {AveragePerformanceComponent} from './main-content/dashboard/average-performance/average-performance.component';
 import {PlotConfigurationDialogComponent} from './dialogs/plot-configuration-dialog/plot-configuration-dialog.component';
 import {BenchmarkSelectDialogComponent} from './dialogs/benchmark-select-dialog/benchmark-select-dialog.component';
@@ -37,9 +35,12 @@ import {MatMenuModule} from "@angular/material/menu";
 import {ChartsModule} from "ng2-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { AbbreviatePipe } from '../lib/pipes/abbreviate.pipe';
+import {AbbreviatePipe} from '../lib/pipes/abbreviate.pipe';
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
+import {LinePlotComponent} from './main-content/line-plot/line-plot.component';
+import {ScatterPlotComponent} from './main-content/scatter-plot/scatter-plot.component';
+import {BarPlotComponent} from './main-content/bar-plot/bar-plot.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +48,6 @@ import {MatTableModule} from "@angular/material/table";
     HeaderComponent,
     SidebarComponent,
     GitHistoryComponent,
-    SingleBenchmarkPlotComponent,
-    BenchmarkComparisonPlotComponent,
     AveragePerformanceComponent,
     PlotConfigurationDialogComponent,
     BenchmarkSelectDialogComponent,
@@ -63,28 +62,31 @@ import {MatTableModule} from "@angular/material/table";
     PlotCardComponent,
     DashboardComponent,
     TestComponent,
-    AbbreviatePipe
+    AbbreviatePipe,
+    LinePlotComponent,
+    ScatterPlotComponent,
+    BarPlotComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        LibModule,
-        LogicModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatSlideToggleModule,
-        MatButtonModule,
-        MatCardModule,
-        MatMenuModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        ChartsModule,
-        MatExpansionModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatTableModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    LibModule,
+    LogicModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    ChartsModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatTableModule,
+  ],
   providers: [
     CookieService
   ],
