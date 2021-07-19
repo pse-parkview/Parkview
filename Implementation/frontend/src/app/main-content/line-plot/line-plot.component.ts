@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ChartData, ChartDataSets, ChartOptions, ChartType} from "chart.js";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
-import lineData from './line.json'; // Temporary test data TODO: remove
+import {DataService} from "../../../logic/datahandler/data.service";
+import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 
 @Component({
   selector: 'app-line-plot',
@@ -33,24 +34,35 @@ export class LinePlotComponent implements OnInit {
   public chartType: ChartType = 'line';
   public labels = Array();
 
-  constructor(private readonly route: ActivatedRoute) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: DataService) {
   }
-
 
   ngOnInit() {
-    this.chartData = lineData;
-    // this.readParams(this.route.queryParams);
-    // this.chartData = this.getData();
+    this.readParams(this.route.queryParamMap);
   }
 
+  readParams(params: Observable<ParamMap>) {
+    params.subscribe(p => {
+      if (p.has('benchmark') && p.has('commits') && p.has('devices') && p.has('plotType')) {
+        // Get additional configuration
+        let extraOptions: { [key: string]: string } = {};
+        for (let param of p.keys) {
+          if (param !== 'benchmark' && param !== 'commits' && param !== 'devices' && param !== 'plotType') {
+            extraOptions[param] = p.get(param) as string;
+          }
+        }
+        // Build request
+        let config: PlotConfiguration = {
+          benchmark: p.get("benchmark") as string,
+          commits: p.getAll("commits") as string[],
+          devices: p.getAll("devices") as string[],
+          plotType: p.get("plotType") as string,
+          options: extraOptions
+        };
 
-
-  readParams(params: Observable<Params>) {
-    // TODO: parse query params here
-  }
-
-  getData() {
-    // TODO: get data from data handler here
-    return lineData;
+        // Make request and read data
+        this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
+      }
+    });
   }
 }
