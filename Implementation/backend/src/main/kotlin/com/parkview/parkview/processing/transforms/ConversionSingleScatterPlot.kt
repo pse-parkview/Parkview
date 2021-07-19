@@ -11,7 +11,12 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
         PlotOption(
             name = "xAxis",
             options = listOf("nonzeros")
-        )
+        ),
+        PlotOption(
+            name = "yAxis",
+            options = listOf("bandwidth", "time")
+        ),
+
     )
 
     override fun transformConversion(
@@ -36,6 +41,6 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value) })
+        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) })
     }
 }
