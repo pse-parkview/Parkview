@@ -127,9 +127,6 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long,
-        colLim: Long,
-        nonzerosLim: Long
     ): BenchmarkResult {
         val benchmarkId = transaction(db) {
             BenchmarkResultTable.select {
@@ -147,36 +144,24 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 commit,
                 device,
                 benchmark,
-                rowLim,
-                colLim,
-                nonzerosLim
             )
             BenchmarkType.Solver -> fetchSolverBenchmarkResult(
                 benchmarkId,
                 commit,
                 device,
                 benchmark,
-                rowLim,
-                colLim,
-                nonzerosLim
             )
             BenchmarkType.Preconditioner -> fetchPreconditionerBenchmarkResult(
                 benchmarkId,
                 commit,
                 device,
                 benchmark,
-                rowLim,
-                colLim,
-                nonzerosLim
             )
             BenchmarkType.Conversion -> fetchConversionBenchmarkResult(
                 benchmarkId,
                 commit,
                 device,
                 benchmark,
-                rowLim,
-                colLim,
-                nonzerosLim
             )
             BenchmarkType.Blas -> fetchBlasBenchmarkResult(benchmarkId, commit, device, benchmark)
         }
@@ -187,17 +172,11 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long,
-        colLim: Long,
-        nonzerosLim: Long
     ): BenchmarkResult {
         val arrayType = object : TypeToken<List<Format>>() {}.type
         val datapoints = transaction(db) {
             MatrixDatapointTable.select {
-                (MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.rows greaterEq rowLim) and
-                        (MatrixDatapointTable.cols greaterEq colLim) and
-                        (MatrixDatapointTable.nonzeros greaterEq nonzerosLim)
+                MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 SpmvDatapoint(
                     rows = it[MatrixDatapointTable.rows],
@@ -221,17 +200,11 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long,
-        colLim: Long,
-        nonzerosLim: Long
     ): BenchmarkResult {
         val arrayType = object : TypeToken<List<Conversion>>() {}.type
         val datapoints = transaction(db) {
             MatrixDatapointTable.select {
-                (MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.rows greaterEq rowLim) and
-                        (MatrixDatapointTable.cols greaterEq colLim) and
-                        (MatrixDatapointTable.nonzeros greaterEq nonzerosLim)
+                MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 ConversionDatapoint(
                     rows = it[MatrixDatapointTable.rows],
@@ -255,17 +228,11 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long,
-        colLim: Long,
-        nonzerosLim: Long
     ): BenchmarkResult {
         val arrayType = object : TypeToken<List<Solver>>() {}.type
         val datapoints = transaction(db) {
             MatrixDatapointTable.select {
-                (MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.rows greaterEq rowLim) and
-                        (MatrixDatapointTable.cols greaterEq colLim) and
-                        (MatrixDatapointTable.nonzeros greaterEq nonzerosLim)
+                MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 SolverDatapoint(
                     rows = it[MatrixDatapointTable.rows],
@@ -289,17 +256,11 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long,
-        colLim: Long,
-        nonzerosLim: Long
     ): BenchmarkResult {
         val arrayType = object : TypeToken<List<Preconditioner>>() {}.type
         val datapoints = transaction(db) {
             MatrixDatapointTable.select {
-                (MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.rows greaterEq rowLim) and
-                        (MatrixDatapointTable.cols greaterEq colLim) and
-                        (MatrixDatapointTable.nonzeros greaterEq nonzerosLim)
+                MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 PreconditionerDatapoint(
                     rows = it[MatrixDatapointTable.rows],

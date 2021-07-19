@@ -15,9 +15,6 @@ internal class AnnotatingRepositoryHandlerTest {
             commit: Commit,
             device: Device,
             benchmark: BenchmarkType,
-            rowLim: Long,
-            colLim: Long,
-            nonzerosLim: Long
         ): BenchmarkResult {
             TODO("Not yet implemented")
         }
