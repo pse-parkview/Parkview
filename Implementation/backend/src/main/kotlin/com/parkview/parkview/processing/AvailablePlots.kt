@@ -29,7 +29,9 @@ object AvailablePlots {
         SpmvSingleScatterPlot(),
         SpmvSpeedupPlot(),
     )
-    private val blasPlots: List<BlasPlotTransform> = listOf()
+    private val blasPlots: List<BlasPlotTransform> = listOf(
+        SingeBlasPlot(),
+    )
 
     private val preconditionerPlots: List<PreconditionerPlotTransform> = listOf()
 

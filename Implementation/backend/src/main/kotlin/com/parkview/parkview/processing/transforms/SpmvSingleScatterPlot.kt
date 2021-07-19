@@ -13,13 +13,16 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
             options = listOf("bandwidth", "time"),
         ),
         PlotOption(
-                name = "xAxis",
-                options = listOf("nonzeros"),
+            name = "xAxis",
+            options = listOf("nonzeros"),
         ),
     )
 
-    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, options: Map<String, String>): PlottableData {
-        val benchmarkResult = benchmarkResults[0]
+    override fun transformSpmv(
+        benchmarkResults: List<SpmvBenchmarkResult>,
+        options: Map<String, String>
+    ): PlottableData {
+        val benchmarkResult = benchmarkResults.first()
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
@@ -29,7 +32,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.nonzeros.toDouble(),
                     y = when (options["yAxis"]) {
-                        "bandwidth"-> format.storage + (datapoint.rows + datapoint.columns) / format.time
+                        "bandwidth" -> format.storage + (datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
                         else -> throw InvalidPlotTransformException("Illegal value for yAxis")
                     },

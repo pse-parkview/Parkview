@@ -14,7 +14,10 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
         )
     )
 
-    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transformConversion(
+        benchmarkResults: List<ConversionBenchmarkResult>,
+        options: Map<String, String>
+    ): PlottableData {
         val benchmarkResult = benchmarkResults[0]
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()

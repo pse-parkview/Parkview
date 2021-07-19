@@ -14,7 +14,10 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
         )
     )
 
-    override fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, xAxis: Map<String, String>): PlottableData {
+    override fun transformConversion(
+        benchmarkResults: List<ConversionBenchmarkResult>,
+        xAxis: Map<String, String>
+    ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         val datapointsA = benchmarkResults[0].datapoints.sortedBy { it.nonzeros }
@@ -29,7 +32,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
 
                 seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
                     x = datapointA.nonzeros.toDouble(),
-                    conversionA.time / conversionB.time
+                    y = conversionA.time / conversionB.time
                 )
             }
         }

@@ -15,7 +15,10 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
         )
     )
 
-    override fun transformSpmv(benchmarkResults: List<SpmvBenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transformSpmv(
+        benchmarkResults: List<SpmvBenchmarkResult>,
+        options: Map<String, String>
+    ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         val datapointsA = benchmarkResults[0].datapoints.sortedBy { it.nonzeros }
@@ -30,7 +33,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
                     x = datapointA.nonzeros.toDouble(),
-                    formatA.time / formatB.time
+                    y = formatA.time / formatB.time
                 )
             }
         }

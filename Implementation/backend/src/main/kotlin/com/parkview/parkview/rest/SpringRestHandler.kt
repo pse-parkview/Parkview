@@ -11,6 +11,7 @@ import com.parkview.parkview.processing.AvailablePlots
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.web.bind.annotation.*
+import java.lang.IllegalArgumentException
 import java.util.*
 
 /**
@@ -85,7 +86,7 @@ class SpringRestHandler(
             )
         }
 
-        val plot = AvailablePlots.getPlotByName(plotType) ?: throw Exception("Invalid plot type")
+        val plot = AvailablePlots.getPlotByName(plotType) ?: throw IllegalArgumentException("Invalid plot type")
         return plot.transform(results, plotParams).toJson()
     }
 

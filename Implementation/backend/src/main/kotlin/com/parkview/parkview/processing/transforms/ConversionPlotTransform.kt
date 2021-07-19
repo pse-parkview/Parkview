@@ -24,5 +24,8 @@ interface ConversionPlotTransform : PlotTransform {
      * @param benchmarkResults list of conversion benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformConversion(benchmarkResults: List<ConversionBenchmarkResult>, options: Map<String, String>): PlottableData
+    fun transformConversion(
+        benchmarkResults: List<ConversionBenchmarkResult>,
+        options: Map<String, String>
+    ): PlottableData
 }

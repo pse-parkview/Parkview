@@ -24,5 +24,8 @@ interface PreconditionerPlotTransform : PlotTransform {
      * @param benchmarkResults list of preconditioner benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformPreconditioner(benchmarkResults: List<PreconditionerBenchmarkResult>, options: Map<String, String>): PlottableData
+    fun transformPreconditioner(
+        benchmarkResults: List<PreconditionerBenchmarkResult>,
+        options: Map<String, String>
+    ): PlottableData
 }
