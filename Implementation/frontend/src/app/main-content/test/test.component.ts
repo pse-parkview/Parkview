@@ -8,7 +8,7 @@ import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss']
 })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit { // TODO: delete this component
 
   constructor(private readonly dataService: DataService,
               private readonly commitService: CommitSelectionService) {
