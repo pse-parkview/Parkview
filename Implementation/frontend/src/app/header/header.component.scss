@@ -32,3 +32,7 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+.clickable:hover {
+  cursor: pointer;
+}
