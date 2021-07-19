@@ -42,6 +42,7 @@ import {MatInputModule} from "@angular/material/input";
 import {LinePlotComponent} from './main-content/line-plot/line-plot.component';
 import {ScatterPlotComponent} from './main-content/scatter-plot/scatter-plot.component';
 import {BarPlotComponent} from './main-content/bar-plot/bar-plot.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import {BarPlotComponent} from './main-content/bar-plot/bar-plot.component';
     FormsModule,
     MatTableModule,
     MatInputModule,
+    MatRadioModule,
   ],
   providers: [
     CookieService

@@ -11,28 +11,46 @@ import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-conf
   styleUrls: ['./line-plot.component.scss']
 })
 export class LinePlotComponent implements OnInit {
+  public chartData: ChartDataSets[] = Array();
+  public chartType: ChartType = 'line';
+  public labels = Array();
+  public yType = 'logarithmic';
+  public xType = 'logarithmic';
+
   public chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: true,
     legend: {display: true},
+    events: ['click'],
     elements: {
+      point: {
+        radius: 0,
+      },
       line: {
+        borderWidth: 2,
         tension: 0,
+        fill: false
       }
     },
     scales: {
       yAxes: [{
-        type: 'logarithmic'
+        scaleLabel: {
+          display: true,
+          labelString: 'y Label here'
+
+        },
+        type: this.yType
       }],
       xAxes: [{
-        type: 'linear',
+        scaleLabel: {
+          display: true,
+          labelString: 'x Label here'
+        },
+        type: this.xType,
       }]
     },
   };
 
-  public chartData: ChartDataSets[] = Array();
-  public chartType: ChartType = 'line';
-  public labels = Array();
 
   constructor(private readonly route: ActivatedRoute, private readonly dataHandler: DataService) {
   }
@@ -43,6 +61,8 @@ export class LinePlotComponent implements OnInit {
 
   readParams(params: Observable<ParamMap>) {
     params.subscribe(p => {
+      this.yType = 'linear';
+      this.xType = 'linear';
       if (p.has('benchmark') && p.has('commits') && p.has('devices') && p.has('plotType')) {
         // Get additional configuration
         let extraOptions: { [key: string]: string } = {};
