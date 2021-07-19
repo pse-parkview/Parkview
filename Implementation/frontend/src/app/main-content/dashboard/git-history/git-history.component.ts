@@ -45,6 +45,7 @@ export class GitHistoryComponent implements OnInit {
     this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
+    this.selected = [];
   }
 
   selectBranch(branchChoice: string): void {
