@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
+import {Component, OnInit} from '@angular/core';
+import {ChartData, ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
+import lineData from './line.json'; // Temporary test data TODO: remove
 
 @Component({
   selector: 'app-line-plot',
@@ -13,132 +14,43 @@ export class LinePlotComponent implements OnInit {
     responsive: true,
     maintainAspectRatio: true,
     legend: {display: true},
+    elements: {
+      line: {
+        tension: 0,
+      }
+    },
+    scales: {
+      yAxes: [{
+        type: 'logarithmic'
+      }],
+      xAxes: [{
+        type: 'linear',
+      }]
+    },
   };
 
   public chartData: ChartDataSets[] = Array();
   public chartType: ChartType = 'line';
+  public labels = Array();
 
   constructor(private readonly route: ActivatedRoute) {
   }
 
 
   ngOnInit() {
-    this.chartData = this.getData();
-    this.readParams(this.route.queryParams);
-    // this.chartLabels= labels;
+    this.chartData = lineData;
+    // this.readParams(this.route.queryParams);
+    // this.chartData = this.getData();
   }
 
-  readParams(params: Observable<Params>)  {
-    // params.subscribe(p => {
-    //   this.chartType = p.chartType;
-    // })
+
+
+  readParams(params: Observable<Params>) {
+    // TODO: parse query params here
   }
 
   getData() {
-    return data;
+    // TODO: get data from data handler here
+    return lineData;
   }
 }
-
-const data = [
-  {
-    label: 'poggers',
-    data: [
-      {
-        x: 1,
-        y: 2
-      },
-      {
-        x: 2,
-        y: 7
-      },
-      {
-        x: 3,
-        y: 3
-      },
-      {
-        x: 4,
-        y: 9
-      },
-      {
-        x: 5,
-        y: 2
-      },
-      {
-        x: 6,
-        y: 1
-      },
-      {
-        x: 7,
-        y: 8
-      },
-    ]
-  },
-  {
-    label: 'poggus',
-    data: [
-      {
-        x: 1,
-        y: 3
-      },
-      {
-        x: 2,
-        y: 7
-      },
-      {
-        x: 3,
-        y: 1
-      },
-      {
-        x: 4,
-        y: 2
-      },
-      {
-        x: 5,
-        y: 5
-      },
-      {
-        x: 6,
-        y: 9
-      },
-      {
-        x: 7,
-        y: 2
-      },
-    ]
-  },
-  {
-    label: 'pogga',
-    data: [
-      {
-        x: 1,
-        y: 6
-      },
-      {
-        x: 2,
-        y: 3
-      },
-      {
-        x: 3,
-        y: 9
-      },
-      {
-        x: 4,
-        y: 8
-      },
-      {
-        x: 5,
-        y: 9
-      },
-      {
-        x: 6,
-        y: 7
-      },
-      {
-        x: 7,
-        y: 8
-      },
-    ]
-  },
-];
-
-
