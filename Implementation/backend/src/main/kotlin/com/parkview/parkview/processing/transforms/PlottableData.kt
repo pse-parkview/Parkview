@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing
+package com.parkview.parkview.processing.transforms
 
 /**
  * Interface for data that is the result of a plot transform.

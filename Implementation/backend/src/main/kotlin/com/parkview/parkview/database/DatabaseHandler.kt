@@ -34,9 +34,6 @@ interface DatabaseHandler {
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
-        rowLim: Long = 0,
-        colLim: Long = 0,
-        nonzerosLim: Long = 0
     ): BenchmarkResult
 
     /**

@@ -2,7 +2,6 @@ package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.PlottableData
 
 /**
  * Interface for transforms using [ConversionBenchmarkResult].
