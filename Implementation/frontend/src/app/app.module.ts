@@ -40,6 +40,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { AbbreviatePipe } from '../lib/pipes/abbreviate.pipe';
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import {MatTableModule} from "@angular/material/table";
         MatCheckboxModule,
         FormsModule,
         MatTableModule,
+        MatInputModule,
     ],
   providers: [
     CookieService

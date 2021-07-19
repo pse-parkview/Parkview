@@ -75,7 +75,7 @@ export class DataService {
     let params: HttpParams = new HttpParams()
       .set('benchmark', config.benchmark)
       .set('plotType', config.plotType)
-      .set('xAxis', config.xAxis);
+      //.set('xAxis', config.xAxis);
     config.commits.forEach(c => params = params.append('shas', c.sha));
     config.devices.forEach(d => params = params.append('devices', d));
 

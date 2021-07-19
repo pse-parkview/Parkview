@@ -28,11 +28,13 @@
   Comparing more than 2 commits is currently impossible. <br>
 </span>
 <br>
+
+
 <mat-form-field>
   <mat-label>Available Chart Types</mat-label>
   <mat-select [(value)]="currentPlotTypeKey"
               [disabled]="availablePlotTypeKeys.length === 0"
-              (selectionChange)="selectPlotTypeKey()">
+              (selectionChange)="updatePlotTypeKey()">
     <mat-option *ngFor="let plottype of availablePlotTypeKeys"
                 [value]="plottype">
       {{plottype}}
@@ -42,26 +44,37 @@
 
 <mat-form-field>
   <mat-label>Available Plot Types</mat-label>
-  <mat-select [(value)]="currentPlotName"
-              [disabled]="availablePlotNames.length === 0"
-              (selectionChange)="selectPlotName()">
-    <mat-option *ngFor="let plotName of availablePlotNames"
-                [value]="plotName">
-      {{plotName}}
+  <mat-select [(value)]="currentPlotTypeOption"
+              [disabled]="availablePlotTypeOptions.length === 0"
+              (selectionChange)="updatePlotTypeOption()">
+    <mat-option *ngFor="let plotTypeOption of availablePlotTypeOptions"
+                [value]="plotTypeOption">
+      {{plotTypeOption.plotName}}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Available x Axis Labels</mat-label>
-  <mat-select [(value)]="currentxAxis"
-              [disabled]="availableXAxis.length === 0">
-    <mat-option *ngFor="let xAxisLabel of availableXAxis"
-                [value]="xAxisLabel">
-      {{xAxisLabel}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div *ngFor="let plotOption of availablePlotOptions">
+  <mat-form-field *ngIf="plotOption.number">
+    <mat-label>{{plotOption.name}}</mat-label>
+    <input matInput
+           id="{{plotOption.name}}"
+           type="number"
+           placeholder="0"
+           value="0">
+  </mat-form-field>
+  <mat-form-field *ngIf="!plotOption.number">
+    <mat-label>{{plotOption.name}}</mat-label>
+    <mat-select [disabled]="plotOption.options.length === 0">
+      <mat-option *ngFor="let o of plotOption.options"
+                  [value]="o">
+        {{ o }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
 <br>
 <br>
 <!--TODO make them look palatable-->

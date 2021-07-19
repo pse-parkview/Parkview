@@ -1,11 +1,18 @@
 export interface AvailablePlotTypes {
-  get line(): NameWithAvailableXAxis[];
-  get scatter(): NameWithAvailableXAxis[];
-  get bar(): NameWithAvailableXAxis[];
-  get stackedBar(): NameWithAvailableXAxis[];
+  get line(): PlotTypeOption[];
+  get scatter(): PlotTypeOption[];
+  get bar(): PlotTypeOption[];
+  get stackedBar(): PlotTypeOption[];
 }
 
-export interface NameWithAvailableXAxis {
-  get name(): string;
-  get xAxis(): string[];
+export interface PlotTypeOption {
+  get plotName(): string;
+  get options(): PlotOption[];
 }
+
+export interface PlotOption {
+  get name(): string;
+  get options(): string[];
+  get number(): boolean;
+}
+

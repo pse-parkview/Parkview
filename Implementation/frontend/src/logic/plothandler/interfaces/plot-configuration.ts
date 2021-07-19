@@ -8,5 +8,5 @@ export interface PlotConfiguration {
   get commits(): Commit[];
   get devices(): string[];
   get plotType(): string;
-  get xAxis(): string;
+  get options(): Map<string, string>;
 }
