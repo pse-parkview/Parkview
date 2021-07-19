@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { DefaultvaluePipe } from './pipes/defaultvalue.pipe';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 
@@ -14,7 +15,8 @@ import { DefaultvaluePipe } from './pipes/defaultvalue.pipe';
   ],
   imports: [
     CommonModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatSnackBarModule,
   ]
 })
 export class LibModule { }

@@ -14,7 +14,6 @@ import {ErrorDialogComponent} from './dialogs/error-dialog/error-dialog.componen
 import {BenchmarkCompareDialogComponent} from './dialogs/benchmark-compare-dialog/benchmark-compare-dialog.component';
 import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
-import {SideBenchmarkCompareComponent} from './sidebar/side-benchmark-compare/side-benchmark-compare.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
 import {SidePreviousPlotsComponent} from './sidebar/side-previous-plots/side-previous-plots.component';
 import {PlotCardComponent} from './sidebar/side-previous-plots/plot-card/plot-card.component';
@@ -58,7 +57,6 @@ import {MatRadioModule} from "@angular/material/radio";
     BenchmarkCompareDialogComponent,
     CookieConsentDialogComponent,
     SideCurrentChosenCommitComponent,
-    SideBenchmarkCompareComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
     PlotCardComponent,
