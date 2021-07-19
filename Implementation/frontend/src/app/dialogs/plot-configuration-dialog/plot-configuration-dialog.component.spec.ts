@@ -22,4 +22,6 @@ describe('PlotConfigurationDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO implement tests for PlotConfigurationDialogComponent, the data binding properties of currentPlotOptions are very magical
 });

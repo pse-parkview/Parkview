@@ -36,7 +36,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   };
 
   availablePlotOptions: PlotOption[] = [];
-  currentPlotOptions: Map<PlotOption, string>[] = []
+  currentPlotOptions: { [key: string]: string | number } = {};
 
   constructor(private readonly commitSelectService: CommitSelectionService,
               private readonly dataService: DataService) {
@@ -53,7 +53,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
     const commits = this.commitsAndDevices.map(p => p.commit);
     const devices = this.commitsAndDevices.map(p => p.device);
     this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
-      this.availablePlots = availablePlots;
+
       this.availablePlots = {
         get bar(): PlotTypeOption[] {
           return [];
@@ -77,6 +77,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
         }
 
       }
+      this.availablePlots = availablePlots;
       this.filterOutEmptyPlotTypeKeys();
     });
   }
@@ -96,6 +97,14 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   updatePlotTypeOption() {
     this.availablePlotOptions = this.currentPlotTypeOption.options;
+    this.currentPlotOptions = {};
+    this.availablePlotOptions.forEach(po => {
+      if (po.number) {
+        this.currentPlotOptions[po.name] = 0;
+      } else {
+        this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
+      }
+    });
   }
 
   resetPlotTypeKeyValues() {
@@ -105,20 +114,29 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   saveAndStoreCurrentConfig() {
     // this.cookieService.store(compilePlotConfig()); oder so
+    alert(`todo: store ${JSON.stringify(this.compilePlotConfig())} as a cookie or similar`);
+    console.log(this.compilePlotConfig());
+
   }
 
   navigateToPlotView() {
     // this.router.navigate(['singleBenchmark_plot_or_so'], {queryParams: {pc: compilePlotConfig()}});
     // and let them do the work or something
+    alert(`navigate to plot view with these query params or something similar ${JSON.stringify(this.compilePlotConfig())} `);
+    console.log(this.compilePlotConfig());
   }
 
   compilePlotConfig(): PlotConfiguration {
+    const optionsObject = new Map<string, string>();
+    this.currentPlotTypeOption.options.forEach(o => {
+      optionsObject.set(o.name, this.currentPlotOptions[o.name].toString());
+    });
     return {
       benchmark: this.benchmarkName,
-      commits: this.commitsAndDevices.map(p => p.commit),
+      commits: this.commitsAndDevices.map(p => p.commit.sha),
       devices: this.commitsAndDevices.map(p => p.device),
-      plotType: "",
-      options: new Map<string, string>(),
+      plotType: this.currentPlotTypeOption.plotName,
+      options: optionsObject,
     };
   }
 

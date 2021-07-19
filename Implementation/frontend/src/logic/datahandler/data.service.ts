@@ -75,10 +75,9 @@ export class DataService {
     let params: HttpParams = new HttpParams()
       .set('benchmark', config.benchmark)
       .set('plotType', config.plotType)
-      //.set('xAxis', config.xAxis);
-    config.commits.forEach(c => params = params.append('shas', c.sha));
+    config.commits.forEach(sha => params = params.append('shas', sha));
     config.devices.forEach(d => params = params.append('devices', d));
-
+    config.options.forEach(((value, key) => params = params.append(key, value)));
     return this.http.get<Array<ChartDataSets>>(`${this.url}/plot`, {params: params});
   }
 }

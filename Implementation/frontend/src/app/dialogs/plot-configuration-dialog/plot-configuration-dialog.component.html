@@ -3,19 +3,19 @@
        [dataSource]="commitsAndDevices"
        class="mat-elevation-z0">
   <ng-container matColumnDef="sha">
-    <th mat-header-cell *matHeaderCellDef> Sha </th>
+    <th mat-header-cell *matHeaderCellDef id="sha"> Sha </th>
     <td mat-cell *matCellDef="let p"> {{p.commit.sha | abbreviate: 6}} </td>
   </ng-container>
   <ng-container matColumnDef="timestamp">
-    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <th mat-header-cell *matHeaderCellDef id="date"> Date </th>
     <td mat-cell *matCellDef="let p"> {{p.commit.date.toString()}} </td>
   </ng-container>
   <ng-container matColumnDef="author">
-    <th mat-header-cell *matHeaderCellDef> Author </th>
+    <th mat-header-cell *matHeaderCellDef id="author"> Author </th>
     <td mat-cell *matCellDef="let p"> {{p.commit.author.split() | abbreviate: 6}} </td>
   </ng-container>
   <ng-container matColumnDef="device">
-    <th mat-header-cell *matHeaderCellDef> Device </th>
+    <th mat-header-cell *matHeaderCellDef id="device"> Device </th>
     <td mat-cell *matCellDef="let p"> {{p.device}} </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="['sha', 'timestamp', 'author', 'device']"></tr>
@@ -61,11 +61,13 @@
            id="{{plotOption.name}}"
            type="number"
            placeholder="0"
-           value="0">
+           [(ngModel)]="currentPlotOptions[plotOption.name]">
   </mat-form-field>
   <mat-form-field *ngIf="!plotOption.number">
     <mat-label>{{plotOption.name}}</mat-label>
-    <mat-select [disabled]="plotOption.options.length === 0">
+    <mat-select [id]="plotOption.name"
+                [disabled]="plotOption.options.length === 0"
+                [(value)]="currentPlotOptions[plotOption.name]">
       <mat-option *ngFor="let o of plotOption.options"
                   [value]="o">
         {{ o }}
