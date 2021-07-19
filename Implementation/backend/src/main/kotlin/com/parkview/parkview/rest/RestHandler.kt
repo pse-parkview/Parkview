@@ -34,7 +34,7 @@ interface RestHandler {
      * @param shas list of commit shas for benchmarks
      * @param devices list of devices for benchmarks
      * @param plotType what type of transform should be applied
-     * @param xAxis which value to pick for xAxis
+     * @param plotParams additional options for the plot
      */
     fun handleGetPlotData(
         benchmark: String,
