@@ -1,12 +1,20 @@
 package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.Datapoint
 
 /**
- * Benchmark type that uses matrices.
- *
- * @param datapoints list of datapoints for this benchmark
+ * Specific datapoint for matrix benchmark, contains information about the problem setup
  */
-abstract class MatrixBenchmarkResult(
-    val datapoints: List<MatrixDatapoint>
-) : BenchmarkResult
+interface MatrixDatapoint : Datapoint {
+    val rows: Long
+    val columns: Long
+    val nonzeros: Long
+}
+
+/**
+ * Interface for benchmarks using a matrix as a problem description
+ */
+interface MatrixBenchmarkResult : BenchmarkResult {
+    override val datapoints: List<MatrixDatapoint>
+}

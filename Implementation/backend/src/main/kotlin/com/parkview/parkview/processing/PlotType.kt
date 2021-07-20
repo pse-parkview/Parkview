@@ -1,3 +1,11 @@
 package com.parkview.parkview.processing
 
-enum class PlotType
+/**
+ * Types of plots available to the frontend
+ */
+enum class PlotType {
+    Scatter,
+    Line,
+    Bar,
+    StackedBar,
+}

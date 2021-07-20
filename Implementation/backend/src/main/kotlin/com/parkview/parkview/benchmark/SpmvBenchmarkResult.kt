@@ -1,8 +1,47 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.Benchmark
+import com.google.gson.GsonBuilder
+import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
+
+
+/**
+ * A single format, part of [SpmvBenchmarkResult].
+ *
+ * TODO don't know what any of this is
+ * @param name format name
+ * @param storage
+ * @param time
+ * @param maxRelativeNorm2
+ * @param completed
+ */
+data class Format(
+    val name: String,
+    val time: Double,
+    val completed: Boolean,
+    val storage: Long = 0,
+    val maxRelativeNorm2: Double = 0.0,
+)
+
+/**
+ * A single datapoint, contains the problem description for the matrix and
+ * a list of formats.
+ *
+ * @param rows number of rows
+ * @param columns number of columns
+ * @param nonzeros number of nonzeros
+ * @param formats list of [Format]
+ */
+data class SpmvDatapoint(
+    override val rows: Long,
+    override val columns: Long,
+    override val nonzeros: Long,
+    val formats: List<Format>,
+) : MatrixDatapoint {
+    override fun serializeComponentsToJson(): String =
+        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(formats)
+}
 
 /**
  * This is a benchmark result for the benchmarks
@@ -13,13 +52,24 @@ import com.parkview.parkview.git.Device
  * @param benchmark type of benchmark
  * @param datapoints datapoints for this benchmark
  */
-class SpmvBenchmarkResult(
+data class SpmvBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: Benchmark,
-    datapoints: List<MatrixDatapoint>,
-) : MatrixBenchmarkResult(datapoints) {
-    override fun getSummaryValue(): Double {
-        TODO("Not yet implemented")
+    override val benchmark: BenchmarkType,
+    override val datapoints: List<SpmvDatapoint>,
+) : MatrixBenchmarkResult {
+    override val summaryValues: Map<String, Double>
+        get() = calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
+
+    private fun calcBandwidths(): Map<String, List<Double>> {
+        val bandwidths = mutableMapOf<String, MutableList<Double>>()
+
+        for (datapoint in datapoints) {
+            for (format in datapoint.formats) {
+                bandwidths.getOrPut(format.name) { mutableListOf<Double>() }.add(datapoint.nonzeros / format.time)
+            }
+        }
+
+        return bandwidths
     }
 }

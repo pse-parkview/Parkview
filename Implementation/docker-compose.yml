@@ -26,15 +26,15 @@ services:
     links: 
       - parkview-postgres
 
-# parkview-backend:
-#   build: ./backend
-#   container_name: parkview-backend
-#   environment:
-#     - DB_SERVER=parkview-postgres
-#   ports:
-#     - 8080:8080
-#   links:
-#     - parkview-postgres
+  parkview-backend:
+    build: backend
+    container_name: parkview-backend
+    environment:
+      - DB_SERVER=parkview-postgres
+    ports:
+      - 8080:8080
+    links:
+      - parkview-postgres
 
 # parkview-frontend:
 #   build: ./frontend
