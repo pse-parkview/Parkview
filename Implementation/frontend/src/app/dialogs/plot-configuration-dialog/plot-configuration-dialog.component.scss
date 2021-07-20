@@ -7,3 +7,7 @@
 table {
   width: 100%;
 }
+
+.mat-expansion-panel-header[aria-disabled=true] {
+  color: rgba(0,0,0,0.87);
+}

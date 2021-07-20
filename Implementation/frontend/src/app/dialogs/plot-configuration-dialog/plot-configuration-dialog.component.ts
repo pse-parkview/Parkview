@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {DataService} from "../../../logic/datahandler/data.service";
-import {
-  AvailablePlotTypes,
-  PlotOption,
-  PlotTypeOption
-} from "../../../logic/plothandler/interfaces/available-plot-types";
+import {AvailablePlotTypes, PlotOption, PlotTypeOption, X_AXIS_PLOT_OPTION_NAME, Y_AXIS_PLOT_OPTION_NAME} from "../../../logic/plothandler/interfaces/available-plot-types";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {Router} from "@angular/router";
+import {MatExpansionPanel} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -17,6 +14,8 @@ import {Router} from "@angular/router";
   styleUrls: ['./plot-configuration-dialog.component.scss']
 })
 export class PlotConfigurationDialogComponent implements OnInit {
+
+  @ViewChild(MatExpansionPanel) customizationPanel: MatExpansionPanel = {} as MatExpansionPanel;
 
   benchmarkName: string = '';
   commitsAndDevices: Pair[] = [];
@@ -39,6 +38,10 @@ export class PlotConfigurationDialogComponent implements OnInit {
   availablePlotOptions: PlotOption[] = [];
   currentPlotOptions: { [key: string]: string | number } = {};
 
+  plotlabelTitle: string = '';
+  plotlabelXAxis: string = 'x';
+  plotlabelYAxis: string = 'y';
+
   constructor(private readonly commitSelectService: CommitSelectionService,
               private readonly dataService: DataService,
               private readonly router: Router) {
@@ -51,67 +54,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.fetchAvailablePlots();
   }
 
-  fetchAvailablePlots() {
-    const commits = this.commitsAndDevices.map(p => p.commit);
-    const devices = this.commitsAndDevices.map(p => p.device);
-    this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
-
-      this.availablePlots = {
-        get bar(): PlotTypeOption[] {
-          return [];
-        }, get line(): PlotTypeOption[] {
-          return [];
-        }, get scatter(): PlotTypeOption[] {
-          return [
-            {
-              plotName: 'bringe',
-              options: [
-                {
-                  name: 'pogers',
-                  options: [],
-                  number: true,
-                }
-              ]
-            }
-          ];
-        }, get stackedBar(): PlotTypeOption[] {
-          return [];
-        }
-
-      }
-      this.availablePlots = availablePlots;
-      this.filterOutEmptyPlotTypeKeys();
-    });
-  }
-
-  filterOutEmptyPlotTypeKeys() {
-    this.resetPlotTypeKeyValues();
-    this.availablePlotTypeKeys = Object.keys(this.availablePlots).filter(k => ((this.availablePlots as any)[k] as PlotTypeOption[]).length !== 0);
-    this.currentPlotTypeKey = this.availablePlotTypeKeys.length !== 0 ? this.availablePlotTypeKeys[0] : '';
-    this.updatePlotTypeKey();
-  }
-
-  updatePlotTypeKey() {
-    this.availablePlotTypeOptions = (this.availablePlots as any)[this.currentPlotTypeKey] as PlotTypeOption[];
-    this.currentPlotTypeOption = this.availablePlotTypeOptions.length !== 0 ? this.availablePlotTypeOptions[0] : { plotName: '', options: [] };
-    this.updatePlotTypeOption()
-  }
-
-  updatePlotTypeOption() {
-    this.availablePlotOptions = this.currentPlotTypeOption.options;
-    this.currentPlotOptions = {};
-    this.availablePlotOptions.forEach(po => {
-      if (po.number) {
-        this.currentPlotOptions[po.name] = 0;
-      } else {
-        this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
-      }
-    });
-  }
-
-  resetPlotTypeKeyValues() {
-    this.availablePlotTypeKeys = [];
-    this.currentPlotTypeKey = '';
+  togglePanel() {
+    this.customizationPanel.toggle();
   }
 
   saveAndStoreCurrentConfig() {
@@ -122,8 +66,6 @@ export class PlotConfigurationDialogComponent implements OnInit {
   }
 
   navigateToPlotView() {
-    // this.router.navigate(['singleBenchmark_plot_or_so'], {queryParams: {pc: compilePlotConfig()}});
-    // and let them do the work or something
     const config: PlotConfiguration = this.compilePlotConfig();
     const qp = {
       ...config,
@@ -133,7 +75,49 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.router.navigate(['line'], {queryParams: qp});
   }
 
-  compilePlotConfig(): PlotConfiguration {
+  updatePlotTypeKey() {
+    this.availablePlotTypeOptions = (this.availablePlots as any)[this.currentPlotTypeKey] as PlotTypeOption[];
+    this.currentPlotTypeOption = this.availablePlotTypeOptions.length !== 0 ? this.availablePlotTypeOptions[0] : { plotName: '', options: [] };
+    this.updatePlotTypeOption()
+  }
+
+  updatePlotTypeOption() {
+    this.availablePlotOptions = this.currentPlotTypeOption.options;
+    this.plotlabelTitle = this.currentPlotTypeOption.plotName
+    this.currentPlotOptions = {};
+    this.availablePlotOptions.forEach(po => {
+      if (po.number) {
+        this.currentPlotOptions[po.name] = 0;
+      } else {
+        this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
+      }
+      this.plotlabelXAxis = po.name === X_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelXAxis;
+      this.plotlabelYAxis = po.name === Y_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelYAxis;
+    });
+  }
+
+  private fetchAvailablePlots() {
+    const commits = this.commitsAndDevices.map(p => p.commit);
+    const devices = this.commitsAndDevices.map(p => p.device);
+    this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
+      this.availablePlots = availablePlots;
+      this.filterOutEmptyPlotTypeKeys();
+    });
+  }
+
+  private filterOutEmptyPlotTypeKeys() {
+    this.resetPlotTypeKeyValues();
+    this.availablePlotTypeKeys = Object.keys(this.availablePlots).filter(k => ((this.availablePlots as any)[k] as PlotTypeOption[]).length !== 0);
+    this.currentPlotTypeKey = this.availablePlotTypeKeys.length !== 0 ? this.availablePlotTypeKeys[0] : '';
+    this.updatePlotTypeKey();
+  }
+
+  private resetPlotTypeKeyValues() {
+    this.availablePlotTypeKeys = [];
+    this.currentPlotTypeKey = '';
+  }
+
+  private compilePlotConfig(): PlotConfiguration {
     const optionsObject: {[keys: string]: string}= {};
     this.currentPlotTypeOption.options.forEach(o => {
       optionsObject[o.name] = this.currentPlotOptions[o.name].toString();
@@ -146,5 +130,4 @@ export class PlotConfigurationDialogComponent implements OnInit {
       options: optionsObject,
     };
   }
-
 }
