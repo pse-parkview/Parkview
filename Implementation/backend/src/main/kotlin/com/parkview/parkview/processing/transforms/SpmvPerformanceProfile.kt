@@ -4,7 +4,7 @@ import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.processing.*
 
 class SpmvPerformanceProfile : SpmvPlotTransform {
-    override val numInputsRange = 2..2
+    override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
     override val name = "SpmvPerformanceProfile"
     override val availableOptions: List<PlotOption> = listOf(
@@ -46,7 +46,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform {
         }
 
         return DatasetSeries(
-            seriesByName.map { (key, value) -> Dataset(label = key, data = value) }
+            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) }
         )
     }
 
