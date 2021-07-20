@@ -130,7 +130,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
       options: null,
       ...config.options
     };
-    this.router.navigate(['line'], {queryParams: qp});
+    this.router.navigate([this.currentPlotTypeKey], {queryParams: qp});
   }
 
   compilePlotConfig(): PlotConfiguration {
