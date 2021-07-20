@@ -30,36 +30,6 @@ export class DataService {
       .set('page', page.toString(10))
       .set('benchmark', benchmarkType);
     return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
-
-    /* uncomment and maybe extend if you dont have a backend to test with
-
-    return of([
-      {
-        date: new Date(),
-        commitMessage: `mockcommit 1 from ${branchName}`,
-        author: 'max',
-        hasBenchmark: false,
-        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
-        branch: branchName
-      },
-      {
-        date: new Date(),
-        commitMessage: `mockcommit 2 from ${branchName}`,
-        author: 'ted',
-        hasBenchmark: true,
-        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
-        branch: branchName
-      },
-      {
-        date: new Date(),
-        commitMessage: `mockcommit 3 from ${branchName}`,
-        author: 'rstallman',
-        hasBenchmark: true,
-        sha: 'shastringbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
-        branch: branchName
-      },
-    ]);
-    */
   }
 
   getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<AvailablePlotTypes> {

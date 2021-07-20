@@ -3,10 +3,48 @@
   <mat-card-title>Scatter Plot</mat-card-title>
 
   <div class="plot">
-    <canvas [chartType]="chartType" [datasets]="chartData"
+    <canvas [chartType]="chartType"
+            [datasets]="chartData"
             [options]="chartOptions" baseChart
-            class="chart">
+            class="chart" id="canvas">
     </canvas>
   </div>
+
+  <!-- TODO style line plot select so that it looks palatable-->
+  <mat-form-field>
+    <mat-label>
+      X Axis Scaling
+    </mat-label>
+    <mat-select [(value)]="this.xType"
+                (selectionChange)="updateChart()">
+      <mat-option [value]="'linear'">
+        Linear
+      </mat-option>
+      <mat-option [value]="'logarithmic'">
+        Logarithmic
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      Y Axis Scaling
+    </mat-label>
+    <mat-select [(value)]="this.yType"
+                (selectionChange)="updateChart()">
+      <mat-option [value]="'linear'">
+        Linear
+      </mat-option>
+      <mat-option [value]="'logarithmic'">
+        Logarithmic
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <label class="label">Point Size: </label>
+  <label>{{pointSize}}</label>
+  <mat-slider min="1" max="5" step="0.5" value="1" [(ngModel)]="pointSize" (ngModelChange)="updateChart()"></mat-slider>
+
+  <a href="#" (click)="downloadCanvas($event)">Download Plot</a>
 
 </mat-card>
