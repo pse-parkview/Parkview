@@ -1,5 +1,6 @@
 package com.parkview.parkview.rest
 
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 /**
@@ -72,4 +73,7 @@ interface RestHandler {
      * @return list of available benchmarks
      */
     fun getAvailableBenchmarks(): String
+
+
+    fun getSummaryValue(benchmark: String, sha: String, device: String): String
 }

@@ -114,4 +114,17 @@ class SpringRestHandler(
             shas.size,
         )
     )
+
+    @GetMapping("/summaryValues")
+    override fun getSummaryValue(
+        @RequestParam benchmark: String,
+        @RequestParam sha: String,
+        @RequestParam device: String,
+    ): String {
+        val result = databaseHandler.fetchBenchmarkResult(Commit(sha = sha), Device(device), BenchmarkType.valueOf(benchmark))
+
+        val gson = Gson()
+        return gson.toJson(result.summaryValues)
+    }
+
 }
