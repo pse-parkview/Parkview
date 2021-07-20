@@ -42,7 +42,9 @@ object AvailablePlots {
         ConversionSpeedupPlot(),
     )
 
-    private val solverPlots: List<SolverPlotTransform> = listOf()
+    private val solverPlots: List<SolverPlotTransform> = listOf(
+        SolverConvergenceTransform(),
+    )
 
     /**
      * Returns a [PlotTransform] for the given name
