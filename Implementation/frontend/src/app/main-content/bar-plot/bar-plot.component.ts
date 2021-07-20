@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
-import {ActivatedRoute, ParamMap, Params} from "@angular/router";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {BaseChartDirective} from "ng2-charts";
 import {DataService} from "../../../logic/datahandler/data.service";
@@ -18,7 +18,7 @@ import {
 export class BarPlotComponent implements OnInit {
 
   @ViewChild(BaseChartDirective)
-  private chart: { refresh: () => void } = { refresh: () => console.log('chart not initialized yet') };
+  private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
   public readonly chartType: ChartType = 'bar';
   public chartData: ChartDataSets[] = Array();
@@ -32,8 +32,7 @@ export class BarPlotComponent implements OnInit {
     maintainAspectRatio: true,
     legend: {display: true},
     events: ['click'],
-    elements: {
-    },
+    elements: {},
     scales: {
       yAxes: [{
         stacked: true,
@@ -89,7 +88,7 @@ export class BarPlotComponent implements OnInit {
   }
 
   getData() {
-    return [{}]
+    return [{}];
   }
 
   updateChart() {
@@ -107,7 +106,5 @@ export class BarPlotComponent implements OnInit {
     }
     this.chart.refresh();
   }
+
 }
-
-
-
