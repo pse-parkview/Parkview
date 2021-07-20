@@ -12,47 +12,40 @@ parser.add_argument('--data', type=str, required=True, help='path to ginko-data/
 
 args = parser.parse_args()
 
-for device_dir in os.listdir(args.data):
-    device_path = os.path.join(args.data, device_dir)
-    if not os.path.isdir(device_path):
-        continue
+blas_data_dirs = ['MI100/hip/blas.json']
+matrix_data_dirs = ['MI100/hip/SuiteSparse/', 'MI100-solver/hip/SuiteSparse']
 
-    for lib_dir in os.listdir(device_path):
-        blas_path = os.path.join(device_path, lib_dir, 'blas.json')
-        device_name = device_dir + '_' + lib_dir
 
-        if os.path.isfile(blas_path):
+for blas_file in blas_data_dirs:
+    blas_path = os.path.join(args.data, blas_file)
+    try:
+        with open(blas_path) as f:
+            blas_data = json.load(f)
+        blas_params = {'sha': args.sha, 'device': blas_file.split('/')[0], 'blas': True}
+        requests.post(url = PARKVIEW_ENDPOINT, json = blas_data, params = blas_params)
+        print(f'{blas_path} is fine')
+    except KeyboardInterrupt:
+        exit()
+    except:
+        print(f'### ERROR: {blas_path} is broken')
+
+for matrix_file in matrix_data_dirs:
+    matrix_path = os.path.join(args.data, matrix_file)
+    data = []
+    for matrix_group in os.listdir(matrix_path):
+        matrix_group_path = os.path.join(matrix_path, matrix_group)
+
+        for matrix_runs in os.listdir(matrix_group_path):
+            matrix_runs_path = os.path.join(matrix_group_path, matrix_runs)
             try:
-                with open(blas_path) as f:
-                    blas_data = json.load(f)
-                blas_params = {'sha': args.sha, 'device': device_name, 'blas': True}
-                requests.post(url = PARKVIEW_ENDPOINT, json = blas_data, params = blas_params)
-                print(f'{blas_path} is fine')
+                with open(matrix_runs_path) as f:
+                    data.append(*json.load(f))
             except KeyboardInterrupt:
                 exit()
             except:
-                print(f'### ERROR: {blas_path} is broken')
+                print(f'### ERROR: {matrix_runs_path} is broken')
 
-        lib_path = os.path.join(device_path, lib_dir, 'SuiteSparse')
-
-        data = []
-
-    
-        for benchmark_name in os.listdir(lib_path):
-            benchmark_path = os.path.join(lib_path, benchmark_name)
-
-            for datapoint in os.listdir(benchmark_path):
-                datapoint_path = os.path.join(benchmark_path, datapoint)
-
-                try:
-                    with open(datapoint_path) as f:
-                        data.append(*json.load(f))
-                except KeyboardInterrupt:
-                    exit()
-                except:
-                    print(f'### ERROR: {datapoint_path} is broken')
-
-        print(f'{lib_path} is fine')
-        params = {'sha': args.sha, 'device': device_name}
-        requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
-
+    params = {'sha': args.sha, 'device': matrix_file.split('/')[0]}
+    requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
+    print(f'### ERROR: {matrix_runs_path} is broken')
+            
