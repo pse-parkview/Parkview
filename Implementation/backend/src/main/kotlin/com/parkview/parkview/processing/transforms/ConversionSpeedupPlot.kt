@@ -39,7 +39,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
 
 
         return DatasetSeries(
-            seriesByName.map { (key, value) -> Dataset(label = key, data = value) }
+            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) }
         )
     }
 }

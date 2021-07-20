@@ -41,7 +41,7 @@ class SingeBlasPlot : BlasPlotTransform {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value) })
+        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) })
     }
 
     private fun Operation.getFieldByName(name: String): Double = when (name) {
