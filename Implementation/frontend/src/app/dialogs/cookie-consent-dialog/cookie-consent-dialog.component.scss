@@ -1,0 +1,14 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle {
+  align-self: flex-start;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.saveSettings {
+  align-self: flex-end;
+}

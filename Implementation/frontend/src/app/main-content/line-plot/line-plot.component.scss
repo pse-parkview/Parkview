@@ -1,0 +1,23 @@
+@import "node_modules/nord/src/sass/nord";
+
+mat-card {
+  margin: 1vh;
+  height: 90%;
+  width: 90%;
+}
+
+mat-card-title {
+  color: $nord0;
+}
+
+mat-card-content {
+  color: $nord0;
+}
+
+mat-radio-group {
+  margin: 2vw
+}
+
+mat-radio-button {
+  margin: 0 1vw 0 0;
+}

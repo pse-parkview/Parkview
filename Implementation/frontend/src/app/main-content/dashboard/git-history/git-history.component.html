@@ -1,0 +1,61 @@
+<mat-card class="git-history-title">
+  <mat-card-title>
+    Git History
+  </mat-card-title>
+  <div class="selection">
+    <mat-form-field>
+      <mat-label>Selected Branch</mat-label>
+      <mat-select [(value)]="currentlySelectedBranch"
+                  class="select"
+                  (selectionChange)="selectBranch(currentlySelectedBranch)">
+        <mat-option *ngFor="let branchname of branchNames"
+                    [value]="branchname">
+          {{branchname}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="divider"></div>
+    <mat-form-field>
+      <mat-label>Selected Benchmark</mat-label>
+      <mat-select [(value)]="currentlySelectedBenchmarkName"
+                  class="select"
+                  (selectionChange)="selectBenchmarkName(currentlySelectedBenchmarkName)">
+        <mat-option *ngFor="let benchmarkName of benchmarkNames"
+                    [value]="benchmarkName">
+          {{benchmarkName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="divider"></div>
+    <mat-checkbox color="primary"
+                  [checked]="hideUnusableCommits"
+                  (change)="this.hideUnusableCommits = !this.hideUnusableCommits">
+      Hide commits without data
+    </mat-checkbox>
+  </div>
+</mat-card>
+<mat-expansion-panel hideToggle
+                     *ngFor="let commit of commits"
+                     [disabled]="commit.availableDevices.length == 0"
+                     [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
+  <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
+    <span class="date">{{commit.date}} </span>
+    <span class="author">{{commit.author}} </span>
+    <span class="message-preview">{{commit.message | abbreviate: 50}}</span>
+  </mat-expansion-panel-header>
+  <section class="hash">{{commit.sha}}</section>
+  <section class="message">{{commit.message}}</section>
+  <section class="devices">
+    <ul>
+      <li *ngFor="let device of commit.availableDevices">
+
+        <mat-checkbox class="device-margin" color="primary" (change)="selectDevice(commit, device.name, $event.checked)">
+          {{device.name}}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </section>
+  <mat-action-row>
+    <button mat-button color="primary" (click)="selectCommit(commit)">Select</button>
+  </mat-action-row>
+</mat-expansion-panel>
