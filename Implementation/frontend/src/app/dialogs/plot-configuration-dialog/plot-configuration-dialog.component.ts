@@ -127,6 +127,9 @@ export class PlotConfigurationDialogComponent implements OnInit {
       commits: this.commitsAndDevices.map(p => p.commit.sha),
       devices: this.commitsAndDevices.map(p => p.device),
       plotType: this.currentPlotTypeOption.plotName,
+      labelForTitle: this.plotlabelTitle,
+      labelForXAxis: this.plotlabelXAxis,
+      labelForYAxis: this.plotlabelYAxis,
       options: optionsObject,
     };
   }
