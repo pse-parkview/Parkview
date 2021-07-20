@@ -4,7 +4,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {BaseChartDirective} from "ng2-charts";
 import {DataService} from "../../../logic/datahandler/data.service";
-import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {
   X_AXIS_PLOT_OPTION_NAME,
   Y_AXIS_PLOT_OPTION_NAME
@@ -88,7 +88,8 @@ export class ScatterPlotComponent implements OnInit {
           commits: p.getAll("commits"),
           devices: p.getAll("devices"),
           plotType: p.get("plotType") as string,
-          options: extraOptions
+          options: extraOptions,
+          chartType: this.chartType as SupportedChartType
         };
 
         // Make request and read data

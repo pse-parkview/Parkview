@@ -6,7 +6,8 @@
     <canvas [chartType]="chartType"
             [datasets]="chartData"
             [options]="chartOptions" baseChart
-            class="chart">
+            class="chart"
+            id="canvas">
     </canvas>
   </div>
 
@@ -41,4 +42,5 @@
     </mat-select>
   </mat-form-field>
 
+  <a class="download-btn" href="#" (click)="downloadCanvas($event)">Download Plot</a>
 </mat-card>

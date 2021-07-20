@@ -3,7 +3,7 @@ import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {DataService} from "../../../logic/datahandler/data.service";
-import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {BaseChartDirective} from "ng2-charts";
 import {
   X_AXIS_PLOT_OPTION_NAME,
@@ -18,7 +18,7 @@ import {
 export class LinePlotComponent implements OnInit {
 
   @ViewChild(BaseChartDirective)
-  private chart: { refresh: () => void } = { refresh: () => console.log('chart not initialized yet') };
+  private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
   public readonly chartType: ChartType = 'line';
   public chartData: ChartDataSets[] = Array();
@@ -26,6 +26,7 @@ export class LinePlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
+  public colors: string[] = ['#BF616A', '#D08770', '#EBCB8B', '#A3BE8C', '#B48EAD'];
 
   public chartOptions: ChartOptions = {
     responsive: true,
@@ -74,18 +75,29 @@ export class LinePlotComponent implements OnInit {
         // Get additional configuration
         const extraOptions: { [key: string]: string } = {};
         p.keys.filter(k => !['benchmark', 'commits', 'devices', 'plotType'].includes(k))
-              .forEach((k => extraOptions[k] = p.get(k) as string));
+          .forEach((k => extraOptions[k] = p.get(k) as string));
         // Build request
         let config: PlotConfiguration = {
           benchmark: p.get("benchmark") as string,
           commits: p.getAll("commits"),
           devices: p.getAll("devices"),
           plotType: p.get("plotType") as string,
-          options: extraOptions
+          options: extraOptions,
+          chartType: this.chartType as SupportedChartType
         };
 
         // Make request and read data
-        this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
+        this.dataHandler.getPlotData(config).subscribe(d => {
+          for (let i = 0; i < d.length; i++) {
+
+            let color = this.getColor(i);
+            d[i].pointBackgroundColor = color;
+            d[i].pointBorderColor = color;
+            d[i].borderColor = color;
+
+            this.chartData = d;
+          }
+        });
       }
       const xLabelParam = p.get(X_AXIS_PLOT_OPTION_NAME);
       this.xLabel = xLabelParam ? xLabelParam : 'x';
@@ -109,5 +121,26 @@ export class LinePlotComponent implements OnInit {
       }
     }
     this.chart.refresh();
+  }
+
+  getColor(i: number) {
+    if (i < this.colors.length) {
+      return this.colors[i];
+    } else {
+      return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 255)`;
+    }
+  }
+
+  downloadCanvas(event: any) {
+    let anchor = event.target;
+    let canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    let ctx = canvas.getContext('2d');
+
+    ctx!.globalCompositeOperation = 'destination-over';
+    ctx!.fillStyle = 'white';
+    ctx!.fillRect(0, 0, canvas.width, canvas.height);
+
+    anchor.href = canvas.toDataURL();
+    anchor.download = `${this.chartType}-plot.png`;
   }
 }

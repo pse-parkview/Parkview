@@ -14,6 +14,11 @@ mat-card-content {
   color: $nord0;
 }
 
-.label {
+.download-btn {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 2px;
+  background-color: $nord10;
+  color: white;
   margin-left: 1vw;
 }
