@@ -23,11 +23,15 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val datapointsA = benchmarkResults[0].datapoints.sortedBy { it.nonzeros }
-        val datapointsB = benchmarkResults[1].datapoints.sortedBy { it.nonzeros }
+        val datapointsA = benchmarkResults[0].datapoints
+        val datapointsB = benchmarkResults[1].datapoints
 
         for (datapointA in datapointsA) {
-            val datapointB = datapointsB.find { it.nonzeros == datapointA.nonzeros } ?: continue
+            val datapointB = datapointsB.find {
+                (it.nonzeros == datapointA.nonzeros) and
+                        (it.rows == datapointA.rows) and
+                        (it.columns == datapointA.columns)
+            } ?: continue
 
             for (formatA in datapointA.formats) {
                 val formatB = datapointB.formats.find { it.name == formatA.name } ?: continue
@@ -42,7 +46,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
 
 
         return DatasetSeries(
-            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) }
+            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }) }
         )
     }
 }

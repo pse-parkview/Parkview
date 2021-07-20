@@ -8,7 +8,7 @@ data class PlotPoint(
 )
 
 data class Dataset(
-    val data: MutableList<PlotPoint>,
+    val data: List<PlotPoint>,
     val label: String,
 )
 

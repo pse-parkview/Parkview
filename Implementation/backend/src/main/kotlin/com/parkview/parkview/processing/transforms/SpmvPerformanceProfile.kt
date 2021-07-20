@@ -44,7 +44,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform {
         }
 
         return DatasetSeries(
-            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) }
+            seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }) }
         )
     }
 
