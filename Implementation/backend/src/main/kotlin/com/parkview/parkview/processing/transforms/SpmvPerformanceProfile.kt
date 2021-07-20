@@ -1,7 +1,8 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.PlotType
 
 class SpmvPerformanceProfile : SpmvPlotTransform {
     override val numInputsRange = 1..1
@@ -19,28 +20,24 @@ class SpmvPerformanceProfile : SpmvPlotTransform {
         options: Map<String, String>
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
+        val formatSlowdowns: MutableMap<String, MutableList<Double>> = mutableMapOf()
 
         val dataPoints = benchmarkResults[0].datapoints
 
-        var minTime: Double = -1.0
-
         for (dataPoint in dataPoints) {
-            for (format in dataPoint.formats) {
-                if(!format.completed) continue
-                if(format.time < minTime ||minTime < 0) {
-                    minTime = format.time
-                }
+            val minTime = dataPoint.formats.filter { it.completed }.map { it.time }.minOrNull() ?: continue
+            dataPoint.formats.forEach {
+                formatSlowdowns.getOrPut(it.name) { mutableListOf() } += (it.time / minTime)
             }
         }
 
-        var index: Double = -1.0
-        for (dataPoint in dataPoints) {
-            for (format in dataPoint.formats) {
-                if(!format.completed) continue
-                index++
-                seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
-                    x = format.time/minTime,
-                    y = index
+        formatSlowdowns.forEach { (_, value) -> value.sort() }
+
+        for ((key, value) in formatSlowdowns) {
+            seriesByName.getOrPut(key) { mutableListOf() } += value.mapIndexed { index, d ->
+                PlotPoint(
+                    x = d,
+                    y = index.toDouble(),
                 )
             }
         }
