@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {DataService} from "../../../logic/datahandler/data.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {BaseChartDirective} from "ng2-charts";
+import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 
 @Component({
   selector: 'app-line-plot',
@@ -71,37 +72,15 @@ export class LinePlotComponent implements OnInit {
 
   readParams(params: Observable<ParamMap>) {
     params.subscribe(p => {
-      const mandatoryParams: string[] = [
-        'benchmark',
-        'commits',
-        'devices',
-        'plotType',
-        'labelForTitle',
-        'labelForXAxis',
-        'labelForYAxis'
-      ];
-
-      if (!mandatoryParams.some(k => !p.has(k))) { // if there arent any mising mandatory keys
-        const extraOptions: { [key: string]: string } = {};
-        p.keys.filter(k => !mandatoryParams.includes(k))
-              .forEach((k => extraOptions[k] = p.get(k) as string));
-
-        const config: PlotConfiguration = {
-          benchmark: p.get("benchmark") as string,
-          commits: p.getAll("commits"),
-          devices: p.getAll("devices"),
-          plotType: p.get("plotType") as string,
-          labelForTitle: p.get('labelForTitle') as string,
-          labelForXAxis: p.get('labelForXAxis') as string,
-          labelForYAxis: p.get('labelForYAxis') as string,
-          options: extraOptions
-        };
-        this.chartTitle = config.labelForTitle;
-        this.xLabel = config.labelForXAxis;
-        this.yLabel = config.labelForYAxis;
-
-        this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
+      const config: PlotConfiguration | undefined = PlotUtils.parsePlotConfig(p);
+      if (config === undefined) {
+        return;
       }
+      this.chartTitle = config.labelForTitle;
+      this.xLabel = config.labelForXAxis;
+      this.yLabel = config.labelForYAxis;
+
+      this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
       this.updateChart();
     });
   }

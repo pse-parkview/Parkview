@@ -5,10 +5,7 @@ import {Observable} from "rxjs";
 import {BaseChartDirective} from "ng2-charts";
 import {DataService} from "../../../logic/datahandler/data.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
-import {
-  X_AXIS_PLOT_OPTION_NAME,
-  Y_AXIS_PLOT_OPTION_NAME
-} from "../../../logic/plothandler/interfaces/available-plot-types";
+import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 
 @Component({
   selector: 'app-scatter-plot',
@@ -21,6 +18,7 @@ export class ScatterPlotComponent implements OnInit {
   private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
   public readonly chartType: ChartType = 'scatter';
+  public chartTitle = '';
   public chartData: ChartDataSets[] = Array();
   public xLabel: string = 'x';
   public yLabel: string = 'y';
@@ -30,6 +28,10 @@ export class ScatterPlotComponent implements OnInit {
   public colors: string[] = ['#BF616A', '#D08770', '#EBCB8B', '#A3BE8C', '#B48EAD'];
 
   public chartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: this.chartTitle,
+    },
     responsive: true,
     animation: {
       animateScale: false,
@@ -77,43 +79,31 @@ export class ScatterPlotComponent implements OnInit {
 
   readParams(params: Observable<ParamMap>) {
     params.subscribe(p => {
-      if (p.has('benchmark') && p.has('commits') && p.has('devices') && p.has('plotType')) {
-        // Get additional configuration
-        const extraOptions: { [key: string]: string } = {};
-        p.keys.filter(k => !['benchmark', 'commits', 'devices', 'plotType'].includes(k))
-          .forEach((k => extraOptions[k] = p.get(k) as string));
-        // Build request
-        let config: PlotConfiguration = {
-          benchmark: p.get("benchmark") as string,
-          commits: p.getAll("commits"),
-          devices: p.getAll("devices"),
-          plotType: p.get("plotType") as string,
-          options: extraOptions
-        };
-
-        // Make request and read data
-        this.dataHandler.getPlotData(config).subscribe(d => {
-
-          for (let i = 0; i < d.length; i++) {
-
-            let color = this.getColor(i);
-            d[i].pointBackgroundColor = color;
-            d[i].pointBorderColor = color;
-            d[i].borderColor = color;
-          }
-          this.chartData = d;
-
-        });
+      const config: PlotConfiguration | undefined = PlotUtils.parsePlotConfig(p);
+      if (config === undefined) {
+        return;
       }
-      const xLabelParam = p.get(X_AXIS_PLOT_OPTION_NAME);
-      this.xLabel = xLabelParam ? xLabelParam : 'x';
-      const yLabelParam = p.get(Y_AXIS_PLOT_OPTION_NAME);
-      this.yLabel = yLabelParam ? yLabelParam : 'y';
+      this.chartTitle = config.labelForTitle;
+      this.xLabel = config.labelForXAxis;
+      this.yLabel = config.labelForYAxis;
+
+      this.dataHandler.getPlotData(config).subscribe(d => {
+        for (let i = 0; i < d.length; i++) {
+          let color = this.getColor(i);
+          d[i].pointBackgroundColor = color;
+          d[i].pointBorderColor = color;
+          d[i].borderColor = color;
+        }
+        this.chartData = d;
+      });
       this.updateChart();
     });
   }
 
   updateChart() {
+    if (this.chartOptions.title?.text !== undefined) {
+      this.chartOptions.title.text = this.chartTitle;
+    }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
       this.chartOptions.scales.xAxes[0].type = this.xType;
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
