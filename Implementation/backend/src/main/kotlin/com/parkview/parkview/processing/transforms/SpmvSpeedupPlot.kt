@@ -1,7 +1,8 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.PlotType
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {

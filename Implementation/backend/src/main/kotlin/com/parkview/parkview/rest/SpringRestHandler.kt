@@ -8,6 +8,7 @@ import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.exposed.ExposedJsonHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
+import com.parkview.parkview.processing.AveragePerformanceCalculator
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.web.bind.annotation.*
@@ -46,6 +47,7 @@ class SpringRestHandler(
         databaseHandler
     )
 
+    private val performanceCalculator = AveragePerformanceCalculator(databaseHandler)
 
     @PostMapping("/post")
     override fun handlePost(
@@ -127,4 +129,12 @@ class SpringRestHandler(
         return gson.toJson(result.summaryValues)
     }
 
+    @GetMapping("/averagePerformance")
+    override fun getAveragePerformance(
+        @RequestParam branch: String,
+        @RequestParam benchmark: String,
+    ) :String {
+        val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
+        return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark)).toJson()
+    }
 }

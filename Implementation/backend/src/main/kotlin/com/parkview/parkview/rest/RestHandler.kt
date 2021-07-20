@@ -1,6 +1,5 @@
 package com.parkview.parkview.rest
 
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 /**
@@ -76,4 +75,14 @@ interface RestHandler {
 
 
     fun getSummaryValue(benchmark: String, sha: String, device: String): String
+
+    /**
+     * Returns line chart data for the average performance score
+     *
+     * @param branch name of branch
+     * @param benchmark name of benchmark
+     *
+     * @return plottable data for line charts
+     */
+    fun getAveragePerformance(branch: String, benchmark: String) :String
 }
