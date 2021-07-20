@@ -17,7 +17,6 @@ export class DataService {
 
   getBranchNames(): Observable<string[]> {
     return this.http.get<Array<string>>(this.url + '/branches');
-    // uncomment if you dont have a backend to test with // return of(["branch1", "branch2", "branch3"]);
   }
 
   getBenchmarks() {

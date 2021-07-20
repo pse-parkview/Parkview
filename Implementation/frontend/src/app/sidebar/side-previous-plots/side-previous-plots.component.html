@@ -1,1 +1,15 @@
-<p>side-previous-plots works!</p>
+<mat-card *ngFor="let config of recentPlotConfigurations" class="clickable"
+      (click)="navigateToPlotView(config)">
+  <h4>{{config.plotType}}</h4>
+  <mat-card-content>{{config.benchmark}}</mat-card-content>
+
+  <div class="container">
+    <div class="commits">
+      <div class="box" *ngFor="let commit of config.commits">{{commit | abbreviate: 7}}</div>
+    </div>
+    <div class="devices">
+      <div class="box" *ngFor="let device of config.devices">{{device}}</div>
+    </div>
+  </div>
+
+</mat-card>

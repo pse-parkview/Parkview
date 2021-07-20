@@ -1,0 +1,32 @@
+@import "node_modules/nord/src/sass/nord";
+
+mat-card {
+  margin-bottom: 1vh;
+}
+
+mat-card-content {
+  color: $nord14;
+}
+
+.devices {
+  color: $nord3;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.commits {
+  color: $nord9;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

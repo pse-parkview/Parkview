@@ -8,8 +8,9 @@ import {
   PlotOption,
   PlotTypeOption
 } from "../../../logic/plothandler/interfaces/available-plot-types";
-import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {Router} from "@angular/router";
+import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -27,8 +28,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
     scatter: [],
     stackedBar: [],
   }
-  availablePlotTypeKeys: string[] = [];
-  currentPlotTypeKey: string = '';
+  availablePlotTypeKeys: SupportedChartType[] = [];
+  currentPlotTypeKey: SupportedChartType = 'line';
 
   availablePlotTypeOptions: PlotTypeOption[] = [];
   currentPlotTypeOption: PlotTypeOption = {
@@ -41,7 +42,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   constructor(private readonly commitSelectService: CommitSelectionService,
               private readonly dataService: DataService,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly recent: CookieService) {
   }
 
   ngOnInit(): void {
@@ -86,8 +88,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   filterOutEmptyPlotTypeKeys() {
     this.resetPlotTypeKeyValues();
-    this.availablePlotTypeKeys = Object.keys(this.availablePlots).filter(k => ((this.availablePlots as any)[k] as PlotTypeOption[]).length !== 0);
-    this.currentPlotTypeKey = this.availablePlotTypeKeys.length !== 0 ? this.availablePlotTypeKeys[0] : '';
+    this.availablePlotTypeKeys = Object.keys(this.availablePlots).filter(k => ((this.availablePlots as any)[k] as PlotTypeOption[]).length !== 0) as SupportedChartType[];
+    this.currentPlotTypeKey = this.availablePlotTypeKeys.length !== 0 ? this.availablePlotTypeKeys[0] : 'line';
     this.updatePlotTypeKey();
   }
 
@@ -111,7 +113,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   resetPlotTypeKeyValues() {
     this.availablePlotTypeKeys = [];
-    this.currentPlotTypeKey = '';
+    this.currentPlotTypeKey = 'line';
   }
 
   saveAndStoreCurrentConfig() {
@@ -125,6 +127,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
     // this.router.navigate(['singleBenchmark_plot_or_so'], {queryParams: {pc: compilePlotConfig()}});
     // and let them do the work or something
     const config: PlotConfiguration = this.compilePlotConfig();
+    this.recent.addRecentPlotConfiguration(config);
     const qp = {
       ...config,
       options: null,
@@ -144,6 +147,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
       devices: this.commitsAndDevices.map(p => p.device),
       plotType: this.currentPlotTypeOption.plotName,
       options: optionsObject,
+      chartType: this.currentPlotTypeKey
     };
   }
 

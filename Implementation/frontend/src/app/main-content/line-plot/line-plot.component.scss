@@ -21,3 +21,14 @@ mat-radio-group {
 mat-radio-button {
   margin: 0 1vw 0 0;
 }
+.label {
+  margin-left: 1vw;
+}
+
+.download-btn {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 2px;
+  background-color: $nord10;
+  color: white;
+}
