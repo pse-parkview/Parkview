@@ -159,10 +159,10 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
 
                 if (query.count() > 0) {
                     val type = object : TypeToken<List<Conversion>>() {}.type
-                    val previousFormats: List<Format> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousConversions: List<Conversion> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
 
                     val conversions =
-                        datapoint.conversions + (previousFormats.filter { conversion -> datapoint.conversions.find { it.name == conversion.name } == null })
+                        datapoint.conversions + (previousConversions.filter { conversion -> datapoint.conversions.find { it.name == conversion.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
                         it[cols] = datapoint.columns
@@ -197,10 +197,10 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
 
                 if (query.count() > 0) {
                     val type = object : TypeToken<List<Solver>>() {}.type
-                    val previousFormats: List<Format> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousSolvers: List<Solver> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
 
                     val solvers =
-                        datapoint.solvers + (previousFormats.filter { solver -> datapoint.solvers.find { it.name == solver.name } == null })
+                        datapoint.solvers + (previousSolvers.filter { solver -> datapoint.solvers.find { it.name == solver.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
                         it[cols] = datapoint.columns
@@ -235,10 +235,10 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
 
                 if (query.count() > 0) {
                     val type = object : TypeToken<List<Preconditioner>>() {}.type
-                    val previousFormats: List<Format> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousPreconditioners: List<Preconditioner> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
 
                     val preconditioners =
-                        datapoint.preconditioners + (previousFormats.filter { preconditioner -> datapoint.preconditioners.find { it.name == preconditioner.name } == null })
+                        datapoint.preconditioners + (previousPreconditioners.filter { preconditioner -> datapoint.preconditioners.find { it.name == preconditioner.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
                         it[cols] = datapoint.columns
@@ -277,10 +277,8 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     val previousOperations: List<Operation> =
                         gson.fromJson(query.first()[BlasDatapointTable.data], type)
 
-                    println(datapoint.operations)
                     val operations =
                         datapoint.operations + previousOperations.filter { operation -> datapoint.operations.find { it.name == operation.name } == null }
-                    println(operations)
 
                     BlasDatapointTable.update({ selectionQuery }) {
                         it[n] = datapoint.n

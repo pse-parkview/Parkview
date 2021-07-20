@@ -47,5 +47,5 @@ for matrix_file in matrix_data_dirs:
 
     params = {'sha': args.sha, 'device': matrix_file.split('/')[0]}
     requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
-    print(f'### ERROR: {matrix_runs_path} is broken')
+    print(f'{matrix_path} is fine')
             
