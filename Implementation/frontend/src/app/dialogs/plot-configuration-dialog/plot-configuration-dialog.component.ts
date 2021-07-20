@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {DataService} from "../../../logic/datahandler/data.service";
-import {
-  AvailablePlotTypes,
-  PlotOption,
-  PlotTypeOption
-} from "../../../logic/plothandler/interfaces/available-plot-types";
 import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {AvailablePlotTypes, PlotOption, PlotTypeOption, X_AXIS_PLOT_OPTION_NAME, Y_AXIS_PLOT_OPTION_NAME} from "../../../logic/plothandler/interfaces/available-plot-types";
 import {Router} from "@angular/router";
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
+import {MatExpansionPanel} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -18,6 +15,8 @@ import {CookieService} from "../../../logic/cookiehandler/cookie.service";
   styleUrls: ['./plot-configuration-dialog.component.scss']
 })
 export class PlotConfigurationDialogComponent implements OnInit {
+
+  @ViewChild(MatExpansionPanel) customizationPanel: MatExpansionPanel = {} as MatExpansionPanel;
 
   benchmarkName: string = '';
   commitsAndDevices: Pair[] = [];
@@ -40,6 +39,10 @@ export class PlotConfigurationDialogComponent implements OnInit {
   availablePlotOptions: PlotOption[] = [];
   currentPlotOptions: { [key: string]: string | number } = {};
 
+  plotlabelTitle: string = '';
+  plotlabelXAxis: string = 'x';
+  plotlabelYAxis: string = 'y';
+
   constructor(private readonly commitSelectService: CommitSelectionService,
               private readonly dataService: DataService,
               private readonly router: Router,
@@ -53,37 +56,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.fetchAvailablePlots();
   }
 
-  fetchAvailablePlots() {
-    const commits = this.commitsAndDevices.map(p => p.commit);
-    const devices = this.commitsAndDevices.map(p => p.device);
-    this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
-
-      this.availablePlots = {
-        get bar(): PlotTypeOption[] {
-          return [];
-        }, get line(): PlotTypeOption[] {
-          return [];
-        }, get scatter(): PlotTypeOption[] {
-          return [
-            {
-              plotName: 'bringe',
-              options: [
-                {
-                  name: 'pogers',
-                  options: [],
-                  number: true,
-                }
-              ]
-            }
-          ];
-        }, get stackedBar(): PlotTypeOption[] {
-          return [];
-        }
-
-      }
-      this.availablePlots = availablePlots;
-      this.filterOutEmptyPlotTypeKeys();
-    });
+  togglePanel() {
+    this.customizationPanel.toggle();
   }
 
   filterOutEmptyPlotTypeKeys() {
@@ -101,6 +75,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
 
   updatePlotTypeOption() {
     this.availablePlotOptions = this.currentPlotTypeOption.options;
+    this.plotlabelTitle = this.currentPlotTypeOption.plotName
     this.currentPlotOptions = {};
     this.availablePlotOptions.forEach(po => {
       if (po.number) {
@@ -108,10 +83,21 @@ export class PlotConfigurationDialogComponent implements OnInit {
       } else {
         this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
       }
+      this.plotlabelXAxis = po.name === X_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelXAxis;
+      this.plotlabelYAxis = po.name === Y_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelYAxis;
     });
   }
 
-  resetPlotTypeKeyValues() {
+  private fetchAvailablePlots() {
+    const commits = this.commitsAndDevices.map(p => p.commit);
+    const devices = this.commitsAndDevices.map(p => p.device);
+    this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
+      this.availablePlots = availablePlots;
+      this.filterOutEmptyPlotTypeKeys();
+    });
+  }
+
+  private resetPlotTypeKeyValues() {
     this.availablePlotTypeKeys = [];
     this.currentPlotTypeKey = 'line';
   }
@@ -146,9 +132,11 @@ export class PlotConfigurationDialogComponent implements OnInit {
       commits: this.commitsAndDevices.map(p => p.commit.sha),
       devices: this.commitsAndDevices.map(p => p.device),
       plotType: this.currentPlotTypeOption.plotName,
+      labelForTitle: this.plotlabelTitle,
+      labelForXAxis: this.plotlabelXAxis,
+      labelForYAxis: this.plotlabelYAxis,
       options: optionsObject,
       chartType: this.currentPlotTypeKey
     };
   }
-
 }

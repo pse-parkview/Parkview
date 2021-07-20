@@ -4,11 +4,8 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {BaseChartDirective} from "ng2-charts";
 import {DataService} from "../../../logic/datahandler/data.service";
-import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
-import {
-  X_AXIS_PLOT_OPTION_NAME,
-  Y_AXIS_PLOT_OPTION_NAME
-} from "../../../logic/plothandler/interfaces/available-plot-types";
+import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
+import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 
 @Component({
   selector: 'app-bar-plot',
@@ -21,6 +18,7 @@ export class BarPlotComponent implements OnInit {
   private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
   public readonly chartType: ChartType = 'bar';
+  public chartTitle: string = '';
   public chartData: ChartDataSets[] = Array();
   public xLabel: string = 'x';
   public yLabel: string = 'y';
@@ -28,6 +26,10 @@ export class BarPlotComponent implements OnInit {
   public xType: ScaleType = 'linear';
 
   public chartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: this.chartTitle,
+    },
     responsive: true,
     maintainAspectRatio: true,
     legend: {display: true},
@@ -62,37 +64,23 @@ export class BarPlotComponent implements OnInit {
 
   readParams(params: Observable<ParamMap>) {
     params.subscribe(p => {
-      if (p.has('benchmark') && p.has('commits') && p.has('devices') && p.has('plotType')) {
-        // Get additional configuration
-        const extraOptions: { [key: string]: string } = {};
-        p.keys.filter(k => !['benchmark', 'commits', 'devices', 'plotType'].includes(k))
-          .forEach((k => extraOptions[k] = p.get(k) as string));
-        // Build request
-        let config: PlotConfiguration = {
-          benchmark: p.get("benchmark") as string,
-          commits: p.getAll("commits"),
-          devices: p.getAll("devices"),
-          plotType: p.get("plotType") as string,
-          options: extraOptions,
-          chartType: this.chartType as SupportedChartType
-        };
-
-        // Make request and read data
-        this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
+      const config: PlotConfiguration | undefined = PlotUtils.parsePlotConfig(p);
+      if (config === undefined) {
+        return;
       }
-      const xLabelParam = p.get(X_AXIS_PLOT_OPTION_NAME);
-      this.xLabel = xLabelParam ? xLabelParam : 'x';
-      const yLabelParam = p.get(Y_AXIS_PLOT_OPTION_NAME);
-      this.yLabel = yLabelParam ? yLabelParam : 'y';
+      this.chartTitle = config.labelForTitle;
+      this.xLabel = config.labelForXAxis;
+      this.yLabel = config.labelForYAxis;
+
+      this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
       this.updateChart();
     });
   }
 
-  getData() {
-    return [{}];
-  }
-
   updateChart() {
+    if (this.chartOptions.title?.text !== undefined) {
+      this.chartOptions.title.text = this.chartTitle;
+    }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
       this.chartOptions.scales.xAxes[0].type = this.xType;
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
@@ -107,5 +95,4 @@ export class BarPlotComponent implements OnInit {
     }
     this.chart.refresh();
   }
-
 }
