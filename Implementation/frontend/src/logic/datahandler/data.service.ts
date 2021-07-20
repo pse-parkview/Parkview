@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ChartDataSets} from "chart.js";
 import {AvailablePlotTypes} from "../plothandler/interfaces/available-plot-types";
+import {Summary} from "./interfaces/summary";
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,13 @@ export class DataService {
     config.devices.forEach(d => params = params.append('devices', d));
     Object.keys(config.options).forEach(k => params = params.append(k, config.options[k]));
     return this.http.get<Array<ChartDataSets>>(`${this.url}/plot`, {params: params});
+  }
+
+  getSummary(benchmarkType: string, commitSha: string, device: string): Observable<Summary> {
+    const params: HttpParams = new HttpParams()
+      .set('benchmark', benchmarkType)
+      .set('sha', commitSha)
+      .set('device', device);
+    return this.http.get<Summary>(`${this.url}/summaryValues`,{params: params});
   }
 }
