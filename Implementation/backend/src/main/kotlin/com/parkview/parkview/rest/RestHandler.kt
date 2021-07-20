@@ -1,5 +1,6 @@
 package com.parkview.parkview.rest
 
+import com.parkview.parkview.git.BenchmarkType
 import org.springframework.web.bind.annotation.RequestParam
 
 /**
@@ -72,4 +73,14 @@ interface RestHandler {
      * @return list of available benchmarks
      */
     fun getAvailableBenchmarks(): String
+
+    /**
+     * Returns line chart data for the average performance score
+     *
+     * @param branch name of branch
+     * @param benchmark name of benchmark
+     *
+     * @return plottable data for line charts
+     */
+    fun getAveragePerformance(branch: String, benchmark: String) :String
 }
