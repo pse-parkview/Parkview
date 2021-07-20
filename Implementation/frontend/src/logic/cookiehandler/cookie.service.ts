@@ -4,7 +4,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dialog/cookie-consent-dialog.component";
 import {CookieSettings} from "./interfaces/cookie-settings";
 import {CookieService as NgxCookieService} from "ngx-cookie";
-import {CookieLastBranch} from "./interfaces/cookie-last-branch";
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +12,10 @@ export class CookieService {
 
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_BRANCH = 'recent_branch';
+  private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
 
   constructor(private readonly dialog: MatDialog,
-              private readonly ngcCookieService: NgxCookieService,
+              private readonly ngxCookieService: NgxCookieService,
               ) {
   }
 
@@ -26,25 +26,40 @@ export class CookieService {
   }
 
   public hasDecidedConsent(): boolean {
-    const settings: CookieSettings = this.ngcCookieService.getObject(CookieService.NAME_SETTINGS) as CookieSettings;
+    const settings: CookieSettings = this.ngxCookieService.getObject(CookieService.NAME_SETTINGS) as CookieSettings;
     return settings != undefined;
   }
 
   public saveSettings(settings: CookieSettings) {
-    this.ngcCookieService.putObject(CookieService.NAME_SETTINGS, settings);
+    this.ngxCookieService.putObject(CookieService.NAME_SETTINGS, settings);
   }
 
   public getMostRecentBranch(): string | null {
-    const branchName: CookieLastBranch = this.ngcCookieService.getObject(CookieService.NAME_RECENT_BRANCH) as CookieLastBranch;
-    return branchName ? branchName.name : null;
+    const branchName: string = this.ngxCookieService.get(CookieService.NAME_RECENT_BRANCH);
+    return branchName ? branchName : null;
   }
 
   public saveMostRecentBranch(branchName: string) {
-    this.ngcCookieService.putObject(CookieService.NAME_RECENT_BRANCH, {name: branchName});
+    this.ngxCookieService.put(CookieService.NAME_RECENT_BRANCH, branchName);
+  }
+
+  // TODO connect plot configuration cookies to places that are concerned
+  public addRecentPlotConfiguration(plotConfig: PlotConfiguration): void {
+    let recentConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_RECENT_PLOT_CONFIGS) as Array<PlotConfiguration>;
+    if (recentConfigs !== undefined) {
+      recentConfigs.push(plotConfig);
+      if (recentConfigs.length > 5) {
+        recentConfigs.shift();
+      }
+    } else {
+      recentConfigs = [ plotConfig ];
+    }
+    this.ngxCookieService.putObject(CookieService.NAME_RECENT_PLOT_CONFIGS, recentConfigs);
   }
 
   public getRecentPlotConfigurations(): PlotConfiguration[] {
-    return [];
+    const recentConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_RECENT_PLOT_CONFIGS) as Array<PlotConfiguration>;
+    return recentConfigs ? recentConfigs : [];
   }
 
 }
