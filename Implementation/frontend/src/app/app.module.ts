@@ -34,7 +34,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import {ChartsModule} from "ng2-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {AbbreviatePipe} from '../lib/pipes/abbreviate.pipe';
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
 import {MatInputModule} from "@angular/material/input";
@@ -63,7 +62,6 @@ import {MatSliderModule} from "@angular/material/slider";
     PlotCardComponent,
     DashboardComponent,
     TestComponent,
-    AbbreviatePipe,
     LinePlotComponent,
     ScatterPlotComponent,
     BarPlotComponent

@@ -76,8 +76,37 @@
   </mat-form-field>
 </div>
 
+<div>
+  <mat-expansion-panel hideToggle
+                       [disabled]="true">
+    <mat-expansion-panel-header>
+      <mat-checkbox (change)="togglePanel()">
+        Customize Labels
+      </mat-checkbox>
+    </mat-expansion-panel-header>
+    <mat-form-field [hintLabel]="'e.g. Time Over Nonzeros'">
+      <mat-label>
+        Plot Title
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelTitle">
+    </mat-form-field>
 
-<br>
+    <mat-form-field [hintLabel]="'e.g. Time'">
+      <mat-label>
+        Y Axis Label
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelYAxis">
+    </mat-form-field>
+
+    <mat-form-field [hintLabel]="'e.g. Nonzeros'">
+      <mat-label>
+        X Axis Label
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelXAxis">
+    </mat-form-field>
+  </mat-expansion-panel>
+</div>
+
 <br>
 <!--TODO make them look palatable-->
 <button mat-button

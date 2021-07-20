@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {MatDialog} from "@angular/material/dialog";
 import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dialog/cookie-consent-dialog.component";
@@ -9,6 +9,8 @@ import {CookieService as NgxCookieService} from "ngx-cookie";
   providedIn: 'root'
 })
 export class CookieService {
+
+  public readonly recentPlotsUpdate = new EventEmitter<void>();
 
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_BRANCH = 'recent_branch';
@@ -47,14 +49,15 @@ export class CookieService {
   public addRecentPlotConfiguration(plotConfig: PlotConfiguration): void {
     let recentConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_RECENT_PLOT_CONFIGS) as Array<PlotConfiguration>;
     if (recentConfigs !== undefined) {
-      recentConfigs.push(plotConfig);
+      recentConfigs.unshift(plotConfig);
       if (recentConfigs.length > 5) {
-        recentConfigs.shift();
+        recentConfigs.pop();
       }
     } else {
       recentConfigs = [ plotConfig ];
     }
     this.ngxCookieService.putObject(CookieService.NAME_RECENT_PLOT_CONFIGS, recentConfigs);
+    this.recentPlotsUpdate.emit();
   }
 
   public getRecentPlotConfigurations(): PlotConfiguration[] {
