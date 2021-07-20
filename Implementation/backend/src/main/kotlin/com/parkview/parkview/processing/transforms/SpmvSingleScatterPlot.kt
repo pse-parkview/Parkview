@@ -1,13 +1,14 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.*
 
 class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
     override val name = "spmvSingleScatterPlot"
-    override val availableOptions: List<PlotOption> = listOf(
+    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "yAxis",
             options = listOf("bandwidth", "time"),

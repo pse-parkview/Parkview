@@ -11,7 +11,7 @@ interface ConversionPlotTransform : PlotTransform {
         for (result in results) if (result !is ConversionBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only ConversionBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkOptions(options)
+        checkOptions(results, options)
 
 
         return transformConversion(results as List<ConversionBenchmarkResult>, options)

@@ -12,9 +12,9 @@ import java.util.*
  */
 data class Commit(
     val sha: String,
-    val message: String,
-    val date: Date,
-    val author: String,
+    val message: String = "",
+    val date: Date = Date(),
+    val author: String = "",
 ) {
     private val availableDevices: MutableList<Device> = mutableListOf()
     val devices: List<Device> get() = availableDevices.toList()

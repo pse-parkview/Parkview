@@ -1,13 +1,14 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.*
 
 class ConversionSingleScatterPlot : ConversionPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
     override val name: String = "conversionSingleScatter"
-    override val availableOptions: List<PlotOption> = listOf(
+    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "xAxis",
             options = listOf("nonzeros")
@@ -16,8 +17,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
             name = "yAxis",
             options = listOf("bandwidth", "time")
         ),
-
-    )
+        )
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,

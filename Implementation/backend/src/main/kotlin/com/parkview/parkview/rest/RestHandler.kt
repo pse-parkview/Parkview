@@ -72,4 +72,17 @@ interface RestHandler {
      * @return list of available benchmarks
      */
     fun getAvailableBenchmarks(): String
+
+
+    fun getSummaryValue(benchmark: String, sha: String, device: String): String
+
+    /**
+     * Returns line chart data for the average performance score
+     *
+     * @param branch name of branch
+     * @param benchmark name of benchmark
+     *
+     * @return plottable data for line charts
+     */
+    fun getAveragePerformance(branch: String, benchmark: String) :String
 }
