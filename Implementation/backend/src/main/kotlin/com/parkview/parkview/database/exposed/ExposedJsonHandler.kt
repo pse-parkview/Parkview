@@ -25,7 +25,7 @@ private object BenchmarkResultTable : Table() {
 }
 
 private object MatrixDatapointTable : Table() {
-    override val tableName: String = "MatrixBenchmarkResult"
+    override val tableName: String = "MatrixDatapointResult"
     val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
     val benchmarkId: Column<UUID> = reference("benchmarkId", BenchmarkResultTable.id)
     val cols: Column<Long> = long("cols")
@@ -36,7 +36,7 @@ private object MatrixDatapointTable : Table() {
 }
 
 private object BlasDatapointTable : Table() {
-    override val tableName: String = "BlasBenchmarkResult"
+    override val tableName: String = "BlasDatapoint"
     val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
     val benchmarkId: Column<UUID> = reference("benchmarkId", BenchmarkResultTable.id)
     val n: Column<Long> = long("n")
