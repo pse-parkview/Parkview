@@ -21,6 +21,9 @@ export class SidePreviousPlotsComponent implements OnInit {
 
   ngOnInit(): void {
     this.recentPlotConfigurations = this.cookieService.getRecentPlotConfigurations();
+    this.cookieService.recentPlotsUpdate.subscribe(() => {
+      this.recentPlotConfigurations = this.cookieService.getRecentPlotConfigurations();
+    });
   }
 
   navigateToPlotView(config: PlotConfiguration) {
