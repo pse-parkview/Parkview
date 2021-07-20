@@ -36,7 +36,7 @@ interface PlotTransform {
     fun checkOptions(options: Map<String, String>): Boolean {
         for ((key, value) in options) {
             val option = availableOptions.find { it.name == key }
-                ?: throw InvalidPlotTransformException("$key not a valid option for $name")
+                ?: continue
             if (value !in option.options) throw InvalidPlotTransformException("$value is not a possible value of ${option.name}")
         }
 
