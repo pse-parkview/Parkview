@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../../logic/datahandler/data.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {CommitSelectionService} from "../../../../logic/commit-selection-handler/commit-selection.service";
+import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 
 @Component({
   selector: 'app-git-history',
@@ -21,7 +22,9 @@ export class GitHistoryComponent implements OnInit {
   commits: Commit[] = [];
   selected: { commit: Commit, device: string }[] = [];
 
-  constructor(private readonly dataService: DataService, private readonly commitService: CommitSelectionService) {
+  constructor(private readonly dataService: DataService,
+              private readonly commitService: CommitSelectionService,
+              private readonly cookieService: CookieService) {
   }
 
   ngOnInit(): void {
@@ -32,7 +35,12 @@ export class GitHistoryComponent implements OnInit {
     });
     this.dataService.getBranchNames().subscribe((receivedBranchNames: string[]) => {
       this.branchNames = receivedBranchNames;
-      this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : '';
+      const lastSelectedBranch = this.cookieService.getMostRecentBranch();
+      if (lastSelectedBranch !== null && this.branchNames.includes(lastSelectedBranch)) {
+        this.currentlySelectedBranch = lastSelectedBranch;
+      } else {
+        this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : '';
+      }
       this.updateCommitHistory();
     });
   }
@@ -50,6 +58,7 @@ export class GitHistoryComponent implements OnInit {
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
+    this.cookieService.saveMostRecentBranch(branchChoice);
     this.updateCommitHistory();
   }
 
