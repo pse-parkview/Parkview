@@ -26,6 +26,7 @@ export class ScatterPlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
+  public pointSize: number = 2;
   public colors: string[] = ['#BF616A', '#D08770', '#EBCB8B', '#A3BE8C', '#B48EAD'];
 
   public chartOptions: ChartOptions = {
@@ -40,7 +41,7 @@ export class ScatterPlotComponent implements OnInit {
     events: ['click'],
     elements: {
       point: {
-        radius: 2,
+        radius: this.pointSize,
       },
       line: {
         borderWidth: 2,
@@ -124,6 +125,9 @@ export class ScatterPlotComponent implements OnInit {
       if (this.chartOptions.scales.yAxes[0].scaleLabel) {
         this.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.yLabel;
       }
+    }
+    if (this.chartOptions.elements?.point?.radius !== undefined) {
+      this.chartOptions.elements.point.radius = this.pointSize;
     }
     this.chart.refresh();
   }
