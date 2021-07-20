@@ -12,8 +12,8 @@ parser.add_argument('--data', type=str, required=True, help='path to ginko-data/
 
 args = parser.parse_args()
 
-blas_data_dirs = ['MI100/hip/blas.json']
-matrix_data_dirs = ['MI100/hip/SuiteSparse/', 'MI100-solver/hip/SuiteSparse']
+blas_data_dirs = ['Xeon_Gold_6230/omp/blas.json', 'V100_SXM2/cuda/SuiteSparse/blas.json', 'MI100/hip/blas.json']
+matrix_data_dirs = ['Xeon_Gold_6230-solver/omp/SuiteSparse', 'Xeon_Gold_6230/omp/SuiteSparse', 'V100_SXM2-solver/cuda/SuiteSparse', 'V100_SXM2/cuda/SuiteSparse', 'MI100/hip/SuiteSparse/', 'MI100-solver/hip/SuiteSparse']
 
 
 for blas_file in blas_data_dirs:
