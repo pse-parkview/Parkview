@@ -22,7 +22,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@parkview.com
       PGADMIN_DEFAULT_PASSWORD: parkview
     ports:
-      - "5050:80"
+      - 5050:80
     links: 
       - parkview-postgres
 
@@ -36,13 +36,15 @@ services:
     links:
       - parkview-postgres
 
-# parkview-frontend:
-#   build: ./frontend
-#   container_name: parkview-frontend
-#   ports:
-#     - 4200:80
-#   links:
-#     - parkview-backend
+  parkview-frontend:
+    build: ./frontend
+    container_name: parkview-frontend
+    ports:
+      - 4200:4200
+    links:
+      - parkview-backend
+    expose: 
+      - 4200
 
 
 volumes:
