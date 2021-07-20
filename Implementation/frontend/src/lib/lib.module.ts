@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { DefaultvaluePipe } from './pipes/defaultvalue.pipe';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
 
 
 
 @NgModule({
   declarations: [
-    DefaultvaluePipe
+    AbbreviatePipe,
+    DefaultvaluePipe,
   ],
   exports: [
-    DefaultvaluePipe
+    DefaultvaluePipe,
+    AbbreviatePipe,
   ],
   imports: [
     CommonModule,
