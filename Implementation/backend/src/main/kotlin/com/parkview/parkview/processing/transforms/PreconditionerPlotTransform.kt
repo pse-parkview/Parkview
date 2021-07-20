@@ -11,7 +11,7 @@ interface PreconditionerPlotTransform : PlotTransform {
         for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkOptions(options)
+        checkOptions(results, options)
 
 
         return transformPreconditioner(results as List<PreconditionerBenchmarkResult>, options)

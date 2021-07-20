@@ -3,13 +3,14 @@ package com.parkview.parkview.processing.transforms
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.git.BenchmarkResult
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line)
     override val name = "spmvSpeedup"
-    override val availableOptions: List<PlotOption> = listOf(
+    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "xAxis",
             options = listOf("nonzeros")

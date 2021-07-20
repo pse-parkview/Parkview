@@ -23,7 +23,7 @@ interface PlotTransform {
     /**
      * Values that can be used for the xAxis
      */
-    val availableOptions: List<PlotOption>
+    fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption>
 
     /**
      * Transforms the benchmark data to data that is plottable
@@ -33,9 +33,9 @@ interface PlotTransform {
      */
     fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData
 
-    fun checkOptions(options: Map<String, String>): Boolean {
+    fun checkOptions(results: List<BenchmarkResult>, options: Map<String, String>): Boolean {
         for ((key, value) in options) {
-            val option = availableOptions.find { it.name == key }
+            val option = getAvailableOptions(results).find { it.name == key }
                 ?: continue
             if (value !in option.options) throw InvalidPlotTransformException("$value is not a possible value of ${option.name}")
         }

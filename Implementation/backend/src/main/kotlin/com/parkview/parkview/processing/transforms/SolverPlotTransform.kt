@@ -11,7 +11,7 @@ interface SolverPlotTransform : PlotTransform {
         for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only SolverBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkOptions(options)
+        checkOptions(results, options)
 
         return transformSolver(results as List<SolverBenchmarkResult>, options)
     }

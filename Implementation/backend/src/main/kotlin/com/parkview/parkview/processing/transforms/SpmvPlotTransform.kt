@@ -11,7 +11,7 @@ interface SpmvPlotTransform : PlotTransform {
         for (result in results) if (result !is SpmvBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only SpmvBenchmarkResult is allowed")
 
         checkNumInputs(results)
-
+        checkOptions(results, options)
 
         return transformSpmv(results as List<SpmvBenchmarkResult>, options)
     }

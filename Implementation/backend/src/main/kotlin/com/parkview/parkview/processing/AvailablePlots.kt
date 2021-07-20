@@ -1,5 +1,6 @@
 package com.parkview.parkview.processing
 
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.*
 
@@ -68,28 +69,28 @@ object AvailablePlots {
      *
      * @return [PlotList] containing the available plots grouped by plot type
      */
-    fun getPlotList(benchmark: BenchmarkType, numberInputs: Int): PlotList {
+    fun getPlotList(benchmark: BenchmarkType, results: List<BenchmarkResult>): PlotList {
         val availablePlots: List<PlotTransform> = when (benchmark) {
             BenchmarkType.Spmv -> spmvPlots
             BenchmarkType.Solver -> solverPlots
             BenchmarkType.Preconditioner -> preconditionerPlots
             BenchmarkType.Conversion -> conversionPlots
             BenchmarkType.Blas -> blasPlots
-        }.filter { transform -> numberInputs in transform.numInputsRange }
+        }.filter { transform -> results.size in transform.numInputsRange }
 
         return PlotList(
             line = availablePlots
                 .filter { transform -> transform.plottableAs.contains(PlotType.Line) }
-                .map { PlotDescription(it.name, it.availableOptions) },
+                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
             scatter = availablePlots
                 .filter { transform -> transform.plottableAs.contains(PlotType.Scatter) }
-                .map { PlotDescription(it.name, it.availableOptions) },
+                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
             bar = availablePlots
                 .filter { transform -> transform.plottableAs.contains(PlotType.Bar) }
-                .map { PlotDescription(it.name, it.availableOptions) },
+                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
             stackedBar = availablePlots
                 .filter { transform -> transform.plottableAs.contains(PlotType.StackedBar) }
-                .map { PlotDescription(it.name, it.availableOptions) },
+                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
         )
     }
 }

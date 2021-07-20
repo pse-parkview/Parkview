@@ -11,7 +11,7 @@ interface BlasPlotTransform : PlotTransform {
         for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only BlasBenchmarkResult is allowed")
 
         checkNumInputs(results)
-        checkOptions(options)
+        checkOptions(results, options)
 
 
         return transformBlas(results as List<BlasBenchmarkResult>, options)

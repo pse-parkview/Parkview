@@ -3,13 +3,14 @@ package com.parkview.parkview.processing.transforms
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.*
 
 class SingeBlasPlot : BlasPlotTransform {
     override val numInputsRange: IntRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter, PlotType.Line)
     override val name: String = "blasSingleBenchmark"
-    override val availableOptions: List<PlotOption> = listOf(
+    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "yAxis",
             options = listOf("time", "flops", "bandwidth")

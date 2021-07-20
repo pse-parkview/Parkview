@@ -113,7 +113,13 @@ class SpringRestHandler(
     ): String = Gson().toJson(
         AvailablePlots.getPlotList(
             BenchmarkType.valueOf(benchmark),
-            shas.size,
+            shas.zip(devices).map { (sha, device) ->
+                databaseHandler.fetchBenchmarkResult(
+                    Commit(sha),
+                    Device(device),
+                    BenchmarkType.valueOf(benchmark),
+                )
+            }
         )
     )
 
