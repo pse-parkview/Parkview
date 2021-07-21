@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
-import {BaseChartDirective} from "ng2-charts";
+import {BaseChartDirective, Label} from "ng2-charts";
 import {DataService} from "../../../logic/datahandler/data.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
@@ -22,11 +22,11 @@ export class BarPlotComponent implements OnInit {
   public chartData: ChartDataSets[] = Array();
   public xLabel: string = 'x';
   public yLabel: string = 'y';
-  public yType: ScaleType = 'logarithmic';
-  public xType: ScaleType = 'linear';
+  public yType: ScaleType = 'linear';
+  public chartLabels: Label[] = Array(); // TODO: Labels go here
 
   public chartOptions: ChartOptions = {
-    title: {
+  title: {
       display: true,
       text: this.chartTitle,
     },
@@ -34,10 +34,9 @@ export class BarPlotComponent implements OnInit {
     maintainAspectRatio: true,
     legend: {display: true},
     events: ['click'],
-    elements: {},
     scales: {
       yAxes: [{
-        stacked: true,
+       stacked: true,
         scaleLabel: {
           display: true,
           labelString: this.yLabel
@@ -45,11 +44,11 @@ export class BarPlotComponent implements OnInit {
         type: this.yType
       }],
       xAxes: [{
+        stacked: true,
         scaleLabel: {
           display: true,
           labelString: this.xLabel
         },
-        type: this.xType,
       }]
     },
   };
@@ -59,7 +58,7 @@ export class BarPlotComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.readParams(this.route.queryParamMap);
+   this.readParams(this.route.queryParamMap);
   }
 
   readParams(params: Observable<ParamMap>) {
@@ -82,7 +81,6 @@ export class BarPlotComponent implements OnInit {
       this.chartOptions.title.text = this.chartTitle;
     }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
-      this.chartOptions.scales.xAxes[0].type = this.xType;
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
         this.chartOptions.scales.xAxes[0].scaleLabel.labelString = this.xLabel;
       }
