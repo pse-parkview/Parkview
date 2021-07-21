@@ -71,7 +71,7 @@ export class BarPlotComponent implements OnInit {
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
 
-      this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d);
+      this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d.datasets);
       this.updateChart();
     });
   }

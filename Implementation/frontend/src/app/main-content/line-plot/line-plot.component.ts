@@ -81,7 +81,8 @@ export class LinePlotComponent implements OnInit {
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
 
-      this.dataHandler.getPlotData(config).subscribe(d => {
+      this.dataHandler.getPlotData(config).subscribe(data => {
+        const d = data.datasets
         for (let i = 0; i < d.length; i++) {
           let color = this.getColor(i);
           d[i].pointBackgroundColor = color;
