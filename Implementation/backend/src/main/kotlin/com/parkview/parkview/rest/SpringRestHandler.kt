@@ -12,7 +12,6 @@ import com.parkview.parkview.processing.AveragePerformanceCalculator
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.web.bind.annotation.*
-import java.lang.IllegalArgumentException
 import java.util.*
 
 /**
@@ -129,7 +128,8 @@ class SpringRestHandler(
         @RequestParam sha: String,
         @RequestParam device: String,
     ): String {
-        val result = databaseHandler.fetchBenchmarkResult(Commit(sha = sha), Device(device), BenchmarkType.valueOf(benchmark))
+        val result =
+            databaseHandler.fetchBenchmarkResult(Commit(sha = sha), Device(device), BenchmarkType.valueOf(benchmark))
 
         val gson = Gson()
         return gson.toJson(result.summaryValues)
@@ -139,7 +139,7 @@ class SpringRestHandler(
     override fun getAveragePerformance(
         @RequestParam branch: String,
         @RequestParam benchmark: String,
-    ) :String {
+    ): String {
         val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
         return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark)).toJson()
     }

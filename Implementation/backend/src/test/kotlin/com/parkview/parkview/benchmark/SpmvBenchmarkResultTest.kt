@@ -15,7 +15,7 @@ internal class SpmvBenchmarkResultTest {
         val datapoints = (1..5).map {
             val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             SpmvDatapoint(
-                it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
                 listOf(
                     format
                 ),

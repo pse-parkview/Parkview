@@ -14,7 +14,7 @@ internal class ConversionBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             ConversionDatapoint(
-                it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                     Conversion("", 1.0, true),
                 )
             )

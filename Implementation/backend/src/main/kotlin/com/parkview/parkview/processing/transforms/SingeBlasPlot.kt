@@ -4,7 +4,8 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.PlotType
 
 class SingeBlasPlot : BlasPlotTransform {
     override val numInputsRange: IntRange = 1..1

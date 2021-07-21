@@ -28,6 +28,7 @@ private object MatrixDatapointTable : Table() {
     override val tableName: String = "MatrixDatapoint"
     val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
     val benchmarkId: Column<UUID> = reference("benchmarkId", BenchmarkResultTable.id)
+    val name: Column<String> = text("name")
     val cols: Column<Long> = long("cols")
     val rows: Column<Long> = long("rows")
     val nonzeros: Column<Long> = long("nonzeros")
@@ -109,6 +110,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
             for (datapoint in result.datapoints) {
                 val selectionQuery = (
                         (MatrixDatapointTable.benchmarkId eq benchmarkId) and
+                                (MatrixDatapointTable.name eq datapoint.name) and
                                 (MatrixDatapointTable.cols eq datapoint.columns) and
                                 (MatrixDatapointTable.rows eq datapoint.rows) and
                                 (MatrixDatapointTable.nonzeros eq datapoint.nonzeros)
@@ -127,6 +129,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     MatrixDatapointTable.update({
                         selectionQuery
                     }) {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -135,6 +138,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     }
                 } else {
                     MatrixDatapointTable.insert {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -150,6 +154,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         transaction(db) {
             for (datapoint in result.datapoints) {
                 val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
+                        (MatrixDatapointTable.name eq datapoint.name) and
                         (MatrixDatapointTable.cols eq datapoint.columns) and
                         (MatrixDatapointTable.rows eq datapoint.rows) and
                         (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
@@ -159,12 +164,14 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
 
                 if (query.count() > 0) {
                     val type = object : TypeToken<List<Conversion>>() {}.type
-                    val previousConversions: List<Conversion> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousConversions: List<Conversion> =
+                        gson.fromJson(query.first()[MatrixDatapointTable.data], type)
 
                     val conversions =
                         datapoint.conversions + (previousConversions.filter { conversion -> datapoint.conversions.find { it.name == conversion.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -173,6 +180,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     }
                 } else {
                     MatrixDatapointTable.insert {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -188,6 +196,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         transaction(db) {
             for (datapoint in result.datapoints) {
                 val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
+                        (MatrixDatapointTable.name eq datapoint.name) and
                         (MatrixDatapointTable.cols eq datapoint.columns) and
                         (MatrixDatapointTable.rows eq datapoint.rows) and
                         (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
@@ -203,6 +212,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                         datapoint.solvers + (previousSolvers.filter { solver -> datapoint.solvers.find { it.name == solver.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -211,6 +221,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     }
                 } else {
                     MatrixDatapointTable.insert {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -226,6 +237,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
         transaction(db) {
             for (datapoint in result.datapoints) {
                 val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
+                        (MatrixDatapointTable.name eq datapoint.name) and
                         (MatrixDatapointTable.cols eq datapoint.columns) and
                         (MatrixDatapointTable.rows eq datapoint.rows) and
                         (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
@@ -235,12 +247,14 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
 
                 if (query.count() > 0) {
                     val type = object : TypeToken<List<Preconditioner>>() {}.type
-                    val previousPreconditioners: List<Preconditioner> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousPreconditioners: List<Preconditioner> =
+                        gson.fromJson(query.first()[MatrixDatapointTable.data], type)
 
                     val preconditioners =
                         datapoint.preconditioners + (previousPreconditioners.filter { preconditioner -> datapoint.preconditioners.find { it.name == preconditioner.name } == null })
 
                     MatrixDatapointTable.update({ selectionQuery }) {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -249,6 +263,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                     }
                 } else {
                     MatrixDatapointTable.insert {
+                        it[name] = datapoint.name
                         it[cols] = datapoint.columns
                         it[rows] = datapoint.rows
                         it[nonzeros] = datapoint.nonzeros
@@ -359,6 +374,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 SpmvDatapoint(
+                    name = it[MatrixDatapointTable.name],
                     rows = it[MatrixDatapointTable.rows],
                     columns = it[MatrixDatapointTable.cols],
                     nonzeros = it[MatrixDatapointTable.nonzeros],
@@ -387,6 +403,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 ConversionDatapoint(
+                    name = it[MatrixDatapointTable.name],
                     rows = it[MatrixDatapointTable.rows],
                     columns = it[MatrixDatapointTable.cols],
                     nonzeros = it[MatrixDatapointTable.nonzeros],
@@ -415,6 +432,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 SolverDatapoint(
+                    name = it[MatrixDatapointTable.name],
                     rows = it[MatrixDatapointTable.rows],
                     columns = it[MatrixDatapointTable.cols],
                     nonzeros = it[MatrixDatapointTable.nonzeros],
@@ -443,6 +461,7 @@ class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
                 MatrixDatapointTable.benchmarkId eq benchmarkId
             }.map {
                 PreconditionerDatapoint(
+                    name = it[MatrixDatapointTable.name],
                     rows = it[MatrixDatapointTable.rows],
                     columns = it[MatrixDatapointTable.cols],
                     nonzeros = it[MatrixDatapointTable.nonzeros],

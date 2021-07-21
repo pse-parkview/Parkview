@@ -29,6 +29,7 @@ data class Conversion(
  * @param conversions list of conversions
  */
 data class ConversionDatapoint(
+    override val name: String,
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,

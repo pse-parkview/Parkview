@@ -7,6 +7,7 @@ import com.parkview.parkview.git.Datapoint
  * Specific datapoint for matrix benchmark, contains information about the problem setup
  */
 interface MatrixDatapoint : Datapoint {
+    val name: String
     val rows: Long
     val columns: Long
     val nonzeros: Long

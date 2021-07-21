@@ -153,7 +153,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
                     listOf(
                         format
                     ),
@@ -168,7 +168,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
                     listOf(
                         format
                     ),
@@ -199,7 +199,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
                     listOf(
                         format
                     ),
@@ -214,7 +214,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
                     listOf(
                         format
                     ),
@@ -273,7 +273,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 2 + 1, it.toLong() * 2 + 1, it.toLong() * 2 + 1,
+                    "", it.toLong() * 2 + 1, it.toLong() * 2 + 1, it.toLong() * 2 + 1,
                     listOf(
                         format
                     ),
@@ -288,7 +288,7 @@ internal class ExposedJsonHandlerTest {
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
-                    it.toLong() * 2, it.toLong() * 2, it.toLong() * 2,
+                    "", it.toLong() * 2, it.toLong() * 2, it.toLong() * 2,
                     listOf(
                         format
                     ),

@@ -18,7 +18,7 @@ val SPMV_RESULT = SpmvBenchmarkResult(
     (1..5).map {
         val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
-            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
                 format
             ),
@@ -32,7 +32,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     BenchmarkType.Solver,
     (1..5).map { index ->
         SolverDatapoint(
-            index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, listOf(
+            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, listOf(
                 Solver(
                     "",
                     generateComponents = listOf(Component("", 1.0)),
@@ -55,7 +55,7 @@ val CONVERSION_RESULT = ConversionBenchmarkResult(
     BenchmarkType.Conversion,
     (1..5).map {
         ConversionDatapoint(
-            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                 Conversion("", 1.0, true),
             )
         )
@@ -81,7 +81,7 @@ val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
     BenchmarkType.Preconditioner,
     (1..5).map {
         PreconditionerDatapoint(
-            it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                 Preconditioner(
                     "", listOf(
                         Component("", it.toDouble()),

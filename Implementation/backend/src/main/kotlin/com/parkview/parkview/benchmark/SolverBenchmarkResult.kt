@@ -48,6 +48,7 @@ data class Solver(
  * @param solvers list of [Solver]
  */
 data class SolverDatapoint(
+    override val name: String,
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,

@@ -11,6 +11,8 @@ import com.parkview.parkview.git.Device
 import java.util.*
 
 private data class ProblemModel(
+    val group: String = "",
+    val name: String = "",
     val cols: Long = 0,
     val rows: Long = 0,
     val nonzeros: Long = 0,
@@ -64,6 +66,7 @@ private data class MatrixDatapointModel(
 ) {
     fun toSpmvDatapoint(): SpmvDatapoint? = if (spmv != null) {
         SpmvDatapoint(
+            problem.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
@@ -76,6 +79,7 @@ private data class MatrixDatapointModel(
 
     fun toConversionDatapoint(): ConversionDatapoint? = if (conversions != null) {
         ConversionDatapoint(
+            problem.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
@@ -87,6 +91,7 @@ private data class MatrixDatapointModel(
 
     fun toSolverDatapoint(): SolverDatapoint? = if (solver != null) {
         SolverDatapoint(
+            problem.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,

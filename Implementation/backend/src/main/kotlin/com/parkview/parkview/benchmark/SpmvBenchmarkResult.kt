@@ -34,6 +34,7 @@ data class Format(
  * @param formats list of [Format]
  */
 data class SpmvDatapoint(
+    override val name: String,
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,

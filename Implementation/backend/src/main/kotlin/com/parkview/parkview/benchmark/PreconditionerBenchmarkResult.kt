@@ -16,10 +16,11 @@ import com.parkview.parkview.git.Device
  * @param preconditioners list of [Preconditioner]
  */
 data class PreconditionerDatapoint(
+    override val name: String,
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,
-    val preconditioners: List<Preconditioner>
+    val preconditioners: List<Preconditioner>,
 ) : MatrixDatapoint {
     override fun serializeComponentsToJson(): String =
         GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(preconditioners)

@@ -2,7 +2,8 @@ package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.*
+import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.PlotType
 
 class ConversionSingleScatterPlot : ConversionPlotTransform {
     override val numInputsRange = 1..1
@@ -17,7 +18,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
             name = "yAxis",
             options = listOf("bandwidth", "time")
         ),
-        )
+    )
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
@@ -41,6 +42,11 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }.toMutableList()) })
+        return DatasetSeries(seriesByName.map { (key, value) ->
+            Dataset(
+                label = key,
+                data = value.sortedBy { it.x }.toMutableList()
+            )
+        })
     }
 }
