@@ -20,6 +20,7 @@ import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
   exports: [
     DefaultvaluePipe,
     AbbreviatePipe,
+    SummaryCardComponent,
   ],
   imports: [
     CommonModule,
