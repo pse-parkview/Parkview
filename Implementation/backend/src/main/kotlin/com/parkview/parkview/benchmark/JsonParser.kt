@@ -105,7 +105,7 @@ private data class MatrixDatapointModel(
                     value.residualNorm ?: 0.01,
                     value.completed,
                     value.generate?.components?.map { (key, value) -> Component(key, value) } ?: emptyList(),
-                    value.generate?.time ?: Double.POSITIVE_INFINITY,
+                    value.generate?.time ?: -1.0,
                     value.apply?.components?.map { (key, value) -> Component(key, value) } ?: emptyList(),
                     value.apply?.time ?: 0.0,
                     value.apply?.iterations ?: 0
@@ -126,7 +126,7 @@ private data class MatrixDatapointModel(
                 Preconditioner(
                     key,
                     value.generate?.components?.map { Component(it.key, it.value) } ?: emptyList(),
-                    value.generate?.time ?: Double.POSITIVE_INFINITY,
+                    value.generate?.time ?: -1.0,
                     value.apply?.components?.map { Component(it.key, it.value) } ?: emptyList(),
                     value.apply?.time ?: 0.0,
                     value.completed,
