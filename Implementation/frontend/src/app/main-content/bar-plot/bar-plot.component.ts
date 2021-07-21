@@ -23,7 +23,7 @@ export class BarPlotComponent implements OnInit {
   public xLabel: string = 'x';
   public yLabel: string = 'y';
   public yType: ScaleType = 'linear';
-  public chartLabels: Label[] = Array(); // TODO: Labels go here
+  public chartLabels: Label[] = Array();
 
   public chartOptions: ChartOptions = {
   title: {
@@ -71,7 +71,10 @@ export class BarPlotComponent implements OnInit {
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
 
-      this.dataHandler.getPlotData(config).subscribe(d => this.chartData = d.datasets);
+      this.dataHandler.getPlotData(config).subscribe(d => {
+        this.chartData = d.datasets;
+        this.chartLabels = d.labels;
+      });
       this.updateChart();
     });
   }
