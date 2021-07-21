@@ -5,7 +5,6 @@ import { DefaultvaluePipe } from './pipes/defaultvalue.pipe';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { SummaryCardComponent } from './directives/summary-card/summary-card.component';
 import {MatCardModule} from "@angular/material/card";
-import {AppModule} from "../app/app.module";
 import {MatTableModule} from "@angular/material/table";
 import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
 
@@ -21,6 +20,7 @@ import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
   exports: [
     DefaultvaluePipe,
     AbbreviatePipe,
+    SummaryCardComponent,
   ],
   imports: [
     CommonModule,
