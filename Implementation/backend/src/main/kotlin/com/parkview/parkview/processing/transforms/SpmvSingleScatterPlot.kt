@@ -36,7 +36,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                        else -> throw InvalidPlotTransformException("Invalid value for xAxis")
                     },
                     y = when (options["yAxis"]) {
                         "bandwidth" -> format.storage + (datapoint.rows + datapoint.columns) / format.time
@@ -47,6 +47,6 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }) })
+        return DatasetSeries(seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) })
     }
 }

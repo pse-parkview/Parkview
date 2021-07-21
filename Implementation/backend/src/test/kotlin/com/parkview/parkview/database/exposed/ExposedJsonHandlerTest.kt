@@ -230,6 +230,45 @@ internal class ExposedJsonHandlerTest {
     }
 
     @Test
+    fun `test replaces component runs same insert SPMV`() {
+        val resultA = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        val resultB = SpmvBenchmarkResult(
+            COMMIT_A,
+            DEVICE,
+            BenchmarkType.Spmv,
+            (1..5).map {
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                SpmvDatapoint(
+                    "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                    listOf(
+                        format
+                    ),
+                )
+            }
+        )
+
+        dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
+        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        for (datapoint in returned.datapoints) {
+            assert(datapoint.formats.size == 1)
+        }
+    }
+
+    @Test
     fun `test joins component runs same insert BLAS`() {
         val resultA = BlasBenchmarkResult(
             COMMIT_A,
@@ -271,7 +310,7 @@ internal class ExposedJsonHandlerTest {
             DEVICE,
             BenchmarkType.Spmv,
             (1..5).map {
-                val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+                val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
                     "", it.toLong() * 2 + 1, it.toLong() * 2 + 1, it.toLong() * 2 + 1,
                     listOf(

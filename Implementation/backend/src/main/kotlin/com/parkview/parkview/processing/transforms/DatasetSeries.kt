@@ -7,16 +7,19 @@ data class PlotPoint(
     val y: Double,
 )
 
-data class Dataset(
+data class PointDataset(
     val data: List<PlotPoint>,
     val label: String,
-)
+) : Dataset
+
+interface Dataset
 
 /**
  * data type for chart.js line and scatter plots
  */
 class DatasetSeries(
-    private val series: List<Dataset>,
+    private val datasets: List<Dataset>,
+    private val labels: List<String> = emptyList(),
 ) : PlottableData {
-    override fun toJson(): String = Gson().toJson(series)
+    override fun toJson(): String = Gson().toJson(this)
 }

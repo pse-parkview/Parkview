@@ -48,7 +48,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
         }
 
         return DatasetSeries(seriesByName.map { (key, value) ->
-            Dataset(
+            PointDataset(
                 label = key,
                 data = value.sortedBy { it.x }.toMutableList()
             )

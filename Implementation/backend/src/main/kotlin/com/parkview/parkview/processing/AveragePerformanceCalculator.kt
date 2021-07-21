@@ -3,10 +3,7 @@ package com.parkview.parkview.processing
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
-import com.parkview.parkview.processing.transforms.Dataset
-import com.parkview.parkview.processing.transforms.DatasetSeries
-import com.parkview.parkview.processing.transforms.PlotPoint
-import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.*
 
 class AveragePerformanceCalculator(
     private val databaseHandler: DatabaseHandler,
@@ -40,7 +37,7 @@ class AveragePerformanceCalculator(
         }
 
         return DatasetSeries(seriesByName.map { (key, value) ->
-            Dataset(
+            PointDataset(
                 label = key,
                 data = value.sortedBy { it.x }.toMutableList(),
             )
