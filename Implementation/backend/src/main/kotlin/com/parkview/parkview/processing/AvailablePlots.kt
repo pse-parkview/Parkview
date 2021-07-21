@@ -44,7 +44,7 @@ object AvailablePlots {
     )
 
     private val solverPlots: List<SolverPlotTransform> = listOf(
-        SolverConvergenceTransform(),
+        SolverConvergencePlot(),
     )
 
     /**

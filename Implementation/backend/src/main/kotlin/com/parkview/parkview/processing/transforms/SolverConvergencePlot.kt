@@ -6,7 +6,7 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 
-class SolverConvergenceTransform : SolverPlotTransform {
+class SolverConvergencePlot: SolverPlotTransform {
     override fun transformSolver(
         benchmarkResults: List<SolverBenchmarkResult>,
         options: Map<String, String>
