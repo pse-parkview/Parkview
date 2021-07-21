@@ -13,7 +13,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "xAxis",
-            options = listOf("nonzeros")
+            options = listOf("nonzeros", "rows", "columns"),
         )
     )
 
@@ -38,7 +38,12 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
                 if (!formatA.completed or !formatB.completed) continue
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
-                    x = datapointA.nonzeros.toDouble(),
+                    x = when (options["xAxis"]) {
+                        "nonzeros" -> datapointA.nonzeros.toDouble()
+                        "rows" -> datapointA.rows.toDouble()
+                        "columns" -> datapointA.columns.toDouble()
+                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                    },
                     y = formatA.time / formatB.time
                 )
             }

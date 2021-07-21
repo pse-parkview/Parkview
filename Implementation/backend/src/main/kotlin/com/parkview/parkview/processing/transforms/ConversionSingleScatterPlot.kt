@@ -12,7 +12,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "xAxis",
-            options = listOf("nonzeros")
+            options = listOf("nonzeros", "rows", "columns")
         ),
         PlotOption(
             name = "yAxis",
@@ -32,7 +32,12 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
             for (conversion in datapoint.conversions) {
                 if (!conversion.completed) continue
                 seriesByName.getOrPut(conversion.name) { mutableListOf() } += PlotPoint(
-                    x = datapoint.nonzeros.toDouble(),
+                    x = when (options["xAxis"]) {
+                        "nonzeros" -> datapoint.nonzeros.toDouble()
+                        "rows" -> datapoint.rows.toDouble()
+                        "columns" -> datapoint.columns.toDouble()
+                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                    },
                     y = when (options["yAxis"]) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time

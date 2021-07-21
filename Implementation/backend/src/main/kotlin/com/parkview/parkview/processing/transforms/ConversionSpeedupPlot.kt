@@ -12,13 +12,13 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
             name = "xAxis",
-            options = listOf("nonzeros")
+            options = listOf("nonzeros", "rows", "columns"),
         )
     )
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        xAxis: Map<String, String>
+        options: Map<String, String>
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
@@ -37,12 +37,16 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
                 if (!conversionA.completed or !conversionB.completed) continue
 
                 seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
-                    x = datapointA.nonzeros.toDouble(),
-                    y = conversionA.time / conversionB.time
+                    x = when (options["xAxis"]) {
+                        "nonzeros" -> datapointA.nonzeros.toDouble()
+                        "rows" -> datapointA.rows.toDouble()
+                        "columns" -> datapointA.columns.toDouble()
+                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                    },
+                    y = conversionA.time / conversionB.time,
                 )
             }
         }
-
 
         return DatasetSeries(
             seriesByName.map { (key, value) -> Dataset(label = key, data = value.sortedBy { it.x }) }

@@ -33,6 +33,7 @@ object AvailablePlots {
     )
     private val blasPlots: List<BlasPlotTransform> = listOf(
         SingeBlasPlot(),
+        BlasSpeedupTransform(),
     )
 
     private val preconditionerPlots: List<PreconditionerPlotTransform> = listOf()

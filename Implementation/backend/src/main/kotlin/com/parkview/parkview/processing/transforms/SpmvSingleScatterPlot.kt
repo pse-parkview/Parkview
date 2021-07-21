@@ -16,7 +16,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
         ),
         PlotOption(
             name = "xAxis",
-            options = listOf("nonzeros"),
+            options = listOf("nonzeros", "rows", "columns"),
         ),
     )
 
@@ -32,7 +32,12 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
             for (format in datapoint.formats) {
                 if (!format.completed) continue
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
-                    x = datapoint.nonzeros.toDouble(),
+                    x = when (options["xAxis"]) {
+                        "nonzeros" -> datapoint.nonzeros.toDouble()
+                        "rows" -> datapoint.rows.toDouble()
+                        "columns" -> datapoint.columns.toDouble()
+                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                    },
                     y = when (options["yAxis"]) {
                         "bandwidth" -> format.storage + (datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
