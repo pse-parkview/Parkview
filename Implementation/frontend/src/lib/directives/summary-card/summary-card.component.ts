@@ -39,7 +39,7 @@ export class SummaryCardComponent implements OnInit {
   private static compileSummaryData(summary: Summary): {key: string, value: string}[] {
     const output: {key: string, value: string}[] = [];
     Object.keys(summary).forEach(k => {
-      output.push({key: k, value: summary[k].toString()});
+      output.push({key: k, value: summary[k].toLocaleString()});
     })
     return output;
   }
