@@ -82,4 +82,20 @@ internal class JsonParserTest {
         assert(result.datapoints.first().k == 100L)
         assert(result.datapoints.first().r == 1L)
     }
+
+    @Test
+    fun `test json deserialization for file containing single preconditioner benchmark type`() {
+        val path = "src/test/resources/test_single_preconditioner.json"
+        val file = File(path)
+        val testJson = file.readText()
+
+        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        print(benchmarkResults.toString())
+        assert(benchmarkResults.size == 1)
+        val result = benchmarkResults.first()
+        if (result !is PreconditionerBenchmarkResult) fail("invalid type, should be BlasBenchmarkResult")
+        assert(result.datapoints.size == 1)
+        assert(result.datapoints.first().name == "Bodendiek/CurlCurl_4")
+        assert(result.datapoints.first().preconditioners.size == 13)
+    }
 }

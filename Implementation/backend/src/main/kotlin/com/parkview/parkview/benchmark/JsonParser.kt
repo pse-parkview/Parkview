@@ -34,8 +34,8 @@ private data class SolverModel(
     @SerializedName("implicit_residuals") val implicitResiduals: List<Double>?,
     @SerializedName("iteration_timestamps") val iterationTimestamps: List<Double>?,
     @SerializedName("rhs_norm") val rhsNorm: Double,
-    val generate: GenerateModel,
-    val apply: ApplyModel,
+    val generate: GenerateModel?,
+    val apply: ApplyModel?,
     @SerializedName("residual_norm") val residualNorm: Double?,
     val completed: Boolean,
 )
@@ -52,8 +52,8 @@ private data class ApplyModel(
 )
 
 private data class PreconditionerModel(
-    val generate: GenerateModel,
-    val apply: ApplyModel,
+    val generate: GenerateModel?,
+    val apply: ApplyModel?,
     val completed: Boolean,
 )
 
@@ -73,7 +73,6 @@ private data class MatrixDatapointModel(
             spmv.map { (key, value) -> Format(key, value.time, value.completed) }.toList()
         )
     } else {
-        // TODO find a better way than this
         null
     }
 
@@ -105,11 +104,11 @@ private data class MatrixDatapointModel(
                     value.rhsNorm,
                     value.residualNorm ?: 0.01,
                     value.completed,
-                    value.generate.components.map { (key, value) -> Component(key, value) },
-                    value.generate.time,
-                    value.apply.components.map { (key, value) -> Component(key, value) },
-                    value.apply.time,
-                    value.apply.iterations ?: 0
+                    value.generate?.components?.map { (key, value) -> Component(key, value) } ?: emptyList(),
+                    value.generate?.time ?: Double.POSITIVE_INFINITY,
+                    value.apply?.components?.map { (key, value) -> Component(key, value) } ?: emptyList(),
+                    value.apply?.time ?: 0.0,
+                    value.apply?.iterations ?: 0
                 )
             }.toList()
         )
@@ -117,8 +116,25 @@ private data class MatrixDatapointModel(
         null
     }
 
-    fun toPreconditionerDatapoint(): PreconditionerDatapoint? {
-        return null
+    fun toPreconditionerDatapoint(): PreconditionerDatapoint? = if (preconditioner != null) {
+        PreconditionerDatapoint(
+            problem.group + "/" + problem.name,
+            problem.rows,
+            problem.cols,
+            problem.nonzeros,
+            preconditioner.map { (key, value) ->
+                Preconditioner(
+                    key,
+                    value.generate?.components?.map { Component(it.key, it.value) } ?: emptyList(),
+                    value.generate?.time ?: Double.POSITIVE_INFINITY,
+                    value.apply?.components?.map { Component(it.key, it.value) } ?: emptyList(),
+                    value.apply?.time ?: 0.0,
+                    value.completed,
+                )
+            }
+        )
+    } else {
+        null
     }
 }
 

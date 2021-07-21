@@ -1,0 +1,380 @@
+[
+  {
+    "filename": "/home/shared_files/ssget/MM/Bodendiek/CurlCurl_4/CurlCurl_4.mtx",
+    "problem": {
+      "id": 2573,
+      "group": "Bodendiek",
+      "name": "CurlCurl_4",
+      "rows": 2380515,
+      "cols": 2380515,
+      "nonzeros": 26515867,
+      "real": true,
+      "binary": false,
+      "2d3d": true,
+      "posdef": false,
+      "psym": 1,
+      "nsym": 1,
+      "kind": "model reduction problem",
+      "columns": 2380515,
+      "row_distribution": {
+        "min": 4,
+        "q1": 11,
+        "median": 11,
+        "q3": 11,
+        "max": 13,
+        "mean": 11.138710321085985,
+        "variance": 0.7325119037249843,
+        "skewness": 0.396177663181068,
+        "kurtosis": 5.453248707027302,
+        "hyperskewness": -1.2906750542164077,
+        "hyperflatness": 38.93422272695868
+      },
+      "col_distribution": {
+        "min": 4,
+        "q1": 11,
+        "median": 11,
+        "q3": 11,
+        "max": 13,
+        "mean": 11.138710321085985,
+        "variance": 0.7325119037249843,
+        "skewness": 0.396177663181068,
+        "kurtosis": 5.453248707027302,
+        "hyperskewness": -1.2906750542164077,
+        "hyperflatness": 38.93422272695868
+      }
+    },
+    "preconditioner": {
+      "jacobi-32-0,0": {
+        "generate": {
+          "components": {
+            "allocate": 0.0001558535,
+            "free": 0.0000680853,
+            "jacobi::find_blocks#4": 1.6150198475,
+            "jacobi::generate#9": 0.051346796699999999
+          },
+          "time": 1.6720258229999999,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "jacobi::simple_apply#8": 0.0008395303999999999
+          },
+          "time": 0.0008201475999999999,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "paric": {
+        "generate": {
+          "components": {
+            "allocate": 0.0010855755999999999,
+            "copy": 0.0013710419,
+            "csr::conj_transpose#2": 0.0114275106,
+            "csr::convert_to_coo#2": 0.0003396569,
+            "factorization::add_diagonal_elements#2": 0.0018190055,
+            "factorization::initialize_l#3": 0.0069095795000000009,
+            "factorization::initialize_row_ptrs_l#2": 0.0043795722,
+            "free": 0.0002226103,
+            "lower_trs::generate#3": 0.0080481793,
+            "lower_trs::init_struct#1": 0.0000016480000000000002,
+            "par_ic_factorization::compute_factor#3": 0.0071203975,
+            "par_ic_factorization::init_factor#1": 0.0005020177,
+            "upper_trs::generate#3": 0.0080143787,
+            "upper_trs::init_struct#1": 0.000001473
+          },
+          "time": 0.0690334632,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.00015956340000000002,
+            "copy": 0.0000078779,
+            "dense::copy#2": 0.0000682683,
+            "free": 0.0000457306,
+            "lower_trs::should_perform_transpose#1": 9.21e-7,
+            "lower_trs::solve#6": 0.0032334079,
+            "upper_trs::should_perform_transpose#1": 7.02e-7,
+            "upper_trs::solve#6": 0.0031183
+          },
+          "time": 0.0074707325000000009,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "parict-5-1-2": {
+        "completed": false
+      },
+      "parilu-5": {
+        "generate": {
+          "components": {
+            "allocate": 0.0010879309,
+            "copy": 0.0019173829,
+            "csr::convert_to_coo#2": 0.0006248915,
+            "csr::transpose#2": 0.011175978,
+            "factorization::add_diagonal_elements#2": 0.0018237847000000002,
+            "factorization::initialize_l_u#3": 0.0104373405,
+            "factorization::initialize_row_ptrs_l_u#3": 0.0081264565,
+            "free": 0.0002049811,
+            "lower_trs::generate#3": 0.0080537722,
+            "lower_trs::init_struct#1": 0.000001669,
+            "par_ilu_factorization::compute_l_u_factors#4": 0.0173468192,
+            "upper_trs::generate#3": 0.0079980395,
+            "upper_trs::init_struct#1": 0.0000034928999999999998
+          },
+          "time": 0.09976296450000001,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.00015804669999999998,
+            "copy": 0.00000781,
+            "dense::copy#2": 0.00006501639999999999,
+            "free": 0.0000428495,
+            "lower_trs::should_perform_transpose#1": 9.470000000000001e-7,
+            "lower_trs::solve#6": 0.0032224768,
+            "upper_trs::should_perform_transpose#1": 7.119999999999999e-7,
+            "upper_trs::solve#6": 0.0031051798
+          },
+          "time": 0.006562825699999999,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "parilut-5-1-2": {
+        "generate": {
+          "components": {
+            "allocate": 0.0058134559,
+            "csr::convert_to_coo#2": 0.0214359295,
+            "csr::spgemm#3": 0.1156155808,
+            "csr::transpose#2": 0.15210359639999999,
+            "factorization::initialize_l_u#3": 0.011036389300000002,
+            "factorization::initialize_row_ptrs_l_u#3": 0.0082095078,
+            "free": 0.0023027646,
+            "lower_trs::generate#3": 0.0246850461,
+            "lower_trs::init_struct#1": 0.000002525,
+            "par_ilut_factorization::add_candidates#6": 0.12217735059999999,
+
+            "par_ilut_factorization::compute_l_u_factors#6": 0.7133290641000001,
+            "par_ilut_factorization::threshold_filter#5": 0.0345227989,
+
+            "par_ilut_factorization::threshold_filter_approx#6": 0.3414309755,
+            "upper_trs::generate#3": 0.0034617118000000006,
+            "upper_trs::init_struct#1": 0.000001399
+          },
+          "time": 1.6126716434000002,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.0001582854,
+            "copy": 0.0000097979,
+            "dense::copy#2": 0.00007040119999999999,
+            "free": 0.0000425568,
+            "lower_trs::should_perform_transpose#1": 0.00000104,
+            "lower_trs::solve#6": 0.0069176975,
+            "upper_trs::should_perform_transpose#1": 7.06e-7,
+            "upper_trs::solve#6": 0.0032735734000000004
+          },
+          "time": 0.010140450300000001,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "ic": {
+        "generate": {
+          "components": {
+            "allocate": 0.0011276462,
+            "copy": 0.0015876418,
+            "csr::conj_transpose#2": 0.0113168775,
+            "csr::sort_by_column_index#1": 0.0074837576,
+            "factorization::add_diagonal_elements#2": 0.0013694006,
+            "factorization::initialize_l#3": 0.0068855876,
+            "factorization::initialize_row_ptrs_l#2": 0.0043947871,
+            "free": 0.0002991886,
+            "ic_factorization::compute#1": 0.0226927086,
+            "lower_trs::generate#3": 0.0080822108,
+            "lower_trs::init_struct#1": 0.000001476,
+            "upper_trs::generate#3": 0.008050865,
+            "upper_trs::init_struct#1": 0.000001375
+          },
+          "time": 0.0916389308,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.00016050059999999999,
+            "copy": 0.000008580900000000001,
+            "dense::copy#2": 0.0000690445,
+            "free": 0.000045816200000000006,
+            "lower_trs::should_perform_transpose#1": 9.16e-7,
+            "lower_trs::solve#6": 0.0032427348,
+            "upper_trs::should_perform_transpose#1": 6.89e-7,
+            "upper_trs::solve#6": 0.0031234838
+          },
+          "time": 0.0065833325,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "ilu": {
+        "generate": {
+          "components": {
+            "allocate": 0.0009199184,
+            "copy": 0.0015774986,
+            "csr::sort_by_column_index#1": 0.0074894170999999999,
+            "factorization::add_diagonal_elements#2": 0.0013716545,
+            "factorization::initialize_l_u#3": 0.010510748,
+            "factorization::initialize_row_ptrs_l_u#3": 0.0081539243,
+            "free": 0.0002177299,
+            "ilu_factorization::compute_lu#1": 0.0230765873,
+            "lower_trs::generate#3": 0.008091544,
+            "lower_trs::init_struct#1": 0.0000016549999999999999,
+            "upper_trs::generate#3": 0.008040936299999999,
+            "upper_trs::init_struct#1": 0.0000035489
+          },
+          "time": 0.08450057629999999,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.00015846180000000001,
+            "copy": 0.000008273899999999999,
+            "dense::copy#2": 0.0000683517,
+            "free": 0.0000459137,
+            "lower_trs::should_perform_transpose#1": 9.27e-7,
+            "lower_trs::solve#6": 0.0032421245,
+            "upper_trs::should_perform_transpose#1": 7.040000000000001e-7,
+            "upper_trs::solve#6": 0.0031202835000000005
+          },
+          "time": 0.006578735599999999,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "paric-isai": {
+        "generate": {
+          "components": {
+            "allocate": 0.0016277856,
+            "copy": 0.0029185323,
+            "csr::conj_transpose#2": 0.0114429317,
+            "csr::convert_to_coo#2": 0.0003366379,
+            "csr::sort_by_column_index#1": 0.0071106526000000009,
+            "factorization::add_diagonal_elements#2": 0.0018185265999999998,
+            "factorization::initialize_l#3": 0.0069100338,
+            "factorization::initialize_row_ptrs_l#2": 0.0043824625999999999,
+            "free": 0.0005488691,
+            "isai::generate_tri_inverse#5": 0.06280275119999999,
+            "par_ic_factorization::compute_factor#3": 0.0071740991,
+            "par_ic_factorization::init_factor#1": 0.0004982506
+          },
+          "time": 0.13855133800000003,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.000012803900000000002,
+            "copy": 0.0000080169,
+            "csr::spmv#3": 0.000797849,
+            "dense::copy#2": 0.00006832109999999999
+          },
+          "time": 0.0007738561000000001,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "parict-isai-5-1-2-1": {
+        "completed": false
+      },
+      "parilu-isai-5-1": {
+        "generate": {
+          "components": {
+            "allocate": 0.0023373897000000005,
+            "copy": 0.0049738340999999999,
+            "csr::convert_to_coo#2": 0.0006276184,
+            "csr::sort_by_column_index#1": 0.014222136899999998,
+            "csr::transpose#2": 0.0112278336,
+            "factorization::add_diagonal_elements#2": 0.0018225221999999999,
+            "factorization::initialize_l_u#3": 0.0108161843,
+            "factorization::initialize_row_ptrs_l_u#3": 0.008120310799999999,
+            "free": 0.0007746617,
+            "isai::generate_tri_inverse#5": 0.12451894379999999,
+            "par_ilu_factorization::compute_l_u_factors#4": 0.0174563654
+          },
+          "time": 0.2419144228,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.0000049769,
+            "copy": 0.000008216,
+            "csr::spmv#3": 0.0007942538,
+            "dense::copy#2": 0.000058950400000000007
+          },
+          "time": 0.0007636130999999999,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "parilut-isai-5-1-2-1": {
+        "completed": false
+      },
+      "ic-isai": {
+        "generate": {
+          "components": {
+            "allocate": 0.0017050809,
+            "copy": 0.0031974387,
+            "csr::conj_transpose#2": 0.0113544593,
+            "csr::sort_by_column_index#1": 0.0145883249,
+            "factorization::add_diagonal_elements#2": 0.0013690967,
+            "factorization::initialize_l#3": 0.006520960000000001,
+            "factorization::initialize_row_ptrs_l#2": 0.0043918852,
+            "free": 0.0005206266,
+            "ic_factorization::compute#1": 0.022713185599999999,
+            "isai::generate_tri_inverse#5": 0.0627633327
+          },
+          "time": 0.16134868889999999,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.0000136258,
+            "copy": 0.0000084399,
+            "csr::spmv#3": 0.0008042419999999999,
+            "dense::copy#2": 0.00006146440000000001
+          },
+          "time": 0.0007843599,
+          "repetitions": 10
+        },
+        "completed": true
+      },
+      "ilu-isai-1": {
+        "generate": {
+          "components": {
+            "allocate": 0.0021534374,
+            "copy": 0.0046435295,
+            "csr::sort_by_column_index#1": 0.0216949579,
+            "factorization::add_diagonal_elements#2": 0.0013698419,
+            "factorization::initialize_l_u#3": 0.01052525,
+            "factorization::initialize_row_ptrs_l_u#3": 0.0081663073,
+            "free": 0.0007145097,
+            "ilu_factorization::compute_lu#1": 0.0230910693,
+            "isai::generate_tri_inverse#5": 0.12426358689999999
+          },
+          "time": 0.241009336,
+          "repetitions": 10
+        },
+        "apply": {
+          "components": {
+            "allocate": 0.0000050139,
+            "copy": 0.000008313,
+            "csr::spmv#3": 0.0008015796000000001,
+            "dense::copy#2": 0.0000638797
+          },
+          "time": 0.0007647511,
+          "repetitions": 10
+        },
+        "completed": true
+      }
+    }
+  }
+]
