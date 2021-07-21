@@ -14,7 +14,7 @@ class SolverConvergencePlot: SolverPlotTransform {
         val benchmarkResult = benchmarkResults.firstOrNull()
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")
         val datapoint = benchmarkResult.datapoints.first {
-            "${it.rows}x${it.columns}x${it.nonzeros}" == options["datapoint"]
+            it.name == options["datapoint"]
         }
 
 
@@ -64,9 +64,7 @@ class SolverConvergencePlot: SolverPlotTransform {
         ),
         PlotOption(
             name = "datapoint",
-            options = (results.first() as MatrixBenchmarkResult).datapoints.map {
-                "${it.rows}x${it.columns}x${it.nonzeros}"
-            }
+            options = (results.first() as MatrixBenchmarkResult).datapoints.map { it.name }
         ),
     )
 }
