@@ -39,6 +39,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   availablePlotOptions: PlotOption[] = [];
   currentPlotOptions: { [key: string]: string | number } = {};
 
+  customizePlotLabels: boolean = false;
   plotlabelTitle: string = '';
   plotlabelXAxis: string = 'x';
   plotlabelYAxis: string = 'y';
@@ -56,26 +57,28 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.fetchAvailablePlots();
   }
 
-  togglePanel() {
+  togglePanel(): void {
     this.customizationPanel.toggle();
+    if (!this.customizePlotLabels) {
+      this.setDefaultLabels();
+    }
   }
 
-  filterOutEmptyPlotTypeKeys() {
+  filterOutEmptyPlotTypeKeys(): void {
     this.resetPlotTypeKeyValues();
     this.availablePlotTypeKeys = Object.keys(this.availablePlots).filter(k => ((this.availablePlots as any)[k] as PlotTypeOption[]).length !== 0) as SupportedChartType[];
     this.currentPlotTypeKey = this.availablePlotTypeKeys.length !== 0 ? this.availablePlotTypeKeys[0] : 'line';
     this.updatePlotTypeKey();
   }
 
-  updatePlotTypeKey() {
+  updatePlotTypeKey(): void {
     this.availablePlotTypeOptions = (this.availablePlots as any)[this.currentPlotTypeKey] as PlotTypeOption[];
     this.currentPlotTypeOption = this.availablePlotTypeOptions.length !== 0 ? this.availablePlotTypeOptions[0] : { plotName: '', options: [] };
     this.updatePlotTypeOption()
   }
 
-  updatePlotTypeOption() {
+  updatePlotTypeOption(): void {
     this.availablePlotOptions = this.currentPlotTypeOption.options;
-    this.plotlabelTitle = this.currentPlotTypeOption.plotName
     this.currentPlotOptions = {};
     this.availablePlotOptions.forEach(po => {
       if (po.number) {
@@ -83,12 +86,11 @@ export class PlotConfigurationDialogComponent implements OnInit {
       } else {
         this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
       }
-      this.plotlabelXAxis = po.name === X_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelXAxis;
-      this.plotlabelYAxis = po.name === Y_AXIS_PLOT_OPTION_NAME && po.options.length > 0 ? po.options[0] : this.plotlabelYAxis;
     });
+    this.setDefaultLabels();
   }
 
-  private fetchAvailablePlots() {
+  private fetchAvailablePlots(): void {
     const commits = this.commitsAndDevices.map(p => p.commit);
     const devices = this.commitsAndDevices.map(p => p.device);
     this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((availablePlots: AvailablePlotTypes) => {
@@ -97,19 +99,19 @@ export class PlotConfigurationDialogComponent implements OnInit {
     });
   }
 
-  private resetPlotTypeKeyValues() {
+  private resetPlotTypeKeyValues(): void {
     this.availablePlotTypeKeys = [];
     this.currentPlotTypeKey = 'line';
   }
 
-  saveAndStoreCurrentConfig() {
+  saveAndStoreCurrentConfig(): void {
     // this.cookieService.store(compilePlotConfig()); oder so
     alert(`todo: store ${JSON.stringify(this.compilePlotConfig())} as a cookie or similar`);
     console.log(this.compilePlotConfig());
 
   }
 
-  navigateToPlotView() {
+  navigateToPlotView(): void {
     // this.router.navigate(['singleBenchmark_plot_or_so'], {queryParams: {pc: compilePlotConfig()}});
     // and let them do the work or something
     const config: PlotConfiguration = this.compilePlotConfig();
@@ -122,7 +124,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.router.navigate([this.currentPlotTypeKey], {queryParams: qp});
   }
 
-  compilePlotConfig(): PlotConfiguration {
+  private compilePlotConfig(): PlotConfiguration {
     const optionsObject: {[keys: string]: string}= {};
     this.currentPlotTypeOption.options.forEach(o => {
       optionsObject[o.name] = this.currentPlotOptions[o.name].toString();
@@ -138,5 +140,21 @@ export class PlotConfigurationDialogComponent implements OnInit {
       options: optionsObject,
       chartType: this.currentPlotTypeKey
     };
+  }
+
+  refreshDefaults() {
+    if (!this.customizePlotLabels) {
+      this.setDefaultLabels();
+    }
+  }
+
+  private setDefaultLabels() {
+    this.plotlabelTitle = this.currentPlotTypeOption.plotName
+    this.plotlabelXAxis = this.currentPlotTypeOption.options.some(o => o.name === X_AXIS_PLOT_OPTION_NAME)
+      ? this.currentPlotOptions[X_AXIS_PLOT_OPTION_NAME].toString()
+      : 'X';
+    this.plotlabelYAxis = this.currentPlotTypeOption.options.some(o => o.name === Y_AXIS_PLOT_OPTION_NAME)
+      ? this.currentPlotOptions[Y_AXIS_PLOT_OPTION_NAME].toString()
+      : 'Y';
   }
 }

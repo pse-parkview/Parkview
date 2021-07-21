@@ -67,7 +67,8 @@
     <mat-label>{{plotOption.name}}</mat-label>
     <mat-select [id]="plotOption.name"
                 [disabled]="plotOption.options.length === 0"
-                [(value)]="currentPlotOptions[plotOption.name]">
+                [(value)]="currentPlotOptions[plotOption.name]"
+                (selectionChange)="refreshDefaults()">
       <mat-option *ngFor="let o of plotOption.options"
                   [value]="o">
         {{ o }}
@@ -80,7 +81,8 @@
   <mat-expansion-panel hideToggle
                        [disabled]="true">
     <mat-expansion-panel-header>
-      <mat-checkbox (change)="togglePanel()">
+      <mat-checkbox (change)="togglePanel()"
+                    [(ngModel)]="customizePlotLabels">
         Customize Labels
       </mat-checkbox>
     </mat-expansion-panel-header>
