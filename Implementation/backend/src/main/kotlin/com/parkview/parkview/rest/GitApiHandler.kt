@@ -1,11 +1,18 @@
 package com.parkview.parkview.rest
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.google.gson.annotations.SerializedName
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
 import org.springframework.http.HttpHeaders
-import org.springframework.web.client.RestTemplate
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -31,7 +38,58 @@ private data class BranchInfoModel(
     val name: String,
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class HeadInfoModel(
+    @SerializedName("object") val objectInfo: ObjectInfoModel,
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class ObjectInfoModel(
+    val sha: String,
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class DiffInfoModel(
+    val total_commits: Int,
+)
+
 class GitApiException(message: String) : Exception(message)
+
+private interface GitHubService {
+    @GET("/repos/{owner}/{repoName}/commits")
+    fun fetchHistory(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Query("sha") branch: String,
+        @Query("page") page: Int,
+    ): Call<List<CommitModel>>
+
+    @GET("https://api.github.com/repos/{owner}/{repoName}/branches")
+    fun getBranches(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+    ): Call<List<BranchInfoModel>>
+
+    @GET("https://api.github.com/repos/{owner}/{repoName}/git/refs/heads/{branch}")
+    fun getHeadInfo(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("branch") branch: String,
+    ): Call<HeadInfoModel>
+
+
+    @GET("https://api.github.com/repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
+    fun getDiff(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("firstSha") firstSha: String,
+        @Path("lastSha") lastSha: String,
+    ): Call<DiffInfoModel>
+}
 
 /**
  * Implements RepositoryHandler by using the GitHub Api
@@ -44,40 +102,33 @@ class GitApiException(message: String) : Exception(message)
 class GitApiHandler(
     private val repoName: String,
     private val owner: String,
+    private val firstCommitSha: String,
     private val username: String = "",
     private val token: String = "",
 ) : RepositoryHandler {
-    override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
-        val uri =
-            "https://api.github.com/repos/$owner/$repoName/commits?sha=$branch&page=$page"
-        val headers = HttpHeaders()
-        headers.setBasicAuth(username, token)
+    private val service = Retrofit.Builder()
+        .baseUrl("https://api.github.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    private val githubApi = service.create(GitHubService::class.java)
 
-        val restTemplate = RestTemplate()
-        val result = restTemplate.getForObject(uri, Array<CommitModel>::class.java, headers)?.toList()
+    private val commitPerPage = 30
+
+    override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+        githubApi.fetchHistory(token, owner, repoName, branch, page).execute().body()
+            ?.map { Commit(it.sha, it.commit.message, it.commit.author.date, it.commit.author.name) }
+            ?: throw GitApiException("Error while retrieving history")
+
+    override fun getAvailableBranches(): List<String> =
+        githubApi.getBranches(token, owner, repoName).execute().body()?.map { it.name }
+            ?: throw GitApiException("Error while retrieving available branches")
+
+    override fun getNumberOfPages(branch: String): Int {
+        val headInfo = githubApi.getHeadInfo(token, owner, repoName, branch).execute().body() ?: throw GitApiException("Error while retrieving branch head")
+
+        val diffInfo = githubApi.getDiff(token, owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
             ?: throw GitApiException("Error while parsing git history response")
 
-        val commits = mutableListOf<Commit>()
-
-        for (model in result) {
-            commits += Commit(
-                sha = model.sha,
-                message = model.commit.message,
-                date = model.commit.author.date,
-                author = model.commit.author.name,
-            )
-        }
-
-        return commits
-    }
-
-    override fun getAvailableBranches(): List<String> {
-        val uri = "https://api.github.com/repos/$owner/$repoName/branches"
-
-        val restTemplate = RestTemplate()
-        val result = restTemplate.getForObject(uri, Array<BranchInfoModel>::class.java)?.toList()
-            ?: throw GitApiException("Error while parsing branch list response")
-
-        return result.map { branch -> branch.name }
+        return (diffInfo.total_commits + 1) / commitPerPage
     }
 }

@@ -20,4 +20,6 @@ interface RepositoryHandler {
      * @return list of branch names
      */
     fun getAvailableBranches(): List<String>
+
+    fun getNumberOfPages(branch: String): Int
 }

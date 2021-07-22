@@ -5,8 +5,8 @@ import java.util.*
 private data class CachedBranch(
     val name: String,
     val fetchDate: Date,
-    val commits: List<Commit>,
-    val page: Int,
+    val pages: MutableMap<Int, List<Commit>>,
+    val numberPages: Int
 )
 
 /**
@@ -28,19 +28,12 @@ class CachingRepositoryHandler(
     private var availableBranchesFetchDate = Date()
 
     override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
-        val wantedBranch = branchCache.find { (it.name == branch) && (it.page == page) }
+        val wantedBranch = branchCache.find { (it.name == branch) }
 
         // branch is not cached
         if (wantedBranch == null) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
-            addToCache(
-                CachedBranch(
-                    name = branch,
-                    fetchDate = Date(),
-                    commits = newBranch,
-                    page = page,
-                )
-            )
+            addToCache(CachedBranch(branch, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
 
             return newBranch
         }
@@ -49,21 +42,14 @@ class CachingRepositoryHandler(
         if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
             branchCache.remove(wantedBranch)
-            addToCache(
-                CachedBranch(
-                    name = branch,
-                    fetchDate = Date(),
-                    commits = newBranch,
-                    page = page,
-                )
-            )
+            addToCache(CachedBranch(branch, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
 
             return newBranch
 
         }
 
         // hit
-        return wantedBranch.commits
+        return wantedBranch.pages.getOrPut(page) { handler.fetchGitHistory(branch, page, benchmarkType) }
     }
 
     override fun getAvailableBranches(): List<String> {
@@ -73,6 +59,8 @@ class CachingRepositoryHandler(
         }
         return availableBranches
     }
+
+    override fun getNumberOfPages(branch: String): Int = branchCache.find { (it.name == branch) }?.numberPages ?: handler.getNumberOfPages(branch)
 
     private fun addToCache(branch: CachedBranch) {
         branchCache.add(branch)

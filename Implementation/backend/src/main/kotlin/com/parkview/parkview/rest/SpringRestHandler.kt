@@ -36,6 +36,7 @@ class SpringRestHandler(
             GitApiHandler(
                 appConfig.gitApi.repoName,
                 appConfig.gitApi.owner,
+                appConfig.gitApi.firstCommitSha,
                 appConfig.gitApi.username,
                 appConfig.gitApi.token,
             ),
@@ -143,4 +144,9 @@ class SpringRestHandler(
         val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
         return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark)).toJson()
     }
+
+    @GetMapping("/numberPages")
+    override fun getNumberOfPages(
+        @RequestParam branch: String,
+    ): String = Gson().toJson(repHandler.getNumberOfPages(branch))
 }

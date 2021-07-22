@@ -16,6 +16,7 @@ data class GitApiConfig(
     val branchListLifetime: Int,
     val repoName: String,
     val owner: String,
+    val firstCommitSha: String,
     val username: String = "",
     val token: String = "",
 )
