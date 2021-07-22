@@ -62,6 +62,7 @@ data class ConversionBenchmarkResult(
 
         for (datapoint in datapoints) {
             for (conversion in datapoint.conversions) {
+                if (!conversion.completed) continue
                 bandwidths.getOrPut(conversion.name) { mutableListOf<Double>() }
                     .add(datapoint.nonzeros / conversion.time)
             }

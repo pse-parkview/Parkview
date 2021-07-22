@@ -81,6 +81,7 @@ data class SolverBenchmarkResult(
 
         for (datapoint in datapoints) {
             for (solver in datapoint.solvers) {
+                if (!solver.completed) continue
                 bandwidths.getOrPut(solver.name) { mutableListOf() }.add(solver.applyIterations.toDouble())
             }
         }

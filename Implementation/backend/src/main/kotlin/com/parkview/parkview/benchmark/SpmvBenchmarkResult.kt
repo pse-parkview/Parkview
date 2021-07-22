@@ -67,7 +67,8 @@ data class SpmvBenchmarkResult(
 
         for (datapoint in datapoints) {
             for (format in datapoint.formats) {
-                bandwidths.getOrPut(format.name) { mutableListOf<Double>() }.add(datapoint.nonzeros / format.time)
+                if (!format.completed) continue
+                bandwidths.getOrPut(format.name) { mutableListOf() }.add(datapoint.nonzeros / format.time)
             }
         }
 

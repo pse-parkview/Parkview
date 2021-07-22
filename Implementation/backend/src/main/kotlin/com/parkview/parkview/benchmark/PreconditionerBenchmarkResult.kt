@@ -66,6 +66,7 @@ data class PreconditionerBenchmarkResult(
         val times = mutableMapOf<String, MutableList<Double>>()
         for (datapoint in datapoints) {
             for (preconditioner in datapoint.preconditioners) {
+                if (!preconditioner.completed) continue
                 times.getOrPut(preconditioner.name) { mutableListOf() }.add(preconditioner.generateTime)
             }
         }

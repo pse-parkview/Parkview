@@ -67,6 +67,7 @@ data class BlasBenchmarkResult(
 
         for (datapoint in datapoints) {
             for (operation in datapoint.operations) {
+                if (!operation.completed) continue
                 bandwidths.getOrPut(operation.name) { mutableListOf() }.add(operation.bandwidth)
             }
         }
