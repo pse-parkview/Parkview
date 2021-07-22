@@ -6,6 +6,7 @@
     <canvas [chartType]="chartType"
             [datasets]="chartData"
             [options]="chartOptions" baseChart
+            [labels]="chartLabels"
             class="chart">
     </canvas>
   </div>
@@ -13,22 +14,7 @@
   <!-- TODO style line plot select so that it looks palatable-->
   <mat-form-field>
     <mat-label>
-      X Axis Scaling
-    </mat-label>
-    <mat-select [(value)]="this.xType"
-                (selectionChange)="updateChart()">
-      <mat-option [value]="'linear'">
-        Linear
-      </mat-option>
-      <mat-option [value]="'logarithmic'">
-        Logarithmic
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>
-      Y Axis Scaling
+      y Axis Scaling
     </mat-label>
     <mat-select [(value)]="this.yType"
                 (selectionChange)="updateChart()">
