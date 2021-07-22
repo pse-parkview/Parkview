@@ -19,7 +19,7 @@ import java.util.*
  */
 @RestController
 class SpringRestHandler(
-    private val appConfig: AppConfig
+    private val appConfig: AppConfig,
 ) : RestHandler {
     private val databaseHandler: DatabaseHandler = ExposedJsonHandler(
         HikariDataSource(HikariConfig()

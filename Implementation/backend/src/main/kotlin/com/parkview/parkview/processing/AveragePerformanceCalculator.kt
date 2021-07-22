@@ -3,7 +3,10 @@ package com.parkview.parkview.processing
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.DatasetSeries
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
 
 class AveragePerformanceCalculator(
     private val databaseHandler: DatabaseHandler,

@@ -19,7 +19,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 

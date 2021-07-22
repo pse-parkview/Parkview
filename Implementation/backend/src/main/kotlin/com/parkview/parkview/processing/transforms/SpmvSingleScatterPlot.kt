@@ -22,7 +22,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val benchmarkResult = benchmarkResults.first()
 
@@ -47,6 +47,9 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) })
+        return DatasetSeries(seriesByName.map { (key, value) ->
+            PointDataset(label = key,
+                data = value.sortedBy { it.x })
+        })
     }
 }

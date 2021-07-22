@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
-import org.springframework.http.HttpHeaders
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -124,10 +123,12 @@ class GitApiHandler(
             ?: throw GitApiException("Error while retrieving available branches")
 
     override fun getNumberOfPages(branch: String): Int {
-        val headInfo = githubApi.getHeadInfo(token, owner, repoName, branch).execute().body() ?: throw GitApiException("Error while retrieving branch head")
+        val headInfo = githubApi.getHeadInfo(token, owner, repoName, branch).execute().body()
+            ?: throw GitApiException("Error while retrieving branch head")
 
-        val diffInfo = githubApi.getDiff(token, owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
-            ?: throw GitApiException("Error while parsing git history response")
+        val diffInfo =
+            githubApi.getDiff(token, owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
+                ?: throw GitApiException("Error while parsing git history response")
 
         return (diffInfo.total_commits + 1) / commitPerPage
     }

@@ -25,6 +25,6 @@ interface PreconditionerPlotTransform : PlotTransform {
      */
     fun transformPreconditioner(
         benchmarkResults: List<PreconditionerBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData
 }

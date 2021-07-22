@@ -37,7 +37,7 @@ data class BlasDatapoint(
     val r: Long = 1,
     val m: Long = n,
     val k: Long = n,
-    val operations: List<Operation>
+    val operations: List<Operation>,
 ) : Datapoint {
     override fun serializeComponentsToJson(): String =
         GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(operations)
@@ -57,7 +57,7 @@ data class BlasBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    override val datapoints: List<BlasDatapoint>
+    override val datapoints: List<BlasDatapoint>,
 ) : BenchmarkResult {
     override val summaryValues: Map<String, Double>
         get() = calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] }

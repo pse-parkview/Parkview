@@ -63,7 +63,7 @@ interface RestHandler {
     fun getAvailablePlots(
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
-        @RequestParam devices: List<String>
+        @RequestParam devices: List<String>,
     ): String
 
     /**

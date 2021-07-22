@@ -18,7 +18,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
