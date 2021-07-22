@@ -29,7 +29,7 @@ The most important class/interface here is \texttt{PlotTransform}. It models tra
 
 A quick example would be this snippet taken from \texttt{SpmvSingleScatterPlot}:
 
-\begin{lstlisting}
+\begin{lstlisting}[style=JAVA]
 class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
