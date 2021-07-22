@@ -1,5 +1,6 @@
 package com.parkview.parkview.processing.transforms
 
+import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.benchmark.SolverDatapoint
 import com.parkview.parkview.git.BenchmarkResult
@@ -24,23 +25,22 @@ class SolverRuntimeBreakdown : SolverPlotTransform {
             name = "components",
             options = listOf("apply", "generate")
         ),
+        PlotOption(
+            name = "totalTime",
+            options = listOf("sumComponents", "givenValue")
+        ),
     )
-
 
     override fun transformSolver(
         benchmarkResults: List<SolverBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val datapoint = benchmarkResults.first().datapoints.find { it.name == options["matrix"] }
             ?: throw InvalidPlotTransformException("${options["matrix"]} is not a valid matrix name")
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()
         val allComponentNames = datapoint.solvers.fold(emptyList<String>()) { acc, e ->
-            acc + when (options["components"]) {
-                "apply" -> e.applyComponents.map { it.name }
-                "generate" -> e.generateComponents.map { it.name }
-                else -> throw InvalidPlotTransformException("${options["components"]} is not a valid option for components")
-            }
+            acc + e.getComponentsByOption(options).map { it.name }
         }.toSet().toList()
 
         val labels: MutableList<String> = mutableListOf()
@@ -49,16 +49,8 @@ class SolverRuntimeBreakdown : SolverPlotTransform {
 
             labels += solver.name
 
-            val components = when (options["components"]) {
-                "apply" -> solver.applyComponents
-                "generate" -> solver.generateComponents
-                else -> throw InvalidPlotTransformException("${options["components"]} is not a valid option for components")
-            }
-            val totalTime = when (options["components"]) {
-                "apply" -> solver.applyComponents.sumOf { it.runtime }
-                "generate" -> solver.generateComponents.sumOf { it.runtime }
-                else -> throw InvalidPlotTransformException("${options["components"]} is not a valid option for components")
-            }
+            val components = solver.getComponentsByOption(options)
+            val totalTime = solver.getTotalTimeByOption(options)
             for (componentName in allComponentNames) {
                 seriesByName.getOrPut(componentName) { mutableListOf() } += components.find { it.name == componentName }?.runtime?.div(
                     totalTime
@@ -72,4 +64,27 @@ class SolverRuntimeBreakdown : SolverPlotTransform {
         )
     }
 
+    private fun Solver.getComponentsByOption(options: Map<String, String>) = when (options["components"]) {
+        "apply" -> this.applyComponents
+        "generate" -> this.generateComponents
+        else -> throw InvalidPlotOptionsException(options, "components")
+    }
+
+    private fun Solver.getTotalTimeByOption(options: Map<String, String>) = when (options["components"]) {
+        "apply" -> this.getApplyTotalTimeByOption(options)
+        "generate" -> this.getGenerateTotalTimeByOption(options)
+        else -> throw InvalidPlotOptionsException(options, "components")
+    }
+
+    private fun Solver.getGenerateTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
+        "sumComponents" -> this.generateComponents.sumOf { it.runtime }
+        "givenValue" -> this.generateTotalTime
+        else -> throw InvalidPlotOptionsException(options, "totalTime")
+    }
+
+    private fun Solver.getApplyTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
+        "sumComponents" -> this.applyComponents.sumOf { it.runtime }
+        "givenValue" -> this.applyTotalTime
+        else -> throw InvalidPlotOptionsException(options, "totalTime")
+    }
 }

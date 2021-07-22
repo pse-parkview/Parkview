@@ -18,7 +18,7 @@ class BlasSpeedupTransform : BlasPlotTransform {
 
     override fun transformBlas(
         benchmarkResults: List<BlasBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
@@ -35,13 +35,7 @@ class BlasSpeedupTransform : BlasPlotTransform {
                 if (!operationA.completed or !operationB.completed) continue
 
                 seriesByName.getOrPut(operationA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
-                        "n" -> datapointA.n.toDouble()
-                        "r" -> datapointA.r.toDouble()
-                        "k" -> datapointA.k.toDouble()
-                        "m" -> datapointA.m.toDouble()
-                        else -> throw InvalidPlotTransformException("${options["xAxis"]} is not a valid value for xAxis")
-                    },
+                    x = datapointA.getXAxisByOption(options).toDouble(),
                     y = operationA.time / operationB.time
                 )
             }

@@ -33,7 +33,7 @@ data class ConversionDatapoint(
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,
-    val conversions: List<Conversion>
+    val conversions: List<Conversion>,
 ) : MatrixDatapoint {
     override fun serializeComponentsToJson(): String =
         GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(conversions)

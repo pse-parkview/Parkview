@@ -25,6 +25,6 @@ interface ConversionPlotTransform : PlotTransform {
      */
     fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData
 }

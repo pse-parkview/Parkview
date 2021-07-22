@@ -6,5 +6,5 @@ package com.parkview.parkview.git
  * @param name name of device
  */
 data class Device(
-    val name: String
+    val name: String,
 )

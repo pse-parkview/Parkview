@@ -6,10 +6,10 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 
-class SolverConvergencePlot: SolverPlotTransform {
+class SolverConvergencePlot : SolverPlotTransform {
     override fun transformSolver(
         benchmarkResults: List<SolverBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val benchmarkResult = benchmarkResults.firstOrNull()
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")

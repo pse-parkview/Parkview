@@ -189,7 +189,7 @@ object JsonParser {
         sha: String,
         device: String,
         json: String,
-        blas: Boolean = false
+        blas: Boolean = false,
     ): List<BenchmarkResult> = if (!blas) {
         matrixBenchmarkResultsFromJson(sha, device, json)
     } else {
@@ -199,7 +199,7 @@ object JsonParser {
     private fun matrixBenchmarkResultsFromJson(
         sha: String,
         deviceName: String,
-        json: String
+        json: String,
     ): List<BenchmarkResult> {
         val arrayType = object : TypeToken<List<MatrixDatapointModel>>() {}.type
 
@@ -271,7 +271,7 @@ object JsonParser {
     private fun blasBenchmarkResultFromJson(
         sha: String,
         device: String,
-        json: String
+        json: String,
     ): List<BenchmarkResult> {
         val arrayType = object : TypeToken<List<BlasDatapointModel>>() {}.type
 

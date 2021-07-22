@@ -6,7 +6,7 @@ private data class CachedBranch(
     val name: String,
     val fetchDate: Date,
     val pages: MutableMap<Int, List<Commit>>,
-    val numberPages: Int
+    val numberPages: Int,
 )
 
 /**
@@ -60,7 +60,8 @@ class CachingRepositoryHandler(
         return availableBranches
     }
 
-    override fun getNumberOfPages(branch: String): Int = branchCache.find { (it.name == branch) }?.numberPages ?: handler.getNumberOfPages(branch)
+    override fun getNumberOfPages(branch: String): Int =
+        branchCache.find { (it.name == branch) }?.numberPages ?: handler.getNumberOfPages(branch)
 
     private fun addToCache(branch: CachedBranch) {
         branchCache.add(branch)

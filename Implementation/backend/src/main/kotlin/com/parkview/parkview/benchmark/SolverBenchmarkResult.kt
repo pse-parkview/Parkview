@@ -52,7 +52,7 @@ data class SolverDatapoint(
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,
-    val solvers: List<Solver>
+    val solvers: List<Solver>,
 ) : MatrixDatapoint {
     override fun serializeComponentsToJson(): String =
         GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(solvers)
@@ -71,7 +71,7 @@ data class SolverBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
     override val benchmark: BenchmarkType,
-    override val datapoints: List<SolverDatapoint>
+    override val datapoints: List<SolverDatapoint>,
 ) : MatrixBenchmarkResult {
     override val summaryValues: Map<String, Double>
         get() = calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }

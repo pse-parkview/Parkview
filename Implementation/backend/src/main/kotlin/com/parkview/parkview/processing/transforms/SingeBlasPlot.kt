@@ -24,7 +24,7 @@ class SingeBlasPlot : BlasPlotTransform {
 
     override fun transformBlas(
         benchmarkResults: List<BlasBenchmarkResult>,
-        options: Map<String, String>
+        options: Map<String, String>,
     ): PlottableData {
         val benchmarkResult = benchmarkResults.first()
 
@@ -33,31 +33,15 @@ class SingeBlasPlot : BlasPlotTransform {
             for (operation in datapoint.operations) {
                 if (!operation.completed) continue
                 seriesByName.getOrPut(operation.name) { mutableListOf() } += PlotPoint(
-                    x = datapoint.getFieldByName(
-                        options["xAxis"] ?: throw InvalidPlotTransformException("No value given for xAxis")
-                    ).toDouble(),
-                    y = operation.getFieldByName(
-                        options["yAxis"] ?: throw InvalidPlotTransformException("No value given for yAxis")
-                    ),
+                    x = datapoint.getXAxisByOption(options).toDouble(),
+                    y = operation.getYAxisByOption(options)
                 )
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) })
-    }
-
-    private fun Operation.getFieldByName(name: String): Double = when (name) {
-        "time" -> this.time
-        "flops" -> this.flops
-        "bandwidth" -> this.bandwidth
-        else -> throw InvalidPlotTransformException("$name is not a valid yAxis value")
-    }
-
-    private fun BlasDatapoint.getFieldByName(name: String): Long = when (name) {
-        "n" -> this.n
-        "r" -> this.r
-        "m" -> this.m
-        "k" -> this.k
-        else -> throw InvalidPlotTransformException("$name is not a valid xAxis value")
+        return DatasetSeries(seriesByName.map { (key, value) ->
+            PointDataset(label = key,
+                data = value.sortedBy { it.x })
+        })
     }
 }
