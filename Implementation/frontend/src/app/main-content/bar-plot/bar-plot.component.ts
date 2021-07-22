@@ -96,4 +96,16 @@ export class BarPlotComponent implements OnInit {
     }
     this.chart.refresh();
   }
+  downloadCanvas(event: any) {
+    let anchor = event.target;
+    let canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    let ctx = canvas.getContext('2d');
+
+    ctx!.globalCompositeOperation = 'destination-over';
+    ctx!.fillStyle = 'white';
+    ctx!.fillRect(0, 0, canvas.width, canvas.height);
+
+    anchor.href = canvas.toDataURL();
+    anchor.download = `${this.chartType}-plot.png`;
+  }
 }
