@@ -4,6 +4,7 @@ import java.util.*
 
 private data class CachedBranch(
     val name: String,
+    val benchmark: BenchmarkType,
     val fetchDate: Date,
     val pages: MutableMap<Int, List<Commit>>,
     val numberPages: Int,
@@ -19,7 +20,7 @@ private data class CachedBranch(
  */
 class CachingRepositoryHandler(
     private val handler: RepositoryHandler,
-    private val maxCached: Int = 10,
+    private val maxCached: Int = 20,
     private val branchLifetime: Int = 5,
     private val branchListLifetime: Int = 5,
 ) : RepositoryHandler {
@@ -28,12 +29,12 @@ class CachingRepositoryHandler(
     private var availableBranchesFetchDate = Date()
 
     override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
-        val wantedBranch = branchCache.find { (it.name == branch) }
+        val wantedBranch = branchCache.find { (it.name == branch) and (it.benchmark == benchmarkType) }
 
         // branch is not cached
         if (wantedBranch == null) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
-            addToCache(CachedBranch(branch, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
+            addToCache(CachedBranch(branch, benchmarkType, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
 
             return newBranch
         }
@@ -42,10 +43,9 @@ class CachingRepositoryHandler(
         if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
             branchCache.remove(wantedBranch)
-            addToCache(CachedBranch(branch, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
+            addToCache(CachedBranch(branch, benchmarkType, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
 
             return newBranch
-
         }
 
         // hit
@@ -57,6 +57,7 @@ class CachingRepositoryHandler(
             availableBranches = handler.getAvailableBranches()
             availableBranchesFetchDate = Date()
         }
+
         return availableBranches
     }
 
