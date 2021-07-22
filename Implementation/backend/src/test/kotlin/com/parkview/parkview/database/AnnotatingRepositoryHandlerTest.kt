@@ -33,6 +33,10 @@ internal class AnnotatingRepositoryHandlerTest {
             TODO("Not yet implemented")
         }
 
+        override fun getNumberOfPages(branch: String): Int {
+            TODO("Not yet implemented")
+        }
+
     }
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
