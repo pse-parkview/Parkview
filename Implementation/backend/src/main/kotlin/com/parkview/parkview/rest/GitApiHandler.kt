@@ -128,7 +128,7 @@ class GitApiHandler(
 
         val diffInfo =
             githubApi.getDiff(token, owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
-                ?: throw GitApiException("Error while parsing git history response")
+                ?: throw GitApiException("Error while retrieving diff")
 
         return (diffInfo.total_commits + 1) / commitPerPage
     }
