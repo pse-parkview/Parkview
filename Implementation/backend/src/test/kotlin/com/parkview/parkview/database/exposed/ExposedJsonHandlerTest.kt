@@ -24,7 +24,7 @@ internal class ExposedJsonHandlerTest {
     fun setup() {
         val embeddedPostgres: EmbeddedPostgres = EmbeddedPostgres.start()
         val dataSource: DataSource = embeddedPostgres.postgresDatabase
-        dbHandler = ExposedJsonHandler(dataSource)
+        dbHandler = ExposedHandler(dataSource)
     }
 
     @Test

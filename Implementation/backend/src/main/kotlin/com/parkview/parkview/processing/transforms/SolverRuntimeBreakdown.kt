@@ -7,11 +7,6 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 
-data class BarChartDataset(
-    val label: String,
-    val data: List<Double>,
-) : Dataset
-
 class SolverRuntimeBreakdown : SolverPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Bar)

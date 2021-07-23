@@ -1,5 +1,8 @@
 package com.parkview.parkview.rest
 
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.processing.PlotList
+import com.parkview.parkview.processing.transforms.PlottableData
 import org.springframework.web.bind.annotation.RequestParam
 
 /**
@@ -26,7 +29,7 @@ interface RestHandler {
      *
      * @return history in JSON format
      */
-    fun getHistory(branch: String, page: Int, benchmark: String): String
+    fun getHistory(branch: String, page: Int, benchmark: String): List<Commit>
 
     /**
      * Handles a GET request for retrieving plot data for the given benchmark results and plot setup.
@@ -44,14 +47,14 @@ interface RestHandler {
         devices: List<String>,
         plotType: String,
         plotParams: Map<String, String>,
-    ): String
+    ): PlottableData
 
     /**
      * Returns a list of available branches
      *
      * @return list of branches
      */
-    fun getAvailableBranches(): String
+    fun getAvailableBranches(): List<String>
 
     /**
      * Returns a list of available plot transforms grouped by plot type
@@ -66,17 +69,17 @@ interface RestHandler {
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
-    ): String
+    ): PlotList
 
     /**
      * Returns a list of all available benchmarks
      *
      * @return list of available benchmarks
      */
-    fun getAvailableBenchmarks(): String
+    fun getAvailableBenchmarks(): List<String>
 
 
-    fun getSummaryValue(benchmark: String, sha: String, device: String): String
+    fun getSummaryValue(benchmark: String, sha: String, device: String): Map<String, Double>
 
     /**
      * Returns line chart data for the average performance score in a Chart.js format.
@@ -86,10 +89,10 @@ interface RestHandler {
      *
      * @return plottable data for line charts
      */
-    fun getAveragePerformance(branch: String, benchmark: String): String
+    fun getAveragePerformance(branch: String, benchmark: String): PlottableData
 
     /**
      * Returns the number of pages as an Int.
      */
-    fun getNumberOfPages(branch: String): String
+    fun getNumberOfPages(branch: String): Int
 }

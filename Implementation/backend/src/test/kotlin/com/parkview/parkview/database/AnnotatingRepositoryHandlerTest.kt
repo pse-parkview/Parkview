@@ -46,31 +46,31 @@ internal class AnnotatingRepositoryHandlerTest {
     fun `tests annotation of commits with database results`() {
         val commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().devices == listOf(Device("gamer")))
-        assert(commits[1].devices.isEmpty())
+        assert(commits.first().availableDevices == listOf(Device("gamer")))
+        assert(commits[1].availableDevices.isEmpty())
     }
 
     @Test
     fun `tests annotation of commits with database results doesn't apply twice`() {
         var commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().devices == listOf(Device("gamer")))
-        assert(commits[1].devices.isEmpty())
+        assert(commits.first().availableDevices == listOf(Device("gamer")))
+        assert(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().devices == listOf(Device("gamer")))
-        assert(commits[1].devices.isEmpty())
+        assert(commits.first().availableDevices == listOf(Device("gamer")))
+        assert(commits[1].availableDevices.isEmpty())
     }
 
     @Test
     fun `test annotation of commits with benchmark type change`() {
         var commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().devices == listOf(Device("gamer")))
-        assert(commits[1].devices.isEmpty())
+        assert(commits.first().availableDevices == listOf(Device("gamer")))
+        assert(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Conversion)
 
-        assert(commits.first().devices.isEmpty())
-        assert(commits[1].devices.isEmpty())
+        assert(commits.first().availableDevices.isEmpty())
+        assert(commits[1].availableDevices.isEmpty())
     }
 }

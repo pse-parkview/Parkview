@@ -54,7 +54,7 @@ private object BlasDatapointTable : Table() {
  *
  * @param source data source for database access
  */
-class ExposedJsonHandler(source: DataSource) : DatabaseHandler {
+class ExposedHandler(source: DataSource) : DatabaseHandler {
     private var db: Database = Database.connect(datasource = source)
     private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
 

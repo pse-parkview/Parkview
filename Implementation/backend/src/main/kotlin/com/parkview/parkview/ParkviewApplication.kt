@@ -2,7 +2,7 @@ package com.parkview.parkview
 
 import com.parkview.parkview.database.AnnotatingRepositoryHandler
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.database.exposed.ExposedJsonHandler
+import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.git.CachingRepositoryHandler
 import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.rest.GitApiHandler
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean
 @EnableConfigurationProperties(AppConfig::class)
 class ParkviewApplication {
     @Bean
-    fun databaseHandler(appConfig: AppConfig): DatabaseHandler = ExposedJsonHandler(
+    fun databaseHandler(appConfig: AppConfig): DatabaseHandler = ExposedHandler(
         HikariDataSource(HikariConfig()
             .apply {
                 jdbcUrl = appConfig.datasource.jdbcUrl

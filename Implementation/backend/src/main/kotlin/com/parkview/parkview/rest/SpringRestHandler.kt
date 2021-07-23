@@ -1,5 +1,8 @@
 package com.parkview.parkview.rest
 
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.processing.PlotList
+import com.parkview.parkview.processing.transforms.PlottableData
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -22,7 +25,7 @@ class SpringRestHandler(
         @RequestParam branch: String,
         @RequestParam page: Int,
         @RequestParam benchmark: String,
-    ): String = restHandler.getHistory(branch, page, benchmark)
+    ): List<Commit> = restHandler.getHistory(branch, page, benchmark)
 
 
     @GetMapping("/plot")
@@ -32,36 +35,36 @@ class SpringRestHandler(
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
         @RequestParam allParams: Map<String, String>,
-    ): String = restHandler.getPlot(benchmark, shas, devices, plotType, allParams)
+    ): PlottableData = restHandler.getPlot(benchmark, shas, devices, plotType, allParams)
 
     @GetMapping("/branches")
-    override fun getAvailableBranches(): String = restHandler.getAvailableBranches()
+    override fun getAvailableBranches(): List<String> = restHandler.getAvailableBranches()
 
     @GetMapping("/benchmarks")
-    override fun getAvailableBenchmarks(): String = restHandler.getAvailableBenchmarks()
+    override fun getAvailableBenchmarks(): List<String> = restHandler.getAvailableBenchmarks()
 
     @GetMapping("/availablePlots")
     override fun getAvailablePlots(
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
-    ): String = restHandler.getAvailablePlots(benchmark, shas, devices)
+    ): PlotList = restHandler.getAvailablePlots(benchmark, shas, devices)
 
     @GetMapping("/summaryValues")
     override fun getSummaryValue(
         @RequestParam benchmark: String,
         @RequestParam sha: String,
         @RequestParam device: String,
-    ): String = restHandler.getSummaryValue(benchmark, sha, device)
+    ): Map<String, Double> = restHandler.getSummaryValue(benchmark, sha, device)
 
     @GetMapping("/averagePerformance")
     override fun getAveragePerformance(
         @RequestParam branch: String,
         @RequestParam benchmark: String,
-    ): String = restHandler.getAveragePerformance(branch, benchmark)
+    ): PlottableData = restHandler.getAveragePerformance(branch, benchmark)
 
     @GetMapping("/numberPages")
     override fun getNumberOfPages(
         @RequestParam branch: String,
-    ): String = restHandler.getNumberOfPages(branch)
+    ): Int = restHandler.getNumberOfPages(branch)
 }
