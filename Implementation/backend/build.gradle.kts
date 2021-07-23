@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.5.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("org.jetbrains.dokka") version "1.5.0"
 	kotlin("kapt") version "1.5.21"
 	kotlin("jvm") version "1.5.10"
 	kotlin("plugin.spring") version "1.5.10"
@@ -30,6 +31,9 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 	implementation("org.postgresql:postgresql:42.2.2")
 	implementation("com.zaxxer:HikariCP:2.3.2")
+
+	// doc
+	dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.5.0")
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
