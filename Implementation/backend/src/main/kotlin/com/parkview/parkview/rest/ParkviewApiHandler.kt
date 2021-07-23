@@ -5,7 +5,7 @@ import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
 import com.parkview.parkview.processing.AveragePerformanceCalculator
-import com.parkview.parkview.processing.PlotList
+import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
 import java.util.*
 
@@ -55,7 +55,7 @@ class ParkviewApiHandler(
 
     override fun getAvailableBenchmarks(): List<String> = BenchmarkType.values().map { it.toString() }
 
-    override fun getAvailablePlots(benchmark: String, shas: List<String>, devices: List<String>): PlotList =
+    override fun getAvailablePlots(benchmark: String, shas: List<String>, devices: List<String>): List<PlotDescription> =
         AvailablePlots.getPlotList(
             BenchmarkType.valueOf(benchmark),
             shas.zip(devices).map { (sha, device) ->

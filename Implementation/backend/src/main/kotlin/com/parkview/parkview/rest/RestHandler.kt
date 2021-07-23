@@ -1,7 +1,7 @@
 package com.parkview.parkview.rest
 
 import com.parkview.parkview.git.Commit
-import com.parkview.parkview.processing.PlotList
+import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
 import org.springframework.web.bind.annotation.RequestParam
 
@@ -68,7 +68,7 @@ interface RestHandler {
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
-    ): PlotList
+    ): List<PlotDescription>
 
     /**
      * Returns a list of all available benchmarks

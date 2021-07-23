@@ -1,7 +1,7 @@
 package com.parkview.parkview.rest
 
 import com.parkview.parkview.git.Commit
-import com.parkview.parkview.processing.PlotList
+import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
 import org.springframework.web.bind.annotation.*
 
@@ -34,8 +34,13 @@ class SpringRestHandler(
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
-        @RequestParam allParams: Map<String, String>,
-    ): PlottableData = restHandler.getPlot(benchmark, shas, devices, plotType, allParams)
+        @RequestParam plotParams: Map<String, String>,
+    ): PlottableData = restHandler.getPlot(benchmark, shas, devices, plotType, plotParams.toMutableMap().apply {
+        remove("benchmark")
+        remove("shas")
+        remove("devices")
+        remove("plotType")
+    })
 
     @GetMapping("/branches")
     override fun getAvailableBranches(): List<String> = restHandler.getAvailableBranches()
@@ -48,7 +53,7 @@ class SpringRestHandler(
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
-    ): PlotList = restHandler.getAvailablePlots(benchmark, shas, devices)
+    ): List<PlotDescription> = restHandler.getAvailablePlots(benchmark, shas, devices)
 
     @GetMapping("/summaryValues")
     override fun getSummaryValue(

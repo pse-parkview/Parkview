@@ -4,15 +4,9 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.*
 
-data class PlotList(
-    val line: List<PlotDescription>,
-    val scatter: List<PlotDescription>,
-    val bar: List<PlotDescription>,
-    val stackedBar: List<PlotDescription>,
-)
-
 data class PlotDescription(
     val plotName: String,
+    val plottableAs: List<PlotType>,
     val options: List<PlotOption>,
 )
 
@@ -73,7 +67,7 @@ object AvailablePlots {
      *
      * @return [PlotList] containing the available plots grouped by plot type
      */
-    fun getPlotList(benchmark: BenchmarkType, results: List<BenchmarkResult>): PlotList {
+    fun getPlotList(benchmark: BenchmarkType, results: List<BenchmarkResult>): List<PlotDescription> {
         val availablePlots: List<PlotTransform> = when (benchmark) {
             BenchmarkType.Spmv -> spmvPlots
             BenchmarkType.Solver -> solverPlots
@@ -82,19 +76,6 @@ object AvailablePlots {
             BenchmarkType.Blas -> blasPlots
         }.filter { transform -> results.size in transform.numInputsRange }
 
-        return PlotList(
-            line = availablePlots
-                .filter { transform -> transform.plottableAs.contains(PlotType.Line) }
-                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
-            scatter = availablePlots
-                .filter { transform -> transform.plottableAs.contains(PlotType.Scatter) }
-                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
-            bar = availablePlots
-                .filter { transform -> transform.plottableAs.contains(PlotType.Bar) }
-                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
-            stackedBar = availablePlots
-                .filter { transform -> transform.plottableAs.contains(PlotType.StackedBar) }
-                .map { PlotDescription(it.name, it.getAvailableOptions(results)) },
-        )
+        return availablePlots.map { PlotDescription(it.name, it.plottableAs, it.getAvailableOptions(results)) }
     }
 }
