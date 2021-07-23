@@ -3,10 +3,10 @@ import {Commit} from "./interfaces/commit";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {AvailablePlotTypes} from "../plothandler/interfaces/available-plot-types";
 import {Summary} from "./interfaces/summary";
 import {PlotData} from "../plothandler/interfaces/plot-data";
 import {Device} from "./interfaces/device";
+import {PlotTypeOption} from "../plothandler/interfaces/available-plot-types";
 
 @Injectable({
   providedIn: 'root'
@@ -33,13 +33,13 @@ export class DataService {
     return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
   }
 
-  getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<AvailablePlotTypes> {
+  getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<PlotTypeOption[]> {
     let params: HttpParams = new HttpParams()
       .set('benchmark', benchmarkType);
     commits.forEach(c => params = params.append('shas', c.sha));
     devices.forEach(d => params = params.append('devices', d));
 
-    return this.http.get<AvailablePlotTypes>(`${this.url}/availablePlots`, {params: params});
+    return this.http.get<Array<PlotTypeOption>>(`${this.url}/availablePlots`, {params: params});
   }
 
   getPlotData(config: PlotConfiguration): Observable<PlotData> {

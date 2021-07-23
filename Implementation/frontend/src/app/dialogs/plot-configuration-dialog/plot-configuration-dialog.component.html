@@ -29,19 +29,6 @@
 </span>
 <br>
 
-
-<mat-form-field>
-  <mat-label>Available Chart Types</mat-label>
-  <mat-select [(value)]="currentPlotTypeKey"
-              [disabled]="availablePlotTypeKeys.length === 0"
-              (selectionChange)="updatePlotTypeKey()">
-    <mat-option *ngFor="let plottype of availablePlotTypeKeys"
-                [value]="plottype">
-      {{plottype}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
 <mat-form-field>
   <mat-label>Available Plot Types</mat-label>
   <mat-select [(value)]="currentPlotTypeOption"
@@ -50,6 +37,17 @@
     <mat-option *ngFor="let plotTypeOption of availablePlotTypeOptions"
                 [value]="plotTypeOption">
       {{plotTypeOption.plotName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Available Chart Types</mat-label>
+  <mat-select [(value)]="currentChartType"
+              [disabled]="currentPlotTypeOption.plottableAs.length === 0">
+    <mat-option *ngFor="let plottype of currentPlotTypeOption.plottableAs"
+                [value]="plottype">
+      {{plottype}}
     </mat-option>
   </mat-select>
 </mat-form-field>

@@ -1,12 +1,8 @@
-export interface AvailablePlotTypes {
-  get line(): PlotTypeOption[];
-  get scatter(): PlotTypeOption[];
-  get bar(): PlotTypeOption[];
-  get stackedBar(): PlotTypeOption[];
-}
+import {SupportedChartType} from "./plot-configuration";
 
 export interface PlotTypeOption {
   get plotName(): string;
+  get plottableAs(): SupportedChartType[];
   get options(): PlotOption[];
 }
 
