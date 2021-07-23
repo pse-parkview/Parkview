@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
  * Class that implements a RestHandler using the Spring framework
  */
 @RestController
+@RequestMapping("/parkview")
 class SpringRestHandler(
     private val restHandler: RestHandler,
 ) : RestHandler {

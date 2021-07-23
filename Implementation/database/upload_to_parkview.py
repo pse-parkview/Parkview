@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-PARKVIEW_ENDPOINT = 'http://localhost:8080/post'
+PARKVIEW_ENDPOINT = 'http://localhost:8080/parkview/post'
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--sha', type=str, required=True, help='sha of commit')
