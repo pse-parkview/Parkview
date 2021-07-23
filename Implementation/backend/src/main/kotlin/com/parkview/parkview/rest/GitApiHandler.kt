@@ -5,11 +5,29 @@ import com.google.gson.annotations.SerializedName
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
+import okhttp3.Credentials
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.*
+
+// taken from https://gist.github.com/seccomiro/85446c4849855615d1938133bce30738
+private class BasicAuthInterceptor(user: String, password: String) : Interceptor {
+    private val credentials: String = Credentials.basic(user, password)
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val authenticatedRequest = request.newBuilder()
+            .header("Authorization", credentials).build()
+        return chain.proceed(authenticatedRequest)
+    }
+}
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 private data class CommitModel(
@@ -54,7 +72,6 @@ class GitApiException(message: String) : Exception(message)
 private interface GitHubService {
     @GET("repos/{owner}/{repoName}/commits")
     fun fetchHistory(
-        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
         @Query("sha") branch: String,
@@ -63,14 +80,12 @@ private interface GitHubService {
 
     @GET("repos/{owner}/{repoName}/branches")
     fun getBranches(
-        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
     ): Call<List<BranchInfoModel>>
 
     @GET("repos/{owner}/{repoName}/git/refs/heads/{branch}")
     fun getHeadInfo(
-        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
         @Path("branch") branch: String,
@@ -79,7 +94,6 @@ private interface GitHubService {
 
     @GET("repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
     fun getDiff(
-        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
         @Path("firstSha") firstSha: String,
@@ -102,29 +116,39 @@ class GitApiHandler(
     private val username: String = "",
     private val token: String = "",
 ) : RepositoryHandler {
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(
+            BasicAuthInterceptor(
+                username,
+                token
+            )
+        ).build()
+
     private val service = Retrofit.Builder()
         .baseUrl("https://api.github.com/")
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     private val githubApi = service.create(GitHubService::class.java)
 
     private val commitPerPage = 30
 
     override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
-        githubApi.fetchHistory(token, owner, repoName, branch, page).execute().body()
+        githubApi.fetchHistory(owner, repoName, branch, page).execute().body()
             ?.map { Commit(it.sha, it.commit.message, it.commit.author.date, it.commit.author.name) }
             ?: throw GitApiException("Error while retrieving history")
 
     override fun getAvailableBranches(): List<String> =
-        githubApi.getBranches(token, owner, repoName).execute().body()?.map { it.name }
+        githubApi.getBranches(owner, repoName).execute().body()?.map { it.name }
             ?: throw GitApiException("Error while retrieving available branches")
 
     override fun getNumberOfPages(branch: String): Int {
-        val headInfo = githubApi.getHeadInfo(token, owner, repoName, branch).execute().body()
+        val headInfo = githubApi.getHeadInfo(owner, repoName, branch).execute().body()
             ?: throw GitApiException("Error while retrieving branch head")
 
         val diffInfo =
-            githubApi.getDiff(token, owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
+            githubApi.getDiff(owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
                 ?: throw GitApiException("Error while retrieving diff")
 
         return (diffInfo.total_commits + 1) / commitPerPage
