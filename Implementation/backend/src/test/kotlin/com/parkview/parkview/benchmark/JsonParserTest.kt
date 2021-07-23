@@ -64,6 +64,7 @@ internal class JsonParserTest {
         if (result !is SolverBenchmarkResult) fail("invalid type, should be SolverBenchmarkResult")
         assert(result.datapoints.size == 1)
         assert(result.datapoints.first().solvers.size == 6)
+        assert(result.datapoints.first().optimal == "sellp")
     }
 
     @Test

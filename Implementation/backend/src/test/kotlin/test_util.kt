@@ -32,7 +32,7 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     BenchmarkType.Solver,
     (1..5).map { index ->
         SolverDatapoint(
-            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, listOf(
+            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, "optimal", listOf(
                 Solver(
                     "",
                     generateComponents = listOf(Component("", 1.0)),

@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
+import java.text.Normalizer
 
 /**
  * A single Solver, part of [SolverBenchmarkResult].
@@ -52,6 +53,7 @@ data class SolverDatapoint(
     override val rows: Long,
     override val columns: Long,
     override val nonzeros: Long,
+    val optimal: String,
     val solvers: List<Solver>,
 ) : MatrixDatapoint {
     override fun serializeComponentsToJson(): String =

@@ -56,6 +56,10 @@ private data class PreconditionerModel(
     val completed: Boolean,
 )
 
+private data class OptimalModel(
+    val spmv: String
+)
+
 private data class DatapointModel(
     val n: Long?,
     val r: Long? = 1,
@@ -67,6 +71,7 @@ private data class DatapointModel(
     val conversions: Map<String, ConversionModel>?,
     val solver: Map<String, SolverModel>?,
     val preconditioner: Map<String, PreconditionerModel>?,
+    val optimal: OptimalModel?,
 ) {
     fun toBlasDatapoint(): BlasDatapoint? = if ((blas != null) and (n != null)) {
         BlasDatapoint(
@@ -114,13 +119,14 @@ private data class DatapointModel(
         null
     }
 
-    fun toSolverDatapoint(): SolverDatapoint? = if (solver != null) {
+    fun toSolverDatapoint(): SolverDatapoint? = if ((solver != null) and (optimal != null)) {
         SolverDatapoint(
             problem.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
-            solver.map { (key, value) ->
+            optimal!!.spmv,
+            solver!!.map { (key, value) ->
                 Solver(
                     key,
                     value.recurrentResiduals ?: emptyList(),

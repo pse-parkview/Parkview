@@ -1,7 +1,5 @@
 package com.parkview.parkview.database.exposed
 
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.MissingBenchmarkResultException
@@ -10,43 +8,9 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
 import javax.sql.DataSource
 
-private object BenchmarkResultTable : Table() {
-    override val tableName: String = "BenchmarkResult"
-    val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
-    val sha: Column<String> = varchar("sha", 40)
-    val name: Column<String> = varchar("name", 40)
-    val device: Column<String> = varchar("deviceName", 40)
-    override val primaryKey = PrimaryKey(id, name = "PK_MatrixBenchmarkResult_Id")
-}
-
-private object MatrixDatapointTable : Table() {
-    override val tableName: String = "MatrixDatapoint"
-    val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
-    val benchmarkId: Column<UUID> = reference("benchmarkId", BenchmarkResultTable.id)
-    val name: Column<String> = text("name")
-    val cols: Column<Long> = long("cols")
-    val rows: Column<Long> = long("rows")
-    val nonzeros: Column<Long> = long("nonzeros")
-    val data: Column<String> = text("data")
-    override val primaryKey = PrimaryKey(BenchmarkResultTable.id, name = "PK_MatrixDatapoint_Id")
-}
-
-private object BlasDatapointTable : Table() {
-    override val tableName: String = "BlasDatapoint"
-    val id: Column<UUID> = uuid("id").autoGenerate().uniqueIndex()
-    val benchmarkId: Column<UUID> = reference("benchmarkId", BenchmarkResultTable.id)
-    val n: Column<Long> = long("n")
-    val r: Column<Long> = long("r")
-    val m: Column<Long> = long("m")
-    val k: Column<Long> = long("k")
-    val data: Column<String> = text("data")
-    override val primaryKey = PrimaryKey(BenchmarkResultTable.id, name = "PK_BlasDatapoint_Id")
-}
 
 /**
  * This class handles database access using the Exposed library. It stores components like [Solver], [Preconditioner]
@@ -56,14 +20,17 @@ private object BlasDatapointTable : Table() {
  */
 class ExposedHandler(source: DataSource) : DatabaseHandler {
     private var db: Database = Database.connect(datasource = source)
-    private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
+
 
     init {
         transaction(db) {
             SchemaUtils.createSchema(Schema("parkview"))
             SchemaUtils.create(
                 BenchmarkResultTable,
-                MatrixDatapointTable,
+                SpmvDatapointTable,
+                PreconditionerDatapointTable,
+                ConversionDatapointTable,
+                SolverDatapointTable,
                 BlasDatapointTable,
             )
         }
@@ -71,246 +38,196 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
 
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         for (result in results) {
-            val benchmarkId = transaction(db) {
-                val query = BenchmarkResultTable.select {
+            val benchmark = transaction(db) {
+                val query = BenchmarkResultRow.find {
                     (BenchmarkResultTable.device eq result.device.name) and
                             (BenchmarkResultTable.name eq result.benchmark.toString()) and
                             (BenchmarkResultTable.sha eq result.commit.sha)
                 }
 
                 if (query.count() > 0) {
-                    query.first()[BenchmarkResultTable.id]
+                    query.first()
                 } else {
-                    BenchmarkResultTable.insert {
-                        it[device] = result.device.name
-                        it[sha] = result.commit.sha
-                        it[name] = result.benchmark.toString()
-                    }[BenchmarkResultTable.id]
+                    BenchmarkResultRow.new {
+                        device = result.device.name
+                        sha = result.commit.sha
+                        name = result.benchmark.toString()
+                    }
                 }
             }
 
             when (result.benchmark) {
-                BenchmarkType.Spmv -> insertSpmvBenchmarkResult(result as SpmvBenchmarkResult, benchmarkId)
+                BenchmarkType.Spmv -> insertSpmvBenchmarkResult(result as SpmvBenchmarkResult, benchmark)
                 BenchmarkType.Conversion -> insertConversionBenchmarkResult(
                     result as ConversionBenchmarkResult,
-                    benchmarkId
+                    benchmark
                 )
-                BenchmarkType.Solver -> insertSolverBenchmarkResult(result as SolverBenchmarkResult, benchmarkId)
+                BenchmarkType.Solver -> insertSolverBenchmarkResult(result as SolverBenchmarkResult, benchmark)
                 BenchmarkType.Preconditioner -> insertPreconditionerBenchmarkResult(
                     result as PreconditionerBenchmarkResult,
-                    benchmarkId
+                    benchmark
                 )
-                BenchmarkType.Blas -> insertBlasBenchmarkResult(result as BlasBenchmarkResult, benchmarkId)
+                BenchmarkType.Blas -> insertBlasBenchmarkResult(result as BlasBenchmarkResult, benchmark)
             }
         }
     }
 
-    private fun insertSpmvBenchmarkResult(result: SpmvBenchmarkResult, benchmarkId: UUID) {
+    private fun insertSpmvBenchmarkResult(result: SpmvBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
-                val selectionQuery = (
-                        (MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                                (MatrixDatapointTable.name eq datapoint.name) and
-                                (MatrixDatapointTable.cols eq datapoint.columns) and
-                                (MatrixDatapointTable.rows eq datapoint.rows) and
-                                (MatrixDatapointTable.nonzeros eq datapoint.nonzeros)
-                        )
-                val query = MatrixDatapointTable.select {
-                    selectionQuery
+                val query = SpmvDatapointRow.find {
+                    (SpmvDatapointTable.benchmarkId eq benchmark.id) and
+                            (SpmvDatapointTable.name eq datapoint.name) and
+                            (SpmvDatapointTable.cols eq datapoint.columns) and
+                            (SpmvDatapointTable.rows eq datapoint.rows) and
+                            (SpmvDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
-                    val type = object : TypeToken<List<Format>>() {}.type
-                    val previousFormats: List<Format> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousFormats: List<Format> = query.first().formats
 
                     val formats =
                         datapoint.formats + (previousFormats.filter { format -> datapoint.formats.find { it.name == format.name } == null })
 
-                    MatrixDatapointTable.update({
-                        selectionQuery
-                    }) {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(formats)
-                        it[this.benchmarkId] = benchmarkId
-                    }
+                    query.first().formats = formats
                 } else {
-                    MatrixDatapointTable.insert {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(datapoint.formats)
-                        it[this.benchmarkId] = benchmarkId
+                    SpmvDatapointRow.new {
+                        name = datapoint.name
+                        cols = datapoint.columns
+                        rows = datapoint.rows
+                        nonzeros = datapoint.nonzeros
+                        formats = datapoint.formats
+                        this.benchmark = benchmark
                     }
                 }
             }
         }
     }
 
-    private fun insertConversionBenchmarkResult(result: ConversionBenchmarkResult, benchmarkId: UUID) {
+    private fun insertConversionBenchmarkResult(result: ConversionBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
-                val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.name eq datapoint.name) and
-                        (MatrixDatapointTable.cols eq datapoint.columns) and
-                        (MatrixDatapointTable.rows eq datapoint.rows) and
-                        (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
-                val query = MatrixDatapointTable.select {
-                    selectionQuery
+                val query = ConversionDatapointRow.find {
+                    (ConversionDatapointTable.benchmarkId eq benchmark.id) and
+                            (ConversionDatapointTable.name eq datapoint.name) and
+                            (ConversionDatapointTable.cols eq datapoint.columns) and
+                            (ConversionDatapointTable.rows eq datapoint.rows) and
+                            (ConversionDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
-                    val type = object : TypeToken<List<Conversion>>() {}.type
-                    val previousConversions: List<Conversion> =
-                        gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousConversions: List<Conversion> = query.first().conversions
 
                     val conversions =
                         datapoint.conversions + (previousConversions.filter { conversion -> datapoint.conversions.find { it.name == conversion.name } == null })
 
-                    MatrixDatapointTable.update({ selectionQuery }) {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(conversions)
-                        it[this.benchmarkId] = benchmarkId
-                    }
+                    query.first().conversions = conversions
                 } else {
-                    MatrixDatapointTable.insert {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(datapoint.conversions)
-                        it[this.benchmarkId] = benchmarkId
+                    ConversionDatapointRow.new {
+                        name = datapoint.name
+                        cols = datapoint.columns
+                        rows = datapoint.rows
+                        nonzeros = datapoint.nonzeros
+                        conversions = datapoint.conversions
+                        this.benchmark = benchmark
                     }
                 }
             }
         }
     }
 
-    private fun insertSolverBenchmarkResult(result: SolverBenchmarkResult, benchmarkId: UUID) {
+    private fun insertSolverBenchmarkResult(result: SolverBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
-                val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.name eq datapoint.name) and
-                        (MatrixDatapointTable.cols eq datapoint.columns) and
-                        (MatrixDatapointTable.rows eq datapoint.rows) and
-                        (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
-                val query = MatrixDatapointTable.select {
-                    selectionQuery
+                val query = SolverDatapointRow.find {
+                    (SolverDatapointTable.benchmarkId eq benchmark.id) and
+                            (SolverDatapointTable.name eq datapoint.name) and
+                            (SolverDatapointTable.cols eq datapoint.columns) and
+                            (SolverDatapointTable.rows eq datapoint.rows) and
+                            (SolverDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
-                    val type = object : TypeToken<List<Solver>>() {}.type
-                    val previousSolvers: List<Solver> = gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousSolvers: List<Solver> = query.first().solvers
 
                     val solvers =
                         datapoint.solvers + (previousSolvers.filter { solver -> datapoint.solvers.find { it.name == solver.name } == null })
 
-                    MatrixDatapointTable.update({ selectionQuery }) {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(solvers)
-                        it[this.benchmarkId] = benchmarkId
-                    }
+                    query.first().solvers = solvers
                 } else {
-                    MatrixDatapointTable.insert {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(datapoint.solvers)
-                        it[this.benchmarkId] = benchmarkId
+                    SolverDatapointRow.new {
+                        name = datapoint.name
+                        cols = datapoint.columns
+                        rows = datapoint.rows
+                        nonzeros = datapoint.nonzeros
+                        solvers = datapoint.solvers
+                        optimal = datapoint.optimal
+                        this.benchmark = benchmark
                     }
                 }
             }
         }
     }
 
-    private fun insertPreconditionerBenchmarkResult(result: PreconditionerBenchmarkResult, benchmarkId: UUID) {
+    private fun insertPreconditionerBenchmarkResult(result: PreconditionerBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
-                val selectionQuery = ((MatrixDatapointTable.benchmarkId eq benchmarkId) and
-                        (MatrixDatapointTable.name eq datapoint.name) and
-                        (MatrixDatapointTable.cols eq datapoint.columns) and
-                        (MatrixDatapointTable.rows eq datapoint.rows) and
-                        (MatrixDatapointTable.nonzeros eq datapoint.nonzeros))
-                val query = MatrixDatapointTable.select {
-                    selectionQuery
+                val query = PreconditionerDatapointRow.find {
+                    (PreconditionerDatapointTable.benchmarkId eq benchmark.id) and
+                            (PreconditionerDatapointTable.name eq datapoint.name) and
+                            (PreconditionerDatapointTable.cols eq datapoint.columns) and
+                            (PreconditionerDatapointTable.rows eq datapoint.rows) and
+                            (PreconditionerDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
-                    val type = object : TypeToken<List<Preconditioner>>() {}.type
-                    val previousPreconditioners: List<Preconditioner> =
-                        gson.fromJson(query.first()[MatrixDatapointTable.data], type)
+                    val previousPreconditioners: List<Preconditioner> = query.first().preconditioners
 
                     val preconditioners =
                         datapoint.preconditioners + (previousPreconditioners.filter { preconditioner -> datapoint.preconditioners.find { it.name == preconditioner.name } == null })
 
-                    MatrixDatapointTable.update({ selectionQuery }) {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(preconditioners)
-                        it[this.benchmarkId] = benchmarkId
-                    }
+                    query.first().preconditioners = preconditioners
                 } else {
-                    MatrixDatapointTable.insert {
-                        it[name] = datapoint.name
-                        it[cols] = datapoint.columns
-                        it[rows] = datapoint.rows
-                        it[nonzeros] = datapoint.nonzeros
-                        it[data] = gson.toJson(datapoint.preconditioners)
-                        it[this.benchmarkId] = benchmarkId
+                    PreconditionerDatapointRow.new {
+                        name = datapoint.name
+                        cols = datapoint.columns
+                        rows = datapoint.rows
+                        nonzeros = datapoint.nonzeros
+                        preconditioners = datapoint.preconditioners
+                        this.benchmark = benchmark
                     }
                 }
             }
         }
     }
 
-    private fun insertBlasBenchmarkResult(result: BlasBenchmarkResult, benchmarkId: UUID) {
+
+    private fun insertBlasBenchmarkResult(result: BlasBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
-                val selectionQuery = ((BlasDatapointTable.benchmarkId eq benchmarkId) and
-                        (BlasDatapointTable.n eq datapoint.n) and
-                        (BlasDatapointTable.m eq datapoint.m) and
-                        (BlasDatapointTable.k eq datapoint.k) and
-                        (BlasDatapointTable.r eq datapoint.r))
-                val query = BlasDatapointTable.select {
-                    selectionQuery
+                val query = BlasDatapointRow.find {
+                    (BlasDatapointTable.benchmarkId eq benchmark.id) and
+                            (BlasDatapointTable.n eq datapoint.n) and
+                            (BlasDatapointTable.m eq datapoint.m) and
+                            (BlasDatapointTable.k eq datapoint.k) and
+                            (BlasDatapointTable.r eq datapoint.r)
                 }
 
                 if (query.count() > 0) {
-                    val type = object : TypeToken<List<Operation>>() {}.type
-                    val previousOperations: List<Operation> =
-                        gson.fromJson(query.first()[BlasDatapointTable.data], type)
+                    val previousOperations: List<Operation> = query.first().operations
 
                     val operations =
                         datapoint.operations + previousOperations.filter { operation -> datapoint.operations.find { it.name == operation.name } == null }
 
-                    BlasDatapointTable.update({ selectionQuery }) {
-                        it[n] = datapoint.n
-                        it[r] = datapoint.r
-                        it[k] = datapoint.k
-                        it[m] = datapoint.m
-                        it[data] = gson.toJson(operations)
-                        it[this.benchmarkId] = benchmarkId
-                    }
+                    query.first().operations = operations
                 } else {
-                    BlasDatapointTable.insert {
-                        it[n] = datapoint.n
-                        it[r] = datapoint.r
-                        it[k] = datapoint.k
-                        it[m] = datapoint.m
-                        it[data] = gson.toJson(datapoint.operations)
-                        it[this.benchmarkId] = benchmarkId
+                    BlasDatapointRow.new {
+                        n = datapoint.n
+                        r = datapoint.r
+                        k = datapoint.k
+                        m = datapoint.m
+                        operations = datapoint.operations
+                        this.benchmark = benchmark
                     }
                 }
             }
@@ -323,64 +240,55 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         device: Device,
         benchmark: BenchmarkType,
     ): BenchmarkResult {
-        val benchmarkId = transaction(db) {
-            BenchmarkResultTable.select {
+        val benchmarkQuery = transaction(db) {
+            BenchmarkResultRow.find {
                 (BenchmarkResultTable.device eq device.name) and
                         (BenchmarkResultTable.name eq benchmark.toString()) and
                         (BenchmarkResultTable.sha eq commit.sha)
-            }.firstOrNull()?.get(BenchmarkResultTable.id)
+            }.firstOrNull()
         } ?: throw MissingBenchmarkResultException(commit, device, benchmark)
 
 
 
         return when (benchmark) {
             BenchmarkType.Spmv -> fetchSpmvBenchmarkResult(
-                benchmarkId,
+                benchmarkQuery,
                 commit,
                 device,
                 benchmark,
             )
             BenchmarkType.Solver -> fetchSolverBenchmarkResult(
-                benchmarkId,
+                benchmarkQuery,
                 commit,
                 device,
                 benchmark,
             )
             BenchmarkType.Preconditioner -> fetchPreconditionerBenchmarkResult(
-                benchmarkId,
+                benchmarkQuery,
                 commit,
                 device,
                 benchmark,
             )
             BenchmarkType.Conversion -> fetchConversionBenchmarkResult(
-                benchmarkId,
+                benchmarkQuery,
                 commit,
                 device,
                 benchmark,
             )
-            BenchmarkType.Blas -> fetchBlasBenchmarkResult(benchmarkId, commit, device, benchmark)
+            BenchmarkType.Blas -> fetchBlasBenchmarkResult(benchmarkQuery, commit, device, benchmark)
         }
     }
 
     private fun fetchSpmvBenchmarkResult(
-        benchmarkId: UUID,
+        benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
     ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Format>>() {}.type
         val datapoints = transaction(db) {
-            MatrixDatapointTable.select {
-                MatrixDatapointTable.benchmarkId eq benchmarkId
-            }.map {
-                SpmvDatapoint(
-                    name = it[MatrixDatapointTable.name],
-                    rows = it[MatrixDatapointTable.rows],
-                    columns = it[MatrixDatapointTable.cols],
-                    nonzeros = it[MatrixDatapointTable.nonzeros],
-                    formats = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
-                )
-            }
+            SpmvDatapointRow.find {
+                SpmvDatapointTable.benchmarkId eq benchmarkId.id
+            }.map { it.toSpmvDatapoint() }
         }
 
         return SpmvBenchmarkResult(
@@ -392,24 +300,15 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     }
 
     private fun fetchConversionBenchmarkResult(
-        benchmarkId: UUID,
+        benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
     ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Conversion>>() {}.type
         val datapoints = transaction(db) {
-            MatrixDatapointTable.select {
-                MatrixDatapointTable.benchmarkId eq benchmarkId
-            }.map {
-                ConversionDatapoint(
-                    name = it[MatrixDatapointTable.name],
-                    rows = it[MatrixDatapointTable.rows],
-                    columns = it[MatrixDatapointTable.cols],
-                    nonzeros = it[MatrixDatapointTable.nonzeros],
-                    conversions = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
-                )
-            }
+            ConversionDatapointRow.find {
+                ConversionDatapointTable.benchmarkId eq benchmarkId.id
+            }.map { it.toConversionDatapoint() }
         }
 
         return ConversionBenchmarkResult(
@@ -420,54 +319,17 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         )
     }
 
-    private fun fetchSolverBenchmarkResult(
-        benchmarkId: UUID,
-        commit: Commit,
-        device: Device,
-        benchmark: BenchmarkType,
-    ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Solver>>() {}.type
-        val datapoints = transaction(db) {
-            MatrixDatapointTable.select {
-                MatrixDatapointTable.benchmarkId eq benchmarkId
-            }.map {
-                SolverDatapoint(
-                    name = it[MatrixDatapointTable.name],
-                    rows = it[MatrixDatapointTable.rows],
-                    columns = it[MatrixDatapointTable.cols],
-                    nonzeros = it[MatrixDatapointTable.nonzeros],
-                    solvers = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
-                )
-            }
-        }
-
-        return SolverBenchmarkResult(
-            commit = commit,
-            device = device,
-            benchmark = benchmark,
-            datapoints = datapoints,
-        )
-    }
 
     private fun fetchPreconditionerBenchmarkResult(
-        benchmarkId: UUID,
+        benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
     ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Preconditioner>>() {}.type
         val datapoints = transaction(db) {
-            MatrixDatapointTable.select {
-                MatrixDatapointTable.benchmarkId eq benchmarkId
-            }.map {
-                PreconditionerDatapoint(
-                    name = it[MatrixDatapointTable.name],
-                    rows = it[MatrixDatapointTable.rows],
-                    columns = it[MatrixDatapointTable.cols],
-                    nonzeros = it[MatrixDatapointTable.nonzeros],
-                    preconditioners = gson.fromJson(it[MatrixDatapointTable.data], arrayType),
-                )
-            }
+            PreconditionerDatapointRow.find {
+                PreconditionerDatapointTable.benchmarkId eq benchmarkId.id
+            }.map { it.toPreconditionerDatapoint() }
         }
 
         return PreconditionerBenchmarkResult(
@@ -478,24 +340,37 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         )
     }
 
-    private fun fetchBlasBenchmarkResult(
-        benchmarkId: UUID,
+    private fun fetchSolverBenchmarkResult(
+        benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
         benchmark: BenchmarkType,
     ): BenchmarkResult {
-        val arrayType = object : TypeToken<List<Operation>>() {}.type
         val datapoints = transaction(db) {
-            BlasDatapointTable.select {
-                (BlasDatapointTable.benchmarkId eq benchmarkId)
+            SolverDatapointRow.find {
+                SolverDatapointTable.benchmarkId eq benchmarkId.id
+            }.map { it.toSolverDatapoint() }
+        }
+
+        return SolverBenchmarkResult(
+            commit = commit,
+            device = device,
+            benchmark = benchmark,
+            datapoints = datapoints,
+        )
+    }
+
+    private fun fetchBlasBenchmarkResult(
+        benchmarkId: BenchmarkResultRow,
+        commit: Commit,
+        device: Device,
+        benchmark: BenchmarkType,
+    ): BenchmarkResult {
+        val datapoints = transaction(db) {
+            BlasDatapointRow.find {
+                BlasDatapointTable.benchmarkId eq benchmarkId.id
             }.map {
-                BlasDatapoint(
-                    n = it[BlasDatapointTable.n],
-                    r = it[BlasDatapointTable.r],
-                    k = it[BlasDatapointTable.k],
-                    m = it[BlasDatapointTable.m],
-                    operations = gson.fromJson(it[BlasDatapointTable.data], arrayType),
-                )
+                it.toBlasDatapoint()
             }
         }
 
@@ -508,7 +383,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     }
 
     override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean = transaction(db) {
-        BenchmarkResultTable.select {
+        BenchmarkResultRow.find {
             (BenchmarkResultTable.device eq device.name) and
                     (BenchmarkResultTable.name eq benchmark.toString()) and
                     (BenchmarkResultTable.sha eq commit.sha)
@@ -517,9 +392,9 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
 
     override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
         transaction(db) {
-            BenchmarkResultTable.select {
+            BenchmarkResultRow.find {
                 (BenchmarkResultTable.name eq benchmark.toString()) and
                         (BenchmarkResultTable.sha eq commit.sha)
-            }.map { it[BenchmarkResultTable.device] }.toSet().toList().map { Device(it) }
+            }.map { it.device }.toSet().toList().map { Device(it) }
         }
 }
