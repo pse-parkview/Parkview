@@ -58,6 +58,10 @@ export class PlotConfigurationDialogComponent implements OnInit {
   }
 
   updatePlotTypeOption(): void {
+    this.currentChartType = this.currentPlotTypeOption.plottableAs !== undefined && this.currentPlotTypeOption.plottableAs.length > 0
+      ? this.currentPlotTypeOption.plottableAs[0]
+      : 'line';
+
     this.availablePlotOptions = this.currentPlotTypeOption.options;
     this.currentPlotOptions = {};
     this.availablePlotOptions.forEach(po => {
@@ -101,9 +105,6 @@ export class PlotConfigurationDialogComponent implements OnInit {
       console.log(plotTypeOptions)
       this.availablePlotTypeOptions = plotTypeOptions;
       this.currentPlotTypeOption = this.availablePlotTypeOptions.length > 0 ? this.availablePlotTypeOptions[0] : { plotName: '', plottableAs: [], options: [] };
-      this.currentChartType = this.currentPlotTypeOption.plottableAs !== undefined && this.currentPlotTypeOption.plottableAs.length > 0
-        ? this.currentPlotTypeOption.plottableAs[0]
-        : 'line';
       this.updatePlotTypeOption();
     });
   }
