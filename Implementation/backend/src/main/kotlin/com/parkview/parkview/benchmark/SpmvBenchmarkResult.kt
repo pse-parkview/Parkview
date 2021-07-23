@@ -9,7 +9,6 @@ import com.parkview.parkview.git.Device
 /**
  * A single format, part of [SpmvBenchmarkResult].
  *
- * TODO don't know what any of this is
  * @param name format name
  * @param storage
  * @param time

@@ -1,152 +1,67 @@
 package com.parkview.parkview.rest
 
-import com.google.gson.Gson
-import com.parkview.parkview.AppConfig
-import com.parkview.parkview.benchmark.JsonParser
-import com.parkview.parkview.database.AnnotatingRepositoryHandler
-import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.database.exposed.ExposedJsonHandler
-import com.parkview.parkview.git.*
-import com.parkview.parkview.processing.AvailablePlots
-import com.parkview.parkview.processing.AveragePerformanceCalculator
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 /**
  * Class that implements a RestHandler using the Spring framework
  */
 @RestController
 class SpringRestHandler(
-    private val appConfig: AppConfig,
+    private val restHandler: RestHandler,
 ) : RestHandler {
-    private val databaseHandler: DatabaseHandler = ExposedJsonHandler(
-        HikariDataSource(HikariConfig()
-            .apply {
-                jdbcUrl = appConfig.datasource.jdbcUrl
-                username = appConfig.datasource.username
-                password = appConfig.datasource.password
-            }
-        )
-    )
-
-    private val repHandler = AnnotatingRepositoryHandler(
-        CachingRepositoryHandler(
-            GitApiHandler(
-                appConfig.gitApi.repoName,
-                appConfig.gitApi.owner,
-                appConfig.gitApi.firstCommitSha,
-                appConfig.gitApi.username,
-                appConfig.gitApi.token,
-            ),
-            maxCached = appConfig.gitApi.maxCached,
-            branchLifetime = appConfig.gitApi.branchLifetime,
-            branchListLifetime = appConfig.gitApi.branchListLifetime,
-        ),
-        databaseHandler
-    )
-
-    private val performanceCalculator = AveragePerformanceCalculator(databaseHandler)
-
     @PostMapping("/post")
-    override fun handlePost(
+    override fun postBenchmarkResults(
         @RequestParam sha: String,
         @RequestParam device: String,
         @RequestParam(defaultValue = "false") blas: Boolean,
         @RequestBody json: String,
-    ) {
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, json, blas = blas)
-
-        databaseHandler.insertBenchmarkResults(benchmarkResults)
-    }
+    ) = restHandler.postBenchmarkResults(sha, device, blas, json)
 
     @GetMapping("/history")
-    override fun handleGetHistory(
+    override fun getHistory(
         @RequestParam branch: String,
         @RequestParam page: Int,
         @RequestParam benchmark: String,
-    ): String {
-        val commits = repHandler.fetchGitHistory(branch, page, BenchmarkType.valueOf(benchmark))
-        return Gson().toJson(commits)
-    }
+    ): String = restHandler.getHistory(branch, page, benchmark)
 
 
     @GetMapping("/plot")
-    override fun handleGetPlotData(
+    override fun getPlot(
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
         @RequestParam allParams: Map<String, String>,
-    ): String {
-        val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
-            databaseHandler.fetchBenchmarkResult(
-                Commit(sha, "", Date(), ""),
-                Device(device),
-                BenchmarkType.valueOf(benchmark),
-            )
-        }
-
-        val plot = AvailablePlots.getPlotByName(plotType) ?: throw IllegalArgumentException("Invalid plot type")
-        return plot.transform(results, allParams).toJson()
-    }
+    ): String = restHandler.getPlot(benchmark, shas, devices, plotType, allParams)
 
     @GetMapping("/branches")
-    override fun getAvailableBranches(): String {
-        val branches = repHandler.getAvailableBranches()
-        val gson = Gson()
-        return gson.toJson(branches)
-    }
+    override fun getAvailableBranches(): String = restHandler.getAvailableBranches()
 
     @GetMapping("/benchmarks")
-    override fun getAvailableBenchmarks(): String {
-        val benchmarks = BenchmarkType.values()
-        return Gson().toJson(benchmarks)
-    }
+    override fun getAvailableBenchmarks(): String = restHandler.getAvailableBenchmarks()
 
     @GetMapping("/availablePlots")
     override fun getAvailablePlots(
         @RequestParam benchmark: String,
         @RequestParam shas: List<String>,
         @RequestParam devices: List<String>,
-    ): String = Gson().toJson(
-        AvailablePlots.getPlotList(
-            BenchmarkType.valueOf(benchmark),
-            shas.zip(devices).map { (sha, device) ->
-                databaseHandler.fetchBenchmarkResult(
-                    Commit(sha),
-                    Device(device),
-                    BenchmarkType.valueOf(benchmark),
-                )
-            }
-        )
-    )
+    ): String = restHandler.getAvailablePlots(benchmark, shas, devices)
 
     @GetMapping("/summaryValues")
     override fun getSummaryValue(
         @RequestParam benchmark: String,
         @RequestParam sha: String,
         @RequestParam device: String,
-    ): String {
-        val result =
-            databaseHandler.fetchBenchmarkResult(Commit(sha = sha), Device(device), BenchmarkType.valueOf(benchmark))
-
-        val gson = Gson()
-        return gson.toJson(result.summaryValues)
-    }
+    ): String = restHandler.getSummaryValue(benchmark, sha, device)
 
     @GetMapping("/averagePerformance")
     override fun getAveragePerformance(
         @RequestParam branch: String,
         @RequestParam benchmark: String,
-    ): String {
-        val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
-        return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark)).toJson()
-    }
+    ): String = restHandler.getAveragePerformance(branch, benchmark)
 
     @GetMapping("/numberPages")
     override fun getNumberOfPages(
         @RequestParam branch: String,
-    ): String = Gson().toJson(repHandler.getNumberOfPages(branch))
+    ): String = restHandler.getNumberOfPages(branch)
 }

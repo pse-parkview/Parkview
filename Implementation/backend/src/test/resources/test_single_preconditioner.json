@@ -153,10 +153,8 @@
             "lower_trs::generate#3": 0.0246850461,
             "lower_trs::init_struct#1": 0.000002525,
             "par_ilut_factorization::add_candidates#6": 0.12217735059999999,
-
             "par_ilut_factorization::compute_l_u_factors#6": 0.7133290641000001,
             "par_ilut_factorization::threshold_filter#5": 0.0345227989,
-
             "par_ilut_factorization::threshold_filter_approx#6": 0.3414309755,
             "upper_trs::generate#3": 0.0034617118000000006,
             "upper_trs::init_struct#1": 0.000001399

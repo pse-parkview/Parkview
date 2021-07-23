@@ -131,13 +131,15 @@ internal class ExposedJsonHandlerTest {
 
 
         dbHandler.insertBenchmarkResults(listOf(resultA))
-        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        var returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.operations.size == 1)
         }
         dbHandler.insertBenchmarkResults(listOf(resultB))
 
-        returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
         println(returned.toString())
         for (datapoint in returned.datapoints) {
             assert(datapoint.operations.size == 2)
@@ -177,13 +179,15 @@ internal class ExposedJsonHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA))
-        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        var returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 1)
         }
         dbHandler.insertBenchmarkResults(listOf(resultB))
 
-        returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         println(returned.toString())
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 2)
@@ -223,7 +227,8 @@ internal class ExposedJsonHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        var returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 2)
         }
@@ -262,7 +267,8 @@ internal class ExposedJsonHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
+        var returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 1)
         }
@@ -297,7 +303,8 @@ internal class ExposedJsonHandlerTest {
 
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned = dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
+        var returned =
+            dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.operations.size == 2)
         }

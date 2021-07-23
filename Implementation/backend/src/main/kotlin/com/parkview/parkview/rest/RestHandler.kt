@@ -7,17 +7,18 @@ import org.springframework.web.bind.annotation.RequestParam
  */
 interface RestHandler {
     /**
-     * Handles a POST request for uploading benchmark results
+     * Handles a POST request for uploading benchmark results. It should be noted that if a given datapoint
+     * already exists (that means same problem setup), it gets updated with the new values for the algorithms.
      *
      * @param sha commit this benchmark has been run on
      * @param device device this benchmark has been run on
      * @param blas true if benchmark result is in blas format
      * @param json request body as json
      */
-    fun handlePost(sha: String, device: String, blas: Boolean, json: String)
+    fun postBenchmarkResults(sha: String, device: String, blas: Boolean, json: String)
 
     /**
-     * Handles a GET request for retrieving commit history
+     * Handles a GET request for retrieving commit history. Returns 30 commits per page.
      *
      * @param branch branch name
      * @param page page number
@@ -25,10 +26,11 @@ interface RestHandler {
      *
      * @return history in JSON format
      */
-    fun handleGetHistory(branch: String, page: Int, benchmark: String): String
+    fun getHistory(branch: String, page: Int, benchmark: String): String
 
     /**
-     * Handles a GET request for retrieving benchmark results
+     * Handles a GET request for retrieving plot data for the given benchmark results and plot setup.
+     * The data gets returned in a format usable by Chart.js without any further processing.
      *
      * @param benchmark benchmark type
      * @param shas list of commit shas for benchmarks
@@ -36,7 +38,7 @@ interface RestHandler {
      * @param plotType what type of transform should be applied
      * @param plotParams additional options for the plot
      */
-    fun handleGetPlotData(
+    fun getPlot(
         benchmark: String,
         shas: List<String>,
         devices: List<String>,
@@ -77,7 +79,7 @@ interface RestHandler {
     fun getSummaryValue(benchmark: String, sha: String, device: String): String
 
     /**
-     * Returns line chart data for the average performance score
+     * Returns line chart data for the average performance score in a Chart.js format.
      *
      * @param branch name of branch
      * @param benchmark name of benchmark
@@ -85,5 +87,9 @@ interface RestHandler {
      * @return plottable data for line charts
      */
     fun getAveragePerformance(branch: String, benchmark: String): String
+
+    /**
+     * Returns the number of pages as an Int.
+     */
     fun getNumberOfPages(branch: String): String
 }

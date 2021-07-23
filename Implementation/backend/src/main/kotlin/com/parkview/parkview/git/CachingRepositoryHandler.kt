@@ -34,7 +34,11 @@ class CachingRepositoryHandler(
         // branch is not cached
         if (wantedBranch == null) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
-            addToCache(CachedBranch(branch, benchmarkType, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
+            addToCache(CachedBranch(branch,
+                benchmarkType,
+                Date(),
+                mutableMapOf(page to newBranch),
+                handler.getNumberOfPages(branch)))
 
             return newBranch
         }
@@ -43,7 +47,11 @@ class CachingRepositoryHandler(
         if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
             val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
             branchCache.remove(wantedBranch)
-            addToCache(CachedBranch(branch, benchmarkType, Date(), mutableMapOf(page to newBranch), handler.getNumberOfPages(branch)))
+            addToCache(CachedBranch(branch,
+                benchmarkType,
+                Date(),
+                mutableMapOf(page to newBranch),
+                handler.getNumberOfPages(branch)))
 
             return newBranch
         }

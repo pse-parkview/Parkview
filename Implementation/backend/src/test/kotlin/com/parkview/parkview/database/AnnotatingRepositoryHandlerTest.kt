@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class AnnotatingRepositoryHandlerTest {
     private object MockDatabaseHandler : DatabaseHandler {
         override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
-            TODO("Not yet implemented")
+            throw IllegalAccessException("mockup code that should not be used")
         }
 
         override fun fetchBenchmarkResult(
@@ -16,7 +16,7 @@ internal class AnnotatingRepositoryHandlerTest {
             device: Device,
             benchmark: BenchmarkType,
         ): BenchmarkResult {
-            TODO("Not yet implemented")
+            throw IllegalAccessException("mockup code that should not be used")
         }
 
         override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == "sha"
@@ -30,11 +30,11 @@ internal class AnnotatingRepositoryHandlerTest {
         override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = commits
 
         override fun getAvailableBranches(): List<String> {
-            TODO("Not yet implemented")
+            throw IllegalAccessException("mockup code that should not be used")
         }
 
         override fun getNumberOfPages(branch: String): Int {
-            TODO("Not yet implemented")
+            throw IllegalAccessException("mockup code that should not be used")
         }
 
     }
