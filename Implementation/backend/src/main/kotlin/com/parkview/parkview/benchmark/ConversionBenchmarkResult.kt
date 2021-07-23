@@ -55,7 +55,7 @@ data class ConversionBenchmarkResult(
     override val datapoints: List<ConversionDatapoint>,
 ) : MatrixBenchmarkResult {
     override val summaryValues: Map<String, Double>
-        get() = calcBandwidths().mapValues { (_, values) -> values[values.size / 2] }
+            by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()
@@ -63,7 +63,7 @@ data class ConversionBenchmarkResult(
         for (datapoint in datapoints) {
             for (conversion in datapoint.conversions) {
                 if (!conversion.completed) continue
-                bandwidths.getOrPut(conversion.name) { mutableListOf<Double>() }
+                bandwidths.getOrPut(conversion.name) { mutableListOf() }
                     .add(datapoint.nonzeros / conversion.time)
             }
         }
