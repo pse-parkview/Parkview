@@ -10,7 +10,7 @@ import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 @Component({
   selector: 'app-line-plot',
   templateUrl: './line-plot.component.html',
-  styleUrls: ['./line-plot.component.scss']
+  styleUrls: ['../../../lib/plot-component-util/styles/plot-component-styles.scss']
 })
 export class LinePlotComponent implements OnInit {
 

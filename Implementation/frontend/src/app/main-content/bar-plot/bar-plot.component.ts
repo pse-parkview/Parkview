@@ -10,7 +10,7 @@ import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 @Component({
   selector: 'app-bar-plot',
   templateUrl: './bar-plot.component.html',
-  styleUrls: ['./bar-plot.component.scss']
+  styleUrls: ['../../../lib/plot-component-util/styles/plot-component-styles.scss']
 })
 export class BarPlotComponent implements OnInit {
 
