@@ -25,7 +25,6 @@ export class ScatterPlotComponent implements OnInit {
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
   public pointSize: number = 2;
-  public colors: string[] = ['#BF616A', '#D08770', '#EBCB8B', '#A3BE8C', '#B48EAD'];
 
   public chartOptions: ChartOptions = {
     title: {
@@ -88,16 +87,9 @@ export class ScatterPlotComponent implements OnInit {
       this.yLabel = config.labelForYAxis;
 
       this.dataHandler.getPlotData(config).subscribe(data => {
-        const d = data.datasets
-        for (let i = 0; i < d.length; i++) {
-          let color = this.getColor(i);
-          d[i].pointBackgroundColor = color;
-          d[i].pointBorderColor = color;
-          d[i].borderColor = color;
-        }
-        this.chartData = d;
+        this.chartData = PlotUtils.colorizeDataSet(data.datasets);
+        this.updateChart();
       });
-      this.updateChart();
     });
   }
 
@@ -123,24 +115,7 @@ export class ScatterPlotComponent implements OnInit {
     this.chart.refresh();
   }
 
-  getColor(i: number) {
-    if (i < this.colors.length) {
-      return this.colors[i];
-    } else {
-      return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 255)`;
-    }
-  }
-
-  downloadCanvas(event: any) {
-    let anchor = event.target;
-    let canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    let ctx = canvas.getContext('2d');
-
-    ctx!.globalCompositeOperation = 'destination-over';
-    ctx!.fillStyle = 'white';
-    ctx!.fillRect(0, 0, canvas.width, canvas.height);
-
-    anchor.href = canvas.toDataURL();
-    anchor.download = `${this.chartType}-plot.png`;
+  downloadCanvas(event: MouseEvent) {
+    PlotUtils.downloadCanvas(event, `${this.chartType}-plot.png`);
   }
 }

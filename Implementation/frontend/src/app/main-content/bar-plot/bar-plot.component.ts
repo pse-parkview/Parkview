@@ -71,11 +71,11 @@ export class BarPlotComponent implements OnInit {
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
 
-      this.dataHandler.getPlotData(config).subscribe(d => {
-        this.chartData = d.datasets;
-        this.chartLabels = d.labels;
+      this.dataHandler.getPlotData(config).subscribe(data => {
+        this.chartData = PlotUtils.colorizeDataSet(data.datasets);
+        this.chartLabels = data.labels;
+        this.updateChart();
       });
-      this.updateChart();
     });
   }
 
@@ -96,16 +96,8 @@ export class BarPlotComponent implements OnInit {
     }
     this.chart.refresh();
   }
-  downloadCanvas(event: any) {
-    let anchor = event.target;
-    let canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    let ctx = canvas.getContext('2d');
 
-    ctx!.globalCompositeOperation = 'destination-over';
-    ctx!.fillStyle = 'white';
-    ctx!.fillRect(0, 0, canvas.width, canvas.height);
-
-    anchor.href = canvas.toDataURL();
-    anchor.download = `${this.chartType}-plot.png`;
+  downloadCanvas(event: MouseEvent) {
+    PlotUtils.downloadCanvas(event, `${this.chartType}-plot.png`);
   }
 }
