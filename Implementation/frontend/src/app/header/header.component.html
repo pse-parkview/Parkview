@@ -1,10 +1,10 @@
-<!--<div class="header">-->
-<!--  <ul class="clickable"-->
-<!--      [routerLink]="'/'">-->
-<!--    <li><img src="assets/parkview.png"></li>-->
-<!--    <li><p class="parkview">Parkview</p></li>-->
-<!--  </ul>-->
-<!--</div>-->
-<mat-toolbar>
-  <span>Parkview</span>
+<mat-toolbar class="header">
+  <button mat-icon-button (click)="sideBarToggle.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ul class="clickable"
+      [routerLink]="'/'">
+    <li><img src="assets/parkview.png" alt="toolbar-logo"></li>
+    <li><p class="parkview">Parkview</p></li>
+  </ul>
 </mat-toolbar>

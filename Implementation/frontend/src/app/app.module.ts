@@ -44,6 +44,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -68,31 +69,32 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     ScatterPlotComponent,
     BarPlotComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LibModule,
-    LogicModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    ChartsModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatTableModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSliderModule,
-    MatSidenavModule,
-    MatToolbarModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        LibModule,
+        LogicModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatCardModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        ChartsModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatTableModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSliderModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+    ],
   providers: [
     CookieService
   ],
