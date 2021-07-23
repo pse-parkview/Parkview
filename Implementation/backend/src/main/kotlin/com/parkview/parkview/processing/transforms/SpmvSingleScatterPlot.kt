@@ -39,7 +39,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
                         else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = when (options["yAxis"]) {
-                        "bandwidth" -> format.storage + (datapoint.rows + datapoint.columns) / format.time
+                        "bandwidth" -> (format.storage + datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
                         else -> throw InvalidPlotOptionsException(options, "yAxis")
                     },

@@ -21,20 +21,20 @@ class AveragePerformanceCalculator(
                 val benchmarkResult = databaseHandler.fetchBenchmarkResult(commit, device, benchmark)
                 for ((name, summaryValue) in benchmarkResult.summaryValues) {
                     seriesByName.getOrPut(name) { mutableListOf() } += PlotPoint(
-                        x = i.toDouble(),
+                        x = commit.date.time.toDouble(),
                         y = summaryValue,
                     )
                 }
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
-            PointDataset(
-                label = key,
-                data = value.sortedBy { it.x }.toMutableList(),
-            )
-        },
-            labels = commits.reversed().map { it.date.toString() }
+        return DatasetSeries(
+            seriesByName.map { (key, value) ->
+                PointDataset(
+                    label = key,
+                    data = value.sortedBy { it.x }.toMutableList(),
+                )
+            },
         )
     }
 }
