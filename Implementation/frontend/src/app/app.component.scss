@@ -2,13 +2,36 @@ header {
   height: 5vh;
   width: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   left: 0;
   overflow-x: hidden;
   flex-grow: 1;
 }
 
+.container {
+  position: fixed;
+  top: 5vh;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 95vh;
+}
+
+.sidenav {
+  top: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  position: fixed;
+}
+
+.content {
+  overflow-y: scroll;
+}
+
+/*
 nav {
   height: 95vh;
   width: 15vw;
@@ -26,5 +49,5 @@ main {
   width: 85vw;
   position: fixed;
   height: 95vh;
-  overflow-y: scroll;
 }
+*/

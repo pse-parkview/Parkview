@@ -42,6 +42,8 @@ import {ScatterPlotComponent} from './main-content/scatter-plot/scatter-plot.com
 import {BarPlotComponent} from './main-content/bar-plot/bar-plot.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {MatSliderModule} from "@angular/material/slider";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import {MatSliderModule} from "@angular/material/slider";
     MatInputModule,
     MatRadioModule,
     MatSliderModule,
+    MatSidenavModule,
+    MatToolbarModule,
   ],
   providers: [
     CookieService
