@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.sql.DataSource
 
-internal class ExposedJsonHandlerTest {
+internal class ExposedHandlerTest {
     private lateinit var dbHandler: DatabaseHandler
 
     @BeforeEach

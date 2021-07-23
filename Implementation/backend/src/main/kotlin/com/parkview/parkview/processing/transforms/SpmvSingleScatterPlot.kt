@@ -4,6 +4,7 @@ import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import java.awt.dnd.InvalidDnDOperationException
 
 class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
@@ -36,12 +37,12 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotTransformException("Invalid value for xAxis")
+                        else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = when (options["yAxis"]) {
                         "bandwidth" -> format.storage + (datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
-                        else -> throw InvalidPlotTransformException("Illegal value for yAxis")
+                        else -> throw InvalidPlotOptionsException(options, "yAxis")
                     },
                 )
             }

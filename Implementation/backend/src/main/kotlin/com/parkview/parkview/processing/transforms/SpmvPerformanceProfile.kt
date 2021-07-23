@@ -9,12 +9,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
     override val name = "SpmvPerformanceProfile"
-    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        PlotOption(
-            name = "xAxis",
-            options = listOf("speedup")
-        )
-    )
+    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf()
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,

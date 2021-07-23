@@ -41,7 +41,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()
-                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                        else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = conversionA.time / conversionB.time,
                 )

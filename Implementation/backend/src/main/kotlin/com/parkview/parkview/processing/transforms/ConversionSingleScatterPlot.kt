@@ -36,12 +36,12 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                        else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = when (options["yAxis"]) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time
-                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                        else -> throw InvalidPlotOptionsException(options, "yAxis")
                     },
                 )
             }

@@ -31,7 +31,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform {
         options: Map<String, String>,
     ): PlottableData {
         val datapoint = benchmarkResults.first().datapoints.find { it.name == options["matrix"] }
-            ?: throw InvalidPlotTransformException("${options["matrix"]} is not a valid matrix name")
+            ?: throw InvalidPlotOptionsException(options, "matrix")
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()
         val allComponentNames = datapoint.solvers.fold(emptyList<String>()) { acc, e ->

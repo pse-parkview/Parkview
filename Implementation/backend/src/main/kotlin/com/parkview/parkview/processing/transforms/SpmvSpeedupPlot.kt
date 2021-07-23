@@ -42,7 +42,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()
-                        else -> throw InvalidPlotTransformException("Invalid value for yAxis")
+                        else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = formatA.time / formatB.time
                 )
