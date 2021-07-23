@@ -8,10 +8,7 @@ import com.parkview.parkview.git.RepositoryHandler
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -55,7 +52,7 @@ private data class DiffInfoModel(
 class GitApiException(message: String) : Exception(message)
 
 private interface GitHubService {
-    @GET("/repos/{owner}/{repoName}/commits")
+    @GET("repos/{owner}/{repoName}/commits")
     fun fetchHistory(
         @Header("Authorization") token: String,
         @Path("owner") owner: String,
@@ -64,14 +61,14 @@ private interface GitHubService {
         @Query("page") page: Int,
     ): Call<List<CommitModel>>
 
-    @GET("https://api.github.com/repos/{owner}/{repoName}/branches")
+    @GET("repos/{owner}/{repoName}/branches")
     fun getBranches(
         @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
     ): Call<List<BranchInfoModel>>
 
-    @GET("https://api.github.com/repos/{owner}/{repoName}/git/refs/heads/{branch}")
+    @GET("repos/{owner}/{repoName}/git/refs/heads/{branch}")
     fun getHeadInfo(
         @Header("Authorization") token: String,
         @Path("owner") owner: String,
@@ -80,7 +77,7 @@ private interface GitHubService {
     ): Call<HeadInfoModel>
 
 
-    @GET("https://api.github.com/repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
+    @GET("repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
     fun getDiff(
         @Header("Authorization") token: String,
         @Path("owner") owner: String,
@@ -106,7 +103,7 @@ class GitApiHandler(
     private val token: String = "",
 ) : RepositoryHandler {
     private val service = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
+        .baseUrl("https://api.github.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val githubApi = service.create(GitHubService::class.java)
