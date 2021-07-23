@@ -6,6 +6,7 @@ import {Observer} from "rxjs";
 import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
 import {Device} from "../../../../logic/datahandler/interfaces/device";
 import {PlotData} from "../../../../logic/plothandler/interfaces/plot-data";
+import {PlotUtils} from "../../../../lib/plot-component-util/plot-utils";
 
 @Component({
   selector: 'app-average-performance',
@@ -17,6 +18,15 @@ export class AveragePerformanceComponent implements OnInit {
   public chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    elements: {
+      point: {
+        radius: 5,
+      },
+      line: {
+        borderWidth: 3,
+        fill: false
+      }
+    },
     scales: {
       xAxes: [{
         type: 'time',
@@ -62,8 +72,7 @@ export class AveragePerformanceComponent implements OnInit {
       this.currentBranch,
       this.currentDevice
     ).subscribe((plotData: PlotData) => {
-
-      this.chartData = plotData.datasets;
+      this.chartData = PlotUtils.colorizeDataSet(plotData.datasets);
       this.chartLabels = plotData.labels;
     });
   }
