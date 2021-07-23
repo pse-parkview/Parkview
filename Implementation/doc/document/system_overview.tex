@@ -54,7 +54,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform {
 }
 \end{lstlisting}
 
-This is a transform fot the SPMV benchmark, so it implements the \texttt{SpmvPlotTransform} interface (inheritance/implementation in kotlin is symbolized by a colon). Since it takes only one benchmark result as an input we set \texttt{numInputsRange} to a range from one to one, so only one (line 2). This plot should only be plottable as a scatter plot, so in line 3 we set \texttt{plottableAs} to a list containing only the enum for scatter plots. We set the name in line 4 and in line 5 we set the available options. We create one \texttt{PlotOption} object per option, so one for the yAxis and one for the xAxis, each with its corresponding possible values. Those value later get represented with a dropdown menu by the frontend.
+This is a transform fot the SPMV benchmark, so it implements the \texttt{SpmvPlotTransform} interface (inheritance/implementation in kotlin is symbolized by a colon). Since it takes only one benchmark result as an input we set \texttt{numInputsRange} to a range from one to one, so only one (line 2). This plot should only be plottable as a scatter plot, so in line 3 we set \texttt{plottableAs} to a list containing only the enum for scatter plots. We set the name in line 4 and in line 5 we set the available options. We create one \texttt{PlotOption} object per option, so one for the yAxis and one for the xAxis, each with its corresponding possible values. Those values later get represented with a dropdown menu by the frontend.
 
 To register your (new) plot transforms, you have to add it to the corresponding list in \texttt{AvailablePlots}. You have to edit the actual code for that and recompile afterwards.
 

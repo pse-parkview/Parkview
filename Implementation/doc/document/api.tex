@@ -1,5 +1,6 @@
 \section{API}
 
+
 \subsubsection*{/post}
 
 \textbf{POST}
@@ -14,7 +15,7 @@
   \hline
 \end{tabular}
 
-Uploads benchark results to the database. The benchmark data is passed using the request body.
+Uploads benchark results to the database. The benchmark data is passed using the request body. When uploading data for an already existing datapoint, the solvers get updated with the solvers in the new data.
 
 \subsubsection*{/history}
 
