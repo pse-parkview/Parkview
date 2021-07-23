@@ -77,5 +77,6 @@ class SpringRestHandler(
     ): Int = restHandler.getNumberOfPages(branch)
 
     @GetMapping("/availableDevices")
-    override fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device> = restHandler.getAvailableDevices(branch, benchmark)
+    override fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device> =
+        restHandler.getAvailableDevices(branch, benchmark)
 }

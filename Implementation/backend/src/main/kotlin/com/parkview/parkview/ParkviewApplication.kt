@@ -1,6 +1,7 @@
 package com.parkview.parkview
 
 import com.parkview.parkview.database.AnnotatingRepositoryHandler
+import com.parkview.parkview.database.CachingDatabaseHandler
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.exposed.ExposedHandler
 import com.parkview.parkview.git.CachingRepositoryHandler
@@ -18,14 +19,17 @@ import org.springframework.context.annotation.Bean
 @EnableConfigurationProperties(AppConfig::class)
 class ParkviewApplication {
     @Bean
-    fun databaseHandler(appConfig: AppConfig): DatabaseHandler = ExposedHandler(
-        HikariDataSource(HikariConfig()
-            .apply {
-                jdbcUrl = appConfig.datasource.jdbcUrl
-                username = appConfig.datasource.username
-                password = appConfig.datasource.password
-            }
-        )
+    fun databaseHandler(appConfig: AppConfig): DatabaseHandler = CachingDatabaseHandler(
+        ExposedHandler(
+            HikariDataSource(HikariConfig()
+                .apply {
+                    jdbcUrl = appConfig.database.datasource.jdbcUrl
+                    username = appConfig.database.datasource.username
+                    password = appConfig.database.datasource.password
+                }
+            )
+        ),
+        maxCached = appConfig.database.maxCached,
     )
 
     @Bean

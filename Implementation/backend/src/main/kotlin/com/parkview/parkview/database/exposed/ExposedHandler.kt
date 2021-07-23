@@ -515,10 +515,11 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         }.count()
     } > 0
 
-    override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> = transaction(db) {
-        BenchmarkResultTable.select {
-            (BenchmarkResultTable.name eq benchmark.toString()) and
-                    (BenchmarkResultTable.sha eq commit.sha)
-        }.map { it[BenchmarkResultTable.device] }.toSet().toList().map { Device(it) }
-    }
+    override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
+        transaction(db) {
+            BenchmarkResultTable.select {
+                (BenchmarkResultTable.name eq benchmark.toString()) and
+                        (BenchmarkResultTable.sha eq commit.sha)
+            }.map { it[BenchmarkResultTable.device] }.toSet().toList().map { Device(it) }
+        }
 }

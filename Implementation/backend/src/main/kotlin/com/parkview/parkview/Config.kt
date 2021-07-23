@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties(prefix = "parkview")
 data class AppConfig(
-    val datasource: DataSourceConfig,
+    val database: DatabaseConfig,
     val gitApi: GitApiConfig,
 )
 
@@ -19,6 +19,11 @@ data class GitApiConfig(
     val firstCommitSha: String,
     val username: String = "",
     val token: String = "",
+)
+
+data class DatabaseConfig(
+    val datasource: DataSourceConfig,
+    val maxCached: Int,
 )
 
 data class DataSourceConfig(

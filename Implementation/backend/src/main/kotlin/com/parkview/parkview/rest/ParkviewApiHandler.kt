@@ -55,7 +55,11 @@ class ParkviewApiHandler(
 
     override fun getAvailableBenchmarks(): List<String> = BenchmarkType.values().map { it.toString() }
 
-    override fun getAvailablePlots(benchmark: String, shas: List<String>, devices: List<String>): List<PlotDescription> =
+    override fun getAvailablePlots(
+        benchmark: String,
+        shas: List<String>,
+        devices: List<String>,
+    ): List<PlotDescription> =
         AvailablePlots.getPlotList(
             BenchmarkType.valueOf(benchmark),
             shas.zip(devices).map { (sha, device) ->
@@ -74,7 +78,9 @@ class ParkviewApiHandler(
 
     override fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData {
         val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
-        return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark), Device(device))
+        return performanceCalculator.getAveragePerformanceData(commits,
+            BenchmarkType.valueOf(benchmark),
+            Device(device))
     }
 
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)

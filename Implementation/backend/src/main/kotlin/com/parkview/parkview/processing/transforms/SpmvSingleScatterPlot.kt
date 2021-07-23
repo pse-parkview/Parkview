@@ -4,7 +4,6 @@ import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import java.awt.dnd.InvalidDnDOperationException
 
 class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
