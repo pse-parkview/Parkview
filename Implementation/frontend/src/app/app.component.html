@@ -1,16 +1,20 @@
-<header (click)="sidenav.toggle()">
+<header (click)="toggleSideNav()">
   <app-header></app-header>
 </header>
 
-<mat-sidenav-container class="container">
-
-  <mat-sidenav #sidenav mode="side" opened [fixedInViewport]="false" class="sidenav">
+<mat-sidenav-container class="container"
+                       id="container">
+  <mat-sidenav [mode]="sideNavMode"
+               [opened]="true"
+               [fixedInViewport]="false"
+               class="sidenav"
+               id="sidenav">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
 
-  <mat-sidenav-content class="content">
-    <router-outlet></router-outlet>
+  <mat-sidenav-content class="content"
+                       id="content">
+      <router-outlet></router-outlet>
   </mat-sidenav-content>
-
 </mat-sidenav-container>
 

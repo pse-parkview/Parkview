@@ -2,7 +2,7 @@ header {
   height: 5vh;
   width: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   left: 0;
   overflow-x: hidden;
@@ -10,10 +10,12 @@ header {
 }
 
 .container {
-  position: absolute;
+  position: fixed;
   top: 5vh;
   left: 0;
   right: 0;
+  width: 100vw;
+  height: 95vh;
 }
 
 .sidenav {
@@ -26,7 +28,6 @@ header {
 }
 
 .content {
-  position: fixed;
   overflow-y: scroll;
 }
 
