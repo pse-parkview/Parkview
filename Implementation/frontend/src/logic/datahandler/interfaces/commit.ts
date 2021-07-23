@@ -1,6 +1,8 @@
 /**
  * Encapsulates information regarding a commit
  */
+import {Device} from "./device";
+
 export interface Commit {
 
   /**
@@ -31,5 +33,5 @@ export interface Commit {
   /**
    * Available devices?
    */
-  get availableDevices(): { name: string }[];
+  get availableDevices(): Device[];
 }

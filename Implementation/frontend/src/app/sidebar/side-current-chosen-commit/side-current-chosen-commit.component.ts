@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
+import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {MatDialog} from "@angular/material/dialog";
 import {PlotConfigurationDialogComponent} from "../../dialogs/plot-configuration-dialog/plot-configuration-dialog.component";
 import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.service";
@@ -11,7 +11,7 @@ import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.servic
 })
 export class SideCurrentChosenCommitComponent implements OnInit {
 
-  constructor(readonly commitService: CommitSelectionService,
+  constructor(readonly commitService: SelectionService,
               private readonly dialog: MatDialog,
               private readonly snackBarService: SnackBarService) { }
 

@@ -1,6 +1,7 @@
 <mat-card>
-  <mat-card-title>Average Performance Score</mat-card-title>
-
+  <mat-card-title>
+    Average Performance Score
+  </mat-card-title>
   <div class="performance-wrapper">
     <canvas [chartType]="chartType" [datasets]="chartData"
             [options]="chartOptions" [labels]="chartLabels"
@@ -9,6 +10,17 @@
     </canvas>
   </div>
   <mat-card-content>
-    <h2>Some info about current state</h2>
+    <div class="device-selection">
+      <span class="device-selection-for">Current Chosen Device:&nbsp;</span>
+      <span class="device-selection-devices">
+      <mat-form-field>
+        <mat-select [(value)]="currentDevice" (selectionChange)="update()">
+          <mat-option *ngFor="let device of availableDevices" [value]="device">
+            {{device}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </span>
+    </div>
   </mat-card-content>
 </mat-card>

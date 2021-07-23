@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
+import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {DataService} from "../../../logic/datahandler/data.service";
@@ -44,7 +44,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   plotlabelXAxis: string = 'x';
   plotlabelYAxis: string = 'y';
 
-  constructor(private readonly commitSelectService: CommitSelectionService,
+  constructor(private readonly commitSelectService: SelectionService,
               private readonly dataService: DataService,
               private readonly router: Router,
               private readonly recent: CookieService) {

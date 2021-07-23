@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../../logic/datahandler/data.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
-import {CommitSelectionService} from "../../../../logic/commit-selection-handler/commit-selection.service";
+import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 
 @Component({
@@ -23,7 +23,7 @@ export class GitHistoryComponent implements OnInit {
   selected: { commit: Commit, device: string }[] = [];
 
   constructor(private readonly dataService: DataService,
-              private readonly commitService: CommitSelectionService,
+              private readonly commitService: SelectionService,
               private readonly cookieService: CookieService) {
   }
 
@@ -50,6 +50,7 @@ export class GitHistoryComponent implements OnInit {
       return;
     }
     this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
+    this.commitService.updateBranchName(this.currentlySelectedBranch);
     this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });

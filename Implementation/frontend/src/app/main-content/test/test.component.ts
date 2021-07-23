@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../../../logic/datahandler/data.service";
-import {CommitSelectionService} from "../../../logic/commit-selection-handler/commit-selection.service";
+import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {MatDialog} from "@angular/material/dialog";
 import {PlotConfigurationDialogComponent} from "../../dialogs/plot-configuration-dialog/plot-configuration-dialog.component";
@@ -20,7 +20,7 @@ export class TestComponent implements OnInit { // TODO: delete this component
   }
 
   constructor(private readonly dataService: DataService,
-              private readonly commitService: CommitSelectionService,
+              private readonly commitService: SelectionService,
               private readonly matDialog: MatDialog) {
   }
 

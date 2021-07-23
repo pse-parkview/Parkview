@@ -7,6 +7,7 @@ import { SummaryCardComponent } from './directives/summary-card/summary-card.com
 import {MatCardModule} from "@angular/material/card";
 import {MatTableModule} from "@angular/material/table";
 import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
+import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 
 
 
@@ -16,6 +17,7 @@ import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
     SummaryCardComponent,
     AbbreviatePipe,
     DefaultvaluePipe,
+    DateFormatterPipe,
   ],
   exports: [
     DefaultvaluePipe,
