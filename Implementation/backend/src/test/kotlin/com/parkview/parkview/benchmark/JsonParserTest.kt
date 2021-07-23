@@ -72,7 +72,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson, blas = true)
+        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
         assert(benchmarkResults.size == 1)
         val result = benchmarkResults.first()
         if (result !is BlasBenchmarkResult) fail("invalid type, should be BlasBenchmarkResult")

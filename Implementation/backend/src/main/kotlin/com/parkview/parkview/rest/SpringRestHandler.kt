@@ -16,9 +16,8 @@ class SpringRestHandler(
     override fun postBenchmarkResults(
         @RequestParam sha: String,
         @RequestParam device: String,
-        @RequestParam(defaultValue = "false") blas: Boolean,
         @RequestBody json: String,
-    ) = restHandler.postBenchmarkResults(sha, device, blas, json)
+    ) = restHandler.postBenchmarkResults(sha, device, json)
 
     @GetMapping("/history")
     override fun getHistory(

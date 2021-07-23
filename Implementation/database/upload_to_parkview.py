@@ -3,6 +3,7 @@ import argparse
 import os
 import requests
 import json
+import time
 
 PARKVIEW_ENDPOINT = 'http://localhost:8080/post'
 
@@ -21,8 +22,14 @@ for blas_file in blas_data_dirs:
     try:
         with open(blas_path) as f:
             blas_data = json.load(f)
-        blas_params = {'sha': args.sha, 'device': blas_file.split('/')[0], 'blas': True}
+        blas_params = {'sha': args.sha, 'device': blas_file.split('/')[0]}
+
+        print('upload started')
+        start = time.time()
         requests.post(url = PARKVIEW_ENDPOINT, json = blas_data, params = blas_params)
+        end = time.time()
+
+        print(f'upload took {end - start} time')
         print(f'{blas_path} is fine')
     except KeyboardInterrupt:
         exit()
@@ -46,6 +53,13 @@ for matrix_file in matrix_data_dirs:
                 print(f'### ERROR: {matrix_runs_path} is broken')
 
     params = {'sha': args.sha, 'device': matrix_file.split('/')[0]}
+
+    print('upload started')
+    start = time.time()
     requests.post(url = PARKVIEW_ENDPOINT, json = data, params = params)
+    end = time.time()
+
+    print(f'upload took {end - start} time')
+
     print(f'{matrix_path} is fine')
             

@@ -15,10 +15,9 @@ interface RestHandler {
      *
      * @param sha commit this benchmark has been run on
      * @param device device this benchmark has been run on
-     * @param blas true if benchmark result is in blas format
      * @param json request body as json
      */
-    fun postBenchmarkResults(sha: String, device: String, blas: Boolean, json: String)
+    fun postBenchmarkResults(sha: String, device: String, json: String)
 
     /**
      * Handles a GET request for retrieving commit history. Returns 30 commits per page.

@@ -18,10 +18,9 @@ class ParkviewApiHandler(
     override fun postBenchmarkResults(
         sha: String,
         device: String,
-        blas: Boolean,
         json: String,
     ) {
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, json, blas = blas)
+        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, json)
 
         databaseHandler.insertBenchmarkResults(benchmarkResults)
     }
