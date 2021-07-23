@@ -11,13 +11,12 @@ internal class AvailablePlotsTest {
     fun `test getAvailablePlots for subset of plots`() {
         var plots = AvailablePlots.getPlotList(BenchmarkType.Spmv, listOf(SPMV_RESULT))
         assert(
-            plots.scatter.map { it.plotName }.contains(SpmvSingleScatterPlot().name)
-                    and plots.scatter
-                .find { it.plotName == SpmvSingleScatterPlot().name }!!.options
+            plots.map { it.plotName }.contains(SpmvSingleScatterPlot().name)
+            and plots.find { it.plotName == SpmvSingleScatterPlot().name }!!.options
                 .find { it.name == "yAxis" }!!.options.contains("time")
         )
 
         plots = AvailablePlots.getPlotList(BenchmarkType.Spmv, listOf(SPMV_RESULT, SPMV_RESULT))
-        assert(plots.line.find { it.plotName == SpmvSpeedupPlot().name } != null)
+        assert(plots.find { it.plotName == SpmvSpeedupPlot().name } != null)
     }
 }
