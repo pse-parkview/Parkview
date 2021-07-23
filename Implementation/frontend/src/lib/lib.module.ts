@@ -19,11 +19,12 @@ import { DateFormatterPipe } from './pipes/date-formatter.pipe';
     DefaultvaluePipe,
     DateFormatterPipe,
   ],
-  exports: [
-    DefaultvaluePipe,
-    AbbreviatePipe,
-    SummaryCardComponent,
-  ],
+    exports: [
+        DefaultvaluePipe,
+        AbbreviatePipe,
+        SummaryCardComponent,
+        DateFormatterPipe,
+    ],
   imports: [
     CommonModule,
     NgxChartsModule,
