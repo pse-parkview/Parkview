@@ -87,7 +87,7 @@ internal class ExposedHandlerTest {
     fun `test list available devices`() {
         dbHandler.insertBenchmarkResults(listOf(SPMV_RESULT))
 
-        val devices = dbHandler.getAvailableDevices(SPMV_RESULT.commit, SPMV_RESULT.benchmark)
+        val devices = dbHandler.getAvailableDevicesForCommit(SPMV_RESULT.commit, SPMV_RESULT.benchmark)
         assert(devices.first() == SPMV_RESULT.device)
     }
 

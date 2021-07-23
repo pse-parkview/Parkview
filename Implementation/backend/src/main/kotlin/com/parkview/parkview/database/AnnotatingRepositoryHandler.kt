@@ -12,7 +12,7 @@ class AnnotatingRepositoryHandler(
         repHandler.fetchGitHistory(branch, page, benchmarkType).map {
             it.copy()
                 .apply {
-                    for (device in databaseHandler.getAvailableDevices(this, benchmarkType)) addDevice(device)
+                    for (device in databaseHandler.getAvailableDevicesForCommit(this, benchmarkType)) addDevice(device)
                 }
         }
 

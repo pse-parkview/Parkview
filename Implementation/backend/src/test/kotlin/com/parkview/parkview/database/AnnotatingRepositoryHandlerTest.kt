@@ -21,7 +21,7 @@ internal class AnnotatingRepositoryHandlerTest {
 
         override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == "sha"
 
-        override fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device> =
+        override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
             if ((commit.sha == "sha") and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
     }
 

@@ -15,7 +15,7 @@ class AveragePerformanceCalculator(
         val averageValuesByCommit: MutableMap<Commit, Map<String, Double>> = mutableMapOf()
 
         for (commit in commits) {
-            val devices = databaseHandler.getAvailableDevices(commit, benchmark)
+            val devices = databaseHandler.getAvailableDevicesForCommit(commit, benchmark)
             var averageSummaryValues: Map<String, Double> = emptyMap()
             for (device in devices) {
                 val benchmarkResult = databaseHandler.fetchBenchmarkResult(commit, device, benchmark)

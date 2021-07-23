@@ -63,9 +63,9 @@ object AvailablePlots {
      * Returns a list of all available plots for a given number of inputs and benchmark type
      *
      * @param benchmark type of benchmark
-     * @param numberInputs number of inputs
+     * @param results chosen benchmark results
      *
-     * @return [PlotList] containing the available plots grouped by plot type
+     * @return list of [PlotDescription] containing the available plots grouped by plot type
      */
     fun getPlotList(benchmark: BenchmarkType, results: List<BenchmarkResult>): List<PlotDescription> {
         val availablePlots: List<PlotTransform> = when (benchmark) {

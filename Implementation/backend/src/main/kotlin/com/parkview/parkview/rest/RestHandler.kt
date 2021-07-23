@@ -1,6 +1,8 @@
 package com.parkview.parkview.rest
 
+import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
 import org.springframework.web.bind.annotation.RequestParam
@@ -94,4 +96,5 @@ interface RestHandler {
      * Returns the number of pages as an Int.
      */
     fun getNumberOfPages(branch: String): Int
+    fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device>
 }

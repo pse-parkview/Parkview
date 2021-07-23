@@ -55,5 +55,5 @@ interface DatabaseHandler {
      *
      * @return list of devices
      */
-    fun getAvailableDevices(commit: Commit, benchmark: BenchmarkType): List<Device>
+    fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device>
 }
