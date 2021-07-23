@@ -17,5 +17,6 @@ class AnnotatingRepositoryHandler(
         }
 
     override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()
+
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)
 }

@@ -6,11 +6,20 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import java.util.*
 
+// cache entry for hasAvailableData
+private data class AvailableCacheEntry(
+    val commit: Commit,
+    val device: Device,
+    val benchmark: BenchmarkType,
+    val available: Boolean,
+)
+
 class CachingDatabaseHandler(
     private val databaseHandler: DatabaseHandler,
     private val maxCached: Int = 10,
 ) : DatabaseHandler {
-    private val resultCache: MutableList<BenchmarkResult> = mutableListOf()
+    private val resultCache: MutableList<BenchmarkResult> = LinkedList()
+    private val availableCache: MutableList<AvailableCacheEntry> = LinkedList()
 
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         resultCache.clear()
@@ -24,24 +33,39 @@ class CachingDatabaseHandler(
         // miss
         if (cached == null) {
             val result = databaseHandler.fetchBenchmarkResult(commit, device, benchmark)
-            addToCache(result)
+            addToResultCache(result)
             return result
         }
 
         // hit
         // increase priority
-        val i = resultCache.indexOf(cached)
-        Collections.swap(resultCache, i, resultCache.size - 1)
+        resultCache.remove(cached)
+        resultCache.add(cached)
         return cached
     }
 
-    override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean =
-        databaseHandler.hasDataAvailable(commit, device, benchmark)
+    override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean {
+        val cached = availableCache.find { (it.commit.sha == commit.sha) and (it.device == device) and (it.benchmark == benchmark) }
+
+        // miss
+        if (cached == null) {
+            val result = databaseHandler.hasDataAvailable(commit, device, benchmark)
+            val cacheEntry = AvailableCacheEntry(commit, device, benchmark, result)
+            addToAvailableCache(cacheEntry)
+
+            return result
+        }
+
+        // hit
+        availableCache.remove(cached)
+        availableCache.add(cached)
+        return cached.available
+    }
 
     override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
         databaseHandler.getAvailableDevicesForCommit(commit, benchmark)
 
-    private fun addToCache(result: BenchmarkResult) {
+    private fun addToResultCache(result: BenchmarkResult) {
         resultCache.add(result)
 
         if (resultCache.size > maxCached) {
@@ -49,5 +73,11 @@ class CachingDatabaseHandler(
         }
     }
 
+    private fun addToAvailableCache(entry: AvailableCacheEntry) {
+        availableCache.add(entry)
 
+        if (availableCache.size > maxCached) {
+            availableCache.removeAt(0)
+        }
+    }
 }
