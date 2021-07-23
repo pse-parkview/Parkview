@@ -2,8 +2,23 @@
 
 mat-card {
   margin: 1vh;
-  height: 90%;
-  width: 90%;
+  width: auto;
+  height: auto;
+}
+
+.plot {
+  margin: 1vh;
+}
+
+.settings {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+}
+
+.settings > a, mat-form-field, div {
+  margin: 1vh;
+  flex: 1
 }
 
 mat-card-title {
