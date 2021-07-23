@@ -39,7 +39,7 @@ export class SelectionService {
 
   addCommit(benchmarkName: string, commit: Commit, device: string) {
     if (this.selectedCommits.benchmarkName === benchmarkName) {
-      if (!this.selectedCommits.commitsAndDevices.some(c => c.commit === commit && c.device === device)) {
+      if (!this.selectedCommits.commitsAndDevices.some(c => c.commit.sha === commit.sha && c.device === device)) {
         this.selectedCommits.commitsAndDevices.push({commit, device});
       }
     } else {
