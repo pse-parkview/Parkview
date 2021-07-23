@@ -90,11 +90,13 @@ interface RestHandler {
      *
      * @return plottable data for line charts
      */
-    fun getAveragePerformance(branch: String, benchmark: String): PlottableData
+    fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData
 
     /**
      * Returns the number of pages as an Int.
      */
     fun getNumberOfPages(branch: String): Int
+
+
     fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device>
 }

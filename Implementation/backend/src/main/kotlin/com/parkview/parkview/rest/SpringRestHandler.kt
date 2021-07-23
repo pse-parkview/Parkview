@@ -68,7 +68,8 @@ class SpringRestHandler(
     override fun getAveragePerformance(
         @RequestParam branch: String,
         @RequestParam benchmark: String,
-    ): PlottableData = restHandler.getAveragePerformance(branch, benchmark)
+        device: String,
+    ): PlottableData = restHandler.getAveragePerformance(branch, benchmark, device)
 
     @GetMapping("/numberPages")
     override fun getNumberOfPages(

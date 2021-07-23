@@ -72,9 +72,9 @@ class ParkviewApiHandler(
             Device(device),
             BenchmarkType.valueOf(benchmark)).summaryValues
 
-    override fun getAveragePerformance(branch: String, benchmark: String): PlottableData {
+    override fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData {
         val commits = repHandler.fetchGitHistory(branch, 1, BenchmarkType.valueOf(benchmark))
-        return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark))
+        return performanceCalculator.getAveragePerformanceData(commits, BenchmarkType.valueOf(benchmark), Device(device))
     }
 
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)
