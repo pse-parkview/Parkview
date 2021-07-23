@@ -29,7 +29,7 @@
     <div class="divider"></div>
     <mat-checkbox color="primary"
                   [checked]="hideUnusableCommits"
-                  (change)="this.hideUnusableCommits = !this.hideUnusableCommits">
+                  (change)="toggleHideUnusableCommits()">
       Hide commits without data
     </mat-checkbox>
   </div>

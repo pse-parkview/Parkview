@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dialog/cookie-consent-dialog.component";
 import {CookieSettings} from "./interfaces/cookie-settings";
 import {CookieService as NgxCookieService} from "ngx-cookie";
+import {RecentGitHistorySettings} from "./interfaces/recent-git-history-settings";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CookieService {
   public readonly recentPlotsUpdate = new EventEmitter<void>();
 
   private static readonly NAME_SETTINGS = 'settings';
-  private static readonly NAME_RECENT_BRANCH = 'recent_branch';
+  private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
   private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
 
   constructor(private readonly dialog: MatDialog,
@@ -36,13 +37,37 @@ export class CookieService {
     this.ngxCookieService.putObject(CookieService.NAME_SETTINGS, settings);
   }
 
-  public getMostRecentBranch(): string | null {
-    const branchName: string = this.ngxCookieService.get(CookieService.NAME_RECENT_BRANCH);
-    return branchName ? branchName : null;
+  public saveGitHistoryBenchmarkType(benchmarkType: string): void {
+    const settings = this.getMostRecentGitHistorySettings();
+    settings.benchmarkType = benchmarkType;
+    this.ngxCookieService.putObject(CookieService.NAME_RECENT_GIT_HISTORY_SETTINGS, settings);
   }
 
-  public saveMostRecentBranch(branchName: string) {
-    this.ngxCookieService.put(CookieService.NAME_RECENT_BRANCH, branchName);
+  public saveGitHistoryBranch(branchName: string): void {
+    const settings = this.getMostRecentGitHistorySettings();
+    settings.branch = branchName;
+    this.ngxCookieService.putObject(CookieService.NAME_RECENT_GIT_HISTORY_SETTINGS, settings);
+  }
+
+  public saveGitHistoryHideUnusableCommits(hide: boolean): void {
+    const settings = this.getMostRecentGitHistorySettings();
+    settings.hideUnusableCommits = hide;
+    this.ngxCookieService.putObject(CookieService.NAME_RECENT_GIT_HISTORY_SETTINGS, settings);
+  }
+
+  public getMostRecentGitHistorySettings(): RecentGitHistorySettings {
+    const settings = this.ngxCookieService.getObject(CookieService.NAME_RECENT_GIT_HISTORY_SETTINGS) as RecentGitHistorySettings;
+    if (settings === undefined
+      || settings.benchmarkType === undefined
+      || settings.branch === undefined
+      || settings.hideUnusableCommits === undefined) {
+      return {
+        branch: '',
+        benchmarkType: '',
+        hideUnusableCommits: false,
+      };
+    }
+    return settings;
   }
 
   // TODO connect plot configuration cookies to places that are concerned
