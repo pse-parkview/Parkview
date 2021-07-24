@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import java.text.Normalizer
 
 /**
  * A single Solver, part of [SolverBenchmarkResult].

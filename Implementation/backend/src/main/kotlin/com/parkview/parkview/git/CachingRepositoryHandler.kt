@@ -54,6 +54,7 @@ class CachingRepositoryHandler(
                 handler.getNumberOfPages(branch)))
 
             return newBranch
+
         }
 
         // hit

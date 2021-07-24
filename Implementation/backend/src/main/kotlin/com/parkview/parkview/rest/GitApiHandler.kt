@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.*
@@ -92,7 +93,7 @@ private interface GitHubService {
     ): Call<HeadInfoModel>
 
 
-    @GET("repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
+    @GET("https://api.github.com/repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
     fun getDiff(
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
