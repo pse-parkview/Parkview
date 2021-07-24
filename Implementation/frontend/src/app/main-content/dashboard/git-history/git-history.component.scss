@@ -1,0 +1,99 @@
+@import "node_modules/nord/src/sass/nord";
+
+mat-card {
+  margin: 1vh;
+  color: $nord0;
+  // background-color: white;
+}
+
+mat-expansion-panel {
+  margin: 1vh;
+}
+
+mat-expansion-panel span {
+  margin: 0 auto;
+}
+
+ul li {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.selection {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.divider {
+  margin-right: 1vh;
+}
+
+.benchmark .date {
+  color: $nord3;
+}
+
+.benchmark .author {
+  color: $nord0;
+}
+
+.benchmark {
+  color: $nord14;
+}
+
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+}
+
+.sha {
+  flex: 1;
+  justify-content: left;
+}
+
+.date, .author {
+  flex: 2;
+  justify-content: left;
+}
+
+.message-preview {
+  flex: 4;
+  justify-content: left;
+}
+
+.hidden {
+  display: none;
+}
+
+.message {
+  margin: 12px;
+  color: $nord0;
+}
+
+.hash {
+  color: $nord9;
+  margin: 12px;
+}
+
+.devices {
+  margin: 12px 0;
+  float: right;
+  color: $nord0;
+}
+
+.device-margin {
+  margin: 0 12px;
+}
+
+.checkbox {
+  color: $nord14
+}
+
+.noData {
+  font-style: oblique;
+  color: $nord4;
+}

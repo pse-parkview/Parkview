@@ -1,0 +1,14 @@
+<button [routerLink]="''">
+  go to dashboard
+</button>
+
+<button (click)="tmpOnClick($event)">
+  gaming
+</button>
+
+<button (click)="spawnPlotConfigDialog($event)">
+  spawn plot config dialog
+</button>
+
+<app-summary-card [config]="testSummaryConfig">
+</app-summary-card>

@@ -1,6 +1,18 @@
 package com.parkview.parkview.git
 
 /**
+ * Single datapoint for a benchmark result
+ */
+interface Datapoint {
+    /**
+     * Serializes components like Solver, Preconditioner etc
+     *
+     * @return serialized components in json format
+     */
+    fun serializeComponentsToJson(): String
+}
+
+/**
  * Interface for representing a single benchmark result for a given benchmark type.
  */
 interface BenchmarkResult {
@@ -17,12 +29,17 @@ interface BenchmarkResult {
     /**
      * name of benchmark
      */
-    val benchmark: Benchmark
+    val benchmark: BenchmarkType
+
+    /**
+     * datapoints of benchmark
+     */
+    val datapoints: List<Datapoint>
 
     /**
      * Returns a summary value for this benchmark result
      *
      * @return summary value
      */
-    fun getSummaryValue(): Double
+    val summaryValues: Map<String, Double>
 }

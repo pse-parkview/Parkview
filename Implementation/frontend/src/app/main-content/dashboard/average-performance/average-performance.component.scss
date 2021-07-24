@@ -1,0 +1,27 @@
+@import "node_modules/nord/src/sass/nord";
+
+.device-selection {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.device-selection-devices {
+  flex: 1;
+}
+
+.performance-wrapper {
+  width: available;
+}
+
+mat-card {
+  margin: 1vh;
+}
+
+mat-card-title {
+  color: $nord0;
+}
+
+ mat-card-content {
+   color: $nord0;
+ }

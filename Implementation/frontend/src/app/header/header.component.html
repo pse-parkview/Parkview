@@ -1,0 +1,10 @@
+<mat-toolbar class="header">
+  <button mat-icon-button (click)="sideBarToggle.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ul class="clickable"
+      [routerLink]="'/'">
+    <li><img src="assets/parkview.png" alt="toolbar-logo"></li>
+    <li><p class="parkview">Parkview</p></li>
+  </ul>
+</mat-toolbar>

@@ -1,22 +1,17 @@
 package com.parkview.parkview.database
 
-import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
 
 /**
  * Exception for handling missing benchmark results.
  *
- * @param benchmarkResult benchmark result that is missing
+ * @param commit chosen commit
+ * @param device chosen device
+ * @param benchmark chosen benchmark type
  */
-class MissingBenchmarkResultException(benchmarkResult: BenchmarkResult) : Exception(
-    "Error, the benchmark result for ${benchmarkResult.benchmark.name} on " +
-            "commit ${benchmarkResult.commit.sha} using device ${benchmarkResult.device.name} could not be found."
-)
-
-/**
- * Exception for handling missing branches.
- *
- * @param branchName name of branch that is missing
- */
-class MissingBranchException(branchName: String) : Exception(
-    "Error, the branch with name $branchName could not be found."
+class MissingBenchmarkResultException(commit: Commit, device: Device, benchmark: BenchmarkType) : Exception(
+    "Error, the benchmark result for $benchmark on " +
+            "commit ${commit.sha} using device ${device.name} could not be found."
 )

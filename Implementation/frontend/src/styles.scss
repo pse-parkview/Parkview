@@ -1,0 +1,31 @@
+@import "node_modules/nord/src/sass/nord";
+
+:root {
+  --gb-bg: #fbf1c7;
+  --gb-light-gray: #928374;
+  --gb-red: #cc241d;
+  --gb-dark-red: #9d0006;
+  --gb-green: #98971a;
+  --gb-dark-green: #79740e;
+  --gb-yellow: #d79921;
+  --gb-dark-yellow: #b57614;
+  --gb-blue: #458588;
+  --gb-dark-blue: #076678;
+  --gb-purple: #b16286;
+  --gb-dark-purple: #8f3f71;
+  --gb-aqua: #689d6a;
+  --gb-dark-aqua: #427b58;
+  --gb-gray: #7c6f64;
+  --gb-fg: #3c3836;
+  --gb-orange: #d65d0e;
+  --gb-dark-orange: #af3a03;
+
+  background: $nord6;
+}
+
+html, body {
+  height: 100%;
+  color: $nord0;
+}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

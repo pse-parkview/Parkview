@@ -1,0 +1,120 @@
+<h3>{{ benchmarkName }}</h3>
+<table mat-table
+       [dataSource]="commitsAndDevices"
+       class="mat-elevation-z0">
+  <ng-container matColumnDef="sha">
+    <th mat-header-cell *matHeaderCellDef id="sha"> Sha </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.sha | abbreviate: 6}} </td>
+  </ng-container>
+  <ng-container matColumnDef="timestamp">
+    <th mat-header-cell *matHeaderCellDef id="date"> Date </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.date.toString()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="author">
+    <th mat-header-cell *matHeaderCellDef id="author"> Author </th>
+    <td mat-cell *matCellDef="let p"> {{p.commit.author.split() | abbreviate: 6}} </td>
+  </ng-container>
+  <ng-container matColumnDef="device">
+    <th mat-header-cell *matHeaderCellDef id="device"> Device </th>
+    <td mat-cell *matCellDef="let p"> {{p.device}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['sha', 'timestamp', 'author', 'device']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['sha', 'timestamp', 'author', 'device'];"></tr>
+</table>
+<br>
+<br>
+<span *ngIf="commitsAndDevices.length > 2"
+      class="warning">
+  Comparing more than 2 commits is currently impossible. <br>
+</span>
+<br>
+
+<mat-form-field>
+  <mat-label>Available Plot Types</mat-label>
+  <mat-select [(value)]="currentPlotTypeOption"
+              [disabled]="availablePlotTypeOptions.length === 0"
+              (selectionChange)="updatePlotTypeOption()">
+    <mat-option *ngFor="let plotTypeOption of availablePlotTypeOptions"
+                [value]="plotTypeOption">
+      {{plotTypeOption.plotName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Available Chart Types</mat-label>
+  <mat-select [(value)]="currentChartType"
+              [disabled]="currentPlotTypeOption.plottableAs.length === 0">
+    <mat-option *ngFor="let plottype of currentPlotTypeOption.plottableAs"
+                [value]="plottype">
+      {{plottype}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngFor="let plotOption of availablePlotOptions">
+  <mat-form-field *ngIf="plotOption.number">
+    <mat-label>{{plotOption.name}}</mat-label>
+    <input matInput
+           id="{{plotOption.name}}"
+           type="number"
+           placeholder="0"
+           [(ngModel)]="currentPlotOptions[plotOption.name]">
+  </mat-form-field>
+  <mat-form-field *ngIf="!plotOption.number">
+    <mat-label>{{plotOption.name}}</mat-label>
+    <mat-select [id]="plotOption.name"
+                [disabled]="plotOption.options.length === 0"
+                [(value)]="currentPlotOptions[plotOption.name]"
+                (selectionChange)="refreshDefaults()">
+      <mat-option *ngFor="let o of plotOption.options"
+                  [value]="o">
+        {{ o }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div>
+  <mat-expansion-panel hideToggle
+                       [disabled]="true">
+    <mat-expansion-panel-header>
+      <mat-checkbox (change)="togglePanel()"
+                    [(ngModel)]="customizePlotLabels">
+        Customize Labels
+      </mat-checkbox>
+    </mat-expansion-panel-header>
+    <mat-form-field [hintLabel]="'e.g. Time Over Nonzeros'">
+      <mat-label>
+        Plot Title
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelTitle">
+    </mat-form-field>
+
+    <mat-form-field [hintLabel]="'e.g. Time'">
+      <mat-label>
+        Y Axis Label
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelYAxis">
+    </mat-form-field>
+
+    <mat-form-field [hintLabel]="'e.g. Nonzeros'">
+      <mat-label>
+        X Axis Label
+      </mat-label>
+      <input matInput [(ngModel)]="plotlabelXAxis">
+    </mat-form-field>
+  </mat-expansion-panel>
+</div>
+
+<br>
+<!--TODO make them look palatable-->
+<button mat-button
+        (click)="saveAndStoreCurrentConfig()">
+  Save Plotconfig
+</button>
+<button mat-button
+        [matDialogClose]="true"
+        (click)="navigateToPlotView()">
+  Plot
+</button>
