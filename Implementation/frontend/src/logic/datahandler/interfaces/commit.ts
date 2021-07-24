@@ -1,12 +1,14 @@
 /**
  * Encapsulates information regarding a commit
  */
+import {Device} from "./device";
+
 export interface Commit {
 
   /**
    * The date on which the commit was made
    */
-  get date(): Date;
+  get date(): string;
 
   /**
    * The commit message
@@ -31,5 +33,5 @@ export interface Commit {
   /**
    * Available devices?
    */
-  get availableDevices(): { name: string }[];
+  get availableDevices(): Device[];
 }

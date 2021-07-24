@@ -1,30 +1,37 @@
 <mat-card>
-
   <mat-card-title>Bar Plot</mat-card-title>
 
   <div class="plot">
     <canvas [chartType]="chartType"
             [datasets]="chartData"
-            [options]="chartOptions" baseChart
+            [options]="chartOptions"
             [labels]="chartLabels"
+            baseChart
+            id="canvas"
             class="chart">
     </canvas>
   </div>
 
-  <!-- TODO style line plot select so that it looks palatable-->
-  <mat-form-field>
-    <mat-label>
-      y Axis Scaling
-    </mat-label>
-    <mat-select [(value)]="this.yType"
-                (selectionChange)="updateChart()">
-      <mat-option [value]="'linear'">
-        Linear
-      </mat-option>
-      <mat-option [value]="'logarithmic'">
-        Logarithmic
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="settings">
+    <mat-form-field>
+      <mat-label>
+        y Axis Scaling
+      </mat-label>
+      <mat-select [(value)]="this.yType"
+                  (selectionChange)="updateChart()">
+        <mat-option [value]="'linear'">
+          Linear
+        </mat-option>
+        <mat-option [value]="'logarithmic'">
+          Logarithmic
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <a class="download-btn"
+       mat-button
+       (click)="downloadCanvas($event)">
+      Download Plot
+    </a>
+  </div>
 </mat-card>

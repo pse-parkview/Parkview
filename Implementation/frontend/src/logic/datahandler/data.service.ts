@@ -3,9 +3,10 @@ import {Commit} from "./interfaces/commit";
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {AvailablePlotTypes} from "../plothandler/interfaces/available-plot-types";
 import {Summary} from "./interfaces/summary";
 import {PlotData} from "../plothandler/interfaces/plot-data";
+import {Device} from "./interfaces/device";
+import {PlotTypeOption} from "../plothandler/interfaces/available-plot-types";
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +33,13 @@ export class DataService {
     return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
   }
 
-  getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<AvailablePlotTypes> {
+  getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<PlotTypeOption[]> {
     let params: HttpParams = new HttpParams()
       .set('benchmark', benchmarkType);
     commits.forEach(c => params = params.append('shas', c.sha));
     devices.forEach(d => params = params.append('devices', d));
 
-    return this.http.get<AvailablePlotTypes>(`${this.url}/availablePlots`, {params: params});
+    return this.http.get<Array<PlotTypeOption>>(`${this.url}/availablePlots`, {params: params});
   }
 
   getPlotData(config: PlotConfiguration): Observable<PlotData> {
@@ -57,5 +58,20 @@ export class DataService {
       .set('sha', commitSha)
       .set('device', device);
     return this.http.get<Summary>(`${this.url}/summaryValues`,{params: params});
+  }
+
+  getAvailableDevicesForAveragePerformance(benchmarkType: string, branchName: string): Observable<Device[]> {
+    const params: HttpParams = new HttpParams()
+      .set('benchmark', benchmarkType)
+      .set('branch', branchName);
+    return this.http.get<Array<Device>>(`${this.url}/availableDevices`, {params: params});
+  }
+
+  getAveragePerformance(benchmarkType: string, branchName: string, device: string): Observable<PlotData>{
+    const params: HttpParams = new HttpParams()
+      .set('benchmark', benchmarkType)
+      .set('branch', branchName)
+      .set('device', device);
+    return this.http.get<PlotData>(`${this.url}/averagePerformance`, {params: params});
   }
 }

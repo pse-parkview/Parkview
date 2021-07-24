@@ -10,7 +10,7 @@ import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 @Component({
   selector: 'app-bar-plot',
   templateUrl: './bar-plot.component.html',
-  styleUrls: ['./bar-plot.component.scss']
+  styleUrls: ['../../../lib/plot-component-util/styles/plot-component-styles.scss']
 })
 export class BarPlotComponent implements OnInit {
 
@@ -71,11 +71,11 @@ export class BarPlotComponent implements OnInit {
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
 
-      this.dataHandler.getPlotData(config).subscribe(d => {
-        this.chartData = d.datasets;
-        this.chartLabels = d.labels;
+      this.dataHandler.getPlotData(config).subscribe(data => {
+        this.chartData = PlotUtils.colorizeDataSet(data.datasets);
+        this.chartLabels = data.labels;
+        this.updateChart();
       });
-      this.updateChart();
     });
   }
 
@@ -95,5 +95,9 @@ export class BarPlotComponent implements OnInit {
       }
     }
     this.chart.refresh();
+  }
+
+  downloadCanvas(event: MouseEvent) {
+    PlotUtils.downloadCanvas(event, `${this.chartType}-plot.png`);
   }
 }

@@ -29,6 +29,8 @@ services:
   parkview-backend:
     build: backend
     container_name: parkview-backend
+    depends_on:
+      - parkview-postgres
     environment:
       - DB_SERVER=parkview-postgres
     ports:

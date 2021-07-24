@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../../logic/datahandler/data.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
-import {CommitSelectionService} from "../../../../logic/commit-selection-handler/commit-selection.service";
+import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
+import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
 
 @Component({
   selector: 'app-git-history',
@@ -23,21 +24,26 @@ export class GitHistoryComponent implements OnInit {
   selected: { commit: Commit, device: string }[] = [];
 
   constructor(private readonly dataService: DataService,
-              private readonly commitService: CommitSelectionService,
+              private readonly commitService: SelectionService,
               private readonly cookieService: CookieService) {
   }
 
   ngOnInit(): void {
+    const lastSettings: RecentGitHistorySettings = this.cookieService.getMostRecentGitHistorySettings();
+    this.hideUnusableCommits = lastSettings.hideUnusableCommits;
     this.dataService.getBenchmarks().subscribe((receivedBenchmarkNames: string[]) => {
       this.benchmarkNames = receivedBenchmarkNames;
-      this.currentlySelectedBenchmarkName = this.benchmarkNames.length > 0 ? this.benchmarkNames[0] : '';
+      if (this.benchmarkNames.includes(lastSettings.benchmarkType)) {
+        this.currentlySelectedBenchmarkName = lastSettings.benchmarkType;
+      } else {
+        this.currentlySelectedBenchmarkName = this.benchmarkNames.length > 0 ? this.benchmarkNames[0] : '';
+      }
       this.updateCommitHistory();
     });
     this.dataService.getBranchNames().subscribe((receivedBranchNames: string[]) => {
       this.branchNames = receivedBranchNames;
-      const lastSelectedBranch = this.cookieService.getMostRecentBranch();
-      if (lastSelectedBranch !== null && this.branchNames.includes(lastSelectedBranch)) {
-        this.currentlySelectedBranch = lastSelectedBranch;
+      if (this.branchNames.includes(lastSettings.branch)) {
+        this.currentlySelectedBranch = lastSettings.branch;
       } else {
         this.currentlySelectedBranch = this.branchNames.length > 0 ? this.branchNames[0] : '';
       }
@@ -50,6 +56,7 @@ export class GitHistoryComponent implements OnInit {
       return;
     }
     this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
+    this.commitService.updateBranchName(this.currentlySelectedBranch);
     this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
@@ -58,13 +65,19 @@ export class GitHistoryComponent implements OnInit {
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
-    this.cookieService.saveMostRecentBranch(branchChoice);
+    this.cookieService.saveGitHistoryBranch(branchChoice);
     this.updateCommitHistory();
   }
 
   selectBenchmarkName(benchmarkNameChoice: string): void {
     this.currentlySelectedBenchmarkName = benchmarkNameChoice;
+    this.cookieService.saveGitHistoryBenchmarkType(benchmarkNameChoice);
     this.updateCommitHistory();
+  }
+
+  toggleHideUnusableCommits(): void {
+    this.hideUnusableCommits = !this.hideUnusableCommits;
+    this.cookieService.saveGitHistoryHideUnusableCommits(this.hideUnusableCommits);
   }
 
   selectCommit(commit: Commit) {

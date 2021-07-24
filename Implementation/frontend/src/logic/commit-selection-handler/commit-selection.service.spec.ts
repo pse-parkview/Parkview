@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CommitSelectionService } from './commit-selection.service';
+import { SelectionService } from './selection.service';
 
 describe('CommitService', () => {
-  let service: CommitSelectionService;
+  let service: SelectionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CommitSelectionService);
+    service = TestBed.inject(SelectionService);
   });
 
   it('should be created', () => {

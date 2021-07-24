@@ -29,7 +29,7 @@
     <div class="divider"></div>
     <mat-checkbox color="primary"
                   [checked]="hideUnusableCommits"
-                  (change)="this.hideUnusableCommits = !this.hideUnusableCommits">
+                  (change)="toggleHideUnusableCommits()">
       Hide commits without data
     </mat-checkbox>
   </div>
@@ -39,7 +39,8 @@
                      [disabled]="commit.availableDevices.length == 0"
                      [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
   <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
-    <span class="date">{{commit.date}} </span>
+    <span class="sha">{{commit.sha | abbreviate: 6}}</span>
+    <span class="date">{{commit.date | dateFormatter: 'medium'}}</span>
     <span class="author">{{commit.author}} </span>
     <span class="message-preview">{{commit.message | abbreviate: 50}}</span>
   </mat-expansion-panel-header>

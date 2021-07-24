@@ -43,25 +43,26 @@ ul li {
   color: $nord14;
 }
 
-.date {
-  flex: 1;
-  justify-content: left;
-}
-
-.author {
-  flex: 1;
-  justify-content: left;
-}
-
-.message-preview {
-  flex: 2;
-  justify-content: left;
-}
 
 .title-container {
   display: flex;
   flex-direction: row;
   align-content: flex-start;
+}
+
+.sha {
+  flex: 1;
+  justify-content: left;
+}
+
+.date, .author {
+  flex: 2;
+  justify-content: left;
+}
+
+.message-preview {
+  flex: 4;
+  justify-content: left;
 }
 
 .hidden {
