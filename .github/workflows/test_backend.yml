@@ -41,10 +41,6 @@ jobs:
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-        
-      - name: Adjust badge text
-        shell: bash
-        run: sed -i s/coverage/backend-coverage/g .github/badges/jacoco.svg
           
       - name: Upload badge
         uses: exuanbo/actions-deploy-gist@v1
