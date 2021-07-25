@@ -30,7 +30,7 @@ jobs:
         working-directory: Implementation/backend/
 
       - name: Generate Jacoco Badge
-        uses: tadachs/jacoco-badge-generator@f81064685fc82a7fc556d369218b8c7449b29fe1
+        uses: tadachs/jacoco-badge-generator@c5d9d019e1a2ac66bc3a3ef3a0a820aff7732afd
         with:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
           message: develop-coverage
