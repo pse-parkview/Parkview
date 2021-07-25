@@ -1,4 +1,4 @@
-name: Build Backend
+name: Test Backend
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-backend:
+  test-backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,25 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
-      - name: Build with Gradle
-        run: ./gradlew build -x test
+      - name: Test with Gradle
+        run: ./gradlew test
         working-directory: Implementation/backend/
+      
+      - name: Generate Jacoco Badge
+        uses: tadachs/jacoco-badge-generator@f81064685fc82a7fc556d369218b8c7449b29fe1
+        with:
+          jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
+          message: develop-coverage
+          
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+          
+      - name: Upload Badge
+        uses: tadachs/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_coverage.svg
+          file_path: .github/badges/jacoco.svg
