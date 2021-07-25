@@ -28,6 +28,24 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
-      - name: Build with Gradle
-        run: ./gradlew test --scan
+      - name: Test with Gradle
+        run: ./gradlew test
         working-directory: Implementation/backend/
+      
+      - name: Generate Jacoco Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
+          
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+          
+      - name: Upload Badge
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_coverage.svg
+          file_path: .github/badges/jacoco.svg

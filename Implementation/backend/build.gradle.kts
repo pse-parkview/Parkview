@@ -33,7 +33,7 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
 	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 	implementation("org.postgresql:postgresql:42.2.2")
-	implementation("com.zaxxer:HikariCP:2.3.2")
+  implementation("com.zaxxer:HikariCP:2.3.2")
 	implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
 	// doc
