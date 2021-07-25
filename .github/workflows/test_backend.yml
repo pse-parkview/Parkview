@@ -9,7 +9,6 @@ on:
     branches:
       - main
       - develop
-
   workflow_dispatch:
 
 jobs:
@@ -18,31 +17,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
-
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
       - name: Test with Gradle
         run: ./gradlew test
         working-directory: Implementation/backend/
-      
+
       - name: Generate Jacoco Badge
-        uses: cicirello/jacoco-badge-generator@v2
+        uses: tadachs/jacoco-badge-generator@f81064685fc82a7fc556d369218b8c7449b29fe1
         with:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
-          
+          message: develop-coverage
+
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-          
-      - name: Upload badge
+
+      - name: Upload Badge
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.BADGES_GIST_SECRET }}
