@@ -1,1 +1,18 @@
-<p>load-from-template-dialog works!</p>
+<mat-form-field>
+  <mat-label>Selected Saved Plot Configuration</mat-label>
+  <mat-select [(value)]="currentSelectedPlotConfiguration"
+              class="select"
+              id="plotConfigurationSelection">
+    <mat-option *ngFor="let plotConfig of configs"
+                [value]="plotConfig">
+      {{plotConfig.labelForTitle}} ({{plotConfig.chartType}})
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button mat-stroked-button
+        id="navigateToPlotView"
+        (click)="navigateToPlotView()"
+        mat-dialog-close="true">
+  Open Plot
+</button>
