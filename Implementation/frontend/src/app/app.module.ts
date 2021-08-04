@@ -45,6 +45,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import {MatIconModule} from "@angular/material/icon";
         MatSidenavModule,
         MatToolbarModule,
         MatIconModule,
+        ClipboardModule,
     ],
   providers: [
     CookieService
