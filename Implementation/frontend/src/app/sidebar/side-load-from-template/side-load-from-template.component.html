@@ -1,6 +1,12 @@
-<mat-card>
-  <button mat-stroked-button
-          (click)="spawnTemplateDialog()">
-    Select From A Saved Template
-  </button>
-</mat-card>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    Available Templates
+  </mat-expansion-panel-header>
+  <div *ngIf="usableTemplates.length < 1"
+       class="greyed-out">
+    No templates for selected benchmark and selected commits available.
+  </div>
+  <mat-card *ngFor="let template of usableTemplates">
+    {{template.labelForTitle}}
+  </mat-card>
+</mat-expansion-panel>
