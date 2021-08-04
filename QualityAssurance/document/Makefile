@@ -1,4 +1,4 @@
-NAME=design
+NAME=qa
 
 default: $(NAME).pdf
 
