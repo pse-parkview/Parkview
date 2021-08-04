@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {LoadFromTemplateDialogComponent} from "../../dialogs/load-from-template-dialog/load-from-template-dialog.component";
 
 @Component({
   selector: 'app-side-load-from-template',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideLoadFromTemplateComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private readonly matDialog: MatDialog) {
+    // only suitable for DI
   }
 
+  ngOnInit(): void {
+    // no initialiation necessary
+  }
+
+  spawnTemplateDialog(): void {
+    this.matDialog.open(LoadFromTemplateDialogComponent);
+  }
 }
