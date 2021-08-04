@@ -16,7 +16,6 @@ import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cook
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
 import {SidePreviousPlotsComponent} from './sidebar/side-previous-plots/side-previous-plots.component';
-import {PlotCardComponent} from './sidebar/side-previous-plots/plot-card/plot-card.component';
 import {LibModule} from "../lib/lib.module";
 import {LogicModule} from "../logic/logic.module";
 import {DashboardComponent} from './main-content/dashboard/dashboard.component';
@@ -63,7 +62,6 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     SideCurrentChosenCommitComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
-    PlotCardComponent,
     DashboardComponent,
     TestComponent,
     LinePlotComponent,
