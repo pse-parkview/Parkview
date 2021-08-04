@@ -12,6 +12,7 @@ import {RecentGitHistorySettings} from "./interfaces/recent-git-history-settings
 export class CookieService {
 
   public readonly recentPlotsUpdate = new EventEmitter<void>();
+  public readonly savedTemplateUpdate = new EventEmitter<void>();
 
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
@@ -90,7 +91,7 @@ export class CookieService {
     return recentConfigs ? recentConfigs : [];
   }
 
-  public addSavedPlotConfig(plotConfig: PlotConfiguration): void {
+  public addTemplate(plotConfig: PlotConfiguration): void {
     let savedConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
     if (savedConfigs !== undefined) {
       savedConfigs.push(plotConfig);
@@ -98,9 +99,10 @@ export class CookieService {
       savedConfigs = [ plotConfig ];
     }
     this.ngxCookieService.putObject(CookieService.NAME_SAVED_PLOT_CONFIGS, savedConfigs);
+    this.savedTemplateUpdate.emit();
   }
 
-  public getSavedPlotConfigurations(): PlotConfiguration[] {
+  public getSavedTemplates(): PlotConfiguration[] {
     const savedPlotConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
     return savedPlotConfigs ? savedPlotConfigs : [];
   }

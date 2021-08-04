@@ -1,3 +1,7 @@
-
+@import "node_modules/nord/src/sass/nord";
 // general sidebar styles
 @import "src/app/sidebar/sidebar.component";
+
+.greyed-out {
+  color: $nord4;
+}
