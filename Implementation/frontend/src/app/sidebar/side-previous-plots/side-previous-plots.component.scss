@@ -1,12 +1,7 @@
 @import "node_modules/nord/src/sass/nord";
 
-mat-card {
-  margin-bottom: 1vh;
-}
-
-mat-card-content {
-  color: $nord14;
-}
+// general sidebar styles
+@import "src/app/sidebar/sidebar.component";
 
 .devices {
   color: $nord3;
@@ -25,8 +20,4 @@ mat-card-content {
 .container {
   display: flex;
   flex-direction: row;
-}
-
-.clickable:hover {
-  cursor: pointer;
 }
