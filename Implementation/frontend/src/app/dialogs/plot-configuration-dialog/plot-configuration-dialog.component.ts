@@ -83,7 +83,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   }
 
   saveAndStoreCurrentConfig(): void {
-    this.cookieService.addSavedPlotConfig(this.compilePlotConfig());
+    this.cookieService.addTemplate(this.compilePlotConfig());
     this.notificationService.notify('Saved plot configurations within cookies');
   }
 
