@@ -16,6 +16,7 @@ export class CookieService {
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
   private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
+  private static readonly NAME_SAVED_PLOT_CONFIGS = 'saved_plot_configs';
 
   constructor(private readonly dialog: MatDialog,
               private readonly ngxCookieService: NgxCookieService,
@@ -70,7 +71,6 @@ export class CookieService {
     return settings;
   }
 
-  // TODO connect plot configuration cookies to places that are concerned
   public addRecentPlotConfiguration(plotConfig: PlotConfiguration): void {
     let recentConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_RECENT_PLOT_CONFIGS) as Array<PlotConfiguration>;
     if (recentConfigs !== undefined) {
@@ -90,4 +90,18 @@ export class CookieService {
     return recentConfigs ? recentConfigs : [];
   }
 
+  public addSavedPlotConfig(plotConfig: PlotConfiguration): void {
+    let savedConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
+    if (savedConfigs !== undefined) {
+      savedConfigs.push(plotConfig);
+    } else {
+      savedConfigs = [ plotConfig ];
+    }
+    this.ngxCookieService.putObject(CookieService.NAME_SAVED_PLOT_CONFIGS, savedConfigs);
+  }
+
+  public getRecentPlotConfiguration(): PlotConfiguration[] {
+    const savedPlotConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
+    return savedPlotConfigs ? savedPlotConfigs : [];
+  }
 }
