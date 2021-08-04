@@ -100,7 +100,7 @@ export class CookieService {
     this.ngxCookieService.putObject(CookieService.NAME_SAVED_PLOT_CONFIGS, savedConfigs);
   }
 
-  public getRecentPlotConfiguration(): PlotConfiguration[] {
+  public getSavedPlotConfigurations(): PlotConfiguration[] {
     const savedPlotConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
     return savedPlotConfigs ? savedPlotConfigs : [];
   }
