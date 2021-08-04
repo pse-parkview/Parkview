@@ -25,6 +25,7 @@ export class ScatterPlotComponent implements OnInit {
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
   public pointSize: number = 2;
+  public url = window.location.href;
 
   public chartOptions: ChartOptions = {
     title: {
