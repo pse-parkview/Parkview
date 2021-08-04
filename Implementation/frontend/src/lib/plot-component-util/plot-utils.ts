@@ -23,20 +23,20 @@ export class PlotUtils {
     '#E949BF',
     '#5FEF3F',
     '#24614F',
-    '#6bc4a9',
+    '#6BC4A9',
     '#676270',
-    '#6c78a7',
-    '#d3b787',
-    '#525d7c',
-    '#a01a6c',
-    '#1aa087',
-    '#b59af1',
-    '#d69a9a',
-    '#3140be',
-    '#236d2b',
-    '#73656d',
-    '#6d6c5a',
-    '#4b9436',
+    '#6C78A7',
+    '#D3B787',
+    '#525D7C',
+    '#A01A6C',
+    '#1AA087',
+    '#B59AF1',
+    '#D69A9A',
+    '#3140BE',
+    '#236D2B',
+    '#73656D',
+    '#6D6C5A',
+    '#4B9436',
 
   ];
 
@@ -56,7 +56,7 @@ export class PlotUtils {
       'chartType'
     ];
 
-    if (!mandatoryParams.some(k => !paramMap.has(k))) { // if there arent any mising mandatory keys
+    if (!mandatoryParams.some(k => !paramMap.has(k))) { // if there arent any missing mandatory keys
       const extraOptions: { [key: string]: string } = {};
       paramMap.keys.filter(k => !mandatoryParams.includes(k))
         .forEach((k => extraOptions[k] = paramMap.get(k) as string));
