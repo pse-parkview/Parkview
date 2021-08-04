@@ -32,4 +32,4 @@ jobs:
         working-directory: Implementation/frontend
         run: |
           npm i
-          npm run build:prod
+          npm run build
