@@ -7,6 +7,7 @@
       <mat-label>Selected Branch</mat-label>
       <mat-select [(value)]="currentlySelectedBranch"
                   class="select"
+                  id="branchSelection"
                   (selectionChange)="selectBranch(currentlySelectedBranch)">
         <mat-option *ngFor="let branchname of branchNames"
                     [value]="branchname">
@@ -19,6 +20,7 @@
       <mat-label>Selected Benchmark</mat-label>
       <mat-select [(value)]="currentlySelectedBenchmarkName"
                   class="select"
+                  id="benchmarkSelection"
                   (selectionChange)="selectBenchmarkName(currentlySelectedBenchmarkName)">
         <mat-option *ngFor="let benchmarkName of benchmarkNames"
                     [value]="benchmarkName">
@@ -36,6 +38,7 @@
 </mat-card>
 <mat-expansion-panel hideToggle
                      *ngFor="let commit of commits"
+                     class="commitPanel"
                      [disabled]="commit.availableDevices.length == 0"
                      [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
   <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
@@ -57,6 +60,6 @@
     </ul>
   </section>
   <mat-action-row>
-    <button mat-button color="primary" (click)="selectCommit(commit)">Select</button>
+    <button mat-button color="primary" (click)="selectCommit(commit)" id="selectCommitButton">Select</button>
   </mat-action-row>
 </mat-expansion-panel>
