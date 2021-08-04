@@ -29,6 +29,7 @@
 \usepackage[nonumberlist, toc]{glossaries}     % provides glossary commands, [toc] to appear in table of contents
 \usepackage{graphicx}
 \usepackage{dirtree}
+\usepackage[width=2cm, filledcolor=green]{progressbar}
 \graphicspath{ {./images/} }
 \hypersetup{
 	pdftitle={Design},
@@ -68,6 +69,16 @@ This document describes in detail the quality assurance phase of \parkview{}, us
 
 \input{scenarios.tex}
 \clearpage
+
+\input{coverage.tex}
+\clearpage
+
+\input{ci.tex}
+\clearpage
+
+\input{issues.tex}
+\clearpage
+
 
 \appendix
 
