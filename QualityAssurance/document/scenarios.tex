@@ -1,0 +1,130 @@
+\section{Test Scenarios}
+
+The test scenarios are taken from the specification (T1, ...).
+
+\subsection{(T1) Create Plot}
+Tests the basic navigation of the application and the generation of a plot from a set of benchmark configurations.
+
+\begin{center}
+  \begin{tabular}{|l|ll|}
+    \hline
+    Create Plot & \PASS & Tested via \textcolor{orange}{Selenium} \\
+    \hline
+    \textbf{T1.1} & & \\
+    \PASS & \textbf{State} & User has the application open and no commits selected \\
+          & & The database contains benchmark results \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects two commits \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & Commits get added to the list of selected commits \\[.5\normalbaselineskip]
+    \hline
+    \textbf{T1.2} & & \\
+    \PASS &  \textbf{State} & User has two commits selected \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Create New Plot} option \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The configuration panel appears \\[.5\normalbaselineskip]
+    \hline
+    \textbf{T1.3} & & \\
+    \PASS & \textbf{State} & User has two commits selected and the configuration panel open \\[.5\normalbaselineskip]
+    & \textbf{Action} & User adjusts the configuration \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & Configuration gets updated on screen \\[.5\normalbaselineskip]
+    \hline
+    \textbf{T1.4} & & \\
+    \PASS & \textbf{State} & User has two commits selected and the \\
+          & & configuration panel open and has it configured \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Generate Plot option} \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The plot matching the configuration gets displayed to the user \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \subsection{(T2) Post Benchmark Results}
+  Tests sending benchmark results to the system and storing it.
+
+  \begin{center}
+    \begin{tabular}{ | l | l l | }
+      \hline
+      Post Benchmark & \PASS & Tested via \textcolor{orange}{JUnit} \\
+      Results & & \\
+      \hline
+      \textbf{T2.1} & & \\
+      \PASS &  \textbf{State} & Backend is running \\[.5\normalbaselineskip]
+    & \textbf{Action} & The system receives a POST request with valid data \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The data gets stored in the database \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \subsection{(T3) Error Handling}
+  Tests the system’s ability to deal with malformed input data and invalid requests.
+
+  \begin{center}
+    \begin{tabular}{|l|ll|}
+      \hline
+      Error Handling & \PASS & Tested via \textcolor{orange}{Script} \\
+      \hline
+      \textbf{T3.1} & & \\
+      \PASS & \textbf{State} & Database is empty \\[.5\normalbaselineskip]
+    & \textbf{Action} & System receives a POST request with malformed data for commit A \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & System does not store the data \\[.5\normalbaselineskip]
+    \hline
+    \textbf{T3.2} & & \\
+    \PASS &  \textbf{State} & Database is empty \\[.5\normalbaselineskip]
+    & \textbf{Action} & The system requests data for commit A \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & An error message gets displayed in the application \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+  \clearpage
+
+  \subsection{(T4) Templates}
+  Tests the creation, storage and usage of templates.
+
+  \begin{center}
+    \begin{tabular}{|l|ll|}
+      \hline
+      Templates & \PASS & Tested via \textcolor{orange}{Selenium} \\
+      \hline
+      \textbf{T4.1} & & \\
+      \PASS & \textbf{State} & User has commits selected and the application with the configuration \\
+            & & panel open. Configuration has been changed from the default \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Save Template} option \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & Template gets downloaded \\[.5\normalbaselineskip]
+    \hline
+    \textbf{T4.2} & & \\
+    \PASS & \textbf{State} & Template is downloaded \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Load Template} option \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & Template gets applied to the current configuration \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \subsection{(T5) Share}
+  Tests the ability to share links to plot views
+
+  \begin{center}
+    \begin{tabular}{ | l | l l | }
+      \hline
+      Share & \PASS & Tested via \textcolor{orange}{Selenium} \\
+      \hline
+      \textbf{T5.1} & & \\
+      \PASS &  \textbf{State} & User has the application with a plot open \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Share} option \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & A link that leads to an identical plot is copied to the clipboard \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+  \clearpage
+
+  \subsection{(T6) Export}
+  Tests the ability to export plots to .png files
+
+  \begin{center}
+    \begin{tabular}{ | l | l l | }
+      \hline
+      Export & \PASS & Tested via \textcolor{orange}{Selenium} \\
+      \hline
+      \textbf{T6.1} & & \\
+      \PASS &  \textbf{State} & User has the application with a plot open \\[.5\normalbaselineskip]
+    & \textbf{Action} & User selects the \enquote{Download Plot} option \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The user gets prompted with a download of the plot as a .png image \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
