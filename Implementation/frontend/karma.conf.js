@@ -29,6 +29,7 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
+        { type: 'json-summary' },
         { type: 'text-summary' }
       ]
     },
