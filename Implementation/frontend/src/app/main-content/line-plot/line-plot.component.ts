@@ -24,6 +24,7 @@ export class LinePlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
+  public url = window.location.href;
 
   public chartOptions: ChartOptions = {
     title: {

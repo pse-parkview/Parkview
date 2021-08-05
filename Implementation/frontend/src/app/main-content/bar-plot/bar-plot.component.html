@@ -33,5 +33,8 @@
        (click)="downloadCanvas($event)">
       Download Plot
     </a>
+
+    <button mat-button [cdkCopyToClipboard]="url" class="share-btn"><mat-icon>assignment</mat-icon></button>
+
   </div>
 </mat-card>
