@@ -33,7 +33,7 @@ jobs:
         working-directory: Implementation/frontend
         run: |
           npm i
-          npm run test
+          npm run test --browsers=ChromeHeadlessCI
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
