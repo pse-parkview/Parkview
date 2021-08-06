@@ -46,6 +46,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -70,33 +71,34 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     ScatterPlotComponent,
     BarPlotComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        LibModule,
-        LogicModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatSlideToggleModule,
-        MatButtonModule,
-        MatCardModule,
-        MatMenuModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        ChartsModule,
-        MatExpansionModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatTableModule,
-        MatInputModule,
-        MatRadioModule,
-        MatSliderModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatIconModule,
-        ClipboardModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    LibModule,
+    LogicModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    ChartsModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSliderModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    ClipboardModule,
+    MatTooltipModule,
+  ],
   providers: [
     CookieService
   ],

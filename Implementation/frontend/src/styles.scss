@@ -1,31 +1,88 @@
+@use '~@angular/material' as mat;
+
 @import "node_modules/nord/src/sass/nord";
+@import "~@angular/material/theming";
 
-:root {
-  --gb-bg: #fbf1c7;
-  --gb-light-gray: #928374;
-  --gb-red: #cc241d;
-  --gb-dark-red: #9d0006;
-  --gb-green: #98971a;
-  --gb-dark-green: #79740e;
-  --gb-yellow: #d79921;
-  --gb-dark-yellow: #b57614;
-  --gb-blue: #458588;
-  --gb-dark-blue: #076678;
-  --gb-purple: #b16286;
-  --gb-dark-purple: #8f3f71;
-  --gb-aqua: #689d6a;
-  --gb-dark-aqua: #427b58;
-  --gb-gray: #7c6f64;
-  --gb-fg: #3c3836;
-  --gb-orange: #d65d0e;
-  --gb-dark-orange: #af3a03;
+@include mat.core();
 
-  background: $nord6;
-}
+// Really dumb wrapper but angular material wants a map for some reason
+$nord: (
+  50: $nord0,
+  100: $nord1,
+  200: $nord2,
+  300: $nord3,
+  400: $nord4,
+  500: $nord5,
+  600: $nord6,
+  700: $nord7,
+  800: $nord8,
+  900: $nord9,
+  1000: $nord10,
+  1100: $nord11,
+  1200: $nord13,
+  1300: $nord14,
+  1400: $nord15,
+  contrast: (
+    50: $nord0,
+    100: $nord0,
+    200: $nord0,
+    300: $nord0,
+    400: $nord0,
+    500: $nord0,
+    600: $nord0,
+    700: $nord6,
+    800: $nord6,
+    900: $nord6,
+    1000: $nord6,
+    1100: $nord6,
+    1200: $nord6,
+    1300: $nord6,
+    1400: $nord6,
+  )
+);
+
+// Theme colors
+$light-primary: mat.define-palette($nord, 1000);
+$light-accent: mat.define-palette($nord, 900);
+$light-warn: mat.define-palette($nord, 1100);
+
+// Other main colors
+// Could map_get from $nord, but that map is only copy pasted for cringe angular material reasons
+$light-foreground: $nord0;
+$light-background: $nord6; // Still need to figure out how to use this properly
+
+$nord-light: mat.define-light-theme(
+  (
+    color: (
+      primary: $light-primary,
+      accent: $light-accent,
+      warn: $light-warn,
+    ),
+  )
+);
+
+// TODO: WIP
+//$dark-primary: mat.define-palette($nord, 1000);
+//$dark-accent: mat.define-palette($nord, 900);
+//$dark-warn: mat.define-palette($nord, 1100);
+
+// TODO: ALSO WIP
+//$dark-theme: mat.define-light-theme(
+//    (
+//      color: (
+//        primary: $dark-primary,
+//        accent: $dark-accent,
+//        warn: $dark-warn,
+//      ),
+//    )
+//);
+
+// still not sure whether this actually does what I think it does
+@include mat.all-component-themes($nord-light);
 
 html, body {
   height: 100%;
-  color: $nord0;
+  color: $light-foreground; // does this even do anything
 }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

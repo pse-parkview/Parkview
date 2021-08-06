@@ -1,4 +1,5 @@
 @import "node_modules/nord/src/sass/nord";
+@import "../../../styles";
 
 mat-card {
 
@@ -6,9 +7,8 @@ mat-card {
 
 }
 
-mat-card h3 {
-  color: $nord0;
-  margin-bottom: 0;
+mat-card h4 {
+  color: $light-foreground;
 }
 
 mat-card h5 {

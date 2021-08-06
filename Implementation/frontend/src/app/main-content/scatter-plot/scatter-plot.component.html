@@ -43,16 +43,23 @@
     <div>
       <label>Point Size: </label>
       <label>{{pointSize}}</label>
-      <mat-slider color="primary" min="1" max="5" step="0.5" value="1" [(ngModel)]="pointSize" (ngModelChange)="updateChart()"></mat-slider>
+      <mat-slider color="primary" min="1" max="5" step="0.5" value="1" [(ngModel)]="pointSize"
+                  (ngModelChange)="updateChart()"></mat-slider>
     </div>
 
-    <a mat-button
-       class="download-btn"
-       (click)="downloadCanvas($event)">
+    <button mat-flat-button color="primary"
+            matTooltip="Copy Plot Link to Clipboard" matTooltipPosition="above"
+            (click)="downloadCanvas($event)"
+            class="btn">
+      <mat-icon>download</mat-icon>
       Download Plot
-    </a>
+    </button>
 
-    <button mat-button [cdkCopyToClipboard]="url" class="share-btn"><mat-icon>assignment</mat-icon></button>
-
+    <button mat-flat-button color="primary"
+            matTooltip="Download Plot" matTooltipPosition="above" [cdkCopyToClipboard]="url"
+            class="btn">
+      <mat-icon>assignment</mat-icon>
+      Copy Link
+    </button>
   </div>
 </mat-card>
