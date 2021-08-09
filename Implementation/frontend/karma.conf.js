@@ -28,7 +28,6 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/frontend'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
         { type: 'json-summary' },
         { type: 'text-summary' }
       ]
@@ -40,6 +39,13 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    browsers: ['ChromeHeadless', 'ChromeHeadlessCI'],
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu']
+      }
+    }
   });
 };
