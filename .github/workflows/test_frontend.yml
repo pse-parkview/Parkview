@@ -49,5 +49,5 @@ jobs:
         with:
           percent: ${{ steps.extract_coverage.outputs.percent }}
           message: ${{ steps.extract_branch.outputs.branch }}-coverage
-          path: ./
+          output-path: ./
         
