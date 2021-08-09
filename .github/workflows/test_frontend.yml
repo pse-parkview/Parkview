@@ -50,4 +50,12 @@ jobs:
           percent: ${{ steps.extract_coverage.outputs.percent }}
           message: ${{ steps.extract_branch.outputs.branch }}-coverage
           output-path: ./
+          
+      - name: Upload Badge
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_coverage.svg
+          file_path: ./badge.svg
         
