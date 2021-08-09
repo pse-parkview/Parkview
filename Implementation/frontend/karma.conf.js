@@ -28,6 +28,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/frontend'),
       subdir: '.',
       reporters: [
+        { type: 'html' },
         { type: 'json-summary' },
         { type: 'text-summary' }
       ]
