@@ -1,0 +1,61 @@
+
+name: Test Frontend
+
+on:
+  push:
+    branches: 
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  test-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: Implementation/frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and npm run test
+        working-directory: Implementation/frontend
+        continue-on-error: true
+        run: |
+          npm i
+          npm run test:ci
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+        id: extract_branch
+      - name: Extract coverage
+        shell: bash
+        run: |
+          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" Implementation/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
+        id: extract_coverage
+      - name: Generate Coverage Badge
+        uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
+        with:
+          percent: ${{ steps.extract_coverage.outputs.percent }}
+          text: ${{ steps.extract_branch.outputs.branch }}-coverage
+          output-path: ./
+          
+      - name: Upload Badge
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_coverage.svg
+          file_path: ./badge.svg
+        
