@@ -38,7 +38,7 @@ jobs:
         uses: tadachs/jacoco-badge-generator@ff3c1b1278f965a1018d08330e27818be27bcb86
         with:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
-          message: ${{ steps.extract_branch.outputs.branch }}-coverage
+          message: ${{ steps.extract_branch.outputs.branch }}-coverage backend
           
       - name: Upload Badge
         uses: exuanbo/actions-deploy-gist@v1
