@@ -83,6 +83,7 @@ private interface GitHubService {
     fun getBranches(
         @Path("owner") owner: String,
         @Path("repoName") repoName: String,
+        @Query("page") page: Int,
     ): Call<List<BranchInfoModel>>
 
     @GET("repos/{owner}/{repoName}/git/refs/heads/{branch}")
@@ -140,9 +141,21 @@ class GitApiHandler(
             ?.map { Commit(it.sha, it.commit.message, it.commit.author.date, it.commit.author.name) }
             ?: throw GitApiException("Error while retrieving history")
 
-    override fun getAvailableBranches(): List<String> =
-        githubApi.getBranches(owner, repoName).execute().body()?.map { it.name }
-            ?: throw GitApiException("Error while retrieving available branches")
+    override fun getAvailableBranches(): List<String> {
+        var page = 1
+
+        val branches = mutableListOf<String>()
+        var request = githubApi.getBranches(owner, repoName, page).execute().body()?.map { it.name }
+                ?: throw GitApiException("Error while retrieving available branches")
+        while (request.isNotEmpty()) {
+            branches += request
+            page++
+            request = githubApi.getBranches(owner, repoName, page).execute().body()?.map { it.name }
+                ?: throw GitApiException("Error while retrieving available branches")
+        }
+
+        return branches
+    }
 
     override fun getNumberOfPages(branch: String): Int {
         val headInfo = githubApi.getHeadInfo(owner, repoName, branch).execute().body()
