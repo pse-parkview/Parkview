@@ -10,6 +10,7 @@ import com.parkview.parkview.rest.GitApiHandler
 import com.parkview.parkview.rest.ParkviewApiHandler
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -21,6 +22,9 @@ class ParkviewApplication {
     @Bean
     fun databaseHandler(appConfig: AppConfig): DatabaseHandler = CachingDatabaseHandler(
         ExposedHandler(
+            if (appConfig.database.embedded) {
+                EmbeddedPostgres.start().postgresDatabase
+            } else {
             HikariDataSource(HikariConfig()
                 .apply {
                     jdbcUrl = appConfig.database.datasource.jdbcUrl
@@ -28,6 +32,7 @@ class ParkviewApplication {
                     password = appConfig.database.datasource.password
                 }
             )
+            },
         ),
         maxCached = appConfig.database.maxCached,
     )

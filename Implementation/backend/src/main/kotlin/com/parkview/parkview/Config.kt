@@ -24,6 +24,7 @@ data class GitApiConfig(
 data class DatabaseConfig(
     val datasource: DataSourceConfig,
     val maxCached: Int,
+    val embedded: Boolean = false,
 )
 
 data class DataSourceConfig(
