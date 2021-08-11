@@ -1,7 +1,10 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.PlottableData
 
 /**
  * Interface for transforms using [SpmvBenchmarkResult].

@@ -1,23 +1,21 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.DatasetSeries
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
 
 class SingeBlasPlot : BlasPlotTransform {
     override val numInputsRange: IntRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter, PlotType.Line)
     override val name: String = "blasSingleBenchmark"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        PlotOption(
-            name = "yAxis",
-            options = listOf("time", "flops", "bandwidth")
-        ),
-        PlotOption(
-            name = "xAxis",
-            options = listOf("n", "r", "m", "k")
-        ),
+        BLAS_X_AXIS,
+        BLAS_Y_AXIS,
     )
 
     override fun transformBlas(

@@ -1,21 +1,18 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.solver
 
 import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
-import com.parkview.parkview.benchmark.SolverDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.*
 
 class SolverRuntimeBreakdown : SolverPlotTransform {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Bar)
     override val name = "solverRuntimeBreakdown"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        PlotOption(
-            name = "matrix",
-            options = results.first().datapoints.map { (it as SolverDatapoint).name }
-        ),
+        getAvailableMatrixNames(results),
         PlotOption(
             name = "components",
             options = listOf("apply", "generate")

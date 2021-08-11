@@ -1,7 +1,10 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.solver
 
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.PlottableData
 
 /**
  * Interface for transforms using [SolverBenchmarkResult].

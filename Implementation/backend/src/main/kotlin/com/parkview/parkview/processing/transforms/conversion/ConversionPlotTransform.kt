@@ -1,7 +1,10 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.PlottableData
 
 /**
  * Interface for transforms using [ConversionBenchmarkResult].
@@ -14,7 +17,7 @@ interface ConversionPlotTransform : PlotTransform {
         checkOptions(results, options)
 
 
-        return transformConversion(results as List<ConversionBenchmarkResult>, options)
+        return transformConversion(results.filterIsInstance<ConversionBenchmarkResult>(), options)
     }
 
     /**

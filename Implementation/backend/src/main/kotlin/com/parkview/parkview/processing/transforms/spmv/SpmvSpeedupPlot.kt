@@ -1,9 +1,10 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.*
 
 
 class SpmvSpeedupPlot : SpmvPlotTransform {
@@ -11,10 +12,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform {
     override val plottableAs = listOf(PlotType.Line)
     override val name = "spmvSpeedup"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        PlotOption(
-            name = "xAxis",
-            options = listOf("nonzeros", "rows", "columns"),
-        )
+        MATRIX_X_AXIS,
     )
 
     override fun transformSpmv(
