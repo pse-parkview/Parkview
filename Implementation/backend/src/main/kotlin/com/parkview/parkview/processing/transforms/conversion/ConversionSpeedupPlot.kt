@@ -1,19 +1,17 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.*
 
 class ConversionSpeedupPlot : ConversionPlotTransform {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line)
     override val name = "conversionSpeedup"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        PlotOption(
-            name = "xAxis",
-            options = listOf("nonzeros", "rows", "columns"),
-        )
+        MATRIX_X_AXIS,
     )
 
     override fun transformConversion(

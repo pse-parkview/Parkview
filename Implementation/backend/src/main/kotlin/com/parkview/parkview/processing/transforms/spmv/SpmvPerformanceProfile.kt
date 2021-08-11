@@ -1,9 +1,13 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.DatasetSeries
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
 
 class SpmvPerformanceProfile : SpmvPlotTransform {
     override val numInputsRange = 1..1

@@ -1,37 +1,35 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.spmv
 
-import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.*
 
-class ConversionSingleScatterPlot : ConversionPlotTransform {
+class SpmvSingleScatterPlot : SpmvPlotTransform {
     override val numInputsRange = 1..1
-    override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
-    override val name: String = "conversionSingleScatter"
+    override val plottableAs = listOf(PlotType.Scatter)
+    override val name = "spmvSingleScatterPlot"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         PlotOption(
-            name = "xAxis",
-            options = listOf("nonzeros", "rows", "columns")
-        ),
-        PlotOption(
             name = "yAxis",
-            options = listOf("bandwidth", "time")
+            options = listOf("bandwidth", "time"),
         ),
+        MATRIX_X_AXIS,
     )
 
-    override fun transformConversion(
-        benchmarkResults: List<ConversionBenchmarkResult>,
+    override fun transformSpmv(
+        benchmarkResults: List<SpmvBenchmarkResult>,
         options: Map<String, String>,
     ): PlottableData {
-        val benchmarkResult = benchmarkResults[0]
+        val benchmarkResult = benchmarkResults.first()
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (datapoint in benchmarkResult.datapoints) {
-            for (conversion in datapoint.conversions) {
-                if (!conversion.completed) continue
-                seriesByName.getOrPut(conversion.name) { mutableListOf() } += PlotPoint(
+            for (format in datapoint.formats) {
+                if (!format.completed) continue
+                seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
                     x = when (options["xAxis"]) {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
@@ -39,8 +37,8 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
                         else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
                     y = when (options["yAxis"]) {
-                        "bandwidth" -> datapoint.nonzeros / conversion.time
-                        "time" -> conversion.time
+                        "bandwidth" -> (format.storage + datapoint.rows + datapoint.columns) / format.time
+                        "time" -> format.time
                         else -> throw InvalidPlotOptionsException(options, "yAxis")
                     },
                 )
@@ -48,10 +46,8 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
         }
 
         return DatasetSeries(seriesByName.map { (key, value) ->
-            PointDataset(
-                label = key,
-                data = value.sortedBy { it.x }.toMutableList()
-            )
+            PointDataset(label = key,
+                data = value.sortedBy { it.x })
         })
     }
 }

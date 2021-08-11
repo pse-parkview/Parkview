@@ -1,10 +1,10 @@
-package com.parkview.parkview.processing.transforms
+package com.parkview.parkview.processing.transforms.solver
 
-import com.parkview.parkview.benchmark.MatrixBenchmarkResult
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.*
 
 class SolverConvergencePlot : SolverPlotTransform {
     override val numInputsRange: IntRange = 1..1
@@ -20,10 +20,7 @@ class SolverConvergencePlot : SolverPlotTransform {
             name = "xAxis",
             options = listOf("iteration_timestamps", "array_index"),
         ),
-        PlotOption(
-            name = "datapoint",
-            options = (results.first() as MatrixBenchmarkResult).datapoints.map { it.name }
-        ),
+        getAvailableMatrixNames(results),
     )
 
     override fun transformSolver(
