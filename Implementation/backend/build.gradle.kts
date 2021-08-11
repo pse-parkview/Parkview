@@ -33,15 +33,15 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
 	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 	implementation("org.postgresql:postgresql:42.2.2")
-  implementation("com.zaxxer:HikariCP:2.3.2")
+	implementation("com.zaxxer:HikariCP:2.3.2")
 	implementation("com.squareup.okhttp3:okhttp:4.9.1")
+	implementation("io.zonky.test:embedded-postgres:1.2.10")
 
 	// doc
 	dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.5.0")
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.zonky.test:embedded-postgres:1.2.10")
 	testImplementation(kotlin("test"))
 
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
