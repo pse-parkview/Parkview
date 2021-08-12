@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from test_utils.parview_webdriver import ParkviewWebDriver
+from test_utils.parkview_webdriver import ParkviewWebDriver
 
 
 class TestCase(ABC):

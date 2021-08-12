@@ -7,12 +7,16 @@ import time
 
 class ParkviewWebDriver:
     def __init__(self, parkview_url: str, selenium_url: str = ''):
-        self.options = webdriver.ChromeOptions()
+        self.url = parkview_url
         # self.options.add_argument('ignore-certificate-errors')
         # self.options.add_argument('headless')
+
+    def init(self):
+        self.options = webdriver.ChromeOptions()
         self.driver = webdriver.Chrome(options=self.options)
 
-        self.driver.get(parkview_url)
+        self.driver.get(self.url)
+
 
     def wait_and_click(self, by: By, value: str):
         WebDriverWait(self.driver, 10).until(
