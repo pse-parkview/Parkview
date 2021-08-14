@@ -1,7 +1,11 @@
-name: Build Backend Container
+name: Build and Push Containers
 
 on:
   push:
+    branches:
+      - main
+      
+  pull_request:
     branches:
       - main
       
@@ -26,9 +30,18 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build and push
-        id: docker_build
+        id: docker_build_backend
         uses: docker/build-push-action@v2
         with:
           context: Implementation/backend/
           push: true
           tags: tadachs/parkview-backend:latest
+          
+      
+      - name: Build and push
+        id: docker_build_frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: Implementation/frontend/
+          push: true
+          tags: tadachs/parkview-frontend:latest
