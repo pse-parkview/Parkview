@@ -15,15 +15,16 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-        ports: 
-          - 4444:4444
-        options: --shm-size="2g" --network host
+ #   services:
+  #    selenium:
+ #       image: selenium/standalone-chrome:latest
+ #       ports: 
+ #         - 4444:4444
+#        options: --shm-size="2g" --network host
 
 
     steps:
+    - run: ip addr
     - name: Setup Pyhon
       uses: actions/setup-python@v2
       with:
