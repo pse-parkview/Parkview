@@ -36,4 +36,4 @@ jobs:
       run: python3 main.py --backend http://localhost:8080/parkview --frontend http://localhost:4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
    
     - run: docker ps
-    - run: curl http://127.0.0.1:4200
+    - run: curl http://parkview-frontend-test:4200
