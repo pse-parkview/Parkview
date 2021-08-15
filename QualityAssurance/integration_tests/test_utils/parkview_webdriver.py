@@ -17,9 +17,7 @@ class ParkviewWebDriver:
             self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
-            capabilities = {
-                "browserName": "chrome",
-            }
+            capabilities = webdriver.DesiredCapabilities.CHROME
 
             self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
         self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load

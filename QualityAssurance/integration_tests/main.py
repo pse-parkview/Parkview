@@ -49,11 +49,10 @@ if __name__ == '__main__':
             print('started containers')
             time.sleep(30)
 
-            web_driver.reload_site()
-
             print('init test case')
 
             testcase.setup()
+            web_driver.reload_site()
 
             print('running testcase')
             testcase.run()
