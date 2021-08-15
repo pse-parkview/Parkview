@@ -1,0 +1,14 @@
+{
+	"chrome": {
+		"default": "latest",
+		"versions": {
+			"latest": {
+				"image": "selenoid/chrome:latest",
+				"port": "4444",
+        "hostname": "localhost",
+        "applicationContainers": ["parkview-frontend-test:parkview-frontend"],
+				"tmpfs": {"/tmp":"size=512m"}
+			}
+		}
+	}
+}

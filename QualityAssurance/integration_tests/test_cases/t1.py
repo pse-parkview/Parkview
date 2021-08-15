@@ -1,20 +1,28 @@
 from test_cases.test_case import TestCase
 from test_utils.parkview_webdriver import ParkviewWebDriver
+from test_utils.parkview_apidriver import ParkviewApiDriver
 
 
 class T1(TestCase):
-    def __init__(self, driver: ParkviewWebDriver, available_commit: str, available_device: str):
-        super().__init__(driver)
+    def __init__(self, web_driver: ParkviewWebDriver, api_driver: ParkviewApiDriver, available_commit: str, available_device: str, benchmark_file: str):
+        super().__init__(web_driver, api_driver)
         self.available_commit = available_commit
         self.available_device = available_device
+        self.benchmark_file = benchmark_file
 
     def run(self):
-        self.driver.accept_cookies()
-        self.driver.toggle_sidebar()
-        self.driver.select_benchmark('Conversion')
-        self.driver.select_branch('develop')
-        self.driver.select_datapoint(self.available_commit, self.available_device)
-        self.driver.toggle_sidebar()
-        self.driver.open_configuration_dialog()
-        self.driver.confirm_plot()
-        self.driver.toggle_sidebar()
+        self.web_driver.accept_cookies()
+        self.web_driver.toggle_sidebar()
+        self.web_driver.select_benchmark('Conversion')
+        self.web_driver.select_branch('develop')
+        self.web_driver.select_datapoint(self.available_commit, self.available_device)
+        self.web_driver.toggle_sidebar()
+        self.web_driver.open_configuration_dialog()
+        self.web_driver.confirm_plot()
+        self.web_driver.toggle_sidebar()
+
+    name = "T1"
+
+    def setup(self):
+        self.api_driver.upload_file(self.benchmark_file, self.available_commit, self.available_device)
+

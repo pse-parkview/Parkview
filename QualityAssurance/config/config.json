@@ -1,0 +1,10 @@
+{
+    "applicationContainers": ["spring-application-main:my-cool-app", "spring-application-gateway"],
+    "hosts": ["parkview:192.168.178.14"],
+    "port": 4444,
+    "path": "/wd/hub",
+    "capabilities": [{
+        "maxInstances": 5, 
+        "browserName": "chrome"
+    }]
+}

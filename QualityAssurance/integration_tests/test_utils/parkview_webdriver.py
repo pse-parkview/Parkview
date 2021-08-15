@@ -8,23 +8,35 @@ import time
 class ParkviewWebDriver:
     def __init__(self, parkview_url: str, selenium_url: str = ''):
         self.url = parkview_url
-        # self.options.add_argument('ignore-certificate-errors')
-        # self.options.add_argument('headless')
+        self.remote_driver = selenium_url
+
 
     def init(self):
         self.options = webdriver.ChromeOptions()
-        self.driver = webdriver.Chrome(options=self.options)
+        # self.options.add_argument('ignore-certificate-errors')
+        # self.options.add_argument('headless')
+        if self.remote_driver == '':
+            self.driver = webdriver.Chrome(options=self.options)
+        else:
+            capabilities = {
+                "browserName": "chrome",
+                "selenoid:options": {
+                    "enableVNC": True,
+                    "enableVideo": False
+                }
+            }
 
+            self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
         self.driver.get(self.url)
 
 
-    def wait_and_click(self, by: By, value: str):
+    def wait_and_click(self, by: str, value: str):
         WebDriverWait(self.driver, 10).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
             )
         ).click()
-        time.sleep(0.1)
+        time.sleep(0.5)
 
     def select_branch(self, branch_name: str):
         self.wait_and_click(By.ID, 'branchSelection')
@@ -47,10 +59,10 @@ class ParkviewWebDriver:
         self.wait_and_click(By.XPATH, commit_panel_path)
 
     def open_configuration(self):
-        self.wait_and_click('//*[@id="sidenav"]/div/app-sidebar/app-side-current-chosen-commit/mat-card/button')
+        self.wait_and_click(By.XPATH, '//*[@id="sidenav"]/div/app-sidebar/app-side-current-chosen-commit/mat-card/button')
 
     def select_device(self, device_name: str):
-        self.wait_and_click(f'//mat-checkbox/label/span[contains(text(), " {device_name} ")]')
+        self.wait_and_click(By.XPATH, f'//mat-checkbox/label/span[contains(text(), " {device_name} ")]')
 
     def accept_cookies(self):
         self.wait_and_click(By.ID, 'confirmCookies')

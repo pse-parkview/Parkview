@@ -48,6 +48,10 @@ services:
       - parkview-backend
     expose: 
       - 4200
+    command:
+      - --proxy-config /app/src/proxy-container.conf.json
+      - --host 0.0.0.0
+      - --port 4200
 
 volumes:
   parkview-data:
