@@ -5,6 +5,7 @@ import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dia
 import {CookieSettings} from "./interfaces/cookie-settings";
 import {CookieService as NgxCookieService} from "ngx-cookie";
 import {RecentGitHistorySettings} from "./interfaces/recent-git-history-settings";
+import {Template} from "./interfaces/template";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class CookieService {
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
   private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
-  private static readonly NAME_SAVED_PLOT_CONFIGS = 'saved_plot_configs';
+  private static readonly NAME_SAVED_TEMPLATES = 'saved_plot_templates';
 
   constructor(private readonly dialog: MatDialog,
               private readonly ngxCookieService: NgxCookieService,
@@ -92,18 +93,17 @@ export class CookieService {
   }
 
   public addTemplate(plotConfig: PlotConfiguration): void {
-    let savedConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
-    if (savedConfigs !== undefined) {
-      savedConfigs.push(plotConfig);
-    } else {
-      savedConfigs = [ plotConfig ];
-    }
-    this.ngxCookieService.putObject(CookieService.NAME_SAVED_PLOT_CONFIGS, savedConfigs);
+    const savedConfigs: Template[] = this.getSavedTemplates();
+    savedConfigs.push({
+      date: new Date(),
+      config: plotConfig,
+    });
+    this.ngxCookieService.putObject(CookieService.NAME_SAVED_TEMPLATES, savedConfigs);
     this.savedTemplateUpdate.emit();
   }
 
-  public getSavedTemplates(): PlotConfiguration[] {
-    const savedPlotConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_PLOT_CONFIGS) as Array<PlotConfiguration>;
-    return savedPlotConfigs ? savedPlotConfigs : [];
+  public getSavedTemplates(): Template[] {
+    const savedTemplates: Template[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_TEMPLATES) as Array<Template>;
+    return savedTemplates ? savedTemplates : [];
   }
 }

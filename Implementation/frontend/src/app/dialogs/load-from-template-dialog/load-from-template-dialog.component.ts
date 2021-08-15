@@ -17,7 +17,6 @@ export class LoadFromTemplateDialogComponent implements OnInit {
               private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.configs = this.cookieService.getSavedTemplates();
     this.currentSelectedPlotConfiguration = this.configs.length > 0 ? this.configs[0] : {} as PlotConfiguration;
   }
 
