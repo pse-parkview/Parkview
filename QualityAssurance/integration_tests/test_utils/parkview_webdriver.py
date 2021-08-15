@@ -29,6 +29,7 @@ class ParkviewWebDriver:
 
 
     def wait_and_click(self, by: str, value: str):
+        print(self.driver.page_source)
         WebDriverWait(self.driver, 30).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
