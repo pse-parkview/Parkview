@@ -4,18 +4,19 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.transforms.InvalidPlotOptionsException
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
 import com.parkview.parkview.processing.transforms.PlotTransform
 import com.parkview.parkview.processing.transforms.PlottableData
 
-val BLAS_X_AXIS = PlotOption(
+val BLAS_X_AXIS = CategoricalOption(
     name = "xAxis",
     options = listOf("n", "m", "r", "k")
 )
 
-val BLAS_Y_AXIS = PlotOption(
+val BLAS_Y_AXIS = CategoricalOption(
     name = "yAxis",
     options = listOf("time", "flops", "bandwidth")
 )

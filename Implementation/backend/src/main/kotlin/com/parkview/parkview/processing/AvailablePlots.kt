@@ -24,11 +24,29 @@ data class PlotDescription(
     val options: List<PlotOption>,
 )
 
-data class PlotOption(
+abstract class PlotOption(
     val name: String,
     val options: List<String> = emptyList(),
+    val default: String = options.first(),
     val number: Boolean = options.isEmpty(),
-)
+    val description: String = "",
+) {
+    init {
+        if ((!number) and (default !in options))
+            throw IllegalArgumentException("Default value has to be available option")
+
+    }
+}
+
+class CategoricalOption(
+    name: String,
+    options: List<String>,
+    default: String = options.first(),
+    description: String = "",
+) : PlotOption(name = name, options = options, default = default, description = description)
+
+class NumericalOption(name: String, default: Double, description: String = "") :
+    PlotOption(name = name, default = default.toString(), description = description)
 
 /**
  * Singleton that keeps track of all plot types and offers helper functions

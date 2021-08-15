@@ -2,6 +2,7 @@ package com.parkview.parkview.processing.transforms.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
@@ -12,7 +13,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform {
     override val name: String = "conversionSingleScatter"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
-        PlotOption(
+        CategoricalOption(
             name = "yAxis",
             options = listOf("bandwidth", "time")
         ),

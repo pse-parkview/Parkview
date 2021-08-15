@@ -3,6 +3,7 @@ package com.parkview.parkview.processing.transforms.solver
 import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
@@ -13,11 +14,11 @@ class SolverRuntimeBreakdown : SolverPlotTransform {
     override val name = "solverRuntimeBreakdown"
     override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         getAvailableMatrixNames(results),
-        PlotOption(
+        CategoricalOption(
             name = "components",
             options = listOf("apply", "generate")
         ),
-        PlotOption(
+        CategoricalOption(
             name = "totalTime",
             options = listOf("sumComponents", "givenValue")
         ),
