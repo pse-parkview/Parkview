@@ -44,4 +44,4 @@ jobs:
 
     - name: Run Tests
       working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend ${{ steps.ip_addr.outputs.ip }}:4200 --selenium http://selenium:4444/wd/hub --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend ${{ steps.ip_addr.outputs.ip }}:4200 --selenium http://localhost:4444/wd/hub --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
