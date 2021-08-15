@@ -29,7 +29,7 @@ jobs:
       run: echo "##[set-output name=ip;]$(ifconfig eth0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
       id: ip_addr
     
-    - run: curl selenium:4444
+    - run: curl localhost:4444
     
       
     - name: Setup Pyhon
