@@ -6,7 +6,39 @@
        class="greyed-out">
     No templates for selected benchmark and selected commits available.
   </div>
-  <mat-card *ngFor="let template of usableTemplates">
-    {{template.labelForTitle}}
-  </mat-card>
+  <mat-expansion-panel *ngFor="let template of usableTemplates">
+    <mat-expansion-panel-header>
+      {{template.date | dateFormatter: 'short'}} <br>
+      {{template.config.labelForTitle}}
+    </mat-expansion-panel-header>
+    <table>
+      <tr>
+        <td>Plot type:</td>
+        <td>{{template.config.plotType}}</td>
+      </tr>
+      <tr>
+        <td>Chart type:</td>
+        <td>{{template.config.chartType}}</td>
+      </tr>
+      <tr>
+        <td>Chart label:</td>
+        <td>{{template.config.labelForTitle}}</td>
+      </tr>
+      <tr>
+        <td>X-Axis label:</td>
+        <td>{{template.config.labelForXAxis}}</td>
+      </tr>
+      <tr>
+        <td>Y-Axis label :</td>
+        <td>{{template.config.labelForYAxis}}</td>
+      </tr>
+      <tr *ngFor="let key of objectKeys(template.config.options)">
+        <td>{{key}}:</td>
+        <td>{{template.config.options[key]}}</td>
+      </tr>
+    </table>
+    <button mat-stroked-button (click)="navigateWithTemplate(template)">
+      Use Template
+    </button>
+  </mat-expansion-panel>
 </mat-expansion-panel>
