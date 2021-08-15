@@ -22,12 +22,12 @@ class ParkviewWebDriver:
             }
 
             self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
-        self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load
+        self.driver.set_page_load_timeout(30) # wait up to 5 min for page to load
         self.driver.get(self.url)
 
 
     def wait_and_click(self, by: str, value: str):
-        WebDriverWait(self.driver, 300).until(
+        WebDriverWait(self.driver, 30).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
             )
