@@ -32,6 +32,7 @@ data_file = 'resources/test_single_conversion.json'
 
 api_driver = ParkviewApiDriver(backend_url)
 web_driver = ParkviewWebDriver(parkview_url, selenium_url=selenium_url)
+web_driver.init()
 
 testcases = [T1(web_driver, api_driver, available_commit, available_device, data_file)]
 
@@ -47,10 +48,10 @@ if __name__ == '__main__':
             docker_driver.start_frontend()
             print('started containers')
             time.sleep(30)
-            exit()
+
+            web_driver.reload_site()
 
             print('init test case')
-            web_driver.init()
 
             testcase.setup()
 
