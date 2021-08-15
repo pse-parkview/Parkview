@@ -22,7 +22,7 @@ class ParkviewWebDriver:
             }
 
             self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
-        self.driver.set_page_load_timeout(30) # wait up to 5 min for page to load
+        self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load
 
     def reload_site(self):
         self.driver.get(self.url)
