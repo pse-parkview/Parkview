@@ -17,7 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2    
+    
+    - name: Get IP Address
+      run: echo "##[set-output name=ip;]$(hostname -I | awk '{print $1}')"
+      id: ip_addr 
     
     - uses: nanasess/setup-chromedriver@master
       
@@ -33,4 +37,4 @@ jobs:
 
     - name: Run Tests
       working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://$(hostname -I | awk '{print $1}'):4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://${{ steps.ip_addr.outputs.ip }}:4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
