@@ -1,0 +1,41 @@
+
+name: Integration Tests
+
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - issue#12-integration-test-ci-pipeline
+
+  workflow_dispatch:
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports: 
+          - 4444:4444
+        network:
+          - host
+        options:
+          - --shm-size="2g"
+
+
+    steps:
+    - name: Setup Pyhon
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install Python dependencies
+      uses: py-actions/py-dependency-install@v2
+      with:
+        path: QualityAssurance/integration_tests/requirements.txt
+
+    - name: Run Tests
+      working_directory: QualityAssurance/integration_tests/
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://127.0.0.1:4200 --selenium http://localhost:4444/wd/hub --github-token $GIT_TOKEN --github-user $GIT_USERNAME

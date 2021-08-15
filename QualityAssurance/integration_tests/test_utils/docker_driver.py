@@ -19,6 +19,7 @@ class DockerDriver:
                 command=f'--parkview.database.embedded=true --parkview.git-api.owner=pse-parkview --parkview.git-api.repoName=ginkgo --parkview.git-api.firstCommitSha=3eca4d1c25cb04a084dd77c6e8c273da9603e17f --parkview.git-api.username={self.user} --parkview.git-api.token={self.token}',
                 ports={'8080':'8080'},
                 auto_remove=True,
+                remove=True,
                 name='parkview-backend-test'
                 )
         self.start_frontend()
@@ -30,6 +31,7 @@ class DockerDriver:
                 command=f'--proxy-config /app/src/proxy-container.conf.json --host 0.0.0.0 --port 4200',
                 ports={'4200':'4200'},
                 auto_remove=True,
+                remove=True,
                 links={self.backend_container.name: 'parkview-backend'},
                 name='parkview-frontend-test',
                 )
