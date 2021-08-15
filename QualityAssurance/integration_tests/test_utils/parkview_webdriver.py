@@ -87,3 +87,5 @@ class ParkviewWebDriver:
             self.wait_and_click(By.XPATH, commit_panel_path)
         return True
 
+    def click_share_button(self):
+        self.wait_and_click(By.ID, 'share-btn')
