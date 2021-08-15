@@ -24,9 +24,11 @@ jobs:
 
 
     steps:
+    - uses: actions/checkout@v2
     - name: Get IP Address
-      run: echo "##[set-output name=ip;]$(ifconfig etho0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
+      run: echo "##[set-output name=ip;]$(ifconfig eth0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
       id: ip_addr
+    
       
     - name: Setup Pyhon
       uses: actions/setup-python@v2
