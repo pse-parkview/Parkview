@@ -15,20 +15,24 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
 
- #   services:
-  #    selenium:
- #       image: selenium/standalone-chrome:latest
- #       ports: 
- #         - 4444:4444
-#        options: --shm-size="2g" --network host
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports: 
+          - 4444:4444
+        options: --shm-size="2g"
 
 
     steps:
-    - run: ip addr
+    - name: Get IP Address
+      run: echo "##[set-output name=ip;]$(ifconfig etho0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
+      id: ip_addr
+      
     - name: Setup Pyhon
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+        
     - name: Install Python dependencies
       uses: py-actions/py-dependency-install@v2
       with:
@@ -36,4 +40,4 @@ jobs:
 
     - name: Run Tests
       working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://127.0.0.1:4200 --selenium http://localhost:4444/wd/hub --github-token $GIT_TOKEN --github-user $GIT_USERNAME
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend ${{ steps.ip_addr.outputs.ip }}:4200 --selenium http://localhost:4444/wd/hub --github-token $GIT_TOKEN --github-user $GIT_USERNAME
