@@ -29,6 +29,8 @@ jobs:
       run: echo "##[set-output name=ip;]$(ifconfig eth0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
       id: ip_addr
     
+    - run: docker ps
+    
       
     - name: Setup Pyhon
       uses: actions/setup-python@v2
