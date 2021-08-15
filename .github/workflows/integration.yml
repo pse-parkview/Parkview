@@ -33,7 +33,4 @@ jobs:
 
     - name: Run Tests
       working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://localhost:4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
-   
-    - run: docker ps
-    - run: curl http://parkview-frontend-test:4200
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://$(hostname -I | awk '{print $1}'):4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
