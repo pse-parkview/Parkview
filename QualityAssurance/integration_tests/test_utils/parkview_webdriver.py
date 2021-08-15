@@ -28,12 +28,12 @@ class ParkviewWebDriver:
 
 
     def wait_and_click(self, by: str, value: str):
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 60).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
             )
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
     def select_branch(self, branch_name: str):
         self.wait_and_click(By.ID, 'branchSelection')
