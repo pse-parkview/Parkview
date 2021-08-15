@@ -20,7 +20,6 @@ class DockerDriver:
                 ports={'8080':'8080'},
                 auto_remove=True,
                 remove=True,
-                name='parkview-backend-test'
                 )
         self.start_frontend()
 
@@ -33,7 +32,6 @@ class DockerDriver:
                 auto_remove=True,
                 remove=True,
                 links={self.backend_container.name: 'parkview-backend'},
-                name='parkview-frontend-test',
                 )
 
     def stop_backend(self):
