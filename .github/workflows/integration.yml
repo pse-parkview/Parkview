@@ -25,7 +25,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: ifconfig
     - name: Get IP Address
       run: echo "##[set-output name=ip;]$(ifconfig eth0 | grep 'inet [0-9\.]* ' -o | sed 's/[^0-9\.]//g')"
       id: ip_addr 
@@ -42,4 +41,4 @@ jobs:
 
     - name: Run Tests
       working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://${{ steps.ip_addr.ouputs.ip }}:4200 --selenium http://localhost:4444/wd/hub --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
+      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://${{ steps.ip_addr.outputs.ip }}:4200 --selenium http://localhost:4444/wd/hub --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }}
