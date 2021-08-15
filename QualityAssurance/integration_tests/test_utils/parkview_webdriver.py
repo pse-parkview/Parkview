@@ -20,10 +20,6 @@ class ParkviewWebDriver:
         else:
             capabilities = {
                 "browserName": "chrome",
-                "selenoid:options": {
-                    "enableVNC": True,
-                    "enableVideo": False
-                }
             }
 
             self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
