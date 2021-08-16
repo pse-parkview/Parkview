@@ -48,6 +48,7 @@ if __name__ == '__main__':
             docker_driver.start_frontend()
             print('started containers')
             time.sleep(30)
+            exit()
 
             print('init test case')
 
