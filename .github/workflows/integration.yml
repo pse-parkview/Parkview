@@ -22,8 +22,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2    
     
-    - name: Install xclip
-      run: sudo apt-get install xclip
+    - name: Install xsel
+      run: sudo apt-get install xsel
     
     - name: Setup Chrome
       uses: nanasess/setup-chromedriver@master
