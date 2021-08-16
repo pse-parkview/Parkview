@@ -27,8 +27,7 @@ parkview_url = args.frontend
 backend_url = args.backend
 selenium_url = args.selenium
 
-#available_commit = 'f8493edccbba242b737403d4d21688221b379b56'
-available_commit = '93edccbba242b737403d4d21688221b379b56'
+available_commit = 'f8493edccbba242b737403d4d21688221b379b56'
 available_device = 'MI100'
 
 data_file = 'resources/test_single_conversion.json'
@@ -45,7 +44,6 @@ docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.git
 # setup
 if __name__ == '__main__':
     try:
-
         for testcase in testcases:
             docker_driver.start_backend()
             docker_driver.start_frontend()
@@ -60,7 +58,7 @@ if __name__ == '__main__':
             print('running testcase')
             testcase.run()
             print(f'test case {testcase.name} finished sucessfully')
-    except Exception as e:
+    except Exception:
         print(f'Failed. Error: ')
         traceback.print_exc()
         docker_driver.stop_frontend()

@@ -5,9 +5,11 @@ on:
   push:
     branches: 
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
       - quality-assurance
 
   workflow_dispatch:
@@ -19,11 +21,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2    
     
-    - name: Get IP Address
-      run: echo "##[set-output name=ip;]$(hostname -I | awk '{print $1}')"
-      id: ip_addr 
-    
-    - uses: nanasess/setup-chromedriver@master
+    - name: Setup Chrome
+      uses: nanasess/setup-chromedriver@master
       
     - name: Setup Pyhon
       uses: actions/setup-python@v2
