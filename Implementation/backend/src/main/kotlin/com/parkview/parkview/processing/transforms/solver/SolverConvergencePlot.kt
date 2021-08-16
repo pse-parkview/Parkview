@@ -7,12 +7,12 @@ import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
 
-class SolverConvergencePlot : SolverPlotTransform {
+class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Line)
     override val name: String = "solverConvergence"
 
-    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+    override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         CategoricalOption(
             name = "yAxis",
             options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),

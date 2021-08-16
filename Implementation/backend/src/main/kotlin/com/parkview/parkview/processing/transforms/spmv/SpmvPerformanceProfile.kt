@@ -9,11 +9,11 @@ import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
 
-class SpmvPerformanceProfile : SpmvPlotTransform {
+class SpmvPerformanceProfile : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
     override val name = "SpmvPerformanceProfile"
-    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf()
+    override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf()
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,

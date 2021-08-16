@@ -7,11 +7,11 @@ import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
 
-class SpmvSingleScatterPlot : SpmvPlotTransform {
+class SpmvSingleScatterPlot : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
     override val name = "spmvSingleScatterPlot"
-    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+    override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         CategoricalOption(
             name = "yAxis",
             options = listOf("bandwidth", "time"),
