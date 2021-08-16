@@ -4,6 +4,8 @@ from test_utils.parkview_apidriver import ParkviewApiDriver
 
 
 class T1(TestCase):
+    name = "T1"
+
     def __init__(self, web_driver: ParkviewWebDriver, api_driver: ParkviewApiDriver, available_commit: str, available_device: str, benchmark_file: str):
         super().__init__(web_driver, api_driver)
         self.available_commit = available_commit
@@ -20,8 +22,6 @@ class T1(TestCase):
         self.web_driver.open_configuration_dialog()
         self.web_driver.confirm_plot()
         self.web_driver.toggle_sidebar()
-
-    name = "T1"
 
     def setup(self):
         self.api_driver.upload_file(self.benchmark_file, self.available_commit, self.available_device)

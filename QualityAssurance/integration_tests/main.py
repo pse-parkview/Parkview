@@ -47,6 +47,7 @@ docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.git
 
 # setup
 if __name__ == '__main__':
+    failed = False
     try:
         for testcase in testcases:
             docker_driver.start_backend()
@@ -65,6 +66,7 @@ if __name__ == '__main__':
             except Exception:
                 print(f'test case {testcase.name} failed with error:')
                 traceback.print_exc()
+                failed = True
                 continue
             print(f'test case {testcase.name} finished sucessfully')
     except Exception:
@@ -76,3 +78,6 @@ if __name__ == '__main__':
 
     docker_driver.stop_frontend()
     docker_driver.stop_backend()
+
+    exit(1 if failed else 0)
+
