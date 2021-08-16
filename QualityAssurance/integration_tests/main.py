@@ -27,7 +27,8 @@ parkview_url = args.frontend
 backend_url = args.backend
 selenium_url = args.selenium
 
-available_commit = 'f8493edccbba242b737403d4d21688221b379b56'
+#available_commit = 'f8493edccbba242b737403d4d21688221b379b56'
+available_commit = '93edccbba242b737403d4d21688221b379b56'
 available_device = 'MI100'
 
 data_file = 'resources/test_single_conversion.json'
