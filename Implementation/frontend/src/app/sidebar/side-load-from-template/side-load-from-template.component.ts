@@ -76,6 +76,10 @@ export class SideLoadFromTemplateComponent implements OnInit {
     this.router.navigate([config.chartType], {queryParams: qp});
   }
 
+  deleteTemplate(template: Template) {
+    this.cookieService.deleteTemplate(template)
+  }
+
   // Helper method for getting the keys out of template.config.options
   objectKeys(object: Object) {
     return Object.keys(object);

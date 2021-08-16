@@ -106,4 +106,40 @@ export class CookieService {
     const savedTemplates: Template[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_TEMPLATES) as Array<Template>;
     return savedTemplates ? savedTemplates : [];
   }
+
+  public deleteTemplate(template: Template) {
+    const savedConfigs: Template[] = this.getSavedTemplates();
+    const newConfigs: Template[] = savedConfigs.filter(t => !CookieService.templateEquals(template, t));
+    this.ngxCookieService.putObject(CookieService.NAME_SAVED_TEMPLATES, newConfigs);
+    this.savedTemplateUpdate.emit();
+  }
+
+  private static templateEquals(t1: Template, t2: Template): boolean {
+    if (t1.date != t2.date) {
+      return false;
+    }
+    const everythingButOptions = t1.config.plotType === t2.config.plotType
+      && t1.config.chartType === t2.config.chartType
+      && JSON.stringify(t1.config.commits) === JSON.stringify(t2.config.commits)
+      && JSON.stringify(t1.config.devices) === JSON.stringify(t2.config.devices)
+      && t1.config.labelForTitle === t2.config.labelForTitle
+      && t1.config.labelForXAxis === t2.config.labelForXAxis
+      && t1.config.labelForYAxis === t2.config.labelForYAxis;
+    if (!everythingButOptions) {
+      return false;
+    }
+    const keys = Object.keys(t1.config.options)
+    for (const k of keys) {
+      if (t1.config.options[k] !== t2.config.options[k]) {
+        return false;
+      }
+    }
+    const keys2 = Object.keys(t2.config.options)
+    for (const k of keys2) {
+      if (t1.config.options[k] !== t2.config.options[k]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

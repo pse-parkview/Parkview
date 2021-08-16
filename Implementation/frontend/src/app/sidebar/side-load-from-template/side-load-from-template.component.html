@@ -7,9 +7,19 @@
     No templates for selected benchmark and selected commits available.
   </div>
   <mat-expansion-panel *ngFor="let template of usableTemplates">
-    <mat-expansion-panel-header>
-      {{template.date | dateFormatter: 'short'}} <br>
-      {{template.config.labelForTitle}}
+    <mat-expansion-panel-header class="templateTitlePanelHeader">
+      <div class="templateTitle">
+        <button mat-icon-button
+                class="templateTitleButton"
+                (click)="navigateWithTemplate(template)"
+                matTooltip="Use Template And Go To Plot">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <div class="templateTitleText">
+          {{template.date | dateFormatter: 'short'}} <br>
+          {{template.config.labelForTitle}}
+        </div>
+      </div>
     </mat-expansion-panel-header>
     <table>
       <tr>
@@ -37,8 +47,13 @@
         <td>{{template.config.options[key]}}</td>
       </tr>
     </table>
-    <button mat-stroked-button (click)="navigateWithTemplate(template)">
-      Use Template
-    </button>
+    <div class="templateDeleteContainer">
+      <button mat-stroked-button
+              color="warn"
+              matTooltip="Delete Template"
+              (click)="deleteTemplate(template)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </mat-expansion-panel>
 </mat-expansion-panel>
