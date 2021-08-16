@@ -35,6 +35,10 @@ mat-card-content {
   color: $nord14;
 }
 
+button {
+  white-space: normal;
+}
+
 .clickable:hover {
   cursor: pointer;
 }

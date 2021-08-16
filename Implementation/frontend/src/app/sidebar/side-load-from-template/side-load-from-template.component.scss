@@ -7,6 +7,25 @@ table {
   font-size: x-small;
 }
 
+.templateTitlePanelHeader {
+  padding-left: 8px;
+}
+
+.templateTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.templateTitleButton:hover {
+  color: $nord10;
+}
+
+.templateDeleteContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .greyed-out {
   color: $nord4;
 }
