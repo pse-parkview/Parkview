@@ -22,8 +22,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2    
     
-    - name: Install xsel
-      run: sudo apt-get install gtk
+    - name: Install something so I can use the clipboard
+      run: sudo apt-get install xorg openbox
     
     - name: Setup Chrome
       uses: nanasess/setup-chromedriver@master
