@@ -15,7 +15,7 @@ class ParkviewWebDriver:
     def init(self):
         if self.remote_driver == '':
             self.options = webdriver.ChromeOptions()
-            self.options.add_argument('headless')
+#            self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
             capabilities = webdriver.DesiredCapabilities.CHROME
@@ -33,7 +33,7 @@ class ParkviewWebDriver:
                 (by, value)
             )
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
     def select_branch(self, branch_name: str):
         self.wait_and_click(By.ID, 'branchSelection')
@@ -89,3 +89,6 @@ class ParkviewWebDriver:
 
     def click_share_button(self):
         self.wait_and_click(By.ID, 'share-btn')
+
+    def get_current_url(self) -> str:
+        return self.driver.current_url

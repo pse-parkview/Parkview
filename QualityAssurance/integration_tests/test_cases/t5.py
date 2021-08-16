@@ -2,8 +2,12 @@ from test_cases.test_case import TestCase
 from test_utils.parkview_webdriver import ParkviewWebDriver
 from test_utils.parkview_apidriver import ParkviewApiDriver
 
+import clipboard
 
-class T1(TestCase):
+
+class T5(TestCase):
+    name = "T5"
+
     def __init__(self, web_driver: ParkviewWebDriver, api_driver: ParkviewApiDriver, available_commit: str, available_device: str, benchmark_file: str):
         super().__init__(web_driver, api_driver)
         self.available_commit = available_commit
@@ -21,9 +25,8 @@ class T1(TestCase):
         self.web_driver.confirm_plot()
         self.web_driver.toggle_sidebar()
         self.web_driver.click_share_button()
-        # TODO: check clipboard content
-
-    name = "T5"
+        if clipboard.paste() != self.web_driver.get_current_url():
+            raise Exception 
 
     def setup(self):
         self.api_driver.upload_file(self.benchmark_file, self.available_commit, self.available_device)
