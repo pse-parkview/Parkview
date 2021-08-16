@@ -26,7 +26,7 @@ class T5(TestCase):
         self.web_driver.toggle_sidebar()
         self.web_driver.click_share_button()
         if clipboard.paste() != self.web_driver.get_current_url():
-            raise Exception 
+            raise Exception(f'Error, clipboard text doesn\'t match url {clipboard.paste} != {self.web_driver.get_current_url()}')
 
     def setup(self):
         self.api_driver.upload_file(self.benchmark_file, self.available_commit, self.available_device)
