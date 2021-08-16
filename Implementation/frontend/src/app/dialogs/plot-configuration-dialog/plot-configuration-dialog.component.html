@@ -52,29 +52,31 @@
   </mat-select>
 </mat-form-field>
 
-<div *ngFor="let plotOption of availablePlotOptions">
-  <mat-form-field *ngIf="plotOption.number"
-                  matTooltip="{{plotOption.description}}">
-    <mat-label>{{plotOption.name}}</mat-label>
-    <input matInput
-           id="{{plotOption.name}}"
-           type="number"
-           placeholder="{{plotOption.default}}"
-           [(ngModel)]="currentPlotOptions[plotOption.name]">
-  </mat-form-field>
-  <mat-form-field *ngIf="!plotOption.number"
-                  matTooltip="{{plotOption.description}}">
-    <mat-label>{{plotOption.name}}</mat-label>
-    <mat-select [id]="plotOption.name"
-                [disabled]="plotOption.options.length === 0"
-                [(value)]="currentPlotOptions[plotOption.name]"
-                (selectionChange)="refreshDefaults()">
-      <mat-option *ngFor="let o of plotOption.options"
-                  [value]="o">
-        {{ o }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="plot-options">
+  <div *ngFor="let plotOption of availablePlotOptions">
+    <mat-form-field *ngIf="plotOption.number"
+                    matTooltip="{{plotOption.description}}">
+      <mat-label>{{plotOption.name}}</mat-label>
+      <input matInput
+             id="{{plotOption.name}}"
+             type="number"
+             placeholder="{{plotOption.default}}"
+             [(ngModel)]="currentPlotOptions[plotOption.name]">
+    </mat-form-field>
+    <mat-form-field *ngIf="!plotOption.number"
+                    matTooltip="{{plotOption.description}}">
+      <mat-label>{{plotOption.name}}</mat-label>
+      <mat-select [id]="plotOption.name"
+                  [disabled]="plotOption.options.length === 0"
+                  [(value)]="currentPlotOptions[plotOption.name]"
+                  (selectionChange)="refreshDefaults()">
+        <mat-option *ngFor="let o of plotOption.options"
+                    [value]="o">
+          {{ o }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 
 <div>
