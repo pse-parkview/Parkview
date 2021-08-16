@@ -1,23 +1,33 @@
 package com.parkview.parkview.processing.transforms.preconditioner
 
 import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
+import com.parkview.parkview.benchmark.PreconditionerDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
-import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.MatrixPlotTransform
 import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
 
 /**
  * Interface for transforms using [PreconditionerBenchmarkResult].
  */
-interface PreconditionerPlotTransform : PlotTransform {
+abstract class PreconditionerPlotTransform : MatrixPlotTransform() {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
 
         checkNumInputs(results)
         checkOptions(results, options)
 
+        val filteredResults = results.filterIsInstance<PreconditionerBenchmarkResult>().map {
+            PreconditionerBenchmarkResult(
+                commit = it.commit,
+                device = it.device,
+                benchmark = it.benchmark,
+                datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<PreconditionerDatapoint>(),
+            )
+        }
 
-        return transformPreconditioner(results as List<PreconditionerBenchmarkResult>, options)
+        return transformPreconditioner(filteredResults, options)
     }
 
     /**
@@ -26,7 +36,7 @@ interface PreconditionerPlotTransform : PlotTransform {
      * @param benchmarkResults list of preconditioner benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformPreconditioner(
+    abstract fun transformPreconditioner(
         benchmarkResults: List<PreconditionerBenchmarkResult>,
         options: Map<String, String>,
     ): PlottableData

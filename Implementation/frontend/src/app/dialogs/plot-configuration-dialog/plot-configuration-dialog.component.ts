@@ -8,6 +8,7 @@ import {PlotOption, PlotTypeOption, X_AXIS_PLOT_OPTION_NAME, Y_AXIS_PLOT_OPTION_
 import {Router} from "@angular/router";
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {MatExpansionPanel} from "@angular/material/expansion";
+import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.service";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -40,7 +41,8 @@ export class PlotConfigurationDialogComponent implements OnInit {
   constructor(private readonly commitSelectService: SelectionService,
               private readonly dataService: DataService,
               private readonly router: Router,
-              private readonly recent: CookieService) {
+              private readonly cookieService: CookieService,
+              private readonly notificationService: SnackBarService) {
   }
 
   ngOnInit(): void {
@@ -66,9 +68,11 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.currentPlotOptions = {};
     this.availablePlotOptions.forEach(po => {
       if (po.number) {
-        this.currentPlotOptions[po.name] = 0;
+        this.currentPlotOptions[po.name] = !isNaN(parseFloat(po.default)) ? parseFloat(po.default) : 0;
       } else {
-        this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
+        this.currentPlotOptions[po.name] = po.options.includes(po.default)
+          ? po.default
+          : po.options.length > 0 ? po.options[0] : ''
       }
     });
     this.setDefaultLabels();
@@ -81,15 +85,13 @@ export class PlotConfigurationDialogComponent implements OnInit {
   }
 
   saveAndStoreCurrentConfig(): void {
-    // this.cookieService.store(compilePlotConfig()); oder so
-    alert(`todo: store ${JSON.stringify(this.compilePlotConfig())} as a cookie or similar`);
-    console.log(this.compilePlotConfig());
-
+    this.cookieService.addTemplate(this.compilePlotConfig());
+    this.notificationService.notify('Saved plot configurations within cookies');
   }
 
   navigateToPlotView(): void {
     const config: PlotConfiguration = this.compilePlotConfig();
-    this.recent.addRecentPlotConfiguration(config);
+    this.cookieService.addRecentPlotConfiguration(config);
     const qp = {
       ...config,
       options: null,

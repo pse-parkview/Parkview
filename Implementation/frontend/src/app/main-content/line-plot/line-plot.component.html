@@ -42,13 +42,27 @@
       </mat-select>
     </mat-form-field>
 
-    <a mat-button
-       (click)="downloadCanvas($event)"
-       class="download-btn">
-      Download Plot
-    </a>
+    <div>
+      <label>Font Size: </label>
+      <label>{{fontSize}}</label>
+      <mat-slider color="primary" min="10" max="20" step="1" value="13" [(ngModel)]="fontSize"
+                  (ngModelChange)="updateChart()"></mat-slider>
+    </div>
 
-    <button mat-button [cdkCopyToClipboard]="url" class="share-btn" id="share-btn"><mat-icon>assignment</mat-icon></button>
+    <button mat-flat-button
+            class="btn"
+            (click)="downloadCanvas($event)"
+            color="primary">
+      <mat-icon>download_file</mat-icon>
+      Download Plot
+    </button>
+
+    <button mat-flat-button
+            [cdkCopyToClipboard]="url" class="btn"
+            color="primary" id="share-btn">
+      <mat-icon>assignment</mat-icon>
+      Copy Link
+    </button>
 
   </div>
 </mat-card>

@@ -16,7 +16,6 @@ import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cook
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
 import {SidePreviousPlotsComponent} from './sidebar/side-previous-plots/side-previous-plots.component';
-import {PlotCardComponent} from './sidebar/side-previous-plots/plot-card/plot-card.component';
 import {LibModule} from "../lib/lib.module";
 import {LogicModule} from "../logic/logic.module";
 import {DashboardComponent} from './main-content/dashboard/dashboard.component';
@@ -46,6 +45,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -63,7 +63,6 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     SideCurrentChosenCommitComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
-    PlotCardComponent,
     DashboardComponent,
     TestComponent,
     LinePlotComponent,
@@ -96,6 +95,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         MatToolbarModule,
         MatIconModule,
         ClipboardModule,
+        MatTooltipModule,
     ],
   providers: [
     CookieService

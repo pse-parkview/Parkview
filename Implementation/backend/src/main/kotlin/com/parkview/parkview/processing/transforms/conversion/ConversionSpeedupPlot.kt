@@ -6,11 +6,11 @@ import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
 
-class ConversionSpeedupPlot : ConversionPlotTransform {
+class ConversionSpeedupPlot : ConversionPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line)
     override val name = "conversionSpeedup"
-    override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+    override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
     )
 
