@@ -38,6 +38,7 @@ web_driver.init()
 
 testcases = [
         T1(web_driver, api_driver, available_commit, available_device, data_file),
+        T2(web_driver, api_driver, available_commit, available_device, data_file),
         ]
 
 docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.github_token, user=args.github_user)
