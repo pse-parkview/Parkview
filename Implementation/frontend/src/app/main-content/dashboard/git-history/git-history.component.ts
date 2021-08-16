@@ -18,6 +18,7 @@ export class GitHistoryComponent implements OnInit {
   currentlySelectedBenchmarkName: string = '';
   benchmarkNames: string[] = [];
   hideUnusableCommits: boolean = false;
+  currentlySelectedPage: number = 1;
 
 
   commits: Commit[] = [];
@@ -31,6 +32,7 @@ export class GitHistoryComponent implements OnInit {
   ngOnInit(): void {
     const lastSettings: RecentGitHistorySettings = this.cookieService.getMostRecentGitHistorySettings();
     this.hideUnusableCommits = lastSettings.hideUnusableCommits;
+    this.currentlySelectedPage = 1;
     this.dataService.getBenchmarks().subscribe((receivedBenchmarkNames: string[]) => {
       this.benchmarkNames = receivedBenchmarkNames;
       if (this.benchmarkNames.includes(lastSettings.benchmarkType)) {
@@ -67,6 +69,13 @@ export class GitHistoryComponent implements OnInit {
     this.currentlySelectedBranch = branchChoice;
     this.cookieService.saveGitHistoryBranch(branchChoice);
     this.updateCommitHistory();
+  }
+
+  selectPage(pageChoice: number): void {
+    this.currentlySelectedPage = pageChoice;
+    this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName, this.currentlySelectedPage).subscribe(
+      commits => this.commits = commits
+    );
   }
 
   selectBenchmarkName(benchmarkNameChoice: string): void {
