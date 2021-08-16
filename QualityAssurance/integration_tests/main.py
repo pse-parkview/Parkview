@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from test_cases.t1 import T1
 from test_cases.t2 import T2
+from test_cases.t5 import T5
 from test_utils.parkview_apidriver import ParkviewApiDriver
 from test_utils.parkview_webdriver import ParkviewWebDriver
 from test_utils.docker_driver import DockerDriver
@@ -38,8 +39,10 @@ web_driver = ParkviewWebDriver(parkview_url, selenium_url=selenium_url)
 web_driver.init()
 
 testcases = [
-        T1(web_driver, api_driver, available_commit, available_device, data_file),
-        T2(web_driver, api_driver, available_commit, available_device, data_file),
+         T1(web_driver, api_driver, available_commit, available_device, data_file),
+         T2(web_driver, api_driver, available_commit, available_device, data_file),
+         # T5 currently breaks when used in Github Runner since it doesn't have xserver/clipboard.
+         # T5(web_driver, api_driver, available_commit, available_device, data_file),
         ]
 
 docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.github_token, user=args.github_user)
