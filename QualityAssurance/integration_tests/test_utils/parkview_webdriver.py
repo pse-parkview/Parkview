@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -14,7 +15,7 @@ class ParkviewWebDriver:
     def init(self):
         if self.remote_driver == '':
             self.options = webdriver.ChromeOptions()
-            self.options.add_argument('headless')
+#            self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
             capabilities = webdriver.DesiredCapabilities.CHROME
@@ -23,8 +24,8 @@ class ParkviewWebDriver:
         self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load
 
     def reload_site(self):
+        self.driver.delete_all_cookies()
         self.driver.get(self.url)
-
 
     def wait_and_click(self, by: str, value: str):
         WebDriverWait(self.driver, 30).until(
@@ -71,3 +72,20 @@ class ParkviewWebDriver:
 
     def confirm_plot(self):
         self.wait_and_click(By.ID, 'plotButton')
+
+    def assert_commit_available(self, sha: str, device: str) -> bool:
+        commit_panel_path = f'//mat-expansion-panel[contains(@class, commitPanel)]/mat-expansion-panel-header/span/span[' \
+                            f'contains(text(), "{sha[:6]}")]/../../..'
+        self.wait_and_click(By.XPATH, commit_panel_path)
+        device_path = f'{commit_panel_path}/div/div/section/ul/li/mat-checkbox/label/span[contains(text(), " {device} ")]'
+
+        try:
+            self.driver.find_element_by_xpath(device_path)
+        except NoSuchElementException:
+            return False
+        finally:
+            self.wait_and_click(By.XPATH, commit_panel_path)
+        return True
+
+
+
