@@ -19,6 +19,8 @@ parser.add_argument('--frontend-img', type=str, default='../../Implementation/fr
 parser.add_argument('--github-token', type=str, default='', help='github oauth token')
 parser.add_argument('--github-user', type=str, default='', help='github oauth username')
 
+parser.add_argument('--timeout', type=int, default=30, help='Timeout until test start in seconds')
+
 args = parser.parse_args()
 
 parkview_url = args.frontend
@@ -47,8 +49,7 @@ if __name__ == '__main__':
             docker_driver.start_backend()
             docker_driver.start_frontend()
             print('started containers')
-            time.sleep(60)
-            exit()
+            time.sleep(args.timeout)
 
             print('init test case')
 
