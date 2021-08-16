@@ -41,4 +41,4 @@ jobs:
 
     - run: docker network ls
     - run: docker ps
-    - run: curl http://${{ steps.ip_addr.outputs.ip }}:4200
+    - run: curl http://parkview-frontend-test:4200
