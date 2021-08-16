@@ -268,9 +268,27 @@ package logic {
   }
 
   package plothandler {
-    'TODO Will this be a thing?
+    class PlotServcie {
 
-  }
+    }
+
+    interface AvailiablePlotTypes {
+      line(): PlotTypeOption[]
+      scatter(): PlotTypeOption[]
+      bar(): PlotTypeOption[]
+      stackedBar(): PlotTypeOption[]
+    }
+
+    interface PlotTypeOption {
+      plotName(): string
+      options(): PlotOption[]
+    }
+
+    interface PlotOption {
+      name(): string
+      options(): string[]
+      number(): boolean
+    }
 
 }
 
