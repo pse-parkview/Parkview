@@ -60,6 +60,12 @@ To register your (new) plot transforms, you have to add it to the corresponding 
 
 \subsection{Frontend}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{frontend.png}
+	\caption{UML class diagram for the frontend}
+  \label{fig:frontend-class}
+\end{figure}
 The frontend got a big rework, the structure given in the original design document proved way more complicated than necessary. It is now structured into a main app section, utility libraries and a logic package.
 
 The app package contains all the angular components that make up the web app. The lib package contains utilities that provide UI-related functionality. Finally, the logic package contains services and functionality that does not directly affect the UI.
