@@ -25,12 +25,14 @@ export class ScatterPlotComponent implements OnInit {
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
   public pointSize: number = 2;
+  public fontSize: number = 12;
   public url = window.location.href;
 
   public chartOptions: ChartOptions = {
     title: {
       display: true,
       text: this.chartTitle,
+      fontSize: this.fontSize,
     },
     responsive: true,
     animation: {
@@ -39,7 +41,12 @@ export class ScatterPlotComponent implements OnInit {
       duration: 0,
     },
     maintainAspectRatio: true,
-    legend: {display: true},
+    legend: {
+      display: true,
+      labels: {
+        fontSize: this.fontSize,
+      },
+    },
     events: ['click'],
     elements: {
       point: {
@@ -55,14 +62,22 @@ export class ScatterPlotComponent implements OnInit {
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: this.yLabel
+          labelString: this.yLabel,
+          fontSize: this.fontSize,
+        },
+        ticks: {
+          fontSize: this.fontSize,
         },
         type: this.yType
       }],
       xAxes: [{
         scaleLabel: {
           display: true,
-          labelString: this.xLabel
+          labelString: this.xLabel,
+          fontSize: this.fontSize,
+        },
+        ticks: {
+          fontSize: this.fontSize,
         },
         type: this.xType,
       }]
@@ -97,22 +112,35 @@ export class ScatterPlotComponent implements OnInit {
   updateChart() {
     if (this.chartOptions.title?.text !== undefined) {
       this.chartOptions.title.text = this.chartTitle;
+      this.chartOptions.title.fontSize = this.fontSize;
     }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
       this.chartOptions.scales.xAxes[0].type = this.xType;
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
         this.chartOptions.scales.xAxes[0].scaleLabel.labelString = this.xLabel;
+        this.chartOptions.scales.xAxes[0].scaleLabel.fontSize = this.fontSize;
+      }
+      if (this.chartOptions.scales.xAxes[0].ticks !== undefined) {
+        this.chartOptions.scales.xAxes[0].ticks.fontSize = this.fontSize;
       }
     }
     if (this.chartOptions.scales?.yAxes !== undefined && this.chartOptions.scales.yAxes.length > 0) {
       this.chartOptions.scales.yAxes[0].type = this.yType;
       if (this.chartOptions.scales.yAxes[0].scaleLabel) {
         this.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.yLabel;
+        this.chartOptions.scales.yAxes[0].scaleLabel.fontSize = this.fontSize;
+      }
+      if (this.chartOptions.scales.yAxes[0].ticks !== undefined) {
+        this.chartOptions.scales.yAxes[0].ticks.fontSize = this.fontSize;
       }
     }
     if (this.chartOptions.elements?.point?.radius !== undefined) {
-      this.chartOptions.elements.point.radius = this.pointSize;
+        this.chartOptions.elements.point.radius = this.pointSize;
     }
+    if (this.chartOptions.legend?.labels?.fontSize !== undefined) {
+      this.chartOptions.legend.labels.fontSize = this.fontSize;
+    }
+
     this.chart.refresh();
   }
 

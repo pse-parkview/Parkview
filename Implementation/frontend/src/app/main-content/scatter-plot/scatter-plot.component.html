@@ -47,7 +47,14 @@
                   (ngModelChange)="updateChart()"></mat-slider>
     </div>
 
-    <button mat-button
+    <div>
+      <label>Font Size: </label>
+      <label>{{fontSize}}</label>
+      <mat-slider color="primary" min="10" max="20" step="1" value="13" [(ngModel)]="fontSize"
+                  (ngModelChange)="updateChart()"></mat-slider>
+    </div>
+
+    <button mat-flat-button
             class="btn"
             (click)="downloadCanvas($event)">
       <mat-icon>download_file</mat-icon>

@@ -28,6 +28,13 @@
       </mat-select>
     </mat-form-field>
 
+    <div>
+      <label>Font Size: </label>
+      <label>{{fontSize}}</label>
+      <mat-slider color="primary" min="10" max="20" step="1" value="13" [(ngModel)]="fontSize"
+                  (ngModelChange)="updateChart()"></mat-slider>
+    </div>
+
     <button mat-button
             class="btn"
             (click)="downloadCanvas($event)">
