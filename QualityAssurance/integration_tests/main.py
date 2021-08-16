@@ -19,6 +19,8 @@ parser.add_argument('--frontend-img', type=str, default='../../Implementation/fr
 parser.add_argument('--github-token', type=str, default='', help='github oauth token')
 parser.add_argument('--github-user', type=str, default='', help='github oauth username')
 
+parser.add_argument('--timeout', type=int, default=30, help='Timeout until test start in seconds')
+
 args = parser.parse_args()
 
 parkview_url = args.frontend
@@ -32,6 +34,7 @@ data_file = 'resources/test_single_conversion.json'
 
 api_driver = ParkviewApiDriver(backend_url)
 web_driver = ParkviewWebDriver(parkview_url, selenium_url=selenium_url)
+web_driver.init()
 
 testcases = [T1(web_driver, api_driver, available_commit, available_device, data_file)]
 
@@ -41,22 +44,21 @@ docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.git
 # setup
 if __name__ == '__main__':
     try:
-
         for testcase in testcases:
             docker_driver.start_backend()
             docker_driver.start_frontend()
             print('started containers')
-            time.sleep(30)
+            time.sleep(args.timeout)
 
             print('init test case')
-            web_driver.init()
 
             testcase.setup()
+            web_driver.reload_site()
 
             print('running testcase')
             testcase.run()
             print(f'test case {testcase.name} finished sucessfully')
-    except Exception as e:
+    except Exception:
         print(f'Failed. Error: ')
         traceback.print_exc()
         docker_driver.stop_frontend()

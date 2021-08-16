@@ -12,26 +12,22 @@ class ParkviewWebDriver:
 
 
     def init(self):
-        self.options = webdriver.ChromeOptions()
-        # self.options.add_argument('ignore-certificate-errors')
-        # self.options.add_argument('headless')
         if self.remote_driver == '':
+            self.options = webdriver.ChromeOptions()
+            self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
-            capabilities = {
-                "browserName": "chrome",
-                "selenoid:options": {
-                    "enableVNC": True,
-                    "enableVideo": False
-                }
-            }
+            capabilities = webdriver.DesiredCapabilities.CHROME
 
             self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
+        self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load
+
+    def reload_site(self):
         self.driver.get(self.url)
 
 
     def wait_and_click(self, by: str, value: str):
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
             )
