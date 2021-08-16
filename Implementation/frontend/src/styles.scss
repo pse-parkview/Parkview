@@ -53,7 +53,7 @@ $light-background: $nord6; // Still need to figure out how to use this properly
 
 $nord-light: mat.define-light-theme(
   (
-    color: (
+      color: (
       primary: $light-primary,
       accent: $light-accent,
       warn: $light-warn,
@@ -82,7 +82,7 @@ $nord-light: mat.define-light-theme(
 
 html, body {
   height: 100%;
-  color: $light-foreground; // does this even do anything
+  color: $light-foreground;
 }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
