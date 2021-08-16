@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v2    
     
     - name: Install something so I can use the clipboard
-      run: sudo apt-get install xorg openbox
+      run: sudo apt-get install xorg openbox xclip xsel
     
     - name: Setup Chrome
       uses: nanasess/setup-chromedriver@master
