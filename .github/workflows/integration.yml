@@ -6,6 +6,7 @@ on:
     branches: 
       - main
       - develop
+      - quality-assurance
   pull_request:
     branches:
       - main
