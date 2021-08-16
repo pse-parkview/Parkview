@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from test_cases.t1 import T1
+from test_cases.t2 import T2
 from test_utils.parkview_apidriver import ParkviewApiDriver
 from test_utils.parkview_webdriver import ParkviewWebDriver
 from test_utils.docker_driver import DockerDriver
