@@ -28,13 +28,18 @@
       </mat-select>
     </mat-form-field>
 
-    <a class="download-btn"
-       mat-button
-       (click)="downloadCanvas($event)">
+    <button mat-button
+            class="btn"
+            (click)="downloadCanvas($event)">
+      <mat-icon>download_file</mat-icon>
       Download Plot
-    </a>
+    </button>
 
-    <button mat-button [cdkCopyToClipboard]="url" class="share-btn"><mat-icon>assignment</mat-icon></button>
+    <button mat-button
+            [cdkCopyToClipboard]="url" class="btn">
+      <mat-icon>assignment</mat-icon>
+      Copy Link
+    </button>
 
   </div>
 </mat-card>

@@ -29,19 +29,13 @@ mat-card-content {
   color: $nord0;
 }
 
-.download-btn {
+
+.btn {
+  flex: 1;
   text-decoration: none;
   padding: 10px;
   border-radius: 2px;
   background-color: $nord10;
-  color: white;
-  margin-left: 1vw;
-}
-
-.share-btn {
-  text-decoration: none;
-  border-radius: 2px;
-  background-color: $nord9;
   color: white;
   margin-left: 1vw;
 }
