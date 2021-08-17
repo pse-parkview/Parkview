@@ -33,9 +33,10 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
         val dataPoints = benchmarkResults[0].datapoints
 
+
         for (dataPoint in dataPoints) {
-            val minTime = dataPoint.formats.filter { it.completed }.map { it.time }.minOrNull() ?: continue
-            dataPoint.formats.forEach {
+            val minTime = dataPoint.formats.filter { it.completed and it.completed }.map { it.time }.minOrNull() ?: continue
+            dataPoint.formats.filter { !it.time.isNaN() and it.completed }.forEach {
                 formatSlowdowns.getOrPut(it.name) { mutableListOf() } += (it.time / minTime)
             }
         }
@@ -52,7 +53,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
                         x = d,
                         y = index.toDouble(),
                     )
-                }
+                }.filter { it.x > 1 }
         }
 
         return DatasetSeries(
