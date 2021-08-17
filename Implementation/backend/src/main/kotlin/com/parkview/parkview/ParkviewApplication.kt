@@ -53,6 +53,7 @@ class ParkviewApplication {
                 maxCached = appConfig.gitApi.maxCached,
                 branchLifetime = appConfig.gitApi.branchLifetime,
                 branchListLifetime = appConfig.gitApi.branchListLifetime,
+                shaLifetime = appConfig.gitApi.shaLifetime,
             ),
             databaseHandler
         )
