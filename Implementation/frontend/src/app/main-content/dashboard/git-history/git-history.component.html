@@ -42,7 +42,7 @@
                      [disabled]="commit.availableDevices.length == 0"
                      [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
   <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
-    <span class="sha">{{commit.sha | abbreviateSha: 7}}</span>
+    <span class="sha">{{commit.sha | abbreviateSha}}</span>
     <span class="date">{{commit.date | dateFormatter: 'medium'}}</span>
     <span class="author">{{commit.author}} </span>
     <span class="message-preview">{{commit.message | abbreviate: 50}}</span>
