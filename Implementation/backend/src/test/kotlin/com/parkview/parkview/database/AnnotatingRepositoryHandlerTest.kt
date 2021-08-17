@@ -19,10 +19,10 @@ internal class AnnotatingRepositoryHandlerTest {
             throw IllegalAccessException("mockup code that should not be used")
         }
 
-        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == "sha"
+        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == COMMIT_A.sha
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
-            if ((commit.sha == "sha") and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
+            if ((commit.sha == COMMIT_A.sha) and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
     }
 
     private object MockRepositoryHandler : RepositoryHandler {
