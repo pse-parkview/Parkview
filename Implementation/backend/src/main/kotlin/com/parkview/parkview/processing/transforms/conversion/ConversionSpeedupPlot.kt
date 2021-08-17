@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
@@ -12,6 +13,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
     override val name = "conversionSpeedup"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
+        getAvailableComparisons(results),
     )
 
     override fun transformConversion(
@@ -20,8 +22,19 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val datapointsA = benchmarkResults[0].datapoints
-        val datapointsB = benchmarkResults[1].datapoints
+        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val firstComponent = comparison.split("/").first()
+
+        val datapointsA: List<ConversionDatapoint>
+        val datapointsB: List<ConversionDatapoint>
+
+        if (firstComponent == benchmarkResults.first().identifier) {
+            datapointsA = benchmarkResults[0].datapoints
+            datapointsB = benchmarkResults[1].datapoints
+        } else {
+            datapointsA = benchmarkResults[1].datapoints
+            datapointsB = benchmarkResults[0].datapoints
+        }
 
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find {

@@ -1,13 +1,11 @@
 package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.DatasetSeries
-import com.parkview.parkview.processing.transforms.PlotPoint
-import com.parkview.parkview.processing.transforms.PlottableData
-import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.*
 
 class BlasSpeedupTransform : BlasPlotTransform() {
     override val numInputsRange = 2..2
@@ -15,6 +13,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
     override val name = "blasSpeedup"
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         BLAS_X_AXIS,
+        getAvailableComparisons(results),
     )
 
     override fun transformBlas(
@@ -23,8 +22,19 @@ class BlasSpeedupTransform : BlasPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val datapointsA = benchmarkResults[0].datapoints
-        val datapointsB = benchmarkResults[1].datapoints
+        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val firstComponent = comparison.split("/").first()
+
+        val datapointsA: List<BlasDatapoint>
+        val datapointsB: List<BlasDatapoint>
+
+        if (firstComponent == benchmarkResults.first().identifier) {
+            datapointsA = benchmarkResults[0].datapoints
+            datapointsB = benchmarkResults[1].datapoints
+        } else {
+            datapointsA = benchmarkResults[1].datapoints
+            datapointsB = benchmarkResults[0].datapoints
+        }
 
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find {

@@ -16,6 +16,18 @@ fun getAvailableMatrixNames(results: List<BenchmarkResult>) = CategoricalOption(
     options = (results.first() as MatrixBenchmarkResult).datapoints.map { it.name }
 )
 
+fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
+    if (results.size != 2) throw InvalidPlotTransformException("Comparison is only possible between two benchmarks")
+    return CategoricalOption(
+        name = "compare",
+        options = listOf(
+            results[0].identifier + "/" + results[1].identifier,
+            results[1].identifier + "/" + results[0].identifier,
+        ),
+        description = "Which speedup to compute",
+    )
+}
+
 interface PlotTransform {
     /**
      * number of allowed inputs as Pair(min, max)

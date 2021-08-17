@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
@@ -13,6 +14,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     override val name = "spmvSpeedup"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
+        getAvailableComparisons(results),
     )
 
     override fun transformSpmv(
@@ -21,8 +23,19 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val datapointsA = benchmarkResults[0].datapoints
-        val datapointsB = benchmarkResults[1].datapoints
+        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val firstComponent = comparison.split("/").first()
+
+        val datapointsA: List<SpmvDatapoint>
+        val datapointsB: List<SpmvDatapoint>
+
+        if (firstComponent == benchmarkResults.first().identifier) {
+            datapointsA = benchmarkResults[0].datapoints
+            datapointsB = benchmarkResults[1].datapoints
+        } else {
+            datapointsA = benchmarkResults[1].datapoints
+            datapointsB = benchmarkResults[0].datapoints
+        }
 
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find {
