@@ -8,6 +8,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatTableModule} from "@angular/material/table";
 import {AbbreviatePipe} from "./pipes/abbreviate.pipe";
 import { DateFormatterPipe } from './pipes/date-formatter.pipe';
+import { AbbreviateShaPipe } from './pipes/abbreviate-sha.pipe';
 
 
 
@@ -18,13 +19,15 @@ import { DateFormatterPipe } from './pipes/date-formatter.pipe';
     AbbreviatePipe,
     DefaultvaluePipe,
     DateFormatterPipe,
+    AbbreviateShaPipe,
   ],
-    exports: [
-        DefaultvaluePipe,
-        AbbreviatePipe,
-        SummaryCardComponent,
-        DateFormatterPipe,
-    ],
+  exports: [
+    DefaultvaluePipe,
+    AbbreviatePipe,
+    SummaryCardComponent,
+    DateFormatterPipe,
+    AbbreviateShaPipe,
+  ],
   imports: [
     CommonModule,
     NgxChartsModule,
