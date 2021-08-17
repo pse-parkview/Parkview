@@ -54,13 +54,13 @@
                   (ngModelChange)="updateChart()"></mat-slider>
     </div>
 
-    <button mat-flat-button
+    <a mat-flat-button
             class="btn"
             (click)="downloadCanvas($event)"
             color="primary">
       <mat-icon>download_file</mat-icon>
       Download Plot
-      </button>
+      </a>
 
     <button mat-flat-button
             [cdkCopyToClipboard]="url" class="btn"
