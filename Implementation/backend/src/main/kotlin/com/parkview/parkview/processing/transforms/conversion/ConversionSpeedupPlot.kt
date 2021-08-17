@@ -22,7 +22,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val comparison = options.getOptionValueByName("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<ConversionDatapoint>
@@ -48,7 +48,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
                 if (!conversionA.completed or !conversionB.completed) continue
 
                 seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
+                    x = when (options.getOptionValueByName("xAxis")) {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()

@@ -31,13 +31,13 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
             for (format in datapoint.formats) {
                 if (!format.completed) continue
                 seriesByName.getOrPut(format.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
+                    x = when (options.getOptionValueByName("xAxis")) {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
                         else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
-                    y = when (options["yAxis"]) {
+                    y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> (format.storage + datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
                         else -> throw InvalidPlotOptionsException(options, "yAxis")

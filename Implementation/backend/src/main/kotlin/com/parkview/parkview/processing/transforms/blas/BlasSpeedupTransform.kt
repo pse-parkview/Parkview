@@ -22,7 +22,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val comparison = options.getOptionValueByName("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<BlasDatapoint>

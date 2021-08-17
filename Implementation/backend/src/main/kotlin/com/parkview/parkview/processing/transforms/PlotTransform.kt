@@ -28,6 +28,8 @@ fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
     )
 }
 
+fun Map<String, String>.getOptionValueByName(name: String) = this[name] ?: throw InvalidPlotOptionsException(this, name)
+
 interface PlotTransform {
     /**
      * number of allowed inputs as Pair(min, max)

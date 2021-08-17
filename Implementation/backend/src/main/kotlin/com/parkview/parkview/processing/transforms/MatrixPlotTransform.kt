@@ -47,14 +47,12 @@ abstract class MatrixPlotTransform : PlotTransform {
 }
 
 fun filterMatrixDatapoints(datapoints: List<MatrixDatapoint>, options: Map<String, String>): List<MatrixDatapoint> {
-    val minRows = options["minRows"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minRows")
-    val maxRows = options["maxRows"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxRows")
-    val minColumns = options["minColumns"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minColumns")
-    val maxColumns = options["maxColumns"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxColumns")
-    val minNonzeros =
-        options["minNonzeros"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minNonzeros")
-    val maxNonzeros =
-        options["maxNonzeros"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxNonzeros")
+    val minRows = options.getOptionValueByName("minRows").toDouble()
+    val maxRows = options.getOptionValueByName("maxRows").toDouble()
+    val minColumns = options.getOptionValueByName("minColumns").toDouble()
+    val maxColumns = options.getOptionValueByName("maxColumns").toDouble()
+    val minNonzeros = options.getOptionValueByName("minNonzeros").toDouble()
+    val maxNonzeros = options.getOptionValueByName("maxNonzeros").toDouble()
 
     return datapoints
         .filter { (it.rows >= minRows) and (it.rows <= maxRows) }

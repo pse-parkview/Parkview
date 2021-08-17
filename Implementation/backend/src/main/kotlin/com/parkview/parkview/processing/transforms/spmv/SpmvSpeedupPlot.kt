@@ -23,7 +23,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options["compare"] ?: throw InvalidPlotOptionsException(options, "compare")
+        val comparison = options.getOptionValueByName("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<SpmvDatapoint>
@@ -49,7 +49,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
                 if (!formatA.completed or !formatB.completed) continue
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
+                    x = when (options.getOptionValueByName("xAxis")) {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()

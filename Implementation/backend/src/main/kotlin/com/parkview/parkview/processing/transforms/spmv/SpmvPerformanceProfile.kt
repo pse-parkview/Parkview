@@ -43,8 +43,8 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
         formatSlowdowns.forEach { (_, value) -> value.sort() }
 
-        val minX = options["minX"]?.toFloat() ?: throw InvalidPlotOptionsException(options, "minX")
-        val maxX = options["maxX"]?.toFloat() ?: throw InvalidPlotOptionsException(options, "maxX")
+        val minX = options.getOptionValueByName("minX").toFloat()
+        val maxX = options.getOptionValueByName("maxX").toFloat()
 
         for ((key, value) in formatSlowdowns) {
             seriesByName.getOrPut(key) { mutableListOf() } += value.filter { d -> (d <= maxX) and (d >= minX) }
