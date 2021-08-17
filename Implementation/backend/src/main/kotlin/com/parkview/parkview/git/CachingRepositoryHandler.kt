@@ -119,6 +119,10 @@ class CachingRepositoryHandler(
     override fun getNumberOfPages(branch: String): Int =
         branchCache.find { (it.name == branch) }?.numberPages ?: handler.getNumberOfPages(branch)
 
+    override fun getPullRequestNumber(sha: String): List<Int> = handler.getPullRequestNumber(sha)
+
+    override fun commentIssue(issueNumber: Int, comment: String) = handler.commentIssue(issueNumber, comment)
+
     private fun addToBranchCache(branch: CachedBranch) {
         branchCache.add(branch)
 

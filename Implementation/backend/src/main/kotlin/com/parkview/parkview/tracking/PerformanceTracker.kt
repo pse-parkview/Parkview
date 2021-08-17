@@ -1,7 +1,8 @@
 package com.parkview.parkview.tracking
 
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.RepositoryHandler
 
 class PerformanceTracker(
     private val databaseHandler: DatabaseHandler,
@@ -19,8 +20,10 @@ class PerformanceTracker(
             val new = databaseHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
             val prev = findPreviousResult(result) ?: continue
 
-            webhooks.forEach { it.notify(new, prev) }
+            webhooks.forEach { it.addResult(new, prev) }
         }
+
+        webhooks.forEach { it.notifyHook() }
     }
 
     private fun findPreviousResult(result: BenchmarkResult): BenchmarkResult? {

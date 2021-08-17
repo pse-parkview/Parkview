@@ -28,4 +28,8 @@ class AnnotatingRepositoryHandler(
     override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()
 
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)
+
+    override fun getPullRequestNumber(sha: String): List<Int> = repHandler.getPullRequestNumber(sha)
+
+    override fun commentIssue(issueNumber: Int, comment: String) = repHandler.commentIssue(issueNumber, comment)
 }

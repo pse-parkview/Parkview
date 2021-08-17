@@ -1,6 +1,7 @@
 package com.parkview.parkview.rest
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
@@ -12,9 +13,7 @@ import okhttp3.Response
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.*
 import kotlin.math.ceil
 
@@ -68,6 +67,17 @@ private data class DiffInfoModel(
     val total_commits: Int,
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class PullRequestModel(
+    val number: Int,
+    val state: String,
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class IssueCommentModel(
+    val body: String,
+)
+
 class GitApiException(message: String) : Exception(message)
 
 private interface GitHubService {
@@ -101,6 +111,22 @@ private interface GitHubService {
         @Path("firstSha") firstSha: String,
         @Path("lastSha") lastSha: String,
     ): Call<DiffInfoModel>
+
+    @Headers("Accept: application/vnd.github.groot-preview+json")
+    @GET("https://api.github.com/repos/{owner}/{repoName}/commits/{sha}/pulls")
+    fun getPr(
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("sha") firstSha: String,
+    ): Call<List<PullRequestModel>>
+
+    @POST("https://api.github.com/repos/{owner}/{repoName}/issues/{issueNumber}/comments")
+    fun postIssueComment(
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("issueNumber") issueNumber: Int,
+        @Body comment: IssueCommentModel,
+    ): Call<IssueCommentModel>
 }
 
 /**
@@ -171,5 +197,27 @@ class GitApiHandler(
                 ?: throw GitApiException("Error while retrieving diff")
 
         return ceil((diffInfo.total_commits + 1) / commitPerPage.toDouble()).toInt()
+    }
+
+    override fun getPullRequestNumber(sha: String): List<Int> {
+        val prInfoResponse = githubApi.getPr(owner, repoName, sha).execute()
+
+        if (!prInfoResponse.isSuccessful) {
+            throw GitApiException("Error while retrieving pull request number: ${prInfoResponse.errorBody()}")
+        }
+
+        val prInfo = prInfoResponse.body() ?: throw GitApiException("Error while retrieving pull request number")
+
+        return prInfo.filter { it.state == "open" }.map { it.number }
+    }
+
+    override fun commentIssue(issueNumber: Int, comment: String) {
+        val response = githubApi.postIssueComment(owner, repoName, issueNumber, IssueCommentModel(comment)).execute()
+        if (!response.isSuccessful) {
+            println(response.code())
+            println(response.raw().message)
+            println(response.raw().body)
+            throw GitApiException("Error while posting comment: ${Gson().toJson(response.body())}")
+        }
     }
 }

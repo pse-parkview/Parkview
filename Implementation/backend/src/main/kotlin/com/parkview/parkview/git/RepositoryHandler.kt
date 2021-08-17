@@ -24,4 +24,8 @@ interface RepositoryHandler {
     fun getAvailableBranches(): List<String>
 
     fun getNumberOfPages(branch: String): Int
+
+    fun getPullRequestNumber(sha: String): List<Int>
+
+    fun commentIssue(issueNumber: Int, comment: String)
 }

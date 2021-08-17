@@ -20,10 +20,12 @@ internal class PerformanceTrackerTest {
     private val webhook = object : Webhook {
         var new: BenchmarkResult? = null
         var old: BenchmarkResult? = null
-        override fun notify(new: BenchmarkResult, previous: BenchmarkResult) {
+        override fun addResult(new: BenchmarkResult, previous: BenchmarkResult) {
             this.new = new
             this.old = previous
         }
+
+        override fun notifyHook() {}
     }
 
     private val repositoryHandler = object : RepositoryHandler {
@@ -64,6 +66,14 @@ internal class PerformanceTrackerTest {
         }
 
         override fun getNumberOfPages(branch: String): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun getPullRequestNumber(sha: String): List<Int> {
+            TODO("Not yet implemented")
+        }
+
+        override fun commentIssue(issueNumber: Int, comment: String) {
             TODO("Not yet implemented")
         }
     }

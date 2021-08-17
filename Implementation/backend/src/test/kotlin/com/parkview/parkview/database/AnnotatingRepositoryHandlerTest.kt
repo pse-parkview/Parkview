@@ -42,6 +42,14 @@ internal class AnnotatingRepositoryHandlerTest {
             throw IllegalAccessException("mockup code that should not be used")
         }
 
+        override fun getPullRequestNumber(sha: String): List<Int> {
+            throw IllegalAccessException("mockup code that should not be used")
+        }
+
+        override fun commentIssue(issueNumber: Int, comment: String) {
+            throw IllegalAccessException("mockup code that should not be used")
+        }
+
     }
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
