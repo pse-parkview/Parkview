@@ -27,7 +27,7 @@ abstract class ConversionPlotTransform : MatrixPlotTransform() {
             )
         }
 
-        return transformConversion(results.filterIsInstance<ConversionBenchmarkResult>(), options)
+        return transformConversion(filteredResults, options)
     }
 
     /**

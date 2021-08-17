@@ -6,6 +6,7 @@ import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
+import java.lang.IllegalArgumentException
 
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -30,8 +31,9 @@ class SolverConvergencePlot : SolverPlotTransform() {
     ): PlottableData {
         val benchmarkResult = benchmarkResults.firstOrNull()
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")
+
         val datapoint = benchmarkResult.datapoints.first {
-            it.name == options["datapoint"]
+            it.name == options["matrix"] ?: throw InvalidPlotOptionsException(options, "matrix")
         }
 
 
