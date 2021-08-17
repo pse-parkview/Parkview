@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -8,23 +9,31 @@ import time
 class ParkviewWebDriver:
     def __init__(self, parkview_url: str, selenium_url: str = ''):
         self.url = parkview_url
-        # self.options.add_argument('ignore-certificate-errors')
-        # self.options.add_argument('headless')
+        self.remote_driver = selenium_url
+
 
     def init(self):
-        self.options = webdriver.ChromeOptions()
-        self.driver = webdriver.Chrome(options=self.options)
+        if self.remote_driver == '':
+            self.options = webdriver.ChromeOptions()
+            self.options.add_argument('headless')
+            self.driver = webdriver.Chrome(options=self.options)
+        else:
+            capabilities = webdriver.DesiredCapabilities.CHROME
 
+            self.driver = webdriver.Remote(command_executor=self.remote_driver, desired_capabilities=capabilities)
+        self.driver.set_page_load_timeout(300) # wait up to 5 min for page to load
+
+    def reload_site(self):
+        self.driver.delete_all_cookies()
         self.driver.get(self.url)
 
-
-    def wait_and_click(self, by: By, value: str):
-        WebDriverWait(self.driver, 10).until(
+    def wait_and_click(self, by: str, value: str):
+        WebDriverWait(self.driver, 30).until(
             expected_conditions.element_to_be_clickable(
                 (by, value)
             )
         ).click()
-        time.sleep(0.1)
+        time.sleep(1)
 
     def select_branch(self, branch_name: str):
         self.wait_and_click(By.ID, 'branchSelection')
@@ -47,10 +56,10 @@ class ParkviewWebDriver:
         self.wait_and_click(By.XPATH, commit_panel_path)
 
     def open_configuration(self):
-        self.wait_and_click('//*[@id="sidenav"]/div/app-sidebar/app-side-current-chosen-commit/mat-card/button')
+        self.wait_and_click(By.XPATH, '//*[@id="sidenav"]/div/app-sidebar/app-side-current-chosen-commit/mat-card/button')
 
     def select_device(self, device_name: str):
-        self.wait_and_click(f'//mat-checkbox/label/span[contains(text(), " {device_name} ")]')
+        self.wait_and_click(By.XPATH, f'//mat-checkbox/label/span[contains(text(), " {device_name} ")]')
 
     def accept_cookies(self):
         self.wait_and_click(By.ID, 'confirmCookies')
@@ -63,3 +72,23 @@ class ParkviewWebDriver:
 
     def confirm_plot(self):
         self.wait_and_click(By.ID, 'plotButton')
+
+    def assert_commit_available(self, sha: str, device: str) -> bool:
+        commit_panel_path = f'//mat-expansion-panel[contains(@class, commitPanel)]/mat-expansion-panel-header/span/span[' \
+                            f'contains(text(), "{sha[:6]}")]/../../..'
+        self.wait_and_click(By.XPATH, commit_panel_path)
+        device_path = f'{commit_panel_path}/div/div/section/ul/li/mat-checkbox/label/span[contains(text(), " {device} ")]'
+
+        try:
+            self.driver.find_element_by_xpath(device_path)
+        except NoSuchElementException:
+            return False
+        finally:
+            self.wait_and_click(By.XPATH, commit_panel_path)
+        return True
+
+    def click_share_button(self):
+        self.wait_and_click(By.ID, 'share-btn')
+
+    def get_current_url(self) -> str:
+        return self.driver.current_url

@@ -8,12 +8,12 @@ class ParkviewApiDriver:
     def upload_file(self, path: str, sha: str, device: str):
         params = {'sha': sha, 'device': device}
         endpoint = self.parkview_url + '/post'
-        print('loading file')
+        print('loading file ... ', end='')
         with open(path, 'r') as f:
             data = json.load(f)
         print('done')
 
-        print('uploading')
+        print('uploading ... ', end='')
         requests.post(url=endpoint, json=data, params=params)
         print('done')
 

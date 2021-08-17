@@ -1,0 +1,32 @@
+\ProvidesPackage{qa}
+
+\DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{0pt} % Remove ugly dots in dirtree
+
+\newcommand\parkview[0]{\emph{Parkview}}
+
+\newcommand{\class}[4]{
+  {\large \textbf{{#1}}}\bigskip \\
+  {#2} \bigskip \\
+  \underline{Attributes:} {#3}
+  \underline{Methods:} {#4}
+}
+
+\newcommand{\interface}[3]{
+    {\large \underline{\textbf{{#1}}}}\bigskip \\
+  {#2} \bigskip \\
+  \underline{Methods:} {#3}
+}
+
+\newcommand{\enum}[3]{
+    {\large \textbf{Enum {#1}}}\bigskip \\
+  {#2} \bigskip \\
+  \underline{Values:} {#3}
+}
+
+
+\newcommand{\identifier}[2]{
+  \texttt{{#1}}: {#2}
+}
+
+\newcommand{\PASS}{\colorbox{green}{PASS}}
+\newcommand{\covRow}[4]{\texttt{#1} & #2\% & \progressbar{0.#2} & #3\% & \progressbar{0.#3} & #4\% & \progressbar{0.#4}}
