@@ -26,7 +26,6 @@ export class ScatterPlotComponent implements OnInit {
   public xType: ScaleType = 'linear';
   public pointSize: number = 2;
   public fontSize: number = 12;
-  public url = window.location.href;
 
   public chartOptions: ChartOptions = {
     title: {

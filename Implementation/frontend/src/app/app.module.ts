@@ -43,6 +43,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { ConfigButtonsComponent } from './main-content/config-buttons/config-buttons.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     TestComponent,
     LinePlotComponent,
     ScatterPlotComponent,
-    BarPlotComponent
+    BarPlotComponent,
+    ConfigButtonsComponent
   ],
     imports: [
         BrowserModule,

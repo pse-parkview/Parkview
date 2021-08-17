@@ -24,7 +24,6 @@ export class BarPlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'linear';
   public chartLabels: Label[] = Array();
-  public url = window.location.href;
   public fontSize: number = 12;
 
   public chartOptions: ChartOptions = {

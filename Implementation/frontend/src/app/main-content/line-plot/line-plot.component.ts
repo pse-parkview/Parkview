@@ -24,7 +24,6 @@ export class LinePlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'logarithmic';
   public xType: ScaleType = 'linear';
-  public url = window.location.href;
   public fontSize: number = 12;
 
   public chartOptions: ChartOptions = {
@@ -134,7 +133,4 @@ export class LinePlotComponent implements OnInit {
     this.chart.refresh();
   }
 
-  downloadCanvas(event: MouseEvent) {
-    PlotUtils.downloadCanvas(event, `${this.chartType}-plot.png`);
-  }
 }
