@@ -17,6 +17,7 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.*
+import kotlin.math.roundToInt
 
 // taken from https://gist.github.com/seccomiro/85446c4849855615d1938133bce30738
 private class BasicAuthInterceptor(user: String, password: String) : Interceptor {
@@ -165,6 +166,6 @@ class GitApiHandler(
             githubApi.getDiff(owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
                 ?: throw GitApiException("Error while retrieving diff")
 
-        return (diffInfo.total_commits + 1) / commitPerPage
+        return ((diffInfo.total_commits + 1) / commitPerPage.toDouble()).roundToInt()
     }
 }

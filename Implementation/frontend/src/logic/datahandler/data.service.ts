@@ -25,6 +25,12 @@ export class DataService {
     return this.http.get<Array<string>>(`${this.url}/benchmarks`);
   }
 
+  getNumPages(branchName: string) {
+    const params: HttpParams = new HttpParams()
+      .set('branch', branchName)
+    return this.http.get<number>(`${this.url}/numberPages`, {params: params})
+  }
+
   getCommitHistory(branchName: string, benchmarkType: string, page: number = 1): Observable<Commit[]> {
     const params: HttpParams = new HttpParams()
       .set('branch', branchName)
