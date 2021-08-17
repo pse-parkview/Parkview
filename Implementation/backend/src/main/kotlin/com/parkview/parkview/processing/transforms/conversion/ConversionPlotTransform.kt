@@ -1,23 +1,33 @@
 package com.parkview.parkview.processing.transforms.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
-import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.MatrixPlotTransform
 import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
 
 /**
  * Interface for transforms using [ConversionBenchmarkResult].
  */
-interface ConversionPlotTransform : PlotTransform {
+abstract class ConversionPlotTransform : MatrixPlotTransform() {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is ConversionBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only ConversionBenchmarkResult is allowed")
 
         checkNumInputs(results)
         checkOptions(results, options)
 
+        val filteredResults = results.filterIsInstance<ConversionBenchmarkResult>().map {
+            ConversionBenchmarkResult(
+                commit = it.commit,
+                device = it.device,
+                benchmark = it.benchmark,
+                datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<ConversionDatapoint>(),
+            )
+        }
 
-        return transformConversion(results.filterIsInstance<ConversionBenchmarkResult>(), options)
+        return transformConversion(filteredResults, options)
     }
 
     /**
@@ -26,7 +36,7 @@ interface ConversionPlotTransform : PlotTransform {
      * @param benchmarkResults list of conversion benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transformConversion(
+    abstract fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
         options: Map<String, String>,
     ): PlottableData

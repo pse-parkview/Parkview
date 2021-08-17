@@ -10,6 +10,8 @@ export interface PlotOption {
   get name(): string;
   get options(): string[];
   get number(): boolean;
+  get default(): string;
+  get description(): string;
 }
 
 export const X_AXIS_PLOT_OPTION_NAME = 'xAxis';

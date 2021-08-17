@@ -1,5 +1,5 @@
 <mat-card>
-  <h4>Summary of {{config.commitSha | abbreviate: 7}} on {{config.device}}</h4>
+  <h4>Summary of {{config.commitSha | abbreviateSha}} on {{config.device}}</h4>
   Benchmark: {{config.benchmarkName}}
   <br>
   <mat-table

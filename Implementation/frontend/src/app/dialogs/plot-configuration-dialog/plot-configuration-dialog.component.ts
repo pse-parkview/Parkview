@@ -68,9 +68,11 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.currentPlotOptions = {};
     this.availablePlotOptions.forEach(po => {
       if (po.number) {
-        this.currentPlotOptions[po.name] = 0;
+        this.currentPlotOptions[po.name] = !isNaN(parseFloat(po.default)) ? parseFloat(po.default) : 0;
       } else {
-        this.currentPlotOptions[po.name] = po.options.length > 0 ? po.options[0] : ''
+        this.currentPlotOptions[po.name] = po.options.includes(po.default)
+          ? po.default
+          : po.options.length > 0 ? po.options[0] : ''
       }
     });
     this.setDefaultLabels();
