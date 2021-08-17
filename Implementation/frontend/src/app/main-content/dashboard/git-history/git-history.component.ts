@@ -107,8 +107,10 @@ export class GitHistoryComponent implements OnInit {
   }
 
   selectPage(pageChoice: number): void {
-    this.currentlySelectedPage = pageChoice;
-    this.updateCommitHistory();
+    if (pageChoice >= 1 && pageChoice <= this.maxPage) {
+      this.currentlySelectedPage = pageChoice;
+      this.updateCommitHistory();
+    }
   }
 
   firstPage() {
@@ -116,11 +118,11 @@ export class GitHistoryComponent implements OnInit {
   }
 
   nextPage() {
-    this.selectPage(++this.currentlySelectedPage);
+    this.selectPage(this.currentlySelectedPage + 1);
   }
 
   prevPage() {
-    this.selectPage(--this.currentlySelectedPage);
+    this.selectPage(this.currentlySelectedPage - 1);
   }
 
   lastPage() {

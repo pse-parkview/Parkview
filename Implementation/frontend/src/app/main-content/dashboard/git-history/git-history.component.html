@@ -28,22 +28,35 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
     <div class="divider"></div>
 
     <button mat-button (click)="firstPage()">
       <mat-icon>first_page</mat-icon>
     </button>
+
     <button mat-button (click)="prevPage()">
       <mat-icon>navigate_before</mat-icon>
     </button>
-    {{currentlySelectedPage}} / {{maxPage}}
+
+    <div class="divider"></div>
+
+    <div>
+      {{currentlySelectedPage}} / {{maxPage}}
+    </div>
+
+    <div class="divider"></div>
+
     <button mat-button (click)="nextPage()">
       <mat-icon>navigate_next</mat-icon>
     </button>
+
     <button mat-button (click)="lastPage()">
       <mat-icon>last_page</mat-icon>
     </button>
+
     <div class="divider"></div>
+
     <mat-checkbox color="primary"
                   [checked]="hideUnusableCommits"
                   (change)="toggleHideUnusableCommits()">
