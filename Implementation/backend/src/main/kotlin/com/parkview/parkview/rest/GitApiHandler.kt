@@ -13,10 +13,10 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.*
+import kotlin.math.ceil
 
 // taken from https://gist.github.com/seccomiro/85446c4849855615d1938133bce30738
 private class BasicAuthInterceptor(user: String, password: String) : Interceptor {
@@ -165,6 +165,6 @@ class GitApiHandler(
             githubApi.getDiff(owner, repoName, firstCommitSha, headInfo.objectInfo.sha).execute().body()
                 ?: throw GitApiException("Error while retrieving diff")
 
-        return (diffInfo.total_commits + 1) / commitPerPage
+        return ceil((diffInfo.total_commits + 1) / commitPerPage.toDouble()).toInt()
     }
 }

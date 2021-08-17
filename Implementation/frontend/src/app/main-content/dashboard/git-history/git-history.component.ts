@@ -18,6 +18,8 @@ export class GitHistoryComponent implements OnInit {
   currentlySelectedBenchmarkName: string = '';
   benchmarkNames: string[] = [];
   hideUnusableCommits: boolean = false;
+  currentlySelectedPage: number = 1;
+  maxPage: number = 1;
 
 
   commits: Commit[] = [];
@@ -57,16 +59,18 @@ export class GitHistoryComponent implements OnInit {
     }
     this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
     this.commitService.updateBranchName(this.currentlySelectedBranch);
-    this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName).subscribe((commits: Commit[]) => {
+    this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName, this.currentlySelectedPage).subscribe((commits: Commit[]) => {
       this.commits = commits;
     });
     this.selected = [];
+    this.dataService.getNumPages(this.currentlySelectedBranch).subscribe(num => this.maxPage = num)
   }
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
     this.cookieService.saveGitHistoryBranch(branchChoice);
     this.updateCommitHistory();
+    this.firstPage()
   }
 
   selectBenchmarkName(benchmarkNameChoice: string): void {
@@ -100,5 +104,28 @@ export class GitHistoryComponent implements OnInit {
         }
       }
     }
+  }
+
+  selectPage(pageChoice: number): void {
+    if (pageChoice >= 1 && pageChoice <= this.maxPage) {
+      this.currentlySelectedPage = pageChoice;
+      this.updateCommitHistory();
+    }
+  }
+
+  firstPage() {
+    this.selectPage(1);
+  }
+
+  nextPage() {
+    this.selectPage(this.currentlySelectedPage + 1);
+  }
+
+  prevPage() {
+    this.selectPage(this.currentlySelectedPage - 1);
+  }
+
+  lastPage() {
+    this.selectPage(this.maxPage);
   }
 }

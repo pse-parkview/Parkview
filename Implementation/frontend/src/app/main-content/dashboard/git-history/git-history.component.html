@@ -28,7 +28,35 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
     <div class="divider"></div>
+
+    <button mat-button (click)="firstPage()">
+      <mat-icon>first_page</mat-icon>
+    </button>
+
+    <button mat-button (click)="prevPage()">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+
+    <div class="divider"></div>
+
+    <div>
+      {{currentlySelectedPage}} / {{maxPage}}
+    </div>
+
+    <div class="divider"></div>
+
+    <button mat-button (click)="nextPage()">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+
+    <button mat-button (click)="lastPage()">
+      <mat-icon>last_page</mat-icon>
+    </button>
+
+    <div class="divider"></div>
+
     <mat-checkbox color="primary"
                   [checked]="hideUnusableCommits"
                   (change)="toggleHideUnusableCommits()">
@@ -41,6 +69,7 @@
                      class="commitPanel"
                      [disabled]="commit.availableDevices.length == 0"
                      [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
+
   <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
     <span class="sha">{{commit.sha | abbreviateSha}}</span>
     <span class="date">{{commit.date | dateFormatter: 'medium'}}</span>
@@ -53,7 +82,8 @@
     <ul>
       <li *ngFor="let device of commit.availableDevices">
 
-        <mat-checkbox class="device-margin" color="primary" (change)="selectDevice(commit, device.name, $event.checked)">
+        <mat-checkbox class="device-margin" color="primary"
+                      (change)="selectDevice(commit, device.name, $event.checked)">
           {{device.name}}
         </mat-checkbox>
       </li>
