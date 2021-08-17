@@ -7,8 +7,8 @@ import java.util.*
 
 fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
 
-val COMMIT_A = Commit("sha", "", Date(), "")
-val COMMIT_B = Commit("ash", "", Date(), "")
+val COMMIT_A = Commit("commitasha", "", Date(), "")
+val COMMIT_B = Commit("commitbsha", "", Date(), "")
 val DEVICE = Device("gamer")
 
 val SPMV_RESULT = SpmvBenchmarkResult(

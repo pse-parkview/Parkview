@@ -6,7 +6,6 @@ import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.*
-import java.lang.IllegalArgumentException
 
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -33,21 +32,21 @@ class SolverConvergencePlot : SolverPlotTransform() {
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")
 
         val datapoint = benchmarkResult.datapoints.first {
-            it.name == options["matrix"] ?: throw InvalidPlotOptionsException(options, "matrix")
+            it.name == options.getOptionValueByName("matrix")
         }
 
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (solver in datapoint.solvers) {
-            val wantedResiduals = when (options["yAxis"]) {
+            val wantedResiduals = when (options.getOptionValueByName("yAxis")) {
                 "recurrent_residuals" -> solver.recurrentResiduals
                 "true_residuals" -> solver.trueResiduals
                 "implicit_residuals" -> solver.implicitResiduals
                 else -> throw InvalidPlotOptionsException(options, "xAxis")
             }
 
-            val wantedXAxis = when (options["xAxis"]) {
+            val wantedXAxis = when (options.getOptionValueByName("xAxis")) {
                 "iteration_timestamps" -> solver.iterationTimestamps
                 "array_index" -> (0..(wantedResiduals.size)).map { it.toDouble() }.toList()
                 else -> throw InvalidPlotOptionsException(options, "yAxis")

@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
@@ -9,10 +10,11 @@ import com.parkview.parkview.processing.transforms.*
 
 class SpmvSpeedupPlot : SpmvPlotTransform() {
     override val numInputsRange = 2..2
-    override val plottableAs = listOf(PlotType.Line)
+    override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
     override val name = "spmvSpeedup"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
+        getAvailableComparisons(results),
     )
 
     override fun transformSpmv(
@@ -21,8 +23,19 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val datapointsA = benchmarkResults[0].datapoints
-        val datapointsB = benchmarkResults[1].datapoints
+        val comparison = options.getOptionValueByName("compare")
+        val firstComponent = comparison.split("/").first()
+
+        val datapointsA: List<SpmvDatapoint>
+        val datapointsB: List<SpmvDatapoint>
+
+        if (firstComponent == benchmarkResults.first().identifier) {
+            datapointsA = benchmarkResults[0].datapoints
+            datapointsB = benchmarkResults[1].datapoints
+        } else {
+            datapointsA = benchmarkResults[1].datapoints
+            datapointsB = benchmarkResults[0].datapoints
+        }
 
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find {
@@ -36,7 +49,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
                 if (!formatA.completed or !formatB.completed) continue
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
+                    x = when (options.getOptionValueByName("xAxis")) {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()

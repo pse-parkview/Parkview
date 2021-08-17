@@ -31,13 +31,13 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
             for (conversion in datapoint.conversions) {
                 if (!conversion.completed) continue
                 seriesByName.getOrPut(conversion.name) { mutableListOf() } += PlotPoint(
-                    x = when (options["xAxis"]) {
+                    x = when (options.getOptionValueByName("xAxis")) {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
                         else -> throw InvalidPlotOptionsException(options, "xAxis")
                     },
-                    y = when (options["yAxis"]) {
+                    y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time
                         else -> throw InvalidPlotOptionsException(options, "yAxis")

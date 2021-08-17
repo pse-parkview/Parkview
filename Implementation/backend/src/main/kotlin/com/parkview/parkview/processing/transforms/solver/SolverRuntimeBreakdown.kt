@@ -28,7 +28,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         benchmarkResults: List<SolverBenchmarkResult>,
         options: Map<String, String>,
     ): PlottableData {
-        val datapoint = benchmarkResults.first().datapoints.find { it.name == options["matrix"] }
+        val datapoint = benchmarkResults.first().datapoints.find { it.name == options.getOptionValueByName("matrix") }
             ?: throw InvalidPlotOptionsException(options, "matrix")
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()

@@ -42,4 +42,7 @@ interface BenchmarkResult {
      * @return summary value
      */
     val summaryValues: Map<String, Double>
+
+    val identifier: String
+        get() = commit.sha.substring(0, 7) + "-" + device.name
 }

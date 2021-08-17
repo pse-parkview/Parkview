@@ -33,17 +33,18 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
         val dataPoints = benchmarkResults[0].datapoints
 
+
         for (dataPoint in dataPoints) {
-            val minTime = dataPoint.formats.filter { it.completed }.map { it.time }.minOrNull() ?: continue
-            dataPoint.formats.forEach {
+            val minTime = dataPoint.formats.filter { it.completed and it.completed }.map { it.time }.minOrNull() ?: continue
+            dataPoint.formats.filter { !it.time.isNaN() and it.completed }.forEach {
                 formatSlowdowns.getOrPut(it.name) { mutableListOf() } += (it.time / minTime)
             }
         }
 
         formatSlowdowns.forEach { (_, value) -> value.sort() }
 
-        val minX = options["minX"]?.toFloat() ?: throw InvalidPlotOptionsException(options, "minX")
-        val maxX = options["maxX"]?.toFloat() ?: throw InvalidPlotOptionsException(options, "maxX")
+        val minX = options.getOptionValueByName("minX").toFloat()
+        val maxX = options.getOptionValueByName("maxX").toFloat()
 
         for ((key, value) in formatSlowdowns) {
             seriesByName.getOrPut(key) { mutableListOf() } += value.filter { d -> (d <= maxX) and (d >= minX) }
@@ -52,7 +53,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
                         x = d,
                         y = index.toDouble(),
                     )
-                }
+                }.filter { it.x > 1 }
         }
 
         return DatasetSeries(
