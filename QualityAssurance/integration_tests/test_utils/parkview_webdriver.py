@@ -15,7 +15,7 @@ class ParkviewWebDriver:
     def init(self):
         if self.remote_driver == '':
             self.options = webdriver.ChromeOptions()
-#            self.options.add_argument('headless')
+            self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
             capabilities = webdriver.DesiredCapabilities.CHROME
