@@ -15,7 +15,7 @@ class ParkviewWebDriver:
     def init(self):
         if self.remote_driver == '':
             self.options = webdriver.ChromeOptions()
-            self.options.add_argument('headless')
+#            self.options.add_argument('headless')
             self.driver = webdriver.Chrome(options=self.options)
         else:
             capabilities = webdriver.DesiredCapabilities.CHROME
@@ -48,7 +48,7 @@ class ParkviewWebDriver:
 
     def select_datapoint(self, sha: str, device: str):
         commit_panel_path = f'//mat-expansion-panel[contains(@class, commitPanel)]/mat-expansion-panel-header/span/span[' \
-                            f'contains(text(), "{sha[:6]}")]/../../..'
+                            f'contains(text(), "{sha[:7]}")]/../../..'
         self.wait_and_click(By.XPATH, commit_panel_path)
         self.wait_and_click(By.XPATH,
                             f'{commit_panel_path}/div/div/section/ul/li/mat-checkbox/label/span[contains(text(), " {device} ")]')
