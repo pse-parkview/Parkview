@@ -33,7 +33,7 @@ class ParkviewWebDriver:
                 (by, value)
             )
         ).click()
-        time.sleep(1)
+        time.sleep(5)
 
     def select_branch(self, branch_name: str):
         self.wait_and_click(By.ID, 'branchSelection')
@@ -75,7 +75,7 @@ class ParkviewWebDriver:
 
     def assert_commit_available(self, sha: str, device: str) -> bool:
         commit_panel_path = f'//mat-expansion-panel[contains(@class, commitPanel)]/mat-expansion-panel-header/span/span[' \
-                            f'contains(text(), "{sha[:6]}")]/../../..'
+                            f'contains(text(), "{sha[:7]}")]/../../..'
         self.wait_and_click(By.XPATH, commit_panel_path)
         device_path = f'{commit_panel_path}/div/div/section/ul/li/mat-checkbox/label/span[contains(text(), " {device} ")]'
 
