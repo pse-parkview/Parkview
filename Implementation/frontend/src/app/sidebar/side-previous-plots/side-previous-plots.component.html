@@ -7,7 +7,7 @@
 
     <div class="container">
       <div class="commits">
-        <div class="box" *ngFor="let commit of config.commits">{{commit | abbreviate: 6}}</div>
+        <div class="box" *ngFor="let commit of config.commits">{{commit | abbreviateSha}}</div>
       </div>
       <div class="devices">
         <div class="box" *ngFor="let device of config.devices">{{device}}</div>
