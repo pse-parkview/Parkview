@@ -8,10 +8,7 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {GitHistoryComponent} from './main-content/dashboard/git-history/git-history.component';
 import {AveragePerformanceComponent} from './main-content/dashboard/average-performance/average-performance.component';
 import {PlotConfigurationDialogComponent} from './dialogs/plot-configuration-dialog/plot-configuration-dialog.component';
-import {BenchmarkSelectDialogComponent} from './dialogs/benchmark-select-dialog/benchmark-select-dialog.component';
 import {LoadFromTemplateDialogComponent} from './dialogs/load-from-template-dialog/load-from-template-dialog.component';
-import {ErrorDialogComponent} from './dialogs/error-dialog/error-dialog.component';
-import {BenchmarkCompareDialogComponent} from './dialogs/benchmark-compare-dialog/benchmark-compare-dialog.component';
 import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
@@ -55,10 +52,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     GitHistoryComponent,
     AveragePerformanceComponent,
     PlotConfigurationDialogComponent,
-    BenchmarkSelectDialogComponent,
     LoadFromTemplateDialogComponent,
-    ErrorDialogComponent,
-    BenchmarkCompareDialogComponent,
     CookieConsentDialogComponent,
     SideCurrentChosenCommitComponent,
     SideLoadFromTemplateComponent,
