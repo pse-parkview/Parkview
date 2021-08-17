@@ -37,7 +37,7 @@ class ParkviewApiHandler(
         shas: List<String>,
         devices: List<String>,
         plotType: String,
-        allParams: Map<String, String>,
+        plotParams: Map<String, String>,
     ): PlottableData {
         val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
             databaseHandler.fetchBenchmarkResult(
@@ -48,7 +48,7 @@ class ParkviewApiHandler(
         }
 
         val plot = AvailablePlots.getPlotByName(plotType) ?: throw IllegalArgumentException("Invalid plot type")
-        return plot.transform(results, allParams)
+        return plot.transform(results, plotParams)
     }
 
     override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()
