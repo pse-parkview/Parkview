@@ -13,6 +13,7 @@ data class AppConfig(
 data class GitApiConfig(
     val maxCached: Int,
     val branchLifetime: Int,
+    val shaLifetime: Int,
     val branchListLifetime: Int,
     val repoName: String,
     val owner: String,

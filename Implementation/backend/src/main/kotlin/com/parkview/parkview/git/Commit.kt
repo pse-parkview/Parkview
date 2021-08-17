@@ -23,4 +23,9 @@ data class Commit(
         if (!devices.contains(device)) devices.add(device)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if ((other is Commit) && (other.sha == sha)) return true
+
+        return super.equals(other)
+    }
 }

@@ -8,6 +8,8 @@ import com.parkview.parkview.git.CachingRepositoryHandler
 import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.rest.GitApiHandler
 import com.parkview.parkview.rest.ParkviewApiHandler
+import com.parkview.parkview.tracking.GitPrCommentHook
+import com.parkview.parkview.tracking.PerformanceTracker
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
@@ -51,13 +53,19 @@ class ParkviewApplication {
                 maxCached = appConfig.gitApi.maxCached,
                 branchLifetime = appConfig.gitApi.branchLifetime,
                 branchListLifetime = appConfig.gitApi.branchListLifetime,
+                shaLifetime = appConfig.gitApi.shaLifetime,
             ),
             databaseHandler
         )
 
     @Bean
-    fun restHandler(repositoryHandler: RepositoryHandler, databaseHandler: DatabaseHandler) =
-        ParkviewApiHandler(repositoryHandler, databaseHandler)
+    fun restHandler(repositoryHandler: RepositoryHandler, databaseHandler: DatabaseHandler, performanceTracker: PerformanceTracker) =
+        ParkviewApiHandler(repositoryHandler, databaseHandler, performanceTracker)
+
+    @Bean
+    fun performanceTracker(repositoryHandler: RepositoryHandler, databaseHandler: DatabaseHandler) =
+        PerformanceTracker(databaseHandler, repositoryHandler)
+            .apply { addWebhook(GitPrCommentHook(repositoryHandler)) }
 }
 
 fun main(args: Array<String>) {

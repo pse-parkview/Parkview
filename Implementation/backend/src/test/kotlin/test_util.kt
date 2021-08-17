@@ -11,6 +11,36 @@ val COMMIT_A = Commit("commitasha", "", Date(), "")
 val COMMIT_B = Commit("commitbsha", "", Date(), "")
 val DEVICE = Device("gamer")
 
+val COMMIT_A_RESULT = SpmvBenchmarkResult(
+    COMMIT_A,
+    DEVICE,
+    BenchmarkType.Spmv,
+    (1..5).map {
+        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+        SpmvDatapoint(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
+                format
+            ),
+        )
+    }
+)
+
+val COMMIT_B_RESULT = SpmvBenchmarkResult(
+    COMMIT_B,
+    DEVICE,
+    BenchmarkType.Spmv,
+    (1..5).map {
+        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
+        SpmvDatapoint(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
+                format
+            ),
+        )
+    }
+)
+
 val SPMV_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
     DEVICE,
