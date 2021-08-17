@@ -136,8 +136,13 @@ class GitApiHandler(
 
     private val commitPerPage = 30
 
-    override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+    override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
         githubApi.fetchHistory(owner, repoName, branch, page).execute().body()
+            ?.map { Commit(it.sha, it.commit.message, it.commit.author.date, it.commit.author.name) }
+            ?: throw GitApiException("Error while retrieving history")
+
+    override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+        githubApi.fetchHistory(owner, repoName, rev, page).execute().body()
             ?.map { Commit(it.sha, it.commit.message, it.commit.author.date, it.commit.author.name) }
             ?: throw GitApiException("Error while retrieving history")
 

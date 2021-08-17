@@ -28,12 +28,12 @@ class CachingRepositoryHandler(
     private var availableBranches = handler.getAvailableBranches()
     private var availableBranchesFetchDate = Date()
 
-    override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
+    override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
         val wantedBranch = branchCache.find { (it.name == branch) and (it.benchmark == benchmarkType) }
 
         // branch is not cached
         if (wantedBranch == null) {
-            val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
+            val newBranch = handler.fetchGitHistoryByBranch(branch, page, benchmarkType)
             addToCache(CachedBranch(branch,
                 benchmarkType,
                 Date(),
@@ -45,7 +45,7 @@ class CachingRepositoryHandler(
 
         // too old
         if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
-            val newBranch = handler.fetchGitHistory(branch, page, benchmarkType)
+            val newBranch = handler.fetchGitHistoryByBranch(branch, page, benchmarkType)
             branchCache.remove(wantedBranch)
             addToCache(CachedBranch(branch,
                 benchmarkType,
@@ -58,8 +58,10 @@ class CachingRepositoryHandler(
         }
 
         // hit
-        return wantedBranch.pages.getOrPut(page) { handler.fetchGitHistory(branch, page, benchmarkType) }
+        return wantedBranch.pages.getOrPut(page) { handler.fetchGitHistoryByBranch(branch, page, benchmarkType) }
     }
+
+    override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = handler.fetchGitHistoryBySha(rev, page, benchmarkType)
 
     override fun getAvailableBranches(): List<String> {
         if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > branchListLifetime) {
