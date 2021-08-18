@@ -170,31 +170,6 @@ private data class DatapointModel(
     }
 }
 
-private data class BlasDatapointModel(
-    val n: Long,
-    val r: Long? = 1,
-    val m: Long? = n,
-    val k: Long? = n,
-    val blas: Map<String, BlasOperationModel>,
-) {
-    fun toBlasDatapoint(): BlasDatapoint = BlasDatapoint(
-        n,
-        r ?: 1,
-        m ?: n,
-        k ?: n,
-        blas.map { (key, value) ->
-            Operation(
-                key,
-                value.time,
-                value.flops,
-                value.bandwidth,
-                value.completed,
-                value.repetitions ?: 0
-            )
-        }
-    )
-}
-
 private data class BlasOperationModel(
     val time: Double,
     val flops: Double,
