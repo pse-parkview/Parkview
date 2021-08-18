@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LinePlotComponent } from './line-plot.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {LinePlotComponent} from './line-plot.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('LinePlotComponent', () => {
   let component: LinePlotComponent;
@@ -8,7 +9,13 @@ describe('LinePlotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LinePlotComponent ]
+      declarations: [
+        LinePlotComponent
+      ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ]
     })
     .compileComponents();
   });
