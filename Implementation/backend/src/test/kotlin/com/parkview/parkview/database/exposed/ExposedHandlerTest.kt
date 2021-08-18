@@ -9,12 +9,14 @@ import SOLVER_RESULT
 import SPMV_RESULT
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
+import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import javax.sql.DataSource
 
 internal class ExposedHandlerTest {
@@ -350,5 +352,11 @@ internal class ExposedHandlerTest {
         assert((returned as SpmvBenchmarkResult).datapoints.size == 10)
     }
 
+    @Test
+    fun `test fetching benchmark result that doesn't exist`() {
+        assertThrows<MissingBenchmarkResultException> {
+            dbHandler.fetchBenchmarkResult(COMMIT_A, DEVICE, BenchmarkType.Blas)
+        }
+    }
 }
 
