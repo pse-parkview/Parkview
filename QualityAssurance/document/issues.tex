@@ -1,1 +1,41 @@
 \section{Known Issues}
+
+\subsection{Frontend}
+
+\issue{Template Management Page}
+{Templates may introduce a necessity for a more powerful manipulation tool than the sidebar - like deleting, selecting a template first, and only selecting data points after that, manipulating them and other configuration. \\
+Ideally this would be done on a separate page implemented specifically for template management.}
+
+\issue{More Information on Plot Pages}
+{Currently there is no information about which commits and devices are displayed in the plot on the plot page.}
+
+\issue{Axis Scaling in Cookies}
+{A minor quality of life improvement would be to store the currently selected axis scaling (linear / logarithmic) in the browser's cookies, as to make switching between multiple plots of the same type more seamless.}
+
+\issue{Sensible Defaults for Axis Scaling}
+{Axes should default to linear scaling instead of logarithmic for Performance Profiles.}
+
+\issue{Reuse Current Plot Settings when opening another Plot}
+{When on a plot page, selecting \enquote{Configure Plot} should open the configuration pop-up with the current plot settings instead of the defaults to make subsequent changes to the plot configuration simpler.}
+
+\issue{Disable Plot Button when no Plots are available}
+{Currently the plot button is enabled even if there are no available plots conforming to the user selection. Pressing it leads to an empty plot page.}
+
+\subsection{Backend}
+
+\issue{Preconditioner Plots}
+{Plots for Preconditioner Benchmarks are still missing but shouldn't be a lot of effort to implement later on due to the modular nature of the backend.}
+
+\issue{HikariCP}
+{Every time the backend is started, HikariCP logs a warning message, however, it doesn't seem to affect any functionality. This might just be a minor oversight in a configuration file somewhere.}
+
+\issue{POST Authentication}
+{Currently there is no form of authentication required to POST data to the backend. This might be desirable once \parkview{} is hosted in a public network to prevent malicious requests.}
+
+\issue{ConcurrentModificationException}
+{Sometimes the backend throws a \texttt{ConcurrentModificationException}, while there isn't any way to reproduce this reliably, it might be an issue with an access from one thread that changes the linked lists used for caching the benchmark results while another thread is iterating over it.}
+
+\subsection{Miscellaneous}
+
+\issue{NGINX}
+{The container for the frontend currently uses \texttt{ng serve} which is less than desirable for production use. Ideally the frontend container should use NGINX as an actual webserver.}
