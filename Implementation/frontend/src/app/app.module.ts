@@ -8,7 +8,6 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {GitHistoryComponent} from './main-content/dashboard/git-history/git-history.component';
 import {AveragePerformanceComponent} from './main-content/dashboard/average-performance/average-performance.component';
 import {PlotConfigurationDialogComponent} from './dialogs/plot-configuration-dialog/plot-configuration-dialog.component';
-import {LoadFromTemplateDialogComponent} from './dialogs/load-from-template-dialog/load-from-template-dialog.component';
 import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
@@ -53,7 +52,6 @@ import { ConfigButtonsComponent } from './main-content/config-buttons/config-but
     GitHistoryComponent,
     AveragePerformanceComponent,
     PlotConfigurationDialogComponent,
-    LoadFromTemplateDialogComponent,
     CookieConsentDialogComponent,
     SideCurrentChosenCommitComponent,
     SideLoadFromTemplateComponent,
