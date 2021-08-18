@@ -1,5 +1,6 @@
 package com.parkview.parkview.benchmark
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.fail
@@ -29,6 +30,7 @@ internal class JsonParserTest {
     }
 
     @Test
+    @Disabled // disabled until we add an actual assertion
     fun `test json deserialization for big file`() {
         // TODO use class loader instead of relative path
         // testJson = this.javaClass::class.java.getResource("test_single_spmv.json").readText()

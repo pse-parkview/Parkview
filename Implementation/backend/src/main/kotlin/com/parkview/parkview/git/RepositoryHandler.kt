@@ -1,5 +1,7 @@
 package com.parkview.parkview.git
 
+class RepositoryException(message: String) : Exception(message)
+
 /**
  * Interface that provides access to repository for fetching new commits.
  * This allow for updating the history with new commits
@@ -24,8 +26,4 @@ interface RepositoryHandler {
     fun getAvailableBranches(): List<String>
 
     fun getNumberOfPages(branch: String): Int
-
-    fun getPullRequestNumber(sha: String): List<Int>
-
-    fun commentIssue(issueNumber: Int, comment: String)
 }

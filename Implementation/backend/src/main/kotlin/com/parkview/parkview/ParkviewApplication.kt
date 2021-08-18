@@ -13,6 +13,10 @@ import com.parkview.parkview.tracking.PerformanceTracker
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
+import okhttp3.Credentials
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -27,28 +31,31 @@ class ParkviewApplication {
             if (appConfig.database.embedded) {
                 EmbeddedPostgres.start().postgresDatabase
             } else {
-            HikariDataSource(HikariConfig()
-                .apply {
-                    jdbcUrl = appConfig.database.datasource.jdbcUrl
-                    username = appConfig.database.datasource.username
-                    password = appConfig.database.datasource.password
-                }
-            )
+                HikariDataSource(HikariConfig()
+                    .apply {
+                        jdbcUrl = appConfig.database.datasource.jdbcUrl
+                        username = appConfig.database.datasource.username
+                        password = appConfig.database.datasource.password
+                    }
+                )
             },
         ),
         maxCached = appConfig.database.maxCached,
     )
 
     @Bean
-    fun repositoryHandler(appConfig: AppConfig, databaseHandler: DatabaseHandler): RepositoryHandler =
+    fun repositoryHandler(
+        appConfig: AppConfig,
+        databaseHandler: DatabaseHandler,
+        okHttpClient: OkHttpClient,
+    ): RepositoryHandler =
         AnnotatingRepositoryHandler(
             CachingRepositoryHandler(
                 GitApiHandler(
                     appConfig.gitApi.repoName,
                     appConfig.gitApi.owner,
                     appConfig.gitApi.firstCommitSha,
-                    appConfig.gitApi.username,
-                    appConfig.gitApi.token,
+                    okHttpClient,
                 ),
                 maxCached = appConfig.gitApi.maxCached,
                 branchLifetime = appConfig.gitApi.branchLifetime,
@@ -59,13 +66,46 @@ class ParkviewApplication {
         )
 
     @Bean
-    fun restHandler(repositoryHandler: RepositoryHandler, databaseHandler: DatabaseHandler, performanceTracker: PerformanceTracker) =
+    fun restHandler(
+        repositoryHandler: RepositoryHandler,
+        databaseHandler: DatabaseHandler,
+        performanceTracker: PerformanceTracker,
+    ): ParkviewApiHandler =
         ParkviewApiHandler(repositoryHandler, databaseHandler, performanceTracker)
 
     @Bean
-    fun performanceTracker(repositoryHandler: RepositoryHandler, databaseHandler: DatabaseHandler) =
+    fun performanceTracker(
+        appConfig: AppConfig,
+        repositoryHandler: RepositoryHandler,
+        databaseHandler: DatabaseHandler,
+        okHttpClient: OkHttpClient,
+    ) =
         PerformanceTracker(databaseHandler, repositoryHandler)
-            .apply { addWebhook(GitPrCommentHook(repositoryHandler)) }
+            .apply {
+                if (appConfig.performanceTracker.commentHookEnabled)
+                    addWebhook(GitPrCommentHook(
+                        appConfig.gitApi.owner,
+                        appConfig.gitApi.repoName,
+                        okHttpClient,
+                    ))
+            }
+
+    @Bean
+    fun okHttpClient(appConfig: AppConfig) =
+        OkHttpClient.Builder()
+            .addInterceptor(
+                // taken from https://gist.github.com/seccomiro/85446c4849855615d1938133bce30738
+                object : Interceptor {
+                    private val credentials: String =
+                        Credentials.basic(appConfig.gitApi.username, appConfig.gitApi.token)
+                    override fun intercept(chain: Interceptor.Chain): Response {
+                        val request = chain.request()
+                        val authenticatedRequest = request.newBuilder()
+                            .header("Authorization", credentials).build()
+                        return chain.proceed(authenticatedRequest)
+                    }
+                }
+            ).build()
 }
 
 fun main(args: Array<String>) {
