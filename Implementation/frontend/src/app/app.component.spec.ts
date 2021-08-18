@@ -6,11 +6,13 @@ import {CookieModule} from "ngx-cookie";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {CookieService} from "../logic/cookiehandler/cookie.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import Spy = jasmine.Spy;
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
   let cookieService: CookieService;
+  let cookieServiceDialogSpy: Spy<() => void>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -34,6 +36,7 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     cookieService = fixture.debugElement.injector.get(CookieService);
 
+    cookieServiceDialogSpy = spyOn(cookieService, "spawnConsentDialog");
     fixture.detectChanges();
   });
 
@@ -46,17 +49,17 @@ describe('AppComponent', () => {
   });
 
   it('should ask for cookie settings if new', function () {
-    const cookieServiceDialogSpy = spyOn(cookieService, "spawnConsentDialog");
     const cookieServiceConsentSpy = spyOn(cookieService, "hasDecidedConsent")
       .and.returnValue(false);
+    cookieServiceDialogSpy.calls.reset();
     component.ngOnInit();
     expect(cookieServiceDialogSpy).toHaveBeenCalled();
   });
 
   it('should not ask for cookie settings if old', function () {
-    const cookieServiceDialogSpy = spyOn(cookieService, "spawnConsentDialog");
     const cookieServiceConsentSpy = spyOn(cookieService, "hasDecidedConsent")
       .and.returnValue(true);
+    cookieServiceDialogSpy.calls.reset();
     component.ngOnInit();
     expect(cookieServiceDialogSpy).not.toHaveBeenCalled();
   });
