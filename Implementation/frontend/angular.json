@@ -108,6 +108,9 @@
             "scripts": []
           },
           "configurations": {
+            "develop": {
+              "browsers": "Chrome"
+            },
             "ci": {
               "watch": false,
               "progress": false,

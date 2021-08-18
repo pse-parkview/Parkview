@@ -40,7 +40,11 @@ module.exports = function (config) {
     autoWatch: true,
     singleRun: false,
     restartOnFileChange: true,
-    browsers: ['ChromeHeadless', 'ChromeHeadlessCI'],
+    browsers: [
+      'Chrome',
+      'ChromeHeadless',
+      'ChromeHeadlessCI'
+    ],
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
