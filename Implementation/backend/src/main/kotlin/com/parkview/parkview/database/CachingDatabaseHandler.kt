@@ -14,12 +14,19 @@ private data class AvailableCacheEntry(
     val available: Boolean,
 )
 
+private data class DeviceCacheEntry(
+    val commit: Commit,
+    val benchmark: BenchmarkType,
+    val devices: List<Device>,
+)
+
 class CachingDatabaseHandler(
     private val databaseHandler: DatabaseHandler,
     private val maxCached: Int = 10,
 ) : DatabaseHandler {
-    private val resultCache: MutableList<BenchmarkResult> = LinkedList()
-    private val availableCache: MutableList<AvailableCacheEntry> = LinkedList()
+    private val resultCache: MutableList<BenchmarkResult> = mutableListOf()
+    private val availableCache: MutableList<AvailableCacheEntry> = mutableListOf()
+    private val deviceCache: MutableList<DeviceCacheEntry> = mutableListOf()
 
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         resultCache.clear()
@@ -62,8 +69,23 @@ class CachingDatabaseHandler(
         return cached.available
     }
 
-    override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
-        databaseHandler.getAvailableDevicesForCommit(commit, benchmark)
+    override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> {
+        val cached = deviceCache.find { (it.commit.sha == commit.sha) and (it.benchmark == benchmark) }
+
+        // miss
+        if (cached == null) {
+            val devices = databaseHandler.getAvailableDevicesForCommit(commit, benchmark)
+            val cacheEntry = DeviceCacheEntry(commit, benchmark, devices)
+            addToDeviceCache(cacheEntry)
+
+            return devices
+        }
+
+        // hit
+        deviceCache.remove(cached)
+        deviceCache.add(cached)
+        return cached.devices
+    }
 
     private fun addToResultCache(result: BenchmarkResult) {
         resultCache.add(result)
@@ -78,6 +100,14 @@ class CachingDatabaseHandler(
 
         if (availableCache.size > maxCached) {
             availableCache.removeAt(0)
+        }
+    }
+
+    private fun addToDeviceCache(entry: DeviceCacheEntry) {
+        deviceCache.add(entry)
+
+        if (deviceCache.size > maxCached) {
+            deviceCache.removeAt(0)
         }
     }
 }
