@@ -1,11 +1,56 @@
 package com.parkview.parkview.tracking
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.google.gson.Gson
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.RepositoryHandler
+import com.parkview.parkview.git.RepositoryException
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.*
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class PullRequestModel(
+    val number: Int,
+    val state: String,
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+private data class IssueCommentModel(
+    val body: String,
+)
+
+private interface GitHubHookService {
+    @Headers("Accept: application/vnd.github.groot-preview+json")
+    @GET("https://api.github.com/repos/{owner}/{repoName}/commits/{sha}/pulls")
+    fun getPr(
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("sha") firstSha: String,
+    ): Call<List<PullRequestModel>>
+
+    @POST("https://api.github.com/repos/{owner}/{repoName}/issues/{issueNumber}/comments")
+    fun postIssueComment(
+        @Path("owner") owner: String,
+        @Path("repoName") repoName: String,
+        @Path("issueNumber") issueNumber: Int,
+        @Body comment: IssueCommentModel,
+    ): Call<IssueCommentModel>
+}
+
 
 class GitPrCommentHook(
-    private val repositoryHandler: RepositoryHandler,
+    private val owner: String,
+    private val repoName: String,
+    client: OkHttpClient,
 ) : Webhook {
+    private val githubApi = Retrofit.Builder()
+        .baseUrl("https://api.github.com/")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build().create(GitHubHookService::class.java)
+
     private var commentsBySha = mutableMapOf<String, MutableList<String>>()
 
     override fun addResult(new: BenchmarkResult, previous: BenchmarkResult) {
@@ -20,7 +65,7 @@ class GitPrCommentHook(
             val difference = value - previous.summaryValues[algorithm]!!
             val trendString = when {
                 difference < 0 -> {
-                    "- $difference"
+                    "- ${difference * -1}"
                 }
                 difference > 0 -> {
                     "+ $difference"
@@ -38,10 +83,32 @@ class GitPrCommentHook(
 
     override fun notifyHook() {
         for ((sha, comment) in commentsBySha) {
-            repositoryHandler.getPullRequestNumber(sha).forEach {
-                repositoryHandler.commentIssue(it, comment.joinToString("\n"))
+            getPullRequestNumber(sha).forEach {
+                commentIssue(it, comment.joinToString("\n"))
             }
         }
         commentsBySha = mutableMapOf()
+    }
+
+    private fun getPullRequestNumber(sha: String): List<Int> {
+        val prInfoResponse = githubApi.getPr(owner, repoName, sha).execute()
+
+        if (!prInfoResponse.isSuccessful) {
+            throw RepositoryException("Error while retrieving pull request number: ${prInfoResponse.errorBody()}")
+        }
+
+        val prInfo = prInfoResponse.body() ?: throw RepositoryException("Error while retrieving pull request number")
+
+        return prInfo.filter { it.state == "open" }.map { it.number }
+    }
+
+    private fun commentIssue(issueNumber: Int, comment: String) {
+        val response = githubApi.postIssueComment(owner, repoName, issueNumber, IssueCommentModel(comment)).execute()
+        if (!response.isSuccessful) {
+            println(response.code())
+            println(response.raw().message)
+            println(response.raw().body)
+            throw RepositoryException("Error while posting comment: ${Gson().toJson(response.body())}")
+        }
     }
 }

@@ -68,14 +68,6 @@ internal class PerformanceTrackerTest {
         override fun getNumberOfPages(branch: String): Int {
             TODO("Not yet implemented")
         }
-
-        override fun getPullRequestNumber(sha: String): List<Int> {
-            TODO("Not yet implemented")
-        }
-
-        override fun commentIssue(issueNumber: Int, comment: String) {
-            TODO("Not yet implemented")
-        }
     }
 
     private val databaseHandler = object : DatabaseHandler {
