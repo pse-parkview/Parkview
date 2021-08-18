@@ -81,7 +81,14 @@ class ParkviewApplication {
         okHttpClient: OkHttpClient,
     ) =
         PerformanceTracker(databaseHandler, repositoryHandler)
-            .apply { addWebhook(GitPrCommentHook(appConfig.gitApi.owner, appConfig.gitApi.repoName, okHttpClient)) }
+            .apply {
+                if (appConfig.performanceTracker.commentHookEnabled)
+                    addWebhook(GitPrCommentHook(
+                        appConfig.gitApi.owner,
+                        appConfig.gitApi.repoName,
+                        okHttpClient,
+                    ))
+            }
 
     @Bean
     fun okHttpClient(appConfig: AppConfig) =
