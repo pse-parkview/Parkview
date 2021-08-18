@@ -1,7 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { GitHistoryComponent } from './git-history.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {GitHistoryComponent} from './git-history.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MatDialogModule} from "@angular/material/dialog";
+import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
+import {CookieModule} from "ngx-cookie";
+import {MatCardModule} from "@angular/material/card";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 describe('GitHistoryComponent', () => {
   let component: GitHistoryComponent;
@@ -14,6 +22,17 @@ describe('GitHistoryComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatIconModule,
+        CookieModule.forRoot()
+      ],
+      providers: [
+        CookieService,
       ]
     })
     .compileComponents();

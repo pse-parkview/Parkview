@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SideCurrentChosenCommitComponent } from './side-current-chosen-commit.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {SideCurrentChosenCommitComponent} from './side-current-chosen-commit.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {LibModule} from "../../../lib/lib.module";
 
 describe('SideCurrentChosenCommitComponent', () => {
   let component: SideCurrentChosenCommitComponent;
@@ -8,7 +11,17 @@ describe('SideCurrentChosenCommitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SideCurrentChosenCommitComponent ]
+      declarations: [
+        SideCurrentChosenCommitComponent
+      ],
+      imports: [
+        MatCardModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        LibModule,
+      ],
+      providers: [
+      ]
     })
     .compileComponents();
   });
