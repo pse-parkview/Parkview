@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class AppConfig(
     val database: DatabaseConfig,
     val gitApi: GitApiConfig,
-    val performanceTracker: PerformanceTrackerConfig,
+    val performanceTracker: PerformanceTrackerConfig = PerformanceTrackerConfig(),
 )
 
 data class GitApiConfig(
@@ -36,5 +36,5 @@ data class DataSourceConfig(
 )
 
 data class PerformanceTrackerConfig(
-    val commentHookEnabled: Boolean,
+    val commentHookEnabled: Boolean = false,
 )
