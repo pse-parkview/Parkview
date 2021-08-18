@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -205,19 +204,11 @@ private data class BlasOperationModel(
 )
 
 /**
- * Singleton that takes care of parsing the json representation used in ginkgo-data to [BenchmarkResult] objects
+ * Class that takes care of parsing the json representation used in ginkgo-data to [BenchmarkResult] objects
  */
-object JsonParser {
-    /**
-     * Converts a json list of objects to a list of benchmark results
-     *
-     * @param sha sha for commit these benchmarks have been run on
-     * @param deviceName device these benchmarks have been run on
-     * @param json json as a string
-     *
-     * @return list of [BenchmarkResult]
-     */
-    fun benchmarkResultsFromJson(
+class GsonBenchmarkJsonParser : BenchmarkJsonParser {
+
+    override fun benchmarkResultsFromJson(
         sha: String,
         deviceName: String,
         json: String,

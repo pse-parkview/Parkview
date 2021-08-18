@@ -1,6 +1,6 @@
 package com.parkview.parkview.rest
 
-import com.parkview.parkview.benchmark.JsonParser
+import com.parkview.parkview.benchmark.BenchmarkJsonParser
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.processing.AvailablePlots
@@ -14,15 +14,17 @@ class ParkviewApiHandler(
     private val repHandler: RepositoryHandler,
     private val databaseHandler: DatabaseHandler,
     private val performanceTracker: PerformanceTracker,
+    private val benchmarkJsonParser: BenchmarkJsonParser,
 ) : RestHandler {
     private val performanceCalculator = AveragePerformanceCalculator(databaseHandler)
+
 
     override fun postBenchmarkResults(
         sha: String,
         device: String,
         json: String,
     ) {
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, json)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, json)
 
         databaseHandler.insertBenchmarkResults(benchmarkResults)
         performanceTracker.notifyHooks(benchmarkResults)
