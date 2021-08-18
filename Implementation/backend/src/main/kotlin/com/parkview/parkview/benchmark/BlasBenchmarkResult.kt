@@ -38,10 +38,7 @@ data class BlasDatapoint(
     val m: Long = n,
     val k: Long = n,
     val operations: List<Operation>,
-) : Datapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(operations)
-}
+) : Datapoint
 
 /**
  * This is a benchmark result for the benchmarks

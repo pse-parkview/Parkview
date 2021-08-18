@@ -38,10 +38,7 @@ data class SpmvDatapoint(
     override val columns: Long,
     override val nonzeros: Long,
     val formats: List<Format>,
-) : MatrixDatapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(formats)
-}
+) : MatrixDatapoint
 
 /**
  * This is a benchmark result for the benchmarks

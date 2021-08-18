@@ -54,10 +54,7 @@ data class SolverDatapoint(
     override val nonzeros: Long,
     val optimal: String,
     val solvers: List<Solver>,
-) : MatrixDatapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(solvers)
-}
+) : MatrixDatapoint
 
 /**
  * This is a benchmark result for the benchmarks

@@ -34,10 +34,7 @@ data class ConversionDatapoint(
     override val columns: Long,
     override val nonzeros: Long,
     val conversions: List<Conversion>,
-) : MatrixDatapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(conversions)
-}
+) : MatrixDatapoint
 
 /**
  * This is a benchmark result for the benchmarks

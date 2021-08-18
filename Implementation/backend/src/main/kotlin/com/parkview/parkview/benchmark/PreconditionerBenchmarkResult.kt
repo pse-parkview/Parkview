@@ -21,10 +21,7 @@ data class PreconditionerDatapoint(
     override val columns: Long,
     override val nonzeros: Long,
     val preconditioners: List<Preconditioner>,
-) : MatrixDatapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(preconditioners)
-}
+) : MatrixDatapoint
 
 /**
  * A single preconditioner, part of [PreconditionerBenchmarkResult].
