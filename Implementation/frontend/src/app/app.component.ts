@@ -21,10 +21,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (!this.cookieService.hasDecidedConsent()) {
       this.cookieService.spawnConsentDialog();
     }
+    this.changeNavModes();
   }
 
   ngAfterViewInit() {
-    this.changeNavModes();
     window.addEventListener('resize', () => this.changeNavModes());
   }
 
