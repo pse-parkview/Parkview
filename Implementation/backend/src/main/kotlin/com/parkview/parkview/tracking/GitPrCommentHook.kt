@@ -65,7 +65,7 @@ class GitPrCommentHook(
             val difference = value - previous.summaryValues[algorithm]!!
             val trendString = when {
                 difference < 0 -> {
-                    "- $difference"
+                    "- ${difference * -1}"
                 }
                 difference > 0 -> {
                     "+ $difference"
