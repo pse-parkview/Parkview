@@ -7,10 +7,7 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionsException
-import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
-import com.parkview.parkview.processing.transforms.PlotTransform
-import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.*
 
 val BLAS_X_AXIS = CategoricalOption(
     name = "xAxis",
@@ -117,14 +114,14 @@ fun BlasDatapoint.getXAxisByOption(options: Map<String, String>): Long = when (o
 }
 
 fun filterBlasDatapoints(datapoints: List<BlasDatapoint>, options: Map<String, String>): List<BlasDatapoint> {
-    val maxN = options["maxN"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxN")
-    val minN = options["minN"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minN")
-    val maxR = options["maxR"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxR")
-    val minR = options["minR"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minR")
-    val maxK = options["maxK"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxK")
-    val minK = options["minK"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minK")
-    val maxM = options["maxM"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "maxM")
-    val minM = options["minM"]?.toDoubleOrNull() ?: throw InvalidPlotOptionsException(options, "minM")
+    val maxN = options.getOptionValueByName("maxN").toDouble()
+    val minN = options.getOptionValueByName("minN").toDouble()
+    val maxR = options.getOptionValueByName("maxR").toDouble()
+    val minR = options.getOptionValueByName("minR").toDouble()
+    val maxK = options.getOptionValueByName("maxK").toDouble()
+    val minK = options.getOptionValueByName("minK").toDouble()
+    val maxM = options.getOptionValueByName("maxM").toDouble()
+    val minM = options.getOptionValueByName("minM").toDouble()
 
     return datapoints
         .filter { (it.n >= minN) and (it.n <= maxN) }

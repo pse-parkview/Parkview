@@ -3,6 +3,7 @@ package com.parkview.parkview.processing.transforms
 import com.parkview.parkview.benchmark.MatrixBenchmarkResult
 import com.parkview.parkview.benchmark.MatrixDatapoint
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 
@@ -59,3 +60,13 @@ fun filterMatrixDatapoints(datapoints: List<MatrixDatapoint>, options: Map<Strin
         .filter { (it.columns >= minColumns) and (it.columns <= maxColumns) }
         .filter { (it.nonzeros >= minNonzeros) and (it.nonzeros <= maxNonzeros) }
 }
+
+val MATRIX_X_AXIS = CategoricalOption(
+    name = "xAxis",
+    options = listOf("nonzeros", "rows", "columns")
+)
+
+fun getAvailableMatrixNames(result: BenchmarkResult) = CategoricalOption(
+    name = "matrix",
+    options = (result as MatrixBenchmarkResult).datapoints.map { it.name }
+)
