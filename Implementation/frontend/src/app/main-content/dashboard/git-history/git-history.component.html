@@ -53,10 +53,6 @@
       <input type="number" class="page-number" name="page" [(ngModel)]="currentlySelectedPage"> / {{maxPage}}
     </form>
 
-<!--    <div>-->
-<!--      {{currentlySelectedPage}} / {{maxPage}}-->
-<!--    </div>-->
-
     <div class="divider"></div>
 
     <button mat-button (click)="nextPage()">
@@ -66,7 +62,6 @@
     <button mat-button (click)="lastPage()">
       <mat-icon>last_page</mat-icon>
     </button>
-
 
   </div>
 </mat-card>
