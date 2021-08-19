@@ -33,7 +33,6 @@ abstract class BlasPlotTransform : PlotTransform {
             BlasBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                benchmark = it.benchmark,
                 datapoints = filterBlasDatapoints(it.datapoints, options),
             )
         }

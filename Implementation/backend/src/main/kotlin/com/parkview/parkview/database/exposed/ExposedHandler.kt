@@ -7,7 +7,10 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Schema
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.sql.DataSource
 
@@ -255,27 +258,23 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
                 benchmarkQuery,
                 commit,
                 device,
-                benchmark,
             )
             BenchmarkType.Solver -> fetchSolverBenchmarkResult(
                 benchmarkQuery,
                 commit,
                 device,
-                benchmark,
             )
             BenchmarkType.Preconditioner -> fetchPreconditionerBenchmarkResult(
                 benchmarkQuery,
                 commit,
                 device,
-                benchmark,
             )
             BenchmarkType.Conversion -> fetchConversionBenchmarkResult(
                 benchmarkQuery,
                 commit,
                 device,
-                benchmark,
             )
-            BenchmarkType.Blas -> fetchBlasBenchmarkResult(benchmarkQuery, commit, device, benchmark)
+            BenchmarkType.Blas -> fetchBlasBenchmarkResult(benchmarkQuery, commit, device)
         }
     }
 
@@ -283,7 +282,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
-        benchmark: BenchmarkType,
     ): BenchmarkResult {
         val datapoints = transaction(db) {
             SpmvDatapointRow.find {
@@ -294,7 +292,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return SpmvBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmark,
             datapoints = datapoints,
         )
     }
@@ -303,7 +300,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
-        benchmark: BenchmarkType,
     ): BenchmarkResult {
         val datapoints = transaction(db) {
             ConversionDatapointRow.find {
@@ -314,7 +310,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return ConversionBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmark,
             datapoints = datapoints,
         )
     }
@@ -324,7 +319,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
-        benchmark: BenchmarkType,
     ): BenchmarkResult {
         val datapoints = transaction(db) {
             PreconditionerDatapointRow.find {
@@ -335,7 +329,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return PreconditionerBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmark,
             datapoints = datapoints,
         )
     }
@@ -344,7 +337,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
-        benchmark: BenchmarkType,
     ): BenchmarkResult {
         val datapoints = transaction(db) {
             SolverDatapointRow.find {
@@ -355,7 +347,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return SolverBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmark,
             datapoints = datapoints,
         )
     }
@@ -364,7 +355,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
         device: Device,
-        benchmark: BenchmarkType,
     ): BenchmarkResult {
         val datapoints = transaction(db) {
             BlasDatapointRow.find {
@@ -377,7 +367,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         return BlasBenchmarkResult(
             commit = commit,
             device = device,
-            benchmark = benchmark,
             datapoints = datapoints,
         )
     }

@@ -109,7 +109,6 @@ internal class ExposedHandlerTest {
         val resultA = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     it.toLong() * 10, operations = listOf(
@@ -121,7 +120,6 @@ internal class ExposedHandlerTest {
         val resultB = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     it.toLong() * 10, operations = listOf(
@@ -153,7 +151,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -168,7 +165,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -201,7 +197,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -216,7 +211,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -241,7 +235,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -256,7 +249,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -281,7 +273,6 @@ internal class ExposedHandlerTest {
         val resultA = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     (it * 10).toLong(), operations = listOf(
@@ -293,7 +284,6 @@ internal class ExposedHandlerTest {
         val resultB = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     (it * 10).toLong(), operations = listOf(
@@ -317,7 +307,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -332,7 +321,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(

@@ -22,7 +22,6 @@ abstract class SpmvPlotTransform : MatrixPlotTransform() {
             SpmvBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                benchmark = it.benchmark,
                 datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<SpmvDatapoint>(),
             )
         }

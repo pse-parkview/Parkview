@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.google.gson.GsonBuilder
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
@@ -48,9 +47,10 @@ data class ConversionDatapoint(
 data class ConversionBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: BenchmarkType,
     override val datapoints: List<ConversionDatapoint>,
 ) : MatrixBenchmarkResult {
+    override val benchmark: BenchmarkType = BenchmarkType.Conversion
+
     override val summaryValues: Map<String, Double>
             by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 

@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import java.util.*
@@ -225,7 +224,6 @@ class GsonBenchmarkJsonParser : BenchmarkJsonParser {
                 commit = commit,
                 datapoints = spmvDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Spmv,
             )
         )
 
@@ -234,7 +232,6 @@ class GsonBenchmarkJsonParser : BenchmarkJsonParser {
                 commit = commit,
                 datapoints = conversionDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Conversion,
             )
         )
 
@@ -243,7 +240,6 @@ class GsonBenchmarkJsonParser : BenchmarkJsonParser {
                 commit = commit,
                 datapoints = solverDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Solver,
             )
         )
 
@@ -252,7 +248,6 @@ class GsonBenchmarkJsonParser : BenchmarkJsonParser {
                 commit = commit,
                 datapoints = preconditionerDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Preconditioner,
             )
         )
 
@@ -261,7 +256,6 @@ class GsonBenchmarkJsonParser : BenchmarkJsonParser {
                 commit = commit,
                 datapoints = blasDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Blas,
             )
         )
 
