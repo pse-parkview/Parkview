@@ -195,7 +195,6 @@ jobs:
 
       - name: Build and push backend
         if: ${{ github.ref == 'refs/heads/main' }}
-        id: docker_build_backend
         uses: docker/build-push-action@v2
         with:
           context: Implementation/backend/
@@ -204,7 +203,6 @@ jobs:
 
       - name: Build and push frontend
         if: ${{ github.ref == 'refs/heads/main' }}
-        id: docker_build_frontend
         uses: docker/build-push-action@v2
         with:
           context: Implementation/frontend/
@@ -213,7 +211,6 @@ jobs:
 
       - name: Build and push backend
         if: ${{ github.ref == 'refs/heads/develop' }}
-        id: docker_build_backend
         uses: docker/build-push-action@v2
         with:
           context: Implementation/backend/
@@ -222,7 +219,6 @@ jobs:
 
       - name: Build and push frontend
         if: ${{ github.ref == 'refs/heads/develop' }}
-        id: docker_build_frontend
         uses: docker/build-push-action@v2
         with:
           context: Implementation/frontend/
