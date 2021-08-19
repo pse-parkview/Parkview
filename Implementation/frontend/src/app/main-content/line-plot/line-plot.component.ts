@@ -91,6 +91,9 @@ export class LinePlotComponent implements OnInit {
       if (config === undefined) {
         return;
       }
+      if (config.plotType === "Performance Plot") {
+        this.yType = "linear";
+      }
       this.chartTitle = config.labelForTitle;
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;
