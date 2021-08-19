@@ -39,7 +39,13 @@ private interface GitHubHookService {
     ): Call<IssueCommentModel>
 }
 
-
+/**
+ * [Webhook] that posts a comment to an open pull request for the given commits
+ *
+ * @param owner owner of the repository where the comments should be posted
+ * @param repoName name of the repository where the comments should be posted
+ * @param client [OkHttpClient] used for making api calls
+ */
 class GitPrCommentHook(
     private val owner: String,
     private val repoName: String,
@@ -54,7 +60,7 @@ class GitPrCommentHook(
     private var commentsBySha = mutableMapOf<String, MutableList<String>>()
 
     override fun addResult(new: BenchmarkResult, previous: BenchmarkResult) {
-        var comment: List<String> = listOf(
+        val comment: MutableList<String> = mutableListOf(
             "## ${new.benchmark} on ${new.device.name}",
             "| algorithm | new summary value | previous summary value | improvement |",
             "|-|-|-|-|",
@@ -87,7 +93,7 @@ class GitPrCommentHook(
                 commentIssue(it, comment.joinToString("\n"))
             }
         }
-        commentsBySha = mutableMapOf()
+        commentsBySha.clear()
     }
 
     private fun getPullRequestNumber(sha: String): List<Int> {

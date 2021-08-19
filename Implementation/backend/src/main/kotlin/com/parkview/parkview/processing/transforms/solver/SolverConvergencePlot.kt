@@ -14,12 +14,14 @@ class SolverConvergencePlot : SolverPlotTransform() {
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         CategoricalOption(
-            name = "yAxis",
-            options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
-        ),
-        CategoricalOption(
             name = "xAxis",
             options = listOf("iteration_timestamps", "array_index"),
+            description = "Value that gets displayed on the x axis",
+        ),
+        CategoricalOption(
+            name = "yAxis",
+            options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
+            description = "Value that gets displayed on the y axis",
         ),
         getAvailableMatrixNames(results.first()),
     )
@@ -62,7 +64,7 @@ class SolverConvergencePlot : SolverPlotTransform() {
         }
 
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }

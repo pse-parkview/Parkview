@@ -48,6 +48,14 @@ interface PlotTransform {
      */
     fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData
 
+    /**
+     * Checks the given options for validity
+     *
+     * @param results list of [BenchmarkResults][BenchmarkResult]
+     * @param options given options
+     *
+     * @return true if options are valid, otherwise false
+     */
     fun checkOptions(results: List<BenchmarkResult>, options: Map<String, String>): Boolean {
         for ((key, value) in options) {
             val option = getAvailableOptions(results).find { it.name == key }
@@ -58,8 +66,15 @@ interface PlotTransform {
         return true
     }
 
-    fun checkNumInputs(results: List<BenchmarkResult>) {
-        if (results.size !in numInputsRange) throw InvalidPlotTransformException(
+    /**
+     * Checks if the plot is possible with the given number of results.
+     *
+     * @param num number of results
+     *
+     * @return true if possible, otherwise false
+     */
+    fun checkNumInputs(num: Int) {
+        if (num !in numInputsRange) throw InvalidPlotTransformException(
             "$name can only be used with ${numInputsRange.first} to ${numInputsRange.last} inputs"
         )
     }

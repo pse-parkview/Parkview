@@ -56,7 +56,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
                 }.filter { it.x > 1 }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }

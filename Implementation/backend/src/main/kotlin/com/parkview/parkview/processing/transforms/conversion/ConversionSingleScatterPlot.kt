@@ -15,7 +15,8 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
         MATRIX_X_AXIS,
         CategoricalOption(
             name = "yAxis",
-            options = listOf("bandwidth", "time")
+            options = listOf("bandwidth", "time"),
+            description = "Value that gets displayed on the y axis"
         ),
     )
 
@@ -46,7 +47,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
+        return PlottableData(seriesByName.map { (key, value) ->
             PointDataset(
                 label = key,
                 data = value.sortedBy { it.x }.toMutableList()

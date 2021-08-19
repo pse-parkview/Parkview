@@ -12,7 +12,6 @@ class PlotType private constructor(val name: String) {
         val Bar = PlotType("bar")
     }
 
-
     @JsonValue
     override fun toString(): String = name
 }

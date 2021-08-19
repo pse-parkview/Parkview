@@ -11,12 +11,14 @@ import com.parkview.parkview.processing.transforms.*
 
 val BLAS_X_AXIS = CategoricalOption(
     name = "xAxis",
-    options = listOf("n", "m", "r", "k")
+    options = listOf("n", "m", "r", "k"),
+    description = "Value displayed on x axis",
 )
 
 val BLAS_Y_AXIS = CategoricalOption(
     name = "yAxis",
-    options = listOf("time", "flops", "bandwidth")
+    options = listOf("time", "flops", "bandwidth"),
+    description = "Value displayed on y axis"
 )
 
 /**
@@ -26,7 +28,7 @@ abstract class BlasPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only BlasBenchmarkResult is allowed")
 
-        checkNumInputs(results)
+        checkNumInputs(results.size)
         checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<BlasBenchmarkResult>().map {

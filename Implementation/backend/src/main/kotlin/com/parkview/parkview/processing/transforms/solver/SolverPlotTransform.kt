@@ -15,7 +15,7 @@ abstract class SolverPlotTransform : MatrixPlotTransform() {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only SolverBenchmarkResult is allowed")
 
-        checkNumInputs(results)
+        checkNumInputs(results.size)
         checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<SolverBenchmarkResult>().map {

@@ -16,11 +16,13 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         getAvailableMatrixNames(results.first()),
         CategoricalOption(
             name = "components",
-            options = listOf("apply", "generate")
+            options = listOf("apply", "generate"),
+            description = "Which components to plot"
         ),
         CategoricalOption(
             name = "totalTime",
-            options = listOf("sumComponents", "givenValue")
+            options = listOf("sumComponents", "givenValue"),
+            description = "Take the total time given in the benchmark or the sum of all runtimes"
         ),
     )
 
@@ -51,7 +53,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
             }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             labels = labels,
             datasets = seriesByName.map { BarChartDataset(it.key, it.value) }
         )

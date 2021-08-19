@@ -4,9 +4,8 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.DatasetSeries
-import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PointDataset
 
 class SingeBlasPlot : BlasPlotTransform() {
@@ -36,7 +35,7 @@ class SingeBlasPlot : BlasPlotTransform() {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
+        return PlottableData(seriesByName.map { (key, value) ->
             PointDataset(label = key,
                 data = value.sortedBy { it.x })
         })

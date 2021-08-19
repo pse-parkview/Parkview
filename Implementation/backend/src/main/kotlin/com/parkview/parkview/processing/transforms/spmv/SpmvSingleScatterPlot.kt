@@ -12,11 +12,12 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
     override val plottableAs = listOf(PlotType.Scatter)
     override val name = "Scatter Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+        MATRIX_X_AXIS,
         CategoricalOption(
             name = "yAxis",
             options = listOf("bandwidth", "time"),
+            description = "Value that gets displayed on the y axis"
         ),
-        MATRIX_X_AXIS,
     )
 
     override fun transformSpmv(
@@ -46,7 +47,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
+        return PlottableData(seriesByName.map { (key, value) ->
             PointDataset(label = key,
                 data = value.sortedBy { it.x })
         })

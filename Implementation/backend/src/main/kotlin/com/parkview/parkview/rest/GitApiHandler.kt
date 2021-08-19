@@ -94,6 +94,8 @@ private interface GitHubService {
  *
  * @param repoName name of repository
  * @param owner owner of repository
+ * @param firstCommitSha sha of first commit, need for calculation of number of pages
+ * @param client [OkHttpClient] used for api calls
  */
 class GitApiHandler(
     private val repoName: String,

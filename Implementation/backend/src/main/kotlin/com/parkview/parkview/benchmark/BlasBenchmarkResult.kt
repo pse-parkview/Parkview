@@ -45,9 +45,7 @@ data class BlasDatapoint(
  *
  * @param commit commit this benchmark has been run on
  * @param device device this benchmark has been run on
- * @param benchmark type of benchmark
  * @param datapoints datapoints for this benchmark
- *
  */
 data class BlasBenchmarkResult(
     override val commit: Commit,

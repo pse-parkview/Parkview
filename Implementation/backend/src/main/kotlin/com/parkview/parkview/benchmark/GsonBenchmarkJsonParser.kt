@@ -59,6 +59,7 @@ private data class OptimalModel(
     val spmv: String,
 )
 
+// If a given object does not exist in the json it gets evaluated as null
 private data class DatapointModel(
     val n: Long?,
     val r: Long? = 1,

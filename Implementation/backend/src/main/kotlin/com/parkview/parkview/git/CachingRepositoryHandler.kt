@@ -24,6 +24,7 @@ private data class CachedSha(
  * @param maxCached maximum number of cached branches
  * @param branchLifetime lifetime of branch before it has to be refetched in minutes
  * @param branchListLifetime lifetime of branch list before it has to be refetched in minutes
+ * @param shaLifetime lifetime of sha history before it has to be refetched in minutes
  */
 class CachingRepositoryHandler(
     private val handler: RepositoryHandler,

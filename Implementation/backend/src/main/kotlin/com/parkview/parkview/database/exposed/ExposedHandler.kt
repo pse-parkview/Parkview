@@ -24,7 +24,6 @@ import javax.sql.DataSource
 class ExposedHandler(source: DataSource) : DatabaseHandler {
     private var db: Database = Database.connect(datasource = source)
 
-
     init {
         transaction(db) {
             SchemaUtils.createSchema(Schema("parkview"))

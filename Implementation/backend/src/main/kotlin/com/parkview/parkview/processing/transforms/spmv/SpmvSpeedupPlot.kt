@@ -61,7 +61,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
         }
 
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }
