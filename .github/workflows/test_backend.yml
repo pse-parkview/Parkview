@@ -41,11 +41,17 @@ jobs:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
           generate-branches-badge: false
           generate-coverage-badge: false
+      
+      - name: Calculate percentage
+        id: calc
+        shell: bash
+        run: |
+          echo "##[set-output name=percent;]$(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)
           
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@initial
         with:
-          percent: $(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)
+          percent: ${{ steps.calc.outputs.percentage }}
           text: ${{ steps.extract_branch.outputs.branch }}-coverage backend
           output-path: ./
           
