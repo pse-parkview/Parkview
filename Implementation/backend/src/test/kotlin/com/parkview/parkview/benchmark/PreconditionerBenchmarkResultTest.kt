@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
@@ -31,7 +30,6 @@ internal class PreconditionerBenchmarkResultTest {
         br = PreconditionerBenchmarkResult(
             commit,
             Device(""),
-            BenchmarkType.Preconditioner,
             datapoints
         )
     }

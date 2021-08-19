@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import SPMV_RESULT
+import com.parkview.parkview.processing.transforms.spmv.SpmvSingleScatterPlot
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 

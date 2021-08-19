@@ -35,10 +35,25 @@ jobs:
         id: extract_branch
         
       - name: Generate Jacoco Badge
-        uses: tadachs/jacoco-badge-generator@ff3c1b1278f965a1018d08330e27818be27bcb86
+        uses: cicirello/jacoco-badge-generator@v2
+        id: jacoco
         with:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
-          message: ${{ steps.extract_branch.outputs.branch }}-coverage backend
+          generate-branches-badge: false
+          generate-coverage-badge: false
+      
+      - name: Calculate percentage
+        id: calc
+        shell: bash
+        run: |
+          echo "##[set-output name=percentage;]$(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)"
+          
+      - name: Generate Coverage Badge
+        uses: taDachs/stupid-coverage-badge-generator@initial
+        with:
+          percent: ${{ steps.calc.outputs.percentage }}
+          text: ${{ steps.extract_branch.outputs.branch }}-coverage backend
+          output-path: ./
           
       - name: Upload Badge
         uses: exuanbo/actions-deploy-gist@v1
@@ -46,4 +61,4 @@ jobs:
           token: ${{ secrets.BADGES_GIST_SECRET }}
           gist_id: 2f350a3c58fed9515b658495edc70191
           gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_coverage.svg
-          file_path: .github/badges/jacoco.svg
+          file_path: ./badge.svg

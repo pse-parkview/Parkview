@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {SidePreviousPlotsComponent} from './side-previous-plots.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {CookieModule} from "ngx-cookie";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('SidePreviousPlotsComponent', () => {
   let component: SidePreviousPlotsComponent;
@@ -13,6 +14,7 @@ describe('SidePreviousPlotsComponent', () => {
         SidePreviousPlotsComponent
       ],
       imports: [
+        RouterTestingModule,
         MatDialogModule,
         CookieModule.forRoot(),
       ]

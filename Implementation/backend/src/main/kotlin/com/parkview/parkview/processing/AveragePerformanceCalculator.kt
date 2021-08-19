@@ -4,7 +4,10 @@ import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.DatasetSeries
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
 
 class AveragePerformanceCalculator(
     private val databaseHandler: DatabaseHandler,
@@ -13,7 +16,7 @@ class AveragePerformanceCalculator(
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         // reversed because we want the earliest commit on the left
-        for ((i, commit) in commits.reversed().withIndex()) {
+        for (commit in commits.reversed()) {
             if (databaseHandler.hasDataAvailable(commit, device, benchmark)) {
                 val benchmarkResult = databaseHandler.fetchBenchmarkResult(commit, device, benchmark)
                 for ((name, summaryValue) in benchmarkResult.summaryValues) {

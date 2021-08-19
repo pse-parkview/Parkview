@@ -8,15 +8,10 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {GitHistoryComponent} from './main-content/dashboard/git-history/git-history.component';
 import {AveragePerformanceComponent} from './main-content/dashboard/average-performance/average-performance.component';
 import {PlotConfigurationDialogComponent} from './dialogs/plot-configuration-dialog/plot-configuration-dialog.component';
-import {BenchmarkSelectDialogComponent} from './dialogs/benchmark-select-dialog/benchmark-select-dialog.component';
-import {LoadFromTemplateDialogComponent} from './dialogs/load-from-template-dialog/load-from-template-dialog.component';
-import {ErrorDialogComponent} from './dialogs/error-dialog/error-dialog.component';
-import {BenchmarkCompareDialogComponent} from './dialogs/benchmark-compare-dialog/benchmark-compare-dialog.component';
 import {CookieConsentDialogComponent} from './dialogs/cookie-consent-dialog/cookie-consent-dialog.component';
 import {SideCurrentChosenCommitComponent} from './sidebar/side-current-chosen-commit/side-current-chosen-commit.component';
 import {SideLoadFromTemplateComponent} from './sidebar/side-load-from-template/side-load-from-template.component';
 import {SidePreviousPlotsComponent} from './sidebar/side-previous-plots/side-previous-plots.component';
-import {PlotCardComponent} from './sidebar/side-previous-plots/plot-card/plot-card.component';
 import {LibModule} from "../lib/lib.module";
 import {LogicModule} from "../logic/logic.module";
 import {DashboardComponent} from './main-content/dashboard/dashboard.component';
@@ -45,6 +40,9 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { ConfigButtonsComponent } from './main-content/config-buttons/config-buttons.component';
 
 @NgModule({
   declarations: [
@@ -54,20 +52,16 @@ import {MatIconModule} from "@angular/material/icon";
     GitHistoryComponent,
     AveragePerformanceComponent,
     PlotConfigurationDialogComponent,
-    BenchmarkSelectDialogComponent,
-    LoadFromTemplateDialogComponent,
-    ErrorDialogComponent,
-    BenchmarkCompareDialogComponent,
     CookieConsentDialogComponent,
     SideCurrentChosenCommitComponent,
     SideLoadFromTemplateComponent,
     SidePreviousPlotsComponent,
-    PlotCardComponent,
     DashboardComponent,
     TestComponent,
     LinePlotComponent,
     ScatterPlotComponent,
-    BarPlotComponent
+    BarPlotComponent,
+    ConfigButtonsComponent
   ],
     imports: [
         BrowserModule,
@@ -94,6 +88,8 @@ import {MatIconModule} from "@angular/material/icon";
         MatSidenavModule,
         MatToolbarModule,
         MatIconModule,
+        ClipboardModule,
+        MatTooltipModule,
     ],
   providers: [
     CookieService

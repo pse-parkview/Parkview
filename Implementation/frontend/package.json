@@ -7,7 +7,7 @@
     "start-host": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --code-coverage",
+    "test": "ng test --code-coverage --configuration=develop",
     "test:ci": "ng test --code-coverage --configuration=ci"
   },
   "private": true,

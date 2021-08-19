@@ -31,6 +31,26 @@ ul li {
   margin-right: 1vh;
 }
 
+.divider-long {
+  flex-grow: 1;
+}
+
+.page-number {
+  width: 25px;
+  font-size: inherit;
+}
+
+/* Make ugly number input buttons go away */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .benchmark .date {
   color: $nord3;
 }
@@ -42,7 +62,6 @@ ul li {
 .benchmark {
   color: $nord14;
 }
-
 
 .title-container {
   display: flex;

@@ -5,6 +5,7 @@ import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dia
 import {CookieSettings} from "./interfaces/cookie-settings";
 import {CookieService as NgxCookieService} from "ngx-cookie";
 import {RecentGitHistorySettings} from "./interfaces/recent-git-history-settings";
+import {Template} from "./interfaces/template";
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,12 @@ import {RecentGitHistorySettings} from "./interfaces/recent-git-history-settings
 export class CookieService {
 
   public readonly recentPlotsUpdate = new EventEmitter<void>();
+  public readonly savedTemplateUpdate = new EventEmitter<void>();
 
   private static readonly NAME_SETTINGS = 'settings';
   private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
   private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
+  private static readonly NAME_SAVED_TEMPLATES = 'saved_plot_templates';
 
   constructor(private readonly dialog: MatDialog,
               private readonly ngxCookieService: NgxCookieService,
@@ -70,7 +73,6 @@ export class CookieService {
     return settings;
   }
 
-  // TODO connect plot configuration cookies to places that are concerned
   public addRecentPlotConfiguration(plotConfig: PlotConfiguration): void {
     let recentConfigs: PlotConfiguration[] = this.ngxCookieService.getObject(CookieService.NAME_RECENT_PLOT_CONFIGS) as Array<PlotConfiguration>;
     if (recentConfigs !== undefined) {
@@ -90,4 +92,54 @@ export class CookieService {
     return recentConfigs ? recentConfigs : [];
   }
 
+  public addTemplate(plotConfig: PlotConfiguration): void {
+    const savedConfigs: Template[] = this.getSavedTemplates();
+    savedConfigs.push({
+      date: new Date(),
+      config: plotConfig,
+    });
+    this.ngxCookieService.putObject(CookieService.NAME_SAVED_TEMPLATES, savedConfigs);
+    this.savedTemplateUpdate.emit();
+  }
+
+  public getSavedTemplates(): Template[] {
+    const savedTemplates: Template[] = this.ngxCookieService.getObject(CookieService.NAME_SAVED_TEMPLATES) as Array<Template>;
+    return savedTemplates ? savedTemplates : [];
+  }
+
+  public deleteTemplate(template: Template) {
+    const savedConfigs: Template[] = this.getSavedTemplates();
+    const newConfigs: Template[] = savedConfigs.filter(t => !CookieService.templateEquals(template, t));
+    this.ngxCookieService.putObject(CookieService.NAME_SAVED_TEMPLATES, newConfigs);
+    this.savedTemplateUpdate.emit();
+  }
+
+  private static templateEquals(t1: Template, t2: Template): boolean {
+    if (t1.date != t2.date) {
+      return false;
+    }
+    const everythingButOptions = t1.config.plotType === t2.config.plotType
+      && t1.config.chartType === t2.config.chartType
+      && JSON.stringify(t1.config.commits) === JSON.stringify(t2.config.commits)
+      && JSON.stringify(t1.config.devices) === JSON.stringify(t2.config.devices)
+      && t1.config.labelForTitle === t2.config.labelForTitle
+      && t1.config.labelForXAxis === t2.config.labelForXAxis
+      && t1.config.labelForYAxis === t2.config.labelForYAxis;
+    if (!everythingButOptions) {
+      return false;
+    }
+    const keys = Object.keys(t1.config.options)
+    for (const k of keys) {
+      if (t1.config.options[k] !== t2.config.options[k]) {
+        return false;
+      }
+    }
+    const keys2 = Object.keys(t2.config.options)
+    for (const k of keys2) {
+      if (t1.config.options[k] !== t2.config.options[k]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

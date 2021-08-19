@@ -12,6 +12,7 @@ private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
 
 class BenchmarkResultRow(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<BenchmarkResultRow>(BenchmarkResultTable)
+
     var sha by BenchmarkResultTable.sha
     var name by BenchmarkResultTable.name
     var device by BenchmarkResultTable.device
@@ -30,7 +31,7 @@ class SpmvDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, SpmvDatapoin
 
     private val type = object : TypeToken<List<Format>>() {}.type
 
-    var formats: List<Format> by SpmvDatapointTable.data.transform({gson.toJson(it)}, {gson.fromJson(it, type)})
+    var formats: List<Format> by SpmvDatapointTable.data.transform({ gson.toJson(it) }, { gson.fromJson(it, type) })
 
     fun toSpmvDatapoint() = SpmvDatapoint(
         name = name,
@@ -46,7 +47,8 @@ class ConversionDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, Conver
 
     private val type = object : TypeToken<List<Conversion>>() {}.type
 
-    var conversions: List<Conversion> by ConversionDatapointTable.data.transform({gson.toJson(it)}, {gson.fromJson(it, type)})
+    var conversions: List<Conversion> by ConversionDatapointTable.data.transform({ gson.toJson(it) },
+        { gson.fromJson(it, type) })
 
     fun toConversionDatapoint() = ConversionDatapoint(
         name = name,
@@ -62,7 +64,8 @@ class PreconditionerDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, Pr
 
     private val type = object : TypeToken<List<Preconditioner>>() {}.type
 
-    var preconditioners: List<Preconditioner> by PreconditionerDatapointTable.data.transform({gson.toJson(it)}, {gson.fromJson(it, type)})
+    var preconditioners: List<Preconditioner> by PreconditionerDatapointTable.data.transform({ gson.toJson(it) },
+        { gson.fromJson(it, type) })
 
     fun toPreconditionerDatapoint() = PreconditionerDatapoint(
         name = name,
@@ -80,7 +83,7 @@ class SolverDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, SolverData
 
     private val type = object : TypeToken<List<Solver>>() {}.type
 
-    var solvers: List<Solver> by SolverDatapointTable.data.transform({gson.toJson(it)}, {gson.fromJson(it, type)})
+    var solvers: List<Solver> by SolverDatapointTable.data.transform({ gson.toJson(it) }, { gson.fromJson(it, type) })
 
     fun toSolverDatapoint() = SolverDatapoint(
         name = name,
@@ -103,7 +106,8 @@ class BlasDatapointRow(id: EntityID<UUID>) : UUIDEntity(id) {
     var data by BlasDatapointTable.data
 
     private val type = object : TypeToken<List<Operation>>() {}.type
-    var operations: List<Operation> by BlasDatapointTable.data.transform({gson.toJson(it)}, {gson.fromJson(it, type)})
+    var operations: List<Operation> by BlasDatapointTable.data.transform({ gson.toJson(it) },
+        { gson.fromJson(it, type) })
 
     fun toBlasDatapoint() = BlasDatapoint(
         n = n,

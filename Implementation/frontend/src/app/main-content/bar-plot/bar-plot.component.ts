@@ -24,22 +24,33 @@ export class BarPlotComponent implements OnInit {
   public yLabel: string = 'y';
   public yType: ScaleType = 'linear';
   public chartLabels: Label[] = Array();
+  public fontSize: number = 12;
 
   public chartOptions: ChartOptions = {
-  title: {
+    title: {
       display: true,
       text: this.chartTitle,
+      fontSize: this.fontSize,
     },
     responsive: true,
     maintainAspectRatio: true,
-    legend: {display: true},
+    legend: {
+      display: true,
+      labels: {
+        fontSize: this.fontSize,
+      }
+    },
     events: ['click'],
     scales: {
       yAxes: [{
-       stacked: true,
+        stacked: true,
         scaleLabel: {
           display: true,
+          fontSize: this.fontSize,
           labelString: this.yLabel
+        },
+        ticks: {
+          fontSize: this.fontSize,
         },
         type: this.yType
       }],
@@ -47,8 +58,12 @@ export class BarPlotComponent implements OnInit {
         stacked: true,
         scaleLabel: {
           display: true,
+          fontSize: this.fontSize,
           labelString: this.xLabel
         },
+        ticks: {
+          fontSize: this.fontSize,
+        }
       }]
     },
   };
@@ -58,7 +73,7 @@ export class BarPlotComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.readParams(this.route.queryParamMap);
+    this.readParams(this.route.queryParamMap);
   }
 
   readParams(params: Observable<ParamMap>) {
@@ -82,16 +97,28 @@ export class BarPlotComponent implements OnInit {
   updateChart() {
     if (this.chartOptions.title?.text !== undefined) {
       this.chartOptions.title.text = this.chartTitle;
+      this.chartOptions.title.fontSize = this.fontSize;
+    }
+    if (this.chartOptions.legend?.labels?.fontSize !== undefined) {
+      this.chartOptions.legend.labels.fontSize = this.fontSize;
     }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
         this.chartOptions.scales.xAxes[0].scaleLabel.labelString = this.xLabel;
+        this.chartOptions.scales.xAxes[0].scaleLabel.fontSize = this.fontSize;
+      }
+      if (this.chartOptions.scales.xAxes[0].ticks !== undefined) {
+        this.chartOptions.scales.xAxes[0].ticks.fontSize = this.fontSize;
       }
     }
     if (this.chartOptions.scales?.yAxes !== undefined && this.chartOptions.scales.yAxes.length > 0) {
       this.chartOptions.scales.yAxes[0].type = this.yType;
       if (this.chartOptions.scales.yAxes[0].scaleLabel) {
+        this.chartOptions.scales.yAxes[0].scaleLabel.fontSize = this.fontSize;
         this.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.yLabel;
+      }
+      if (this.chartOptions.scales.yAxes[0].ticks !== undefined) {
+        this.chartOptions.scales.yAxes[0].ticks.fontSize = this.fontSize;
       }
     }
     this.chart.refresh();

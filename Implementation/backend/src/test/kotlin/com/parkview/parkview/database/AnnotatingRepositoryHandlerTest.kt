@@ -19,15 +19,22 @@ internal class AnnotatingRepositoryHandlerTest {
             throw IllegalAccessException("mockup code that should not be used")
         }
 
-        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == "sha"
+        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) =
+            commit.sha == COMMIT_A.sha
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
-            if ((commit.sha == "sha") and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
+            if ((commit.sha == COMMIT_A.sha) and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
     }
 
     private object MockRepositoryHandler : RepositoryHandler {
         private val commits = listOf(COMMIT_A, COMMIT_B)
-        override fun fetchGitHistory(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = commits
+
+        override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+            commits
+
+        override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
+            TODO("Not yet implemented")
+        }
 
         override fun getAvailableBranches(): List<String> {
             throw IllegalAccessException("mockup code that should not be used")
@@ -36,7 +43,6 @@ internal class AnnotatingRepositoryHandlerTest {
         override fun getNumberOfPages(branch: String): Int {
             throw IllegalAccessException("mockup code that should not be used")
         }
-
     }
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
@@ -44,7 +50,7 @@ internal class AnnotatingRepositoryHandlerTest {
 
     @Test
     fun `tests annotation of commits with database results`() {
-        val commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
+        val commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
         assert(commits.first().availableDevices == listOf(Device("gamer")))
         assert(commits[1].availableDevices.isEmpty())
@@ -52,11 +58,11 @@ internal class AnnotatingRepositoryHandlerTest {
 
     @Test
     fun `tests annotation of commits with database results doesn't apply twice`() {
-        var commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
+        var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
         assert(commits.first().availableDevices == listOf(Device("gamer")))
         assert(commits[1].availableDevices.isEmpty())
-        commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
+        commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
         assert(commits.first().availableDevices == listOf(Device("gamer")))
         assert(commits[1].availableDevices.isEmpty())
@@ -64,11 +70,11 @@ internal class AnnotatingRepositoryHandlerTest {
 
     @Test
     fun `test annotation of commits with benchmark type change`() {
-        var commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Blas)
+        var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
         assert(commits.first().availableDevices == listOf(Device("gamer")))
         assert(commits[1].availableDevices.isEmpty())
-        commits = annotatingRepositoryHandler.fetchGitHistory("", 1, BenchmarkType.Conversion)
+        commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Conversion)
 
         assert(commits.first().availableDevices.isEmpty())
         assert(commits[1].availableDevices.isEmpty())

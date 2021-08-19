@@ -2,8 +2,7 @@
 
 GINKGO_DATA_PATH=$1
 
-COMMIT_A=47ba37da636cb5b5d4142eaa196bcd5218357055
-COMMIT_B=d17511655c09acfec159ce55e0fb919f5d8747d5
+COMMIT=$(curl https://api.github.com/repos/pse-parkview/ginkgo/commits | head | grep sha | grep '"[^"]*",' -o | sed 's/"\|,//g')
 
 checkout_and_upload() {
 	cd $3
@@ -13,5 +12,6 @@ checkout_and_upload() {
 }
 
 
-checkout_and_upload $COMMIT_A master $GINKGO_DATA_PATH
-checkout_and_upload $COMMIT_B common_kernels $GINKGO_DATA_PATH
+checkout_and_upload $COMMIT master $GINKGO_DATA_PATH
+#checkout_and_upload $COMMIT_A master $GINKGO_DATA_PATH
+#checkout_and_upload $COMMIT_B common_kernels $GINKGO_DATA_PATH

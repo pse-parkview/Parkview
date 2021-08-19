@@ -1,9 +1,44 @@
 @import "node_modules/nord/src/sass/nord";
-/*
 
+// Import this file into sidebar components for a uniform style
+
+/*
 .sidebar {
   height: 100%;
   width: 100%;
   background-color: $nord5;
 }
 */
+
+mat-card {
+  margin-bottom: 1vh;
+}
+
+mat-expansion-panel {
+  margin-bottom: 1vh;
+}
+
+mat-expansion-panel-header {
+  padding: 0 16px; // equal to the padding amount of a mat card
+}
+
+mat-card h3 {
+  color: $nord0;
+  margin-bottom: 0;
+}
+
+mat-card h5 {
+  color: $nord3;
+}
+
+mat-card-content {
+  color: $nord14;
+}
+
+button {
+  white-space: normal;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

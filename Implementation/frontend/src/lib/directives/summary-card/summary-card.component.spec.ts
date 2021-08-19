@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SummaryCardComponent } from './summary-card.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {SummaryCardComponent} from './summary-card.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {LibModule} from "../../lib.module";
 
 describe('SummaryCardComponent', () => {
   let component: SummaryCardComponent;
@@ -8,7 +9,13 @@ describe('SummaryCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SummaryCardComponent ]
+      declarations: [
+        SummaryCardComponent
+      ],
+      imports: [
+        HttpClientTestingModule,
+        LibModule,
+      ],
     })
     .compileComponents();
   });

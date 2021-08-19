@@ -31,12 +31,13 @@ services:
     container_name: parkview-backend
     depends_on:
       - parkview-postgres
-    environment:
-      - DB_SERVER=parkview-postgres
     ports:
       - 8080:8080
     links:
       - parkview-postgres
+    command:
+      - --parkview.database.embedded=false
+      - --parkview.database.datasource.jdbc-url=jdbc:postgresql://parkview-postgres:5432/parkview 
 
   parkview-frontend:
     build: ./frontend
@@ -47,7 +48,13 @@ services:
       - parkview-backend
     expose: 
       - 4200
-
+    command:
+      - --proxy-config 
+      - /app/src/proxy-container.conf.json
+      - --host
+      - 0.0.0.0
+      - --port
+      - "4200"
 
 volumes:
   parkview-data:
