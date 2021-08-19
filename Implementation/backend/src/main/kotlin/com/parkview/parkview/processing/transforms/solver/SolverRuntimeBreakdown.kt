@@ -11,7 +11,7 @@ import com.parkview.parkview.processing.transforms.*
 class SolverRuntimeBreakdown : SolverPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Bar)
-    override val name = "solverRuntimeBreakdown"
+    override val name = "Runtime Breakdown"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         getAvailableMatrixNames(results.first()),
         CategoricalOption(

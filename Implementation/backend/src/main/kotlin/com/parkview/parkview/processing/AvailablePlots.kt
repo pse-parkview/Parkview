@@ -81,15 +81,14 @@ object AvailablePlots {
      *
      * @return [PlotTransform] if plot exists, otherwise null
      */
-    fun getPlotByName(plotName: String): PlotTransform? {
-        if (spmvPlots.find { it.name == plotName } != null) return spmvPlots.find { it.name == plotName }
-        if (blasPlots.find { it.name == plotName } != null) return blasPlots.find { it.name == plotName }
-        if (solverPlots.find { it.name == plotName } != null) return solverPlots.find { it.name == plotName }
-        if (conversionPlots.find { it.name == plotName } != null) return conversionPlots.find { it.name == plotName }
-        if (preconditionerPlots.find { it.name == plotName } != null) return spmvPlots.find { it.name == plotName }
+    fun getPlotByName(plotName: String, benchmarkType: BenchmarkType): PlotTransform? = when (benchmarkType) {
+        BenchmarkType.Spmv -> spmvPlots
+        BenchmarkType.Solver -> solverPlots
+        BenchmarkType.Preconditioner -> preconditionerPlots
+        BenchmarkType.Conversion -> conversionPlots
+        BenchmarkType.Blas -> blasPlots
+    }.find { it.name == plotName }
 
-        return null
-    }
 
     /**
      * Returns a list of all available plots for a given number of inputs and benchmark type

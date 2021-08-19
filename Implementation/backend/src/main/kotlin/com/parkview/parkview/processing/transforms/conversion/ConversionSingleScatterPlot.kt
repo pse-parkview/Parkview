@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class ConversionSingleScatterPlot : ConversionPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
-    override val name: String = "conversionSingleScatter"
+    override val name: String = "Scatter Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
         CategoricalOption(

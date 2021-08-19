@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class SpmvSingleScatterPlot : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
-    override val name = "spmvSingleScatterPlot"
+    override val name = "Scatter Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         CategoricalOption(
             name = "yAxis",

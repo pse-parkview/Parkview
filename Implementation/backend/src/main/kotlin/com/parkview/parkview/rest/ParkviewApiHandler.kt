@@ -44,15 +44,16 @@ class ParkviewApiHandler(
         plotType: String,
         plotParams: Map<String, String>,
     ): PlottableData {
+        val benchmarkType = BenchmarkType.valueOf(benchmark)
         val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
             databaseHandler.fetchBenchmarkResult(
                 Commit(sha, "", Date(), ""),
                 Device(device),
-                BenchmarkType.valueOf(benchmark),
+                benchmarkType,
             )
         }
 
-        val plot = AvailablePlots.getPlotByName(plotType) ?: throw IllegalArgumentException("Invalid plot type")
+        val plot = AvailablePlots.getPlotByName(plotType, benchmarkType) ?: throw IllegalArgumentException("Invalid plot type")
         return plot.transform(results, plotParams)
     }
 

@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class SpmvPerformanceProfile : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
-    override val name = "SpmvPerformanceProfile"
+    override val name = "Performance Profile"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         NumericalOption(
             name = "minX",

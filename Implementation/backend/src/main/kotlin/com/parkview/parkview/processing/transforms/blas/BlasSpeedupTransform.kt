@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class BlasSpeedupTransform : BlasPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
-    override val name = "blasSpeedup"
+    override val name = "Speedup Plot"
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         BLAS_X_AXIS,
         getAvailableComparisons(results),

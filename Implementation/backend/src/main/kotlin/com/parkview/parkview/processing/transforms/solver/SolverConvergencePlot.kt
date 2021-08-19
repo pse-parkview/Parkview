@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Line)
-    override val name: String = "solverConvergence"
+    override val name: String = "Convergence Plot"
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         CategoricalOption(
