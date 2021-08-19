@@ -53,7 +53,8 @@ class ParkviewApiHandler(
             )
         }
 
-        val plot = AvailablePlots.getPlotByName(plotType, benchmarkType) ?: throw IllegalArgumentException("Invalid plot type")
+        val plot =
+            AvailablePlots.getPlotByName(plotType, benchmarkType) ?: throw IllegalArgumentException("Invalid plot type")
         return plot.transform(results, plotParams)
     }
 

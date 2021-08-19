@@ -1,13 +1,13 @@
 package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
-import com.parkview.parkview.benchmark.BlasDatapoint
-import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.filterBlasDatapoints
 
 /**
  * Interface for transforms using [BlasBenchmarkResult].

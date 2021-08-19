@@ -40,6 +40,7 @@ abstract class MatrixDatapointRow(id: EntityID<UUID>, matrixTable: MatrixDatapoi
      * Reference to the benchmark this datapoint is part of
      */
     var benchmark by BenchmarkResultRow referencedOn matrixTable.benchmarkId
+
     /**
      * Name of the matrix
      */

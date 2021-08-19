@@ -1,9 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.MatrixBenchmarkResult
-import com.parkview.parkview.benchmark.MatrixDatapoint
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 
