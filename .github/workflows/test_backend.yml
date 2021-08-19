@@ -42,7 +42,7 @@ jobs:
           generate-coverage-badge: false
           
       - name: Generate Coverage Badge
-        uses: taDachs/stupid-coverage-badge-generator@master
+        uses: taDachs/stupid-coverage-badge-generator@initial
         with:
           percent: ${{ steps.jacoco.outputs.coverage }}
           text: ${{ steps.extract_branch.outputs.branch }}-coverage backend
