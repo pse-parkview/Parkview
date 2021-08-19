@@ -2,17 +2,11 @@ mat-toolbar {
   height: 5vh;
 }
 
-a {
-
-}
-
 .header {
   display: flex;
-  flex-direction: row;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  align-content: center;
 }
 
 .clickable:hover {
@@ -33,4 +27,8 @@ a {
 
 .margin {
   margin-left: 1vw;
+}
+
+.clickable:focus {
+  outline: 0;
 }
