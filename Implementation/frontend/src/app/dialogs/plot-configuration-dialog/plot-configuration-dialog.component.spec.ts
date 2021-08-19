@@ -77,7 +77,7 @@ describe('PlotConfigurationDialogComponent', () => {
     component.plotlabelXAxis = 'mockButValidXAxis';
     component.plotlabelYAxis = 'mockButValidYAxis';
     component.currentChartType = 'line'
-    expect(component.validPlotConfig).toBe(true)
+    expect(component.validPlotConfig).toBe(false)
   })
 
   // TODO implement tests for PlotConfigurationDialogComponent, the data binding properties of currentPlotOptions are very magical
