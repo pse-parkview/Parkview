@@ -45,7 +45,7 @@ jobs:
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@initial
         with:
-          percent: echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc
+          percent: $(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)
           text: ${{ steps.extract_branch.outputs.branch }}-coverage backend
           output-path: ./
           
