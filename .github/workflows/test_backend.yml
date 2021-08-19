@@ -46,7 +46,7 @@ jobs:
         id: calc
         shell: bash
         run: |
-          echo "##[set-output name=percent;]$(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)
+          echo "##[set-output name=percent;]$(echo "${{ steps.jacoco.outputs.coverage }} * 100" | bc)"
           
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@initial
