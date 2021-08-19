@@ -14,11 +14,10 @@ val COMMIT_A_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -28,11 +27,10 @@ val COMMIT_B_RESULT = SpmvBenchmarkResult(
     COMMIT_B,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -42,11 +40,10 @@ val SPMV_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -105,12 +102,16 @@ val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
         PreconditionerDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
                 Preconditioner(
-                    "", listOf(
+                    "",
+                    listOf(
                         Component("", it.toDouble()),
                     ),
-                    it.toDouble(), listOf(
+                    it.toDouble(),
+                    listOf(
                         Component("", it.toDouble())
-                    ), it.toDouble(), true
+                    ),
+                    it.toDouble(),
+                    true
                 )
             )
         )
