@@ -5,7 +5,6 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
-// cache entry for hasAvailableData
 private data class AvailableCacheEntry(
     val commit: Commit,
     val device: Device,
@@ -19,6 +18,12 @@ private data class DeviceCacheEntry(
     val devices: List<Device>,
 )
 
+/**
+ * [DatabaseHandler] that caches requests.
+ *
+ * @param databaseHandler [DatabaseHandler] used to retrieve data from the database
+ * @param maxCached number of maximum cached entries
+ */
 class CachingDatabaseHandler(
     private val databaseHandler: DatabaseHandler,
     private val maxCached: Int = 10,

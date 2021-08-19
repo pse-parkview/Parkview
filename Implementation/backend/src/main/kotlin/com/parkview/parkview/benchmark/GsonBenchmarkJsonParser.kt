@@ -59,13 +59,14 @@ private data class OptimalModel(
     val spmv: String,
 )
 
+// If a given object does not exist in the json it gets evaluated as null
 private data class DatapointModel(
     val n: Long?,
     val r: Long? = 1,
     val m: Long? = n,
     val k: Long? = n,
-    val blas: Map<String, BlasOperationModel>,
-    val problem: ProblemModel,
+    val blas: Map<String, BlasOperationModel>?,
+    val problem: ProblemModel?,
     val spmv: Map<String, FormatModel>?,
     val conversions: Map<String, ConversionModel>?,
     val solver: Map<String, SolverModel>?,
@@ -78,7 +79,7 @@ private data class DatapointModel(
             r ?: 1,
             m ?: n,
             k ?: n,
-            blas.map { (key, value) ->
+            blas!!.map { (key, value) ->
                 Operation(
                     key,
                     value.time,
@@ -96,7 +97,7 @@ private data class DatapointModel(
     // this means solver and spmv can not be in the same datapoint
     fun toSpmvDatapoint(): SpmvDatapoint? = if ((spmv != null) and (solver == null)) {
         SpmvDatapoint(
-            problem.group + "/" + problem.name,
+            problem!!.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
@@ -108,7 +109,7 @@ private data class DatapointModel(
 
     fun toConversionDatapoint(): ConversionDatapoint? = if (conversions != null) {
         ConversionDatapoint(
-            problem.group + "/" + problem.name,
+            problem!!.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
@@ -120,7 +121,7 @@ private data class DatapointModel(
 
     fun toSolverDatapoint(): SolverDatapoint? = if ((solver != null) and (optimal != null)) {
         SolverDatapoint(
-            problem.group + "/" + problem.name,
+            problem!!.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,
@@ -149,7 +150,7 @@ private data class DatapointModel(
 
     fun toPreconditionerDatapoint(): PreconditionerDatapoint? = if (preconditioner != null) {
         PreconditionerDatapoint(
-            problem.group + "/" + problem.name,
+            problem!!.group + "/" + problem.name,
             problem.rows,
             problem.cols,
             problem.nonzeros,

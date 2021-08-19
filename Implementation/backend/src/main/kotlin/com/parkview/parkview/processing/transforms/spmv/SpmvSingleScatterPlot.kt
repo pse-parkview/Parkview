@@ -10,13 +10,14 @@ import com.parkview.parkview.processing.transforms.*
 class SpmvSingleScatterPlot : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Scatter)
-    override val name = "spmvSingleScatterPlot"
+    override val name = "Scatter Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+        MATRIX_X_AXIS,
         CategoricalOption(
             name = "yAxis",
             options = listOf("bandwidth", "time"),
+            description = "Value that gets displayed on the y axis"
         ),
-        MATRIX_X_AXIS,
     )
 
     override fun transformSpmv(
@@ -35,18 +36,18 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotOptionsException(options, "xAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
                     },
                     y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> (format.storage + datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
-                        else -> throw InvalidPlotOptionsException(options, "yAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "yAxis")
                     },
                 )
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
+        return PlottableData(seriesByName.map { (key, value) ->
             PointDataset(label = key,
                 data = value.sortedBy { it.x })
         })

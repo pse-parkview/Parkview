@@ -1,23 +1,8 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-
-fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
-    if (results.size != 2) throw InvalidPlotTransformException("Comparison is only possible between two benchmarks")
-    return CategoricalOption(
-        name = "compare",
-        options = listOf(
-            results[0].identifier + "/" + results[1].identifier,
-            results[1].identifier + "/" + results[0].identifier,
-        ),
-        description = "Which speedup to compute",
-    )
-}
-
-fun Map<String, String>.getOptionValueByName(name: String) = this[name] ?: throw InvalidPlotOptionsException(this, name)
 
 interface PlotTransform {
     /**
@@ -48,6 +33,14 @@ interface PlotTransform {
      */
     fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData
 
+    /**
+     * Checks the given options for validity
+     *
+     * @param results list of [BenchmarkResults][BenchmarkResult]
+     * @param options given options
+     *
+     * @return true if options are valid, otherwise false
+     */
     fun checkOptions(results: List<BenchmarkResult>, options: Map<String, String>): Boolean {
         for ((key, value) in options) {
             val option = getAvailableOptions(results).find { it.name == key }
@@ -58,8 +51,15 @@ interface PlotTransform {
         return true
     }
 
-    fun checkNumInputs(results: List<BenchmarkResult>) {
-        if (results.size !in numInputsRange) throw InvalidPlotTransformException(
+    /**
+     * Checks if the plot is possible with the given number of results.
+     *
+     * @param num number of results
+     *
+     * @return true if possible, otherwise false
+     */
+    fun checkNumInputs(num: Int) {
+        if (num !in numInputsRange) throw InvalidPlotTransformException(
             "$name can only be used with ${numInputsRange.first} to ${numInputsRange.last} inputs"
         )
     }

@@ -10,12 +10,13 @@ import com.parkview.parkview.processing.transforms.*
 class ConversionSingleScatterPlot : ConversionPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
-    override val name: String = "conversionSingleScatter"
+    override val name: String = "Scatter Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
         CategoricalOption(
             name = "yAxis",
-            options = listOf("bandwidth", "time")
+            options = listOf("bandwidth", "time"),
+            description = "Value that gets displayed on the y axis"
         ),
     )
 
@@ -35,18 +36,18 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotOptionsException(options, "xAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
                     },
                     y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time
-                        else -> throw InvalidPlotOptionsException(options, "yAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "yAxis")
                     },
                 )
             }
         }
 
-        return DatasetSeries(seriesByName.map { (key, value) ->
+        return PlottableData(seriesByName.map { (key, value) ->
             PointDataset(
                 label = key,
                 data = value.sortedBy { it.x }.toMutableList()

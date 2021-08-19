@@ -5,12 +5,15 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SpmvPerformanceProfile : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
-    override val name = "SpmvPerformanceProfile"
+    override val name = "Performance Profile"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         NumericalOption(
             name = "minX",
@@ -56,7 +59,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
                 }.filter { it.x > 1 }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }

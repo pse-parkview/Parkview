@@ -4,6 +4,12 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.RepositoryHandler
 
+/**
+ * Annotates each commit with the devices that have available data.
+ *
+ * @param repHandler [RepositoryHandler] used for retrieving the commits
+ * @param databaseHandler [DatabaseHandler] used for retrieving information about the available data
+ */
 class AnnotatingRepositoryHandler(
     private val repHandler: RepositoryHandler,
     private val databaseHandler: DatabaseHandler,

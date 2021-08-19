@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.*
 class ConversionSpeedupPlot : ConversionPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
-    override val name = "conversionSpeedup"
+    override val name = "Speedup Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
         getAvailableComparisons(results),
@@ -52,14 +52,14 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
                         "nonzeros" -> datapointA.nonzeros.toDouble()
                         "rows" -> datapointA.rows.toDouble()
                         "columns" -> datapointA.columns.toDouble()
-                        else -> throw InvalidPlotOptionsException(options, "xAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
                     },
                     y = conversionA.time / conversionB.time,
                 )
             }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }

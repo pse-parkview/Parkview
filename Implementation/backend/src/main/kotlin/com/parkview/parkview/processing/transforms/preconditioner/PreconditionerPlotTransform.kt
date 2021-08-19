@@ -15,7 +15,7 @@ abstract class PreconditionerPlotTransform : MatrixPlotTransform() {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
 
-        checkNumInputs(results)
+        checkNumInputs(results.size)
         checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<PreconditionerBenchmarkResult>().map {

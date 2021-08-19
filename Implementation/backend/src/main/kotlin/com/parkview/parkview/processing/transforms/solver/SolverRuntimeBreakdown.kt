@@ -1,6 +1,5 @@
 package com.parkview.parkview.processing.transforms.solver
 
-import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
@@ -11,16 +10,18 @@ import com.parkview.parkview.processing.transforms.*
 class SolverRuntimeBreakdown : SolverPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Bar)
-    override val name = "solverRuntimeBreakdown"
+    override val name = "Runtime Breakdown"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         getAvailableMatrixNames(results.first()),
         CategoricalOption(
             name = "components",
-            options = listOf("apply", "generate")
+            options = listOf("apply", "generate"),
+            description = "Which components to plot"
         ),
         CategoricalOption(
             name = "totalTime",
-            options = listOf("sumComponents", "givenValue")
+            options = listOf("sumComponents", "givenValue"),
+            description = "Take the total time given in the benchmark or the sum of all runtimes"
         ),
     )
 
@@ -29,7 +30,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         options: Map<String, String>,
     ): PlottableData {
         val datapoint = benchmarkResults.first().datapoints.find { it.name == options.getOptionValueByName("matrix") }
-            ?: throw InvalidPlotOptionsException(options, "matrix")
+            ?: throw InvalidPlotOptionValueException(options, "matrix")
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()
         val allComponentNames = datapoint.solvers.fold(emptyList<String>()) { acc, e ->
@@ -51,33 +52,9 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
             }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             labels = labels,
             datasets = seriesByName.map { BarChartDataset(it.key, it.value) }
         )
-    }
-
-    private fun Solver.getComponentsByOption(options: Map<String, String>) = when (options["components"]) {
-        "apply" -> this.applyComponents
-        "generate" -> this.generateComponents
-        else -> throw InvalidPlotOptionsException(options, "components")
-    }
-
-    private fun Solver.getTotalTimeByOption(options: Map<String, String>) = when (options["components"]) {
-        "apply" -> this.getApplyTotalTimeByOption(options)
-        "generate" -> this.getGenerateTotalTimeByOption(options)
-        else -> throw InvalidPlotOptionsException(options, "components")
-    }
-
-    private fun Solver.getGenerateTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-        "sumComponents" -> this.generateComponents.sumOf { it.runtime }
-        "givenValue" -> this.generateTotalTime
-        else -> throw InvalidPlotOptionsException(options, "totalTime")
-    }
-
-    private fun Solver.getApplyTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-        "sumComponents" -> this.applyComponents.sumOf { it.runtime }
-        "givenValue" -> this.applyTotalTime
-        else -> throw InvalidPlotOptionsException(options, "totalTime")
     }
 }

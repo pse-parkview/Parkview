@@ -15,7 +15,7 @@ abstract class ConversionPlotTransform : MatrixPlotTransform() {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is ConversionBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only ConversionBenchmarkResult is allowed")
 
-        checkNumInputs(results)
+        checkNumInputs(results.size)
         checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<ConversionBenchmarkResult>().map {

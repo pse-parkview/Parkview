@@ -4,7 +4,6 @@ import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import com.parkview.parkview.processing.transforms.DatasetSeries
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
@@ -28,7 +27,7 @@ class AveragePerformanceCalculator(
             }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,

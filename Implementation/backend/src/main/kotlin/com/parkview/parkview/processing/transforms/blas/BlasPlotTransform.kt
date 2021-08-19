@@ -1,23 +1,13 @@
 package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
-import com.parkview.parkview.benchmark.BlasDatapoint
-import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
-import com.parkview.parkview.processing.transforms.*
-
-val BLAS_X_AXIS = CategoricalOption(
-    name = "xAxis",
-    options = listOf("n", "m", "r", "k")
-)
-
-val BLAS_Y_AXIS = CategoricalOption(
-    name = "yAxis",
-    options = listOf("time", "flops", "bandwidth")
-)
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotTransform
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.filterBlasDatapoints
 
 /**
  * Interface for transforms using [BlasBenchmarkResult].
@@ -26,7 +16,7 @@ abstract class BlasPlotTransform : PlotTransform {
     override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
         for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only BlasBenchmarkResult is allowed")
 
-        checkNumInputs(results)
+        checkNumInputs(results.size)
         checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<BlasBenchmarkResult>().map {
@@ -95,36 +85,4 @@ abstract class BlasPlotTransform : PlotTransform {
      * @return [PlottableData] object containing the data
      */
     abstract fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>, options: Map<String, String>): PlottableData
-}
-
-fun Operation.getYAxisByOption(options: Map<String, String>): Double = when (options["yAxis"]) {
-    "time" -> this.time
-    "flops" -> this.flops
-    "bandwidth" -> this.bandwidth
-    else -> throw InvalidPlotOptionsException(options, "yAxis")
-}
-
-fun BlasDatapoint.getXAxisByOption(options: Map<String, String>): Long = when (options["xAxis"]) {
-    "n" -> this.n
-    "r" -> this.r
-    "m" -> this.m
-    "k" -> this.k
-    else -> throw InvalidPlotOptionsException(options, "xAxis")
-}
-
-fun filterBlasDatapoints(datapoints: List<BlasDatapoint>, options: Map<String, String>): List<BlasDatapoint> {
-    val maxN = options.getOptionValueByName("maxN").toDouble()
-    val minN = options.getOptionValueByName("minN").toDouble()
-    val maxR = options.getOptionValueByName("maxR").toDouble()
-    val minR = options.getOptionValueByName("minR").toDouble()
-    val maxK = options.getOptionValueByName("maxK").toDouble()
-    val minK = options.getOptionValueByName("minK").toDouble()
-    val maxM = options.getOptionValueByName("maxM").toDouble()
-    val minM = options.getOptionValueByName("minM").toDouble()
-
-    return datapoints
-        .filter { (it.n >= minN) and (it.n <= maxN) }
-        .filter { (it.r >= minR) and (it.r <= maxR) }
-        .filter { (it.m >= minM) and (it.m <= maxM) }
-        .filter { (it.k >= minK) and (it.k <= maxK) }
 }
