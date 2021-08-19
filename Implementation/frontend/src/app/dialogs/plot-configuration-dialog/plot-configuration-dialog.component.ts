@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.service";
+import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -100,11 +101,14 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.router.navigate([config.chartType], {queryParams: qp});
   }
 
+  validPlotConfig(): boolean {
+    return PlotUtils.isValidConfig(this.compilePlotConfig())
+  }
+
   private fetchAvailablePlots(): void {
     const commits = this.commitsAndDevices.map(p => p.commit);
     const devices = this.commitsAndDevices.map(p => p.device);
     this.dataService.getAvailablePlots(this.benchmarkName, commits, devices).subscribe((plotTypeOptions: PlotTypeOption[]) => {
-      console.log(plotTypeOptions)
       this.availablePlotTypeOptions = plotTypeOptions;
       this.currentPlotTypeOption = this.availablePlotTypeOptions.length > 0 ? this.availablePlotTypeOptions[0] : { plotName: '', plottableAs: [], options: [] };
       this.updatePlotTypeOption();
