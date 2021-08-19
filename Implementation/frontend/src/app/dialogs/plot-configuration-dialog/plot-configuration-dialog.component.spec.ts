@@ -50,5 +50,35 @@ describe('PlotConfigurationDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should recognize valid selections', () => {
+    component.benchmarkName = 'testName';
+    component.commitsAndDevices = [];
+    component.currentPlotTypeOption = {
+      options: [],
+      plottableAs: [],
+      plotName: 'testPlotType'
+    };
+    component.plotlabelTitle = 'mockButValidLabel';
+    component.plotlabelXAxis = 'mockButValidXAxis';
+    component.plotlabelYAxis = 'mockButValidYAxis';
+    component.currentChartType = 'line'
+    expect(component.validPlotConfig).toBe(true)
+  })
+
+  it('should recognize invalid selections', () => {
+    component.benchmarkName = '';
+    component.commitsAndDevices = [];
+    component.currentPlotTypeOption = {
+      options: [],
+      plottableAs: [],
+      plotName: ''
+    };
+    component.plotlabelTitle = 'mockButValidLabel';
+    component.plotlabelXAxis = 'mockButValidXAxis';
+    component.plotlabelYAxis = 'mockButValidYAxis';
+    component.currentChartType = 'line'
+    expect(component.validPlotConfig).toBe(true)
+  })
+
   // TODO implement tests for PlotConfigurationDialogComponent, the data binding properties of currentPlotOptions are very magical
 });

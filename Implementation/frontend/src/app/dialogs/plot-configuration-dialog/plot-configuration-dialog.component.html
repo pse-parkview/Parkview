@@ -112,6 +112,12 @@
 </div>
 
 <br>
+<span *ngIf="!validPlotConfig()"
+      class="warning">
+  There are no valid plots available currently.<br>
+</span>
+
+<br>
 <!--TODO make them look palatable-->
 <button mat-button
         (click)="saveAndStoreCurrentConfig()"
