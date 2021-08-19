@@ -31,6 +31,14 @@
 
     <div class="divider"></div>
 
+    <mat-checkbox color="primary"
+                  [checked]="hideUnusableCommits"
+                  (change)="toggleHideUnusableCommits()">
+      Hide commits without data
+    </mat-checkbox>
+
+    <div class="divider-long"></div>
+
     <button mat-button (click)="firstPage()">
       <mat-icon>first_page</mat-icon>
     </button>
@@ -41,9 +49,9 @@
 
     <div class="divider"></div>
 
-    <div>
-      {{currentlySelectedPage}} / {{maxPage}}
-    </div>
+    <form (ngSubmit)="selectPage(currentlySelectedPage)">
+      <input type="number" class="page-number" name="page" [(ngModel)]="currentlySelectedPage"> / {{maxPage}}
+    </form>
 
     <div class="divider"></div>
 
@@ -55,13 +63,6 @@
       <mat-icon>last_page</mat-icon>
     </button>
 
-    <div class="divider"></div>
-
-    <mat-checkbox color="primary"
-                  [checked]="hideUnusableCommits"
-                  (change)="toggleHideUnusableCommits()">
-      Hide commits without data
-    </mat-checkbox>
   </div>
 </mat-card>
 <mat-expansion-panel hideToggle
@@ -70,7 +71,8 @@
                      [disabled]="commit.availableDevices.length == 0"
                      [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
 
-  <mat-expansion-panel-header [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
+  <mat-expansion-panel-header
+    [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
     <span class="sha">{{commit.sha | abbreviateSha}}</span>
     <span class="date">{{commit.date | dateFormatter: 'medium'}}</span>
     <span class="author">{{commit.author}} </span>

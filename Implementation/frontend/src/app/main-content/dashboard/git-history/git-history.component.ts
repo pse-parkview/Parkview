@@ -4,6 +4,7 @@ import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
+import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
 
 @Component({
   selector: 'app-git-history',
@@ -27,7 +28,8 @@ export class GitHistoryComponent implements OnInit {
 
   constructor(private readonly dataService: DataService,
               private readonly commitService: SelectionService,
-              private readonly cookieService: CookieService) {
+              private readonly cookieService: CookieService,
+              private readonly snackBarService: SnackBarService) {
   }
 
   ngOnInit(): void {
@@ -110,7 +112,10 @@ export class GitHistoryComponent implements OnInit {
     if (pageChoice >= 1 && pageChoice <= this.maxPage) {
       this.currentlySelectedPage = pageChoice;
       this.updateCommitHistory();
+    } else {
+      this.snackBarService.notify(`Page number must be between 1 and ${this.maxPage}`);
     }
+
   }
 
   firstPage() {
