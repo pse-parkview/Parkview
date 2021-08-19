@@ -114,12 +114,14 @@
 <br>
 <!--TODO make them look palatable-->
 <button mat-button
-        (click)="saveAndStoreCurrentConfig()">
+        (click)="saveAndStoreCurrentConfig()"
+        [disabled]="!validPlotConfig()">
   Save Plotconfig
 </button>
 <button mat-button
         [matDialogClose]="true"
         (click)="navigateToPlotView()"
+        [disabled]="!validPlotConfig()"
         id="plotButton">
   Plot
 </button>
