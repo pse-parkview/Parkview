@@ -36,6 +36,7 @@ jobs:
         
       - name: Generate Jacoco Badge
         uses: cicirello/jacoco-badge-generator@v2
+        id: jacoco
         with:
           jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
           generate-branches-badge: false
