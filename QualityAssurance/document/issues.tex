@@ -1,6 +1,21 @@
-\section{Known Issues}
+\section{Issues}
 
-\subsection{Frontend}
+\subsection{Fixed Issues}
+\fixed{Github Api for branches is paginated}
+{Github returns the branches paged when using the Branches Api. Therefore the branch list on the frontend is incomplete.}
+{When using the Github Api for retrieving branches, keep increasing the page number until no more branches are returned.}
+
+\fixed{ConcurrentModificationException}
+{Sometimes the backend throws a \texttt{ConcurrentModificationException}, while there isn't any way to reproduce this reliably, it might be an issue with an access from one thread that changes the linked lists used for caching the benchmark results while another thread is iterating over it.}
+{Adding the \texttt{@Synchronized} annotation the functions handling the caching.}
+
+\fixed{Invalid values for Performance Profile}
+{The Performance Profile for Spmv benchmarks has invalid values for $x \leq 1$.}
+{Filtering formats that haven't completed and filtering any values that are smaller than 1.}
+
+\subsection{Open Issues}
+
+\subsubsection{Frontend}
 
 \issue{Template Management Page}
 {Templates may introduce a necessity for a more powerful manipulation tool than the sidebar - like deleting, selecting a template first, and only selecting data points after that, manipulating them and other configuration. \\
@@ -21,7 +36,7 @@ Ideally this would be done on a separate page implemented specifically for templ
 \issue{Disable Plot Button when no Plots are available}
 {Currently the plot button is enabled even if there are no available plots conforming to the user selection. Pressing it leads to an empty plot page.}
 
-\subsection{Backend}
+\subsubsection{Backend}
 
 \issue{Preconditioner Plots}
 {Plots for Preconditioner Benchmarks are still missing but shouldn't be a lot of effort to implement later on due to the modular nature of the backend.}
@@ -32,10 +47,7 @@ Ideally this would be done on a separate page implemented specifically for templ
 \issue{POST Authentication}
 {Currently there is no form of authentication required to POST data to the backend. This might be desirable once \parkview{} is hosted in a public network to prevent malicious requests.}
 
-\issue{ConcurrentModificationException}
-{Sometimes the backend throws a \texttt{ConcurrentModificationException}, while there isn't any way to reproduce this reliably, it might be an issue with an access from one thread that changes the linked lists used for caching the benchmark results while another thread is iterating over it.}
-
-\subsection{Miscellaneous}
+\subsubsection{Miscellaneous}
 
 \issue{NGINX}
 {The container for the frontend currently uses \texttt{ng serve} which is less than desirable for production use. Ideally the frontend container should use NGINX as an actual webserver.}
