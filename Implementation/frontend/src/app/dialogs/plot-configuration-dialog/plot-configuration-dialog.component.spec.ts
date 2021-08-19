@@ -52,7 +52,23 @@ describe('PlotConfigurationDialogComponent', () => {
 
   it('should recognize valid selections', () => {
     component.benchmarkName = 'testName';
-    component.commitsAndDevices = [];
+    component.commitsAndDevices = [
+      {
+        commit: {
+          sha: 'SHA',
+          date: 'mockDate',
+          author: 'ted',
+          branch: 'mockBranch',
+          message: 'this isn\'t even a real commit',
+          availableDevices: [
+            {
+              name: 'device',
+            }
+          ]
+        },
+        device: 'device'
+      }
+    ];
     component.currentPlotTypeOption = {
       options: [],
       plottableAs: [],
