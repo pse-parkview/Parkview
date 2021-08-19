@@ -1,6 +1,5 @@
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import java.util.*

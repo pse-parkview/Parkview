@@ -2,10 +2,8 @@ package com.parkview.parkview.processing.transforms.conversion
 
 import CONVERSION_RESULT
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.spmv.SpmvSpeedupPlot
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class ConversionSpeedupPlotTest {
     private val plot = ConversionSpeedupPlot()

@@ -13,7 +13,7 @@ internal class AvailablePlotsTest {
         var plots = AvailablePlots.getPlotList(BenchmarkType.Spmv, listOf(SPMV_RESULT))
         assert(
             plots.map { it.plotName }.contains(SpmvSingleScatterPlot().name)
-            and plots.find { it.plotName == SpmvSingleScatterPlot().name }!!.options
+                    and plots.find { it.plotName == SpmvSingleScatterPlot().name }!!.options
                 .find { it.name == "yAxis" }!!.options.contains("time")
         )
 

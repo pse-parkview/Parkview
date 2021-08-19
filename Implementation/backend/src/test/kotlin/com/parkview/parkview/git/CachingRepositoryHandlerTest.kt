@@ -2,10 +2,9 @@ package com.parkview.parkview.git
 
 import COMMIT_A
 import COMMIT_B
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class CachingRepositoryHandlerTest {
 
@@ -14,11 +13,12 @@ internal class CachingRepositoryHandlerTest {
 
     private val mockHandler = object : RepositoryHandler {
         var pages = 1
-        override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = listOf(
-            Commit(
-                COMMIT_A.sha,
-            ),
-        )
+        override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+            listOf(
+                Commit(
+                    COMMIT_A.sha,
+                ),
+            )
 
         override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = listOf(
             Commit(

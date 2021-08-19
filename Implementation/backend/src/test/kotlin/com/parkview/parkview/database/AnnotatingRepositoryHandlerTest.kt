@@ -19,7 +19,8 @@ internal class AnnotatingRepositoryHandlerTest {
             throw IllegalAccessException("mockup code that should not be used")
         }
 
-        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) = commit.sha == COMMIT_A.sha
+        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) =
+            commit.sha == COMMIT_A.sha
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
             if ((commit.sha == COMMIT_A.sha) and (benchmark == BenchmarkType.Blas)) listOf(Device("gamer")) else emptyList()
@@ -28,7 +29,8 @@ internal class AnnotatingRepositoryHandlerTest {
     private object MockRepositoryHandler : RepositoryHandler {
         private val commits = listOf(COMMIT_A, COMMIT_B)
 
-        override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = commits
+        override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+            commits
 
         override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
             TODO("Not yet implemented")

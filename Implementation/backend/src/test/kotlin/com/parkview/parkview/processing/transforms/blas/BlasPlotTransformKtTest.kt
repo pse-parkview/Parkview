@@ -87,6 +87,6 @@ internal class BlasPlotTransformKtTest {
         mOptions["minM"] = 40
         val mFiltered = filterBlasDatapoints(datapoints, mOptions.map { it.key to it.value.toString() }.toMap())
         assertNull(mFiltered.find { it.m < 32 })
-        assertNull(mFiltered.find { it.m > 40})
+        assertNull(mFiltered.find { it.m > 40 })
     }
 }

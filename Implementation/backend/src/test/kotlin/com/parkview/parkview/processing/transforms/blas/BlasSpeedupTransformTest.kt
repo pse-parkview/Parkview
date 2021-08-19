@@ -2,15 +2,12 @@ package com.parkview.parkview.processing.transforms.blas
 
 import COMMIT_A
 import DEVICE
-import com.google.gson.Gson
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.processing.transforms.PointDataset
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.fail
 
 internal class BlasSpeedupTransformTest {
     private val plot = BlasSpeedupTransform()

@@ -99,6 +99,7 @@ class ParkviewApplication {
                 object : Interceptor {
                     private val credentials: String =
                         Credentials.basic(appConfig.gitApi.username, appConfig.gitApi.token)
+
                     override fun intercept(chain: Interceptor.Chain): Response {
                         val request = chain.request()
                         val authenticatedRequest = request.newBuilder()

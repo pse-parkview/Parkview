@@ -6,7 +6,6 @@ import com.parkview.parkview.benchmark.Component
 import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.benchmark.SolverDatapoint
-import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.BarChartDataset
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

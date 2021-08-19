@@ -3,15 +3,13 @@ package com.parkview.parkview.database
 import COMMIT_A
 import COMMIT_A_RESULT
 import DEVICE
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 internal class CachingDatabaseHandlerTest {
     private val mockupHandler = object : DatabaseHandler {
@@ -27,12 +25,14 @@ internal class CachingDatabaseHandlerTest {
             return dataAvailable
         }
 
-        override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> = listOf(DEVICE)
+        override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
+            listOf(DEVICE)
 
     }
 
     private lateinit var handlerWithMaxDuration: CachingDatabaseHandler
     private lateinit var handlerWithZeroDuration: CachingDatabaseHandler
+
     @BeforeEach
     fun setUp() {
         handlerWithMaxDuration = CachingDatabaseHandler(

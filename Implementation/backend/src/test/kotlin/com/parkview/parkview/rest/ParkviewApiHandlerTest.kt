@@ -5,11 +5,9 @@ import com.parkview.parkview.benchmark.BenchmarkJsonParser
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.*
 import com.parkview.parkview.tracking.PerformanceTracker
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import java.lang.IllegalStateException
+import org.junit.jupiter.api.Test
 
 internal class ParkviewApiHandlerTest {
     private lateinit var apiHandler: ParkviewApiHandler
@@ -19,7 +17,8 @@ internal class ParkviewApiHandlerTest {
             return listOf(COMMIT_A_RESULT.commit.apply { addDevice(COMMIT_A_RESULT.device) })
         }
 
-        override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> = emptyList()
+        override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
+            emptyList()
 
         override fun getAvailableBranches(): List<String> = listOf("test")
 

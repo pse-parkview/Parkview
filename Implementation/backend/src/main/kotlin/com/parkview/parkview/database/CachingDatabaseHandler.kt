@@ -4,7 +4,6 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import java.util.*
 
 // cache entry for hasAvailableData
 private data class AvailableCacheEntry(
@@ -55,7 +54,8 @@ class CachingDatabaseHandler(
 
     @Synchronized
     override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean {
-        val cached = availableCache.find { (it.commit.sha == commit.sha) and (it.device == device) and (it.benchmark == benchmark) }
+        val cached =
+            availableCache.find { (it.commit.sha == commit.sha) and (it.device == device) and (it.benchmark == benchmark) }
 
         // miss
         if (cached == null) {

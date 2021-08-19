@@ -2,7 +2,7 @@ package com.parkview.parkview.processing.transforms.conversion
 
 import CONVERSION_RESULT
 import com.parkview.parkview.processing.transforms.PointDataset
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ConversionSingleScatterPlotTest {

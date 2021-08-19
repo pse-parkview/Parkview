@@ -56,7 +56,7 @@ private data class PreconditionerModel(
 )
 
 private data class OptimalModel(
-    val spmv: String
+    val spmv: String,
 )
 
 private data class DatapointModel(

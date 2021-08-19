@@ -24,7 +24,7 @@ internal class MatrixPlotTransformKtTest {
         override val commit: Commit,
         override val device: Device,
         override val benchmark: BenchmarkType,
-        override val summaryValues: Map<String, Double> = emptyMap()
+        override val summaryValues: Map<String, Double> = emptyMap(),
     ) : MatrixBenchmarkResult
 
     private val datapoints = (1..10).map {
@@ -57,14 +57,16 @@ internal class MatrixPlotTransformKtTest {
         val columnsOptions = options.toMutableMap()
         columnsOptions["minColumns"] = 10
         columnsOptions["maxColumns"] = 18
-        val columnsFiltered = filterMatrixDatapoints(datapoints, columnsOptions.map { it.key to it.value.toString() }.toMap())
+        val columnsFiltered =
+            filterMatrixDatapoints(datapoints, columnsOptions.map { it.key to it.value.toString() }.toMap())
         assertNull(columnsFiltered.find { it.columns < 10 })
         assertNull(columnsFiltered.find { it.columns > 18 })
 
         val nonzerosOptions = options.toMutableMap()
         nonzerosOptions["minNonzeros"] = 15
         nonzerosOptions["maxNonzeros"] = 21
-        val nonzerosFiltered = filterMatrixDatapoints(datapoints, nonzerosOptions.map { it.key to it.value.toString() }.toMap())
+        val nonzerosFiltered =
+            filterMatrixDatapoints(datapoints, nonzerosOptions.map { it.key to it.value.toString() }.toMap())
         assertNull(nonzerosFiltered.find { it.nonzeros < 15 })
         assertNull(nonzerosFiltered.find { it.nonzeros > 21 })
     }

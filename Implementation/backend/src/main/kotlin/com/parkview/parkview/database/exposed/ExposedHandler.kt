@@ -172,7 +172,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         }
     }
 
-    private fun insertPreconditionerBenchmarkResult(result: PreconditionerBenchmarkResult, benchmark: BenchmarkResultRow) {
+    private fun insertPreconditionerBenchmarkResult(
+        result: PreconditionerBenchmarkResult,
+        benchmark: BenchmarkResultRow,
+    ) {
         transaction(db) {
             for (datapoint in result.datapoints) {
                 val query = PreconditionerDatapointRow.find {

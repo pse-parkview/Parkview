@@ -71,13 +71,15 @@ internal class PerformanceTrackerTest {
     private val databaseHandler = object : DatabaseHandler {
         override fun insertBenchmarkResults(results: List<BenchmarkResult>) {}
 
-        override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: BenchmarkType): BenchmarkResult = when (commit.sha) {
-            COMMIT_A.sha -> newBenchmarkResult
-            COMMIT_B.sha -> oldBenchmarkResult
-            else -> fail("This commits does not exist in the database")
-        }
+        override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: BenchmarkType): BenchmarkResult =
+            when (commit.sha) {
+                COMMIT_A.sha -> newBenchmarkResult
+                COMMIT_B.sha -> oldBenchmarkResult
+                else -> fail("This commits does not exist in the database")
+            }
 
-        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean = ((commit == COMMIT_A) || (commit == COMMIT_B))
+        override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean =
+            ((commit == COMMIT_A) || (commit == COMMIT_B))
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> {
             TODO("Not yet implemented")
