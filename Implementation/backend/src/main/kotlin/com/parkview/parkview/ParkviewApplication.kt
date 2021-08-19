@@ -1,5 +1,6 @@
 package com.parkview.parkview
 
+import com.parkview.parkview.benchmark.GsonBenchmarkJsonParser
 import com.parkview.parkview.database.AnnotatingRepositoryHandler
 import com.parkview.parkview.database.CachingDatabaseHandler
 import com.parkview.parkview.database.DatabaseHandler
@@ -71,7 +72,7 @@ class ParkviewApplication {
         databaseHandler: DatabaseHandler,
         performanceTracker: PerformanceTracker,
     ): ParkviewApiHandler =
-        ParkviewApiHandler(repositoryHandler, databaseHandler, performanceTracker)
+        ParkviewApiHandler(repositoryHandler, databaseHandler, performanceTracker, GsonBenchmarkJsonParser())
 
     @Bean
     fun performanceTracker(

@@ -22,7 +22,6 @@ abstract class SolverPlotTransform : MatrixPlotTransform() {
             SolverBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                benchmark = it.benchmark,
                 datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<SolverDatapoint>(),
             )
         }

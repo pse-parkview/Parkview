@@ -13,7 +13,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
     override val plottableAs = listOf(PlotType.Bar)
     override val name = "solverRuntimeBreakdown"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        getAvailableMatrixNames(results),
+        getAvailableMatrixNames(results.first()),
         CategoricalOption(
             name = "components",
             options = listOf("apply", "generate")

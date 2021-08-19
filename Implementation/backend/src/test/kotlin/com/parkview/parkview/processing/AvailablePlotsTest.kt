@@ -4,6 +4,7 @@ import SPMV_RESULT
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.spmv.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.spmv.SpmvSpeedupPlot
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class AvailablePlotsTest {
@@ -17,6 +18,6 @@ internal class AvailablePlotsTest {
         )
 
         plots = AvailablePlots.getPlotList(BenchmarkType.Spmv, listOf(SPMV_RESULT, SPMV_RESULT))
-        assert(plots.find { it.plotName == SpmvSpeedupPlot().name } != null)
+        assertTrue(plots.find { it.plotName == SpmvSpeedupPlot().name } != null)
     }
 }

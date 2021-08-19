@@ -21,7 +21,7 @@ class SolverConvergencePlot : SolverPlotTransform() {
             name = "xAxis",
             options = listOf("iteration_timestamps", "array_index"),
         ),
-        getAvailableMatrixNames(results),
+        getAvailableMatrixNames(results.first()),
     )
 
     override fun transformSolver(

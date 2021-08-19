@@ -26,7 +26,6 @@ internal class SpmvBenchmarkResultTest {
         br = SpmvBenchmarkResult(
             commit,
             Device(""),
-            BenchmarkType.Spmv,
             datapoints
         )
     }

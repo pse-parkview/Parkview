@@ -1,11 +1,9 @@
 package com.parkview.parkview.benchmark
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import java.util.*
@@ -171,31 +169,6 @@ private data class DatapointModel(
     }
 }
 
-private data class BlasDatapointModel(
-    val n: Long,
-    val r: Long? = 1,
-    val m: Long? = n,
-    val k: Long? = n,
-    val blas: Map<String, BlasOperationModel>,
-) {
-    fun toBlasDatapoint(): BlasDatapoint = BlasDatapoint(
-        n,
-        r ?: 1,
-        m ?: n,
-        k ?: n,
-        blas.map { (key, value) ->
-            Operation(
-                key,
-                value.time,
-                value.flops,
-                value.bandwidth,
-                value.completed,
-                value.repetitions ?: 0
-            )
-        }
-    )
-}
-
 private data class BlasOperationModel(
     val time: Double,
     val flops: Double,
@@ -205,19 +178,11 @@ private data class BlasOperationModel(
 )
 
 /**
- * Singleton that takes care of parsing the json representation used in ginkgo-data to [BenchmarkResult] objects
+ * Class that takes care of parsing the json representation used in ginkgo-data to [BenchmarkResult] objects
  */
-object JsonParser {
-    /**
-     * Converts a json list of objects to a list of benchmark results
-     *
-     * @param sha sha for commit these benchmarks have been run on
-     * @param deviceName device these benchmarks have been run on
-     * @param json json as a string
-     *
-     * @return list of [BenchmarkResult]
-     */
-    fun benchmarkResultsFromJson(
+class GsonBenchmarkJsonParser : BenchmarkJsonParser {
+
+    override fun benchmarkResultsFromJson(
         sha: String,
         deviceName: String,
         json: String,
@@ -259,7 +224,6 @@ object JsonParser {
                 commit = commit,
                 datapoints = spmvDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Spmv,
             )
         )
 
@@ -268,7 +232,6 @@ object JsonParser {
                 commit = commit,
                 datapoints = conversionDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Conversion,
             )
         )
 
@@ -277,7 +240,6 @@ object JsonParser {
                 commit = commit,
                 datapoints = solverDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Solver,
             )
         )
 
@@ -286,7 +248,6 @@ object JsonParser {
                 commit = commit,
                 datapoints = preconditionerDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Preconditioner,
             )
         )
 
@@ -295,7 +256,6 @@ object JsonParser {
                 commit = commit,
                 datapoints = blasDatapoints,
                 device = device,
-                benchmark = BenchmarkType.Blas,
             )
         )
 

@@ -9,12 +9,14 @@ import SOLVER_RESULT
 import SPMV_RESULT
 import com.parkview.parkview.benchmark.*
 import com.parkview.parkview.database.DatabaseHandler
+import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import dirtyEquals
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import javax.sql.DataSource
 
 internal class ExposedHandlerTest {
@@ -107,7 +109,6 @@ internal class ExposedHandlerTest {
         val resultA = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     it.toLong() * 10, operations = listOf(
@@ -119,7 +120,6 @@ internal class ExposedHandlerTest {
         val resultB = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     it.toLong() * 10, operations = listOf(
@@ -151,7 +151,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -166,7 +165,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -199,7 +197,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "B", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -214,7 +211,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -239,7 +235,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -254,7 +249,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -279,7 +273,6 @@ internal class ExposedHandlerTest {
         val resultA = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     (it * 10).toLong(), operations = listOf(
@@ -291,7 +284,6 @@ internal class ExposedHandlerTest {
         val resultB = BlasBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Blas,
             (1..5).map {
                 BlasDatapoint(
                     (it * 10).toLong(), operations = listOf(
@@ -315,7 +307,6 @@ internal class ExposedHandlerTest {
         val resultA = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -330,7 +321,6 @@ internal class ExposedHandlerTest {
         val resultB = SpmvBenchmarkResult(
             COMMIT_A,
             DEVICE,
-            BenchmarkType.Spmv,
             (1..5).map {
                 val format = Format(name = "A", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
                 SpmvDatapoint(
@@ -350,5 +340,11 @@ internal class ExposedHandlerTest {
         assert((returned as SpmvBenchmarkResult).datapoints.size == 10)
     }
 
+    @Test
+    fun `test fetching benchmark result that doesn't exist`() {
+        assertThrows<MissingBenchmarkResultException> {
+            dbHandler.fetchBenchmarkResult(COMMIT_A, DEVICE, BenchmarkType.Blas)
+        }
+    }
 }
 

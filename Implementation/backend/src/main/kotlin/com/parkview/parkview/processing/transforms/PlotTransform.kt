@@ -1,20 +1,9 @@
 package com.parkview.parkview.processing.transforms
 
-import com.parkview.parkview.benchmark.MatrixBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-
-val MATRIX_X_AXIS = CategoricalOption(
-    name = "xAxis",
-    options = listOf("nonzeros", "rows", "columns")
-)
-
-fun getAvailableMatrixNames(results: List<BenchmarkResult>) = CategoricalOption(
-    name = "matrix",
-    options = (results.first() as MatrixBenchmarkResult).datapoints.map { it.name }
-)
 
 fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
     if (results.size != 2) throw InvalidPlotTransformException("Comparison is only possible between two benchmarks")

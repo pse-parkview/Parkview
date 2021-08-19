@@ -31,7 +31,6 @@ internal class PreconditionerBenchmarkResultTest {
         br = PreconditionerBenchmarkResult(
             commit,
             Device(""),
-            BenchmarkType.Preconditioner,
             datapoints
         )
     }

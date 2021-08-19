@@ -1,6 +1,5 @@
 package com.parkview.parkview.benchmark
 
-import com.google.gson.GsonBuilder
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
@@ -54,10 +53,7 @@ data class SolverDatapoint(
     override val nonzeros: Long,
     val optimal: String,
     val solvers: List<Solver>,
-) : MatrixDatapoint {
-    override fun serializeComponentsToJson(): String =
-        GsonBuilder().serializeSpecialFloatingPointValues().create().toJson(solvers)
-}
+) : MatrixDatapoint
 
 /**
  * This is a benchmark result for the benchmarks
@@ -71,9 +67,10 @@ data class SolverDatapoint(
 data class SolverBenchmarkResult(
     override val commit: Commit,
     override val device: Device,
-    override val benchmark: BenchmarkType,
     override val datapoints: List<SolverDatapoint>,
 ) : MatrixBenchmarkResult {
+    override val benchmark: BenchmarkType = BenchmarkType.Solver
+
     override val summaryValues: Map<String, Double>
             by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 

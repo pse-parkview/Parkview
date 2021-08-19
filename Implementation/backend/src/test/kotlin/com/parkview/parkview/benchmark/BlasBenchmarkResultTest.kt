@@ -24,7 +24,6 @@ internal class BlasBenchmarkResultTest {
         br = BlasBenchmarkResult(
             commit,
             Device(""),
-            BenchmarkType.Blas,
             datapoints
         )
     }

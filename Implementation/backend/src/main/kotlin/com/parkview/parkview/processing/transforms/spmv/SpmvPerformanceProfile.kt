@@ -35,7 +35,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
 
         for (dataPoint in dataPoints) {
-            val minTime = dataPoint.formats.filter { it.completed and it.completed }.map { it.time }.minOrNull() ?: continue
+            val minTime = dataPoint.formats.filter { it.completed }.map { it.time }.minOrNull() ?: continue
             dataPoint.formats.filter { !it.time.isNaN() and it.completed }.forEach {
                 formatSlowdowns.getOrPut(it.name) { mutableListOf() } += (it.time / minTime)
             }

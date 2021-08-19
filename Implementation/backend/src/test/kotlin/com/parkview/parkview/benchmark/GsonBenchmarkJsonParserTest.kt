@@ -1,13 +1,21 @@
 package com.parkview.parkview.benchmark
 
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.fail
 
-internal class JsonParserTest {
+internal class GsonBenchmarkJsonParserTest {
     private val sha = "ahs"
     private val device = "ecived"
+
+    private lateinit var benchmarkJsonParser: BenchmarkJsonParser
+
+    @BeforeEach
+    fun setup() {
+        benchmarkJsonParser = GsonBenchmarkJsonParser()
+    }
 
     @Test
     fun `test json deserialization for single spmv entry`() {
@@ -17,7 +25,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         assert(benchmarkResults.size == 1)
         val result = benchmarkResults.first()
         if (result !is SpmvBenchmarkResult) fail("invalid type, should be SpmvBenchmarkResult")
@@ -38,7 +46,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         // TODO actual assertion
     }
 
@@ -49,7 +57,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         assert((benchmarkResults[0] is ConversionBenchmarkResult) xor (benchmarkResults[1] is ConversionBenchmarkResult))
         assert((benchmarkResults[0] is SpmvBenchmarkResult) xor (benchmarkResults[1] is SpmvBenchmarkResult))
     }
@@ -60,7 +68,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         assert(benchmarkResults.size == 1)
         val result = benchmarkResults.first()
         if (result !is SolverBenchmarkResult) fail("invalid type, should be SolverBenchmarkResult")
@@ -75,7 +83,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         assert(benchmarkResults.size == 1)
         val result = benchmarkResults.first()
         if (result !is BlasBenchmarkResult) fail("invalid type, should be BlasBenchmarkResult")
@@ -92,7 +100,7 @@ internal class JsonParserTest {
         val file = File(path)
         val testJson = file.readText()
 
-        val benchmarkResults = JsonParser.benchmarkResultsFromJson(sha, device, testJson)
+        val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, testJson)
         print(benchmarkResults.toString())
         assert(benchmarkResults.size == 1)
         val result = benchmarkResults.first()

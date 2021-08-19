@@ -6,12 +6,10 @@ import COMMIT_B
 import COMMIT_B_RESULT
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.git.*
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.fail
+import org.junit.jupiter.api.fail
 
 internal class PerformanceTrackerTest {
     private val newBenchmarkResult = COMMIT_A_RESULT
@@ -87,23 +85,23 @@ internal class PerformanceTrackerTest {
 
     }
 
-    lateinit var handler: PerformanceTracker
+    lateinit var tracker: PerformanceTracker
 
     @BeforeEach
     fun setup() {
         webhook.new = null
         webhook.old = null
-        handler = PerformanceTracker(
+        tracker = PerformanceTracker(
             databaseHandler,
             repositoryHandler,
         )
 
-        handler.addWebhook(webhook)
+        tracker.addWebhook(webhook)
     }
 
     @Test
     fun `retrieving the correct commits`() {
-        handler.notifyHooks(listOf(newBenchmarkResult))
+        tracker.notifyHooks(listOf(newBenchmarkResult))
 
         assertNotNull(webhook.new)
         assertNotNull(webhook.old)
@@ -113,7 +111,7 @@ internal class PerformanceTrackerTest {
 
     @Test
     fun `no previous commit`() {
-        handler.notifyHooks(listOf(oldBenchmarkResult))
+        tracker.notifyHooks(listOf(oldBenchmarkResult))
 
         assertNull(webhook.new)
         assertNull(webhook.old)
