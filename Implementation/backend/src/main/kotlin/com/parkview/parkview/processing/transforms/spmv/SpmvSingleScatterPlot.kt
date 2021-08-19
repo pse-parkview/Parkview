@@ -36,12 +36,12 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotOptionsException(options, "xAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
                     },
                     y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> (format.storage + datapoint.rows + datapoint.columns) / format.time
                         "time" -> format.time
-                        else -> throw InvalidPlotOptionsException(options, "yAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "yAxis")
                     },
                 )
             }

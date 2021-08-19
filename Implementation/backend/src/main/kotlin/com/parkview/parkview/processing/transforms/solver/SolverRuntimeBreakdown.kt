@@ -1,6 +1,5 @@
 package com.parkview.parkview.processing.transforms.solver
 
-import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
@@ -31,7 +30,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         options: Map<String, String>,
     ): PlottableData {
         val datapoint = benchmarkResults.first().datapoints.find { it.name == options.getOptionValueByName("matrix") }
-            ?: throw InvalidPlotOptionsException(options, "matrix")
+            ?: throw InvalidPlotOptionValueException(options, "matrix")
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()
         val allComponentNames = datapoint.solvers.fold(emptyList<String>()) { acc, e ->
@@ -57,29 +56,5 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
             labels = labels,
             datasets = seriesByName.map { BarChartDataset(it.key, it.value) }
         )
-    }
-
-    private fun Solver.getComponentsByOption(options: Map<String, String>) = when (options["components"]) {
-        "apply" -> this.applyComponents
-        "generate" -> this.generateComponents
-        else -> throw InvalidPlotOptionsException(options, "components")
-    }
-
-    private fun Solver.getTotalTimeByOption(options: Map<String, String>) = when (options["components"]) {
-        "apply" -> this.getApplyTotalTimeByOption(options)
-        "generate" -> this.getGenerateTotalTimeByOption(options)
-        else -> throw InvalidPlotOptionsException(options, "components")
-    }
-
-    private fun Solver.getGenerateTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-        "sumComponents" -> this.generateComponents.sumOf { it.runtime }
-        "givenValue" -> this.generateTotalTime
-        else -> throw InvalidPlotOptionsException(options, "totalTime")
-    }
-
-    private fun Solver.getApplyTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-        "sumComponents" -> this.applyComponents.sumOf { it.runtime }
-        "givenValue" -> this.applyTotalTime
-        else -> throw InvalidPlotOptionsException(options, "totalTime")
     }
 }

@@ -1,23 +1,8 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-
-fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
-    if (results.size != 2) throw InvalidPlotTransformException("Comparison is only possible between two benchmarks")
-    return CategoricalOption(
-        name = "compare",
-        options = listOf(
-            results[0].identifier + "/" + results[1].identifier,
-            results[1].identifier + "/" + results[0].identifier,
-        ),
-        description = "Which speedup to compute",
-    )
-}
-
-fun Map<String, String>.getOptionValueByName(name: String) = this[name] ?: throw InvalidPlotOptionsException(this, name)
 
 interface PlotTransform {
     /**

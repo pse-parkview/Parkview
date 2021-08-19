@@ -2,7 +2,10 @@ package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionsException
+import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.filterBlasDatapoints
+import com.parkview.parkview.processing.transforms.getXAxisByOption
+import com.parkview.parkview.processing.transforms.getYAxisByOption
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,7 +27,7 @@ internal class BlasPlotTransformKtTest {
         assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "time")), 1.0)
         assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "flops")), 2.0)
         assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "bandwidth")), 3.0)
-        assertThrows<InvalidPlotOptionsException> {
+        assertThrows<InvalidPlotOptionValueException> {
             operation.getYAxisByOption(mapOf())
         }
     }
@@ -35,13 +38,13 @@ internal class BlasPlotTransformKtTest {
         assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "r")), 2)
         assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "m")), 3)
         assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "k")), 4)
-        assertThrows<InvalidPlotOptionsException> {
+        assertThrows<InvalidPlotOptionValueException> {
             datapoint.getXAxisByOption(mapOf())
         }
     }
 
     @Test
-    fun filterBlasDatapoints() {
+    fun `filter blas datapoints`() {
         val options = mapOf(
             "maxN" to 10,
             "minN" to 1,

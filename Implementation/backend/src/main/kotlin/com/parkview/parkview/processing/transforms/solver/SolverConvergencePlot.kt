@@ -45,13 +45,13 @@ class SolverConvergencePlot : SolverPlotTransform() {
                 "recurrent_residuals" -> solver.recurrentResiduals
                 "true_residuals" -> solver.trueResiduals
                 "implicit_residuals" -> solver.implicitResiduals
-                else -> throw InvalidPlotOptionsException(options, "xAxis")
+                else -> throw InvalidPlotOptionValueException(options, "xAxis")
             }
 
             val wantedXAxis = when (options.getOptionValueByName("xAxis")) {
                 "iteration_timestamps" -> solver.iterationTimestamps
                 "array_index" -> (0..(wantedResiduals.size)).map { it.toDouble() }.toList()
-                else -> throw InvalidPlotOptionsException(options, "yAxis")
+                else -> throw InvalidPlotOptionValueException(options, "yAxis")
             }
 
             seriesByName.getOrPut(solver.name) { mutableListOf() } += wantedResiduals.zip(wantedXAxis)

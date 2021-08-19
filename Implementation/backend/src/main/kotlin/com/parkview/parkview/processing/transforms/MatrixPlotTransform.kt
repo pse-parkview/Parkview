@@ -47,26 +47,3 @@ abstract class MatrixPlotTransform : PlotTransform {
     }
 }
 
-fun filterMatrixDatapoints(datapoints: List<MatrixDatapoint>, options: Map<String, String>): List<MatrixDatapoint> {
-    val minRows = options.getOptionValueByName("minRows").toDouble()
-    val maxRows = options.getOptionValueByName("maxRows").toDouble()
-    val minColumns = options.getOptionValueByName("minColumns").toDouble()
-    val maxColumns = options.getOptionValueByName("maxColumns").toDouble()
-    val minNonzeros = options.getOptionValueByName("minNonzeros").toDouble()
-    val maxNonzeros = options.getOptionValueByName("maxNonzeros").toDouble()
-
-    return datapoints
-        .filter { (it.rows >= minRows) and (it.rows <= maxRows) }
-        .filter { (it.columns >= minColumns) and (it.columns <= maxColumns) }
-        .filter { (it.nonzeros >= minNonzeros) and (it.nonzeros <= maxNonzeros) }
-}
-
-val MATRIX_X_AXIS = CategoricalOption(
-    name = "xAxis",
-    options = listOf("nonzeros", "rows", "columns")
-)
-
-fun getAvailableMatrixNames(result: BenchmarkResult) = CategoricalOption(
-    name = "matrix",
-    options = (result as MatrixBenchmarkResult).datapoints.map { it.name }
-)

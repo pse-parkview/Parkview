@@ -36,12 +36,12 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
                         "nonzeros" -> datapoint.nonzeros.toDouble()
                         "rows" -> datapoint.rows.toDouble()
                         "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotOptionsException(options, "xAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
                     },
                     y = when (options.getOptionValueByName("yAxis")) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time
-                        else -> throw InvalidPlotOptionsException(options, "yAxis")
+                        else -> throw InvalidPlotOptionValueException(options, "yAxis")
                     },
                 )
             }
