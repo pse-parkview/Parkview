@@ -3,7 +3,7 @@
 The test scenarios are taken from the specification (T1, ...).
 
 \subsection{(T1) Create Plot}
-Tests the basic navigation of the application and the generation of a plot from a set of benchmark configurations.
+Tests the basic navigation of the application and the generation of a plot from a set of benchmark configurations
 
 \begin{center}
   \begin{tabular}{|l|ll|}
@@ -36,7 +36,7 @@ Tests the basic navigation of the application and the generation of a plot from 
   \end{center}
 
   \subsection{(T2) Post Benchmark Results}
-  Tests sending benchmark results to the system and storing it.
+  Tests sending benchmark results to the system and storing it
 
   \begin{center}
     \begin{tabular}{ | l | l l | }
@@ -53,7 +53,7 @@ Tests the basic navigation of the application and the generation of a plot from 
   \end{center}
 
   \subsection{(T3) Error Handling}
-  Tests the system’s ability to deal with malformed input data and invalid requests.
+  Tests the system’s ability to deal with malformed input data and invalid requests
 
   \begin{center}
     \begin{tabular}{|l|ll|}
@@ -75,7 +75,7 @@ Tests the basic navigation of the application and the generation of a plot from 
   \clearpage
 
   \subsection{(T4) Templates}
-  Tests the creation, storage and usage of templates.
+  Tests the creation, storage and usage of templates
 
   \begin{center}
     \begin{tabular}{|l|ll|}
@@ -114,7 +114,7 @@ Tests the basic navigation of the application and the generation of a plot from 
   \clearpage
 
   \subsection{(T6) Export}
-  Tests the ability to export plots to .png files
+  Tests the ability to export plots to \texttt{.png} files
 
   \begin{center}
     \begin{tabular}{ | l | l l | }
@@ -124,7 +124,26 @@ Tests the basic navigation of the application and the generation of a plot from 
       \textbf{T6.1} & & \\
       \PASS &  \textbf{State} & User has the application with a plot open \\[.5\normalbaselineskip]
     & \textbf{Action} & User selects the \enquote{Download Plot} option \\[.5\normalbaselineskip]
-    & \textbf{Reaction} & The user gets prompted with a download of the plot as a .png image \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The user gets prompted with a download of the plot as a \texttt{.png} image \\[.5\normalbaselineskip]
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \subsection{(T8) Performance Tracking}
+  Tests the system's ability to detect performance drops and notify external webservices
+
+
+  \begin{center}
+    \begin{tabular}{ | l | l l | }
+      \hline
+      Performance & \PASS & Tested \textcolor{orange}{manually} \\
+      Tracking & & \\
+      \hline
+      \textbf{T8.1} & & \\
+      \PASS &  \textbf{State} & The database contains a commit with high performance scores and \\
+            & & a hook for an external webservice is set up \\[.5\normalbaselineskip]
+    & \textbf{Action} & System gets a POST request with data that has low performance scores \\[.5\normalbaselineskip]
+    & \textbf{Reaction} & The external webserivce gets notified of the performance drop \\[.5\normalbaselineskip]
     \hline
   \end{tabular}
   \end{center}
