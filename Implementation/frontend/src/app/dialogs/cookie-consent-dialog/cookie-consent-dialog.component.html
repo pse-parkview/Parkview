@@ -3,27 +3,20 @@
 </h1>
 
 This site uses cookies to save the last viewed plots,
-and to save whether we can use any cookies at all.
-There aren't any non-functional cookies.
-The cookie saving these settings is essential.
+locally saved templates, last used settings for the dashboard
+and similar functionalities.<br>
+We don't even use that saved data for anything other than that.
 
 <mat-dialog-actions class="actions">
-  <mat-slide-toggle
-    class="toggle"
-    [checked]="cookies_storing_plot_configs"
-    (change)="toggleStoringPlotConfigs($event)"
-  >
-    Storing plot configurations
-  </mat-slide-toggle>
-
   <button
     mat-button
+    color="primary"
     mat-dialog-close="true"
     class="saveSettings"
     id="confirmCookies"
     (click)="saveSettings()"
   >
-    Save Settings
+    I Accept
   </button>
 </mat-dialog-actions>
 
