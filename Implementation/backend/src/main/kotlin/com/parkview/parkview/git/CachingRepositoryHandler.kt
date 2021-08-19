@@ -37,6 +37,7 @@ class CachingRepositoryHandler(
     private var availableBranches = handler.getAvailableBranches()
     private var availableBranchesFetchDate = Date()
 
+    @Synchronized
     override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
         getOrPutCache(branch, benchmarkType, page).pages.getOrPut(page) {
             handler.fetchGitHistoryByBranch(branch,
@@ -44,6 +45,7 @@ class CachingRepositoryHandler(
                 benchmarkType)
         }
 
+    @Synchronized
     override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
         val wantedSha = shaCache.find { (it.name == rev) and (it.benchmark == benchmarkType) }
 
@@ -85,6 +87,7 @@ class CachingRepositoryHandler(
         return wantedSha.pages.getOrPut(page) { handler.fetchGitHistoryByBranch(rev, page, benchmarkType) }
     }
 
+    @Synchronized
     override fun getAvailableBranches(): List<String> {
         if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > branchListLifetime) {
             availableBranches = handler.getAvailableBranches()
@@ -94,8 +97,10 @@ class CachingRepositoryHandler(
         return availableBranches
     }
 
+    @Synchronized
     override fun getNumberOfPages(branch: String): Int = getOrPutCache(branch).numberPages
 
+    @Synchronized
     private fun getOrPutCache(
         branch: String,
         benchmarkType: BenchmarkType = BenchmarkType.values().first(),
@@ -134,6 +139,7 @@ class CachingRepositoryHandler(
         return wantedBranch
     }
 
+    @Synchronized
     private fun addToBranchCache(branch: CachedBranch) {
         branchCache.add(branch)
 
@@ -142,6 +148,7 @@ class CachingRepositoryHandler(
         }
     }
 
+    @Synchronized
     private fun addToShaCache(sha: CachedSha) {
         shaCache.add(sha)
 

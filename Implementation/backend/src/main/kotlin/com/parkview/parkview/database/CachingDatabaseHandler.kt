@@ -28,11 +28,13 @@ class CachingDatabaseHandler(
     private val availableCache: MutableList<AvailableCacheEntry> = mutableListOf()
     private val deviceCache: MutableList<DeviceCacheEntry> = mutableListOf()
 
+    @Synchronized
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         resultCache.clear()
         databaseHandler.insertBenchmarkResults(results)
     }
 
+    @Synchronized
     override fun fetchBenchmarkResult(commit: Commit, device: Device, benchmark: BenchmarkType): BenchmarkResult {
         val cached =
             resultCache.find { (it.commit.sha == commit.sha) and (it.device == device) && (it.benchmark == benchmark) }
@@ -51,6 +53,7 @@ class CachingDatabaseHandler(
         return cached
     }
 
+    @Synchronized
     override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean {
         val cached = availableCache.find { (it.commit.sha == commit.sha) and (it.device == device) and (it.benchmark == benchmark) }
 
@@ -69,6 +72,7 @@ class CachingDatabaseHandler(
         return cached.available
     }
 
+    @Synchronized
     override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> {
         val cached = deviceCache.find { (it.commit.sha == commit.sha) and (it.benchmark == benchmark) }
 
@@ -87,6 +91,7 @@ class CachingDatabaseHandler(
         return cached.devices
     }
 
+    @Synchronized
     private fun addToResultCache(result: BenchmarkResult) {
         resultCache.add(result)
 
@@ -95,6 +100,7 @@ class CachingDatabaseHandler(
         }
     }
 
+    @Synchronized
     private fun addToAvailableCache(entry: AvailableCacheEntry) {
         availableCache.add(entry)
 
@@ -103,6 +109,7 @@ class CachingDatabaseHandler(
         }
     }
 
+    @Synchronized
     private fun addToDeviceCache(entry: DeviceCacheEntry) {
         deviceCache.add(entry)
 
