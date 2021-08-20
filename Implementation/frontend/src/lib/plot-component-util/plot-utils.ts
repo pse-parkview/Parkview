@@ -76,6 +76,17 @@ export class PlotUtils {
     return undefined;
   }
 
+
+  public static isValidConfig(config: PlotConfiguration): boolean {
+    if (config === undefined || config === null) {
+      return false;
+    }
+    return config.commits.length > 0
+      && config.commits.length === config.devices.length
+      && config.plotType.trim() !== ''
+      && config.benchmark.trim() !== '';
+  }
+
   public static downloadCanvas(event: MouseEvent, fileName: string = 'plot.png') {
     const anchor = event.target as HTMLAnchorElement;
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;

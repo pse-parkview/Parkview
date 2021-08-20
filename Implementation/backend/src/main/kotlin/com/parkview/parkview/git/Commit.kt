@@ -1,6 +1,6 @@
 package com.parkview.parkview.git
 
-import java.util.*
+import java.util.Date
 
 /**
  * Class that represents a single commit for a given branch and benchmark type
@@ -19,6 +19,11 @@ data class Commit(
     private val devices: MutableList<Device> = mutableListOf()
     val availableDevices: List<Device> get() = devices.toList()
 
+    /**
+     * Adds a device to this commit. This shows that the combination of commit and device has data available.
+     *
+     * @param device [Device] that gets added
+     */
     fun addDevice(device: Device) {
         if (!devices.contains(device)) devices.add(device)
     }

@@ -79,7 +79,13 @@ interface RestHandler {
      */
     fun getAvailableBenchmarks(): List<String>
 
-
+    /**
+     * Returns the summary values for a given benchmark
+     *
+     * @param benchmark benchmark type
+     * @param sha sha the benchmark has been run on
+     * @param device device the benchmark has been run on
+     */
     fun getSummaryValue(benchmark: String, sha: String, device: String): Map<String, Double>
 
     /**
@@ -93,10 +99,17 @@ interface RestHandler {
     fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData
 
     /**
-     * Returns the number of pages as an Int.
+     * Returns the number of pages for a given branch.
+     *
+     * @param branch given branch
      */
     fun getNumberOfPages(branch: String): Int
 
-
+    /**
+     *  Returns a list of available devices for the given branch and benchmark type.
+     *
+     *  @param branch given branch
+     *  @param benchmark given benchmark type
+     */
     fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device>
 }

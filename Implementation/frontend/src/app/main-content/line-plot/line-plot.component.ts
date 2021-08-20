@@ -59,7 +59,7 @@ export class LinePlotComponent implements OnInit {
           fontSize: this.fontSize,
         },
         ticks: {
-            fontSize: this.fontSize,
+          fontSize: this.fontSize,
         },
         type: this.yType
       }],
@@ -70,7 +70,7 @@ export class LinePlotComponent implements OnInit {
           fontSize: this.fontSize,
         },
         ticks: {
-            fontSize: this.fontSize,
+          fontSize: this.fontSize,
         },
         type: this.xType,
       }]
@@ -90,6 +90,9 @@ export class LinePlotComponent implements OnInit {
       const config: PlotConfiguration | undefined = PlotUtils.parsePlotConfig(p);
       if (config === undefined) {
         return;
+      }
+      if (config.plotType === "Performance Plot") {
+        this.yType = "linear";
       }
       this.chartTitle = config.labelForTitle;
       this.xLabel = config.labelForXAxis;

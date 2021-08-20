@@ -1,8 +1,23 @@
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Component
+import com.parkview.parkview.benchmark.Conversion
+import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionDatapoint
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.Preconditioner
+import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
+import com.parkview.parkview.benchmark.PreconditionerDatapoint
+import com.parkview.parkview.benchmark.Solver
+import com.parkview.parkview.benchmark.SolverBenchmarkResult
+import com.parkview.parkview.benchmark.SolverDatapoint
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import java.util.*
+import java.util.Date
 
 fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
 
@@ -14,11 +29,10 @@ val COMMIT_A_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -28,11 +42,10 @@ val COMMIT_B_RESULT = SpmvBenchmarkResult(
     COMMIT_B,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -42,11 +55,10 @@ val SPMV_RESULT = SpmvBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
-        val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
         SpmvDatapoint(
             "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
             listOf(
-                format
+                Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
             ),
         )
     }
@@ -57,7 +69,8 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     DEVICE,
     (1..5).map { index ->
         SolverDatapoint(
-            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, "optimal", listOf(
+            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, "optimal",
+            listOf(
                 Solver(
                     "",
                     generateComponents = listOf(Component("", 1.0)),
@@ -73,13 +86,13 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     }
 )
 
-
 val CONVERSION_RESULT = ConversionBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
         ConversionDatapoint(
-            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
                 Conversion("", 1.0, true),
             )
         )
@@ -91,7 +104,8 @@ val BLAS_RESULT = BlasBenchmarkResult(
     DEVICE,
     (1..5).map {
         BlasDatapoint(
-            it.toLong() * 10, operations = listOf(
+            it.toLong() * 10,
+            operations = listOf(
                 Operation("", 1.0, 1.0, it * 1.0, true),
             )
         )
@@ -103,14 +117,19 @@ val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
     DEVICE,
     (1..5).map {
         PreconditionerDatapoint(
-            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
                 Preconditioner(
-                    "", listOf(
+                    "",
+                    listOf(
                         Component("", it.toDouble()),
                     ),
-                    it.toDouble(), listOf(
+                    it.toDouble(),
+                    listOf(
                         Component("", it.toDouble())
-                    ), it.toDouble(), true
+                    ),
+                    it.toDouble(),
+                    true
                 )
             )
         )

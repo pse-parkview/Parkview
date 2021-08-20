@@ -3,14 +3,14 @@
   Benchmark: {{config.benchmarkName}}
   <br>
   <mat-table
-         [dataSource]="summaryData"
-         class="mat-elevation-z0">
+    [dataSource]="summaryData"
+    class="mat-elevation-z0">
     <ng-container matColumnDef="key">
-      <th mat-header-cell *matHeaderCellDef id="key"> key </th>
+      <th mat-header-cell *matHeaderCellDef id="key"> key</th>
       <td mat-cell *matCellDef="let d"> {{d.key}} </td>
     </ng-container>
     <ng-container matColumnDef="value">
-      <th mat-header-cell *matHeaderCellDef id="value"> value </th>
+      <th mat-header-cell *matHeaderCellDef id="value"> value</th>
       <td mat-cell *matCellDef="let d"> {{d.value}} </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="['key', 'value']"></tr>

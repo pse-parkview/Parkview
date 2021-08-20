@@ -2,7 +2,11 @@ package com.parkview.parkview.database
 
 import COMMIT_A
 import COMMIT_B
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.RepositoryHandler
 import org.junit.jupiter.api.Test
 
 internal class AnnotatingRepositoryHandlerTest {
@@ -46,7 +50,6 @@ internal class AnnotatingRepositoryHandlerTest {
     }
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
-
 
     @Test
     fun `tests annotation of commits with database results`() {

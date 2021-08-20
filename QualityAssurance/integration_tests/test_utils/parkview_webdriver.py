@@ -26,6 +26,8 @@ class ParkviewWebDriver:
     def reload_site(self):
         self.driver.delete_all_cookies()
         self.driver.get(self.url)
+        self.driver.set_window_position(0, 0)
+        self.driver.set_window_size(1920, 1080)
 
     def wait_and_click(self, by: str, value: str):
         WebDriverWait(self.driver, 30).until(

@@ -19,7 +19,7 @@ describe('TestComponent', () => {
         MatDialogModule,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,23 +1,9 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.CategoricalOption
+import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-
-fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
-    if (results.size != 2) throw InvalidPlotTransformException("Comparison is only possible between two benchmarks")
-    return CategoricalOption(
-        name = "compare",
-        options = listOf(
-            results[0].identifier + "/" + results[1].identifier,
-            results[1].identifier + "/" + results[0].identifier,
-        ),
-        description = "Which speedup to compute",
-    )
-}
-
-fun Map<String, String>.getOptionValueByName(name: String) = this[name] ?: throw InvalidPlotOptionsException(this, name)
 
 interface PlotTransform {
     /**
@@ -36,9 +22,26 @@ interface PlotTransform {
     val name: String
 
     /**
-     * Values that can be used for the xAxis
+     * Returns the available [PlotOptions][PlotOption] for this plot.
+     *
+     * @param results list of results
+     *
+     * @return a list of [PlotOptions][PlotOption]
      */
     fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption>
+
+    /**
+     * Returns a [PlotDescription] for this plot, containing information about name, options and data format.
+     *
+     * @param results list of results
+     *
+     * @return [PlotDescription]
+     */
+    fun getPlotDescription(results: List<BenchmarkResult>) = PlotDescription(
+        name,
+        plottableAs,
+        getAvailableOptions(results)
+    )
 
     /**
      * Transforms the benchmark data to data that is plottable
@@ -46,20 +49,17 @@ interface PlotTransform {
      * @param results list of benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData
+    fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData
 
-    fun checkOptions(results: List<BenchmarkResult>, options: Map<String, String>): Boolean {
-        for ((key, value) in options) {
-            val option = getAvailableOptions(results).find { it.name == key }
-                ?: continue
-            if ((value !in option.options) and !option.number) throw InvalidPlotTransformException("$value is not a possible value of ${option.name}")
-        }
-
-        return true
-    }
-
-    fun checkNumInputs(results: List<BenchmarkResult>) {
-        if (results.size !in numInputsRange) throw InvalidPlotTransformException(
+    /**
+     * Checks if the plot is possible with the given number of results.
+     *
+     * @param num number of results
+     *
+     * @return true if possible, otherwise false
+     */
+    fun checkNumInputs(num: Int) {
+        if (num !in numInputsRange) throw InvalidPlotTransformException(
             "$name can only be used with ${numInputsRange.first} to ${numInputsRange.last} inputs"
         )
     }

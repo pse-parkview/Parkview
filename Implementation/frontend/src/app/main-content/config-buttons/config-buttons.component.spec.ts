@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ConfigButtonsComponent } from './config-buttons.component';
+import {ConfigButtonsComponent} from './config-buttons.component';
 
 describe('ConfigButtonsComponent', () => {
   let component: ConfigButtonsComponent;
@@ -8,9 +8,9 @@ describe('ConfigButtonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfigButtonsComponent ]
+      declarations: [ConfigButtonsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

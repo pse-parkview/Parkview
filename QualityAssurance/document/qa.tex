@@ -29,17 +29,16 @@
 \usepackage[nonumberlist, toc]{glossaries}     % provides glossary commands, [toc] to appear in table of contents
 \usepackage{graphicx}
 \usepackage{dirtree}
-\usepackage[width=2cm, filledcolor=green]{progressbar}
+\usepackage[width=1.5cm, filledcolor=green]{progressbar}
 \graphicspath{ {./images/} }
 \hypersetup{
-	pdftitle={Design},
+	pdftitle={Quality Assurance},
 	bookmarks=true
 }
 \usepackage{QA}
 \usepackage{csquotes} % provides \enquote{} command
 
 \usepackage{booktabs}% http://ctan.org/pkg/booktabs
-\newcommand{\tabitem}{~~\llap{\textbullet}~~}
 
 
 \begin{document}
@@ -59,11 +58,12 @@
 \clearpage
 
 \section{Introduction}
-This document describes in detail the quality assurance phase of \parkview{}, using automated unit tests for both the frontend and backend. This ensures that the implementation behaves according to the specification document.
+This document describes in detail the quality assurance phase of \parkview{}, using automated tests for both the frontend and backend. This ensures that the implementation behaves according to the specification document.
 \begin{itemize}
-  \item The tests from the specification document are ran to check the functionality of the implementation
-  \item Line and Branch coverage are given for relevant parts of the implementation
+  \item The functionality of \parkview{} is verified using the test scenarios in the Specification document.
+  \item Line and Branch coverage are given for relevant parts of the implementation.
   \item A continuous integration pipeline is set up to check the functionality after changes are made.
+  \item A continuous deployment pipeline is set up for nightly releases to be built and pushed to a remote server.
 \end{itemize}
 \clearpage
 

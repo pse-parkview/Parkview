@@ -17,7 +17,7 @@ describe('LinePlotComponent', () => {
         RouterTestingModule,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

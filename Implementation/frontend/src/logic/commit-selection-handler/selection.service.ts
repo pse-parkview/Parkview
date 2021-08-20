@@ -14,7 +14,7 @@ export class SelectionService {
   private selectedCommits: SelectedCommits = {
     benchmarkName: "",
     commitsAndDevices: [],
-  }
+  };
 
   private selectedBranch: string = '';
 
@@ -48,7 +48,7 @@ export class SelectionService {
         commitsAndDevices: [
           {commit, device},
         ],
-      }
+      };
     }
     this.selectedCommitsHasUpdated.emit();
   }

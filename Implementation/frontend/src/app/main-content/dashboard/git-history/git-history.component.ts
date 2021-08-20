@@ -65,14 +65,14 @@ export class GitHistoryComponent implements OnInit {
       this.commits = commits;
     });
     this.selected = [];
-    this.dataService.getNumPages(this.currentlySelectedBranch).subscribe(num => this.maxPage = num)
+    this.dataService.getNumPages(this.currentlySelectedBranch).subscribe(num => this.maxPage = num);
   }
 
   selectBranch(branchChoice: string): void {
     this.currentlySelectedBranch = branchChoice;
     this.cookieService.saveGitHistoryBranch(branchChoice);
     this.updateCommitHistory();
-    this.firstPage()
+    this.firstPage();
   }
 
   selectBenchmarkName(benchmarkNameChoice: string): void {

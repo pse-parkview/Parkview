@@ -2,13 +2,18 @@ package com.parkview.parkview.rest
 
 import com.parkview.parkview.benchmark.BenchmarkJsonParser
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.processing.AvailablePlots
 import com.parkview.parkview.processing.AveragePerformanceCalculator
 import com.parkview.parkview.processing.PlotDescription
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.tracking.PerformanceTracker
-import java.util.*
+import java.util.Date
 
 class ParkviewApiHandler(
     private val repHandler: RepositoryHandler,
@@ -17,7 +22,6 @@ class ParkviewApiHandler(
     private val benchmarkJsonParser: BenchmarkJsonParser,
 ) : RestHandler {
     private val performanceCalculator = AveragePerformanceCalculator(databaseHandler)
-
 
     override fun postBenchmarkResults(
         sha: String,
@@ -36,7 +40,6 @@ class ParkviewApiHandler(
         benchmark: String,
     ): List<Commit> = repHandler.fetchGitHistoryByBranch(branch, page, BenchmarkType.valueOf(benchmark))
 
-
     override fun getPlot(
         benchmark: String,
         shas: List<String>,
@@ -44,16 +47,19 @@ class ParkviewApiHandler(
         plotType: String,
         plotParams: Map<String, String>,
     ): PlottableData {
+        val benchmarkType = BenchmarkType.valueOf(benchmark)
         val results: List<BenchmarkResult> = shas.zip(devices).map { (sha, device) ->
             databaseHandler.fetchBenchmarkResult(
                 Commit(sha, "", Date(), ""),
                 Device(device),
-                BenchmarkType.valueOf(benchmark),
+                benchmarkType,
             )
         }
 
-        val plot = AvailablePlots.getPlotByName(plotType) ?: throw IllegalArgumentException("Invalid plot type")
-        return plot.transform(results, plotParams)
+        val plot =
+            AvailablePlots.getPlotByName(plotType, benchmarkType) ?: throw IllegalArgumentException("Invalid plot type")
+        val config = PlotConfiguration(plot.getPlotDescription(results), plotParams)
+        return plot.transform(results, config)
     }
 
     override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()
@@ -77,15 +83,19 @@ class ParkviewApiHandler(
         )
 
     override fun getSummaryValue(benchmark: String, sha: String, device: String): Map<String, Double> =
-        databaseHandler.fetchBenchmarkResult(Commit(sha = sha),
+        databaseHandler.fetchBenchmarkResult(
+            Commit(sha = sha),
             Device(device),
-            BenchmarkType.valueOf(benchmark)).summaryValues
+            BenchmarkType.valueOf(benchmark)
+        ).summaryValues
 
     override fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData {
         val commits = repHandler.fetchGitHistoryByBranch(branch, 1, BenchmarkType.valueOf(benchmark))
-        return performanceCalculator.getAveragePerformanceData(commits,
+        return performanceCalculator.getAveragePerformanceData(
+            commits,
             BenchmarkType.valueOf(benchmark),
-            Device(device))
+            Device(device)
+        )
     }
 
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)

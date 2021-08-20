@@ -20,10 +20,9 @@ describe('SideCurrentChosenCommitComponent', () => {
         MatSnackBarModule,
         LibModule,
       ],
-      providers: [
-      ]
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

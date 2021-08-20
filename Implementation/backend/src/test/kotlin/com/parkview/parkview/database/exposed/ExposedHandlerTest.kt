@@ -7,7 +7,12 @@ import DEVICE
 import PRECONDITIONER_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
@@ -46,7 +51,6 @@ internal class ExposedHandlerTest {
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
-
         println(result.toString())
         println(returned.toString())
         assert(result.dirtyEquals(returned))
@@ -59,12 +63,10 @@ internal class ExposedHandlerTest {
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
-
         println(result.toString())
         println(returned.toString())
         assert(result.dirtyEquals(returned))
     }
-
 
     @Test
     fun `test storing and loading single blas benchmark`() {
@@ -101,7 +103,6 @@ internal class ExposedHandlerTest {
 
         dbHandler.insertBenchmarkResults(listOf(result))
         assert(dbHandler.hasDataAvailable(result.commit, result.device, result.benchmark))
-
     }
 
     @Test
@@ -111,7 +112,8 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    it.toLong() * 10, operations = listOf(
+                    it.toLong() * 10,
+                    operations = listOf(
                         Operation("A", 1.0, 1.0, it * 1.0, true),
                     )
                 )
@@ -122,13 +124,13 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    it.toLong() * 10, operations = listOf(
+                    it.toLong() * 10,
+                    operations = listOf(
                         Operation("B", 1.0, 1.0, it * 1.0, true),
                     )
                 )
             }
         )
-
 
         dbHandler.insertBenchmarkResults(listOf(resultA))
         var returned =
@@ -223,7 +225,7 @@ internal class ExposedHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 2)
@@ -261,7 +263,7 @@ internal class ExposedHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 1)
@@ -275,7 +277,8 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    (it * 10).toLong(), operations = listOf(
+                    (it * 10).toLong(),
+                    operations = listOf(
                         Operation("A", 1.0, 1.0, it * 1.0, true),
                     )
                 )
@@ -286,16 +289,16 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    (it * 10).toLong(), operations = listOf(
+                    (it * 10).toLong(),
+                    operations = listOf(
                         Operation("B", 1.0, 1.0, it * 1.0, true),
                     )
                 )
             }
         )
 
-
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.operations.size == 2)
@@ -347,4 +350,3 @@ internal class ExposedHandlerTest {
         }
     }
 }
-

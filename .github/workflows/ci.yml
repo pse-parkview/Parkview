@@ -17,16 +17,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew build -x test -x ktlintMainSourceSetCheck -x ktlintTestSourceSetCheck
         working-directory: Implementation/backend/
 
   test-backend:
@@ -35,11 +37,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
@@ -78,8 +82,46 @@ jobs:
         with:
           token: ${{ secrets.BADGES_GIST_SECRET }}
           gist_id: 2f350a3c58fed9515b658495edc70191
-          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_coverage.svg
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_backend_coverage.svg
           file_path: ./badge.svg
+
+  analyse-backend:
+    runs-on: ubuntu-latest
+    needs: build-backend
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate LOC Badge
+        shell: bash
+        run: |
+          curl https://img.shields.io/badge/backend%20lines%20of%20code-$(( find Implementation/backend/src/main/kotlin/ -name '*.kt' -print0 | xargs -0 cat ) | wc -l)-blueviolet > badge.svg
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+        id: extract_branch
+
+      - name: Upload Badge
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_backend_loc.svg
+          file_path: ./badge.svg
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+
+      - name: Run linter
+        run: ./gradlew ktlintCheck
+        working-directory: Implementation/backend/
 
 
   build-frontend:
@@ -87,6 +129,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -94,15 +137,19 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
+
+      - name: Install dependencies
         working-directory: Implementation/frontend
-        run: |
-          npm i
-          npm run build
+        run: npm install
+
+      - name: Runs build
+        working-directory: Implementation/frontend
+        run: npm run build
 
   test-frontend:
     runs-on: ubuntu-latest
@@ -110,6 +157,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -117,24 +165,31 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run test
+
+      - name: Install dependencies
         working-directory: Implementation/frontend
-        run: |
-          npm i
-          npm run test:ci
+        run: npm install
+
+      - name: Runs tests
+        working-directory: Implementation/frontend
+        run: npm run test:ci
+
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
         id: extract_branch
+
       - name: Extract coverage
         shell: bash
         run: |
           echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" Implementation/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
         id: extract_coverage
+
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
         with:
@@ -149,6 +204,52 @@ jobs:
           gist_id: 2f350a3c58fed9515b658495edc70191
           gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_coverage.svg
           file_path: ./badge.svg
+
+  analyse-frontend:
+    runs-on: ubuntu-latest
+    needs: build-frontend
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate LOC Badge
+        shell: bash
+        run: |
+          (find Implementation/frontend/src -regex '.*[^(spec)]\.\(\(ts\)\|\(scss\)\|\(html\)\)' -print0 | xargs -0 cat ) | wc -l | xargs -I '{}' echo https://img.shields.io/badge/frontend%20lines%20of%20code-{}-blue | xargs curl > badge.svg
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+        id: extract_branch
+
+      - name: Upload Badge
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.BADGES_GIST_SECRET }}
+          gist_id: 2f350a3c58fed9515b658495edc70191
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_loc.svg
+          file_path: ./badge.svg
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: Implementation/frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: Implementation/frontend
+        run: npm install
+
+      - name: Runs linter
+        working-directory: Implementation/frontend
+        run: npm run lint
 
   integration:
     runs-on: ubuntu-latest
@@ -193,7 +294,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push backend
+      - name: Build and push backend latest
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v2
         with:
@@ -201,7 +302,7 @@ jobs:
           push: true
           tags: tadachs/parkview-backend:latest
 
-      - name: Build and push frontend
+      - name: Build and push frontend latest
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v2
         with:
@@ -209,7 +310,7 @@ jobs:
           push: true
           tags: tadachs/parkview-frontend:latest
 
-      - name: Build and push backend
+      - name: Build and push backend nightly
         if: ${{ github.ref == 'refs/heads/develop' }}
         uses: docker/build-push-action@v2
         with:
@@ -217,7 +318,7 @@ jobs:
           push: true
           tags: tadachs/parkview-backend:nightly
 
-      - name: Build and push frontend
+      - name: Build and push frontend nightly
         if: ${{ github.ref == 'refs/heads/develop' }}
         uses: docker/build-push-action@v2
         with:

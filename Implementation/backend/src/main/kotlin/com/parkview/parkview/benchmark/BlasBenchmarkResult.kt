@@ -1,7 +1,10 @@
 package com.parkview.parkview.benchmark
 
-import com.parkview.parkview.git.*
-
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Datapoint
+import com.parkview.parkview.git.Device
 
 /**
  * A single operation, part of [BlasBenchmarkResult].
@@ -45,9 +48,7 @@ data class BlasDatapoint(
  *
  * @param commit commit this benchmark has been run on
  * @param device device this benchmark has been run on
- * @param benchmark type of benchmark
  * @param datapoints datapoints for this benchmark
- *
  */
 data class BlasBenchmarkResult(
     override val commit: Commit,
@@ -57,7 +58,7 @@ data class BlasBenchmarkResult(
     override val benchmark: BenchmarkType = BenchmarkType.Blas
 
     override val summaryValues: Map<String, Double>
-            by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
+        by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()

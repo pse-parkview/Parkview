@@ -5,30 +5,31 @@ import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.PlotConfiguration
+import com.parkview.parkview.processing.transforms.PlotOptions
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
 
 class BlasSpeedupTransform : BlasPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
-    override val name = "blasSpeedup"
+    override val name = "Speedup Plot"
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        BLAS_X_AXIS,
-        getAvailableComparisons(results),
+        BlasOptions.xAxis,
+        PlotOptions.comparison.realizeOption(results),
     )
 
     override fun transformBlas(
         benchmarkResults: List<BlasBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
-
-        val comparison = options.getOptionValueByName("compare")
-        val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<BlasDatapoint>
         val datapointsB: List<BlasDatapoint>
 
-        if (firstComponent == benchmarkResults.first().identifier) {
+        if (config.getCategoricalOption(PlotOptions.comparison) == benchmarkResults.first().identifier) {
             datapointsA = benchmarkResults[0].datapoints
             datapointsB = benchmarkResults[1].datapoints
         } else {
@@ -46,13 +47,13 @@ class BlasSpeedupTransform : BlasPlotTransform() {
                 if (!operationA.completed or !operationB.completed) continue
 
                 seriesByName.getOrPut(operationA.name) { mutableListOf() } += PlotPoint(
-                    x = datapointA.getXAxisByOption(options).toDouble(),
+                    x = datapointA.getXAxisByConfig(config).toDouble(),
                     y = operationA.time / operationB.time
                 )
             }
         }
 
-        return DatasetSeries(
+        return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }

@@ -112,14 +112,22 @@
 </div>
 
 <br>
+<span *ngIf="!validPlotConfig()"
+      class="warning">
+  There are no valid plots available currently.<br>
+</span>
+
+<br>
 <!--TODO make them look palatable-->
 <button mat-button
-        (click)="saveAndStoreCurrentConfig()">
+        (click)="saveAndStoreCurrentConfig()"
+        [disabled]="!validPlotConfig()">
   Save Plotconfig
 </button>
 <button mat-button
         [matDialogClose]="true"
         (click)="navigateToPlotView()"
+        [disabled]="!validPlotConfig()"
         id="plotButton">
   Plot
 </button>

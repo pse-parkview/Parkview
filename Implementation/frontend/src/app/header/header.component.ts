@@ -12,9 +12,13 @@ export class HeaderComponent implements OnInit {
 
 
   constructor() {
+    // do nothing
   }
 
   ngOnInit(): void {
   }
 
+  navToGithub(): void {
+    window.location.href = "https://github.com/pse-parkview/PSE_dashboard";
+  }
 }

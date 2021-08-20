@@ -29,4 +29,15 @@
 }
 
 \newcommand{\PASS}{\colorbox{green}{PASS}}
-\newcommand{\covRow}[4]{\texttt{#1} & #2\% & \progressbar{0.#2} & #3\% & \progressbar{0.#3} & #4\% & \progressbar{0.#4}}
+\newcommand{\covRow}[5]{\texttt{#1} & #2 & #3\% & \progressbar{0.#3} & #4\% & \progressbar{0.#4} & #5\% & \progressbar{0.#5}}
+
+\newcommand{\fixed}[3]{
+  \textbf{{#1}} \\
+  \textbf{Problem:} {#2} \\
+  \textbf{Solution:} {#3}
+}
+
+\newcommand{\issue}[2]{
+  \textbf{{#1}} \\
+  \textbf{Problem:} {#2} \\
+}

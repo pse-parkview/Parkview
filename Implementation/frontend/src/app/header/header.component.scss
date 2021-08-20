@@ -3,36 +3,32 @@ mat-toolbar {
 }
 
 .header {
+  display: flex;
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
-.header ul {
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-}
-
-.header ul li {
-  display: inline-block;
-}
-
-.header img {
-  padding-left: 1vw;
-  padding-right: 1vw;
-  height: 4vh;
-  padding-top: 0.5vh;
-}
-
-.header .parkview {
-  font-size: 4vh;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 .clickable:hover {
   cursor: pointer;
+}
+
+.image {
+  height: 4vh;
+}
+
+.parkview {
+  font-size: 4vh;
+}
+
+.long-spacer {
+  flex: 1 1 auto;
+}
+
+.margin {
+  margin-left: 1vw;
+}
+
+.clickable:focus {
+  outline: 0;
 }

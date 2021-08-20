@@ -42,7 +42,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { ConfigButtonsComponent } from './main-content/config-buttons/config-buttons.component';
+import {ConfigButtonsComponent} from './main-content/config-buttons/config-buttons.component';
 
 @NgModule({
   declarations: [
@@ -63,34 +63,34 @@ import { ConfigButtonsComponent } from './main-content/config-buttons/config-but
     BarPlotComponent,
     ConfigButtonsComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        LibModule,
-        LogicModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatSlideToggleModule,
-        MatButtonModule,
-        MatCardModule,
-        MatMenuModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        ChartsModule,
-        MatExpansionModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatTableModule,
-        MatInputModule,
-        MatRadioModule,
-        MatSliderModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatIconModule,
-        ClipboardModule,
-        MatTooltipModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    LibModule,
+    LogicModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    ChartsModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSliderModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    ClipboardModule,
+    MatTooltipModule,
+  ],
   providers: [
     CookieService
   ],

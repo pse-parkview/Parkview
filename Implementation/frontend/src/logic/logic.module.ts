@@ -6,12 +6,9 @@ import {CookieModule} from "ngx-cookie";
 import {CookieService} from "./cookiehandler/cookie.service";
 
 
-
 @NgModule({
-  declarations: [
-  ],
-  exports: [
-  ],
+  declarations: [],
+  exports: [],
   imports: [
     HttpClientModule,
     CommonModule,
@@ -22,4 +19,5 @@ import {CookieService} from "./cookiehandler/cookie.service";
     CookieService
   ]
 })
-export class LogicModule { }
+export class LogicModule {
+}

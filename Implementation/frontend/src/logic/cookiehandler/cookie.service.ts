@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {PlotConfiguration} from "../plothandler/interfaces/plot-configuration";
 import {MatDialog} from "@angular/material/dialog";
 import {CookieConsentDialogComponent} from "../../app/dialogs/cookie-consent-dialog/cookie-consent-dialog.component";
@@ -22,7 +22,7 @@ export class CookieService {
 
   constructor(private readonly dialog: MatDialog,
               private readonly ngxCookieService: NgxCookieService,
-              ) {
+  ) {
   }
 
   public spawnConsentDialog() {
@@ -81,7 +81,7 @@ export class CookieService {
         recentConfigs.pop();
       }
     } else {
-      recentConfigs = [ plotConfig ];
+      recentConfigs = [plotConfig];
     }
     this.ngxCookieService.putObject(CookieService.NAME_RECENT_PLOT_CONFIGS, recentConfigs);
     this.recentPlotsUpdate.emit();
@@ -128,13 +128,13 @@ export class CookieService {
     if (!everythingButOptions) {
       return false;
     }
-    const keys = Object.keys(t1.config.options)
+    const keys = Object.keys(t1.config.options);
     for (const k of keys) {
       if (t1.config.options[k] !== t2.config.options[k]) {
         return false;
       }
     }
-    const keys2 = Object.keys(t2.config.options)
+    const keys2 = Object.keys(t2.config.options);
     for (const k of keys2) {
       if (t1.config.options[k] !== t2.config.options[k]) {
         return false;

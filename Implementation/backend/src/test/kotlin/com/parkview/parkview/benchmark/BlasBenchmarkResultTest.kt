@@ -4,7 +4,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Date
 
 internal class BlasBenchmarkResultTest {
     private lateinit var br: BlasBenchmarkResult
@@ -13,7 +13,8 @@ internal class BlasBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             BlasDatapoint(
-                10, operations = listOf(
+                10,
+                operations = listOf(
                     Operation("", 1.0, 1.0, it * 1.0, true),
                 )
             )
@@ -26,7 +27,6 @@ internal class BlasBenchmarkResultTest {
             datapoints
         )
     }
-
 
     @Test
     fun `Test summary value for normal data`() {
