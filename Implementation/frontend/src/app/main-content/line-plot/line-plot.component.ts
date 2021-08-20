@@ -59,7 +59,7 @@ export class LinePlotComponent implements OnInit {
           fontSize: this.fontSize,
         },
         ticks: {
-            fontSize: this.fontSize,
+          fontSize: this.fontSize,
         },
         type: this.yType
       }],
@@ -70,7 +70,7 @@ export class LinePlotComponent implements OnInit {
           fontSize: this.fontSize,
         },
         ticks: {
-            fontSize: this.fontSize,
+          fontSize: this.fontSize,
         },
         type: this.xType,
       }]

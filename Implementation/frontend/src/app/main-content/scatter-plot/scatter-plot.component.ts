@@ -134,7 +134,7 @@ export class ScatterPlotComponent implements OnInit {
       }
     }
     if (this.chartOptions.elements?.point?.radius !== undefined) {
-        this.chartOptions.elements.point.radius = this.pointSize;
+      this.chartOptions.elements.point.radius = this.pointSize;
     }
     if (this.chartOptions.legend?.labels?.fontSize !== undefined) {
       this.chartOptions.legend.labels.fontSize = this.fontSize;

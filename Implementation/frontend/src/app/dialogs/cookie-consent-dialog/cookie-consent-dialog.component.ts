@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
@@ -22,16 +22,16 @@ export class CookieConsentDialogComponent implements OnInit {
   }
 
   toggleStoringPlotConfigs(event: MatSlideToggleChange) {
-    this.cookies_storing_plot_configs = event.checked
-    console.log(this.cookies_storing_plot_configs)
+    this.cookies_storing_plot_configs = event.checked;
+    console.log(this.cookies_storing_plot_configs);
   }
 
   saveSettings() {
-    console.log("YOO SAVING COOKIES AND STORING PLOT CONFIGS: ", this.cookies_storing_plot_configs)
+    console.log("YOO SAVING COOKIES AND STORING PLOT CONFIGS: ", this.cookies_storing_plot_configs);
     const settings: CookieSettings = {
       storingPlotConfigs: this.cookies_storing_plot_configs
-    }
-    this.cookieService.saveSettings(settings)
+    };
+    this.cookieService.saveSettings(settings);
   }
 
 }

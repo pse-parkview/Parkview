@@ -17,7 +17,7 @@ describe('ScatterPlotComponent', () => {
         RouterTestingModule,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

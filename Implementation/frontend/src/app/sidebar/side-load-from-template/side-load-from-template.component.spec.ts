@@ -25,7 +25,7 @@ describe('SideLoadFromTemplateComponent', () => {
         CookieService
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {MatDialog} from "@angular/material/dialog";
 import {PlotConfigurationDialogComponent} from "../../dialogs/plot-configuration-dialog/plot-configuration-dialog.component";
@@ -13,7 +13,8 @@ export class SideCurrentChosenCommitComponent implements OnInit {
 
   constructor(readonly commitService: SelectionService,
               private readonly dialog: MatDialog,
-              private readonly snackBarService: SnackBarService) { }
+              private readonly snackBarService: SnackBarService) {
+  }
 
   ngOnInit(): void {
   }
@@ -28,6 +29,6 @@ export class SideCurrentChosenCommitComponent implements OnInit {
       this.snackBarService.notify('You didnt select any commits and devices to compare yet.');
       return;
     }
-    this.dialog.open(PlotConfigurationDialogComponent)
+    this.dialog.open(PlotConfigurationDialogComponent);
   }
 }

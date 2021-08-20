@@ -25,7 +25,7 @@ describe('AveragePerformanceComponent', () => {
         MatSelectModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

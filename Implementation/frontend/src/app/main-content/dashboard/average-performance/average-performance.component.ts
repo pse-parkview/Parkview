@@ -59,7 +59,7 @@ export class AveragePerformanceComponent implements OnInit {
       this.currentBranch = this.commitSelectionService.getSelectedBranch();
       this.updateSelections();
     }
-  }
+  };
 
   constructor(private readonly commitSelectionService: SelectionService,
               private readonly dataService: DataService,

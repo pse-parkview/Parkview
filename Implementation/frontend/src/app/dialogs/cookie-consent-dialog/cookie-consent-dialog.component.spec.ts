@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CookieConsentDialogComponent } from './cookie-consent-dialog.component';
+import {CookieConsentDialogComponent} from './cookie-consent-dialog.component';
 import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {COOKIE_OPTIONS, CookieModule, CookieOptionsProvider, CookieService} from "ngx-cookie";
+import {CookieModule} from "ngx-cookie";
 
 describe('CookieConsentDialogComponent', () => {
   let component: CookieConsentDialogComponent;
@@ -21,7 +21,7 @@ describe('CookieConsentDialogComponent', () => {
         {provide: MatDialogRef, useValue: {}},
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
