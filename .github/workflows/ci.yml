@@ -101,7 +101,7 @@ jobs:
           badge: ./badge.svg
           patterns: '*.kt'
           badge_label: backend lines of code
-          color: blueviolet
+          badge_color: blueviolet
           
       - name: Extract branch name
         shell: bash
@@ -213,8 +213,8 @@ jobs:
           badge: ./badge.svg
           patterns: '*.ts|*.html|*.scss'
           badge_label: frontend lines of code
-          color: blue
-          ignore: '*.spec.ts'
+          badge_color: blue
+          # ignore: '*.spec.ts'
           
       - name: Extract branch name
         shell: bash
