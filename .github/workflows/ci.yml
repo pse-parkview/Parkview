@@ -82,7 +82,7 @@ jobs:
         with:
           token: ${{ secrets.BADGES_GIST_SECRET }}
           gist_id: 2f350a3c58fed9515b658495edc70191
-          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_coverage.svg
+          gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_backend_coverage.svg
           file_path: ./badge.svg
           
   analyse-backend:
