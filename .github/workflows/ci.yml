@@ -93,6 +93,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Generate LOC Badge
+        shell: bash
         run: |
           curl https://img.shields.io/badge/backend%20lines%20of%20code-$(( find Implementation/backend/src/main/kotlin/ -name '*.kt' -print0 | xargs -0 cat ) | wc -l)-blueviolet > badge.svg
           
@@ -196,6 +197,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+               
+      - name: Generate LOC Badge
+        shell: bash
+        run: |
+          (find Implementation/frontend/src -regex '.*[^(spec)]\.\(\(ts\)\|\(scss\)\|\(html\)\)' -print0 | xargs -0 cat ) | wc -l | xargs -I '{}' echo https://img.shields.io/badge/frontend%20lines%20of%20code-{}-blue | xargs curl > badge.svg
           
       - name: Extract branch name
         shell: bash
