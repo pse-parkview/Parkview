@@ -98,7 +98,7 @@ jobs:
         with:
           args: Implementation/backend/src/main --ci -i kt
           
-      - run: echo ${{ steps.scc.outputs.scc }}
+      - run: echo "${{ steps.scc.outputs.scc }}"
 
       - name: Generate LOC Badge
         shell: bash
