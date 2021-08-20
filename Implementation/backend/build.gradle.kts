@@ -3,6 +3,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jetbrains.dokka") version "1.5.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+    id("io.gitlab.arturbosch.detekt") version "1.18.0"
 
     kotlin("kapt") version "1.5.21"
     kotlin("jvm") version "1.5.10"
@@ -66,5 +67,15 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
         csv.isEnabled = true
+    }
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
     }
 }
