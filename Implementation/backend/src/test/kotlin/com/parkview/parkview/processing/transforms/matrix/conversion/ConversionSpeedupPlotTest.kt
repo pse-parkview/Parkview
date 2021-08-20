@@ -14,7 +14,7 @@ internal class ConversionSpeedupPlotTest {
     @Test
     fun transformConversion() {
         val options = mutableMapOf(
-            "compare" to "${benchmark.identifier}/${benchmark.identifier}",
+            "baseline" to "${benchmark.identifier}",
             "xAxis" to "rows",
             "minRows" to "1",
             "maxRows" to "10",

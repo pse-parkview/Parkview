@@ -30,7 +30,7 @@ internal class BlasSpeedupTransformTest {
     @Test
     fun transformBlas() {
         val options = mutableMapOf(
-            "compare" to "${benchmark.identifier}/${benchmark.identifier}",
+            "baseline" to "${benchmark.identifier}",
             "xAxis" to "n",
             "maxN" to "10",
             "minN" to "1",

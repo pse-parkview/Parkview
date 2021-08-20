@@ -2,12 +2,28 @@ package com.parkview.parkview.processing
 
 import com.parkview.parkview.git.BenchmarkResult
 
+/**
+ * Full description of a plot.
+ *
+ * @param plotName name of plot
+ * @param plottableAs list of available [PlotTypes][PlotType] for this plot
+ * @param options list of [PlotOptions][PlotOption] for this plot
+ */
 data class PlotDescription(
     val plotName: String,
     val plottableAs: List<PlotType>,
     val options: List<PlotOption>,
 )
 
+/**
+ * Models a single PlotOption
+ *
+ * @param name name of option
+ * @param options available categorical values for this option
+ * @param default default value
+ * @param number if true this option gets interpreted as an option containing a number
+ * @param description describes the option
+ */
 abstract class PlotOption(
     val name: String,
     val options: List<String> = emptyList(),
@@ -21,13 +37,32 @@ abstract class PlotOption(
     }
 }
 
+/**
+ * Option that depends on the inputs for the plot
+ *
+ * @param name name of option
+ * @param description describes the option
+ */
 abstract class DynamicOption(
     name: String,
     description: String = "",
 ) : PlotOption(name = name, options = emptyList(), default = "", description = description) {
+    /**
+     * Fills in missing values for the option from the inputted benchmark result
+     *
+     * @param results list of benchmark results
+     *
+     * @return concrete option for plot
+     */
     abstract fun realizeOption(results: List<BenchmarkResult>): PlotOption
 }
 
+/**
+ * Categorical option that depends on the inputs for the plot
+ *
+ * @param name name of option
+ * @param description describes the option
+ */
 abstract class DynamicCategoricalOption(
     name: String,
     description: String = ""
@@ -39,11 +74,31 @@ abstract class DynamicCategoricalOption(
         description,
     )
 
+    /**
+     * Methods that gets overridden by subclasses. Returns the available options.
+     *
+     * @param results list of results
+     *
+     * @return list of options
+     */
     abstract fun getOptions(results: List<BenchmarkResult>): List<String>
 
+    /**
+     * Returns the default value for this option.
+     *
+     * @param results list of results
+     *
+     * @return default value of option
+     */
     open fun getDefault(results: List<BenchmarkResult>): String = getOptions(results).first()
 }
 
+/**
+ * Numerical option that depends on the inputs for the plot
+ *
+ * @param name name of option
+ * @param description describes the option
+ */
 abstract class DynamicNumericalOption(
     name: String,
     description: String = ""
@@ -54,9 +109,24 @@ abstract class DynamicNumericalOption(
         description,
     )
 
+    /**
+     * Methods that gets overridden by subclasses. Returns the default value.
+     *
+     * @param results list of results
+     *
+     * @return list of options
+     */
     abstract fun getDefault(results: List<BenchmarkResult>): Double
 }
 
+/**
+ * [PlotOption] that can only take discrete values.
+ *
+ * @param name name of option
+ * @param options available categorical values for this option
+ * @param default default value
+ * @param description describes the option
+ */
 class CategoricalOption(
     name: String,
     options: List<String>,
@@ -64,5 +134,12 @@ class CategoricalOption(
     description: String = "",
 ) : PlotOption(name = name, options = options, default = default, description = description)
 
+/**
+ * [PlotOption] that can take continuous number values.
+ *
+ * @param name name of option.
+ * @param default default value
+ * @param description description of option
+ */
 class NumericalOption(name: String, default: Double = 0.0, description: String = "") :
     PlotOption(name = name, default = default.toString(), description = description)

@@ -27,13 +27,10 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = config.getCategoricalOption(PlotOptions.comparison)
-        val firstComponent = comparison.split("/").first()
-
         val datapointsA: List<SpmvDatapoint>
         val datapointsB: List<SpmvDatapoint>
 
-        if (firstComponent == benchmarkResults.first().identifier) {
+        if (config.getCategoricalOption(PlotOptions.comparison) == benchmarkResults.first().identifier) {
             datapointsA = benchmarkResults[0].datapoints
             datapointsB = benchmarkResults[1].datapoints
         } else {
