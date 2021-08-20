@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.spmv
+package com.parkview.parkview.processing.transforms.matrix.spmv
 
 import SPMV_RESULT
 import com.parkview.parkview.processing.transforms.PlotConfiguration

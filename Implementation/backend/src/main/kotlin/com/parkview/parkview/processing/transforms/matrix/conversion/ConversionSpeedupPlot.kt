@@ -1,37 +1,37 @@
-package com.parkview.parkview.processing.transforms.spmv
+package com.parkview.parkview.processing.transforms.matrix.conversion
 
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
-import com.parkview.parkview.benchmark.SpmvDatapoint
+import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
 import com.parkview.parkview.processing.transforms.PlotConfiguration
+import com.parkview.parkview.processing.transforms.PlotOptions
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getAvailableComparisons
+import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
 
-class SpmvSpeedupPlot : SpmvPlotTransform() {
+class ConversionSpeedupPlot : ConversionPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
     override val name = "Speedup Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        MATRIX_X_AXIS,
-        getAvailableComparisons(results),
+        MatrixOptions.xAxis,
+        PlotOptions.comparison.realizeOption(results),
     )
 
-    override fun transformSpmv(
-        benchmarkResults: List<SpmvBenchmarkResult>,
+    override fun transformConversion(
+        benchmarkResults: List<ConversionBenchmarkResult>,
         config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = config.getCategoricalOption("compare")
+        val comparison = config.getCategoricalOption(PlotOptions.comparison)
         val firstComponent = comparison.split("/").first()
 
-        val datapointsA: List<SpmvDatapoint>
-        val datapointsB: List<SpmvDatapoint>
+        val datapointsA: List<ConversionDatapoint>
+        val datapointsB: List<ConversionDatapoint>
 
         if (firstComponent == benchmarkResults.first().identifier) {
             datapointsA = benchmarkResults[0].datapoints
@@ -48,13 +48,13 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
                     (it.columns == datapointA.columns)
             } ?: continue
 
-            for (formatA in datapointA.formats) {
-                val formatB = datapointB.formats.find { it.name == formatA.name } ?: continue
-                if (!formatA.completed or !formatB.completed) continue
+            for (conversionA in datapointA.conversions) {
+                val conversionB = datapointB.conversions.find { it.name == conversionA.name } ?: continue
+                if (!conversionA.completed or !conversionB.completed) continue
 
-                seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
+                seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
                     x = datapointA.getXAxisByConfig(config),
-                    y = formatA.time / formatB.time
+                    y = conversionA.time / conversionB.time,
                 )
             }
         }

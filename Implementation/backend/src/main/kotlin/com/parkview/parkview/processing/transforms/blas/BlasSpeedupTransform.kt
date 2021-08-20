@@ -5,21 +5,19 @@ import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.BLAS_X_AXIS
 import com.parkview.parkview.processing.transforms.PlotConfiguration
+import com.parkview.parkview.processing.transforms.PlotOptions
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getAvailableComparisons
-import com.parkview.parkview.processing.transforms.getXAxisByConfig
 
 class BlasSpeedupTransform : BlasPlotTransform() {
     override val numInputsRange = 2..2
     override val plottableAs = listOf(PlotType.Line, PlotType.Scatter)
     override val name = "Speedup Plot"
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        BLAS_X_AXIS,
-        getAvailableComparisons(results),
+        BlasOptions.xAxis,
+        PlotOptions.comparison.realizeOption(results),
     )
 
     override fun transformBlas(
@@ -28,7 +26,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = config.getCategoricalOption("compare")
+        val comparison = config.getCategoricalOption(PlotOptions.comparison)
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<BlasDatapoint>

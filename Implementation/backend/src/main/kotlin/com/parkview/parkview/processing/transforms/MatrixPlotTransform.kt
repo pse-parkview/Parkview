@@ -1,55 +1,31 @@
 package com.parkview.parkview.processing.transforms
 
-import com.parkview.parkview.benchmark.MatrixBenchmarkResult
 import com.parkview.parkview.benchmark.MatrixDatapoint
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
 
 abstract class MatrixPlotTransform : PlotTransform {
     abstract fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption>
 
-    final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> {
-        val datapoints = results.asSequence().filterIsInstance<MatrixBenchmarkResult>().map { it.datapoints }.flatten()
-        return getMatrixPlotOptions(results) + listOf<PlotOption>(
-            NumericalOption(
-                name = "minRows",
-                description = "Lower limit for rows",
-                default = datapoints.map { it.rows }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxRows",
-                description = "Upper limit for rows",
-                default = datapoints.map { it.rows }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "minColumns",
-                description = "Lower limit for columns",
-                default = datapoints.map { it.columns }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxColumns",
-                description = "Upper limit for columns",
-                default = datapoints.map { it.columns }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "minNonzeros",
-                description = "Lower limit for nonzeros",
-                default = datapoints.map { it.nonzeros }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxNonzeros",
-                description = "Upper limit for nonzeros",
-                default = datapoints.map { it.nonzeros }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
+    final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> =
+        getMatrixPlotOptions(results) + listOf(
+            MatrixOptions.minRows,
+            MatrixOptions.maxRows,
+            MatrixOptions.maxColumns,
+            MatrixOptions.minColumns,
+            MatrixOptions.minNonzeros,
+            MatrixOptions.maxNonzeros,
         )
-    }
 
     protected fun MatrixDatapoint.getXAxisByConfig(config: PlotConfiguration) =
-        when (config.getCategoricalOption(MATRIX_X_AXIS)) {
+        when (config.getCategoricalOption(MatrixOptions.xAxis)) {
             "nonzeros" -> nonzeros.toDouble()
             "rows" -> rows.toDouble()
             "columns" -> columns.toDouble()
-            else -> throw InvalidPlotConfigValueException(config.getCategoricalOption(MATRIX_X_AXIS), "xAxis")
+            else -> throw InvalidPlotConfigValueException(
+                config.getCategoricalOption(MatrixOptions.xAxis),
+                MatrixOptions.xAxis.name
+            )
         }
 }

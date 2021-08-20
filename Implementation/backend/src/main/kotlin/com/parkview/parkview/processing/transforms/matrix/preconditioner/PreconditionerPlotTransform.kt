@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.preconditioner
+package com.parkview.parkview.processing.transforms.matrix.preconditioner
 
 import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
 import com.parkview.parkview.benchmark.PreconditionerDatapoint

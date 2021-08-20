@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.spmv
+package com.parkview.parkview.processing.transforms.matrix.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.benchmark.SpmvDatapoint

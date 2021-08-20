@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.solver
+package com.parkview.parkview.processing.transforms.matrix.solver
 
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
@@ -11,7 +11,7 @@ import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getAvailableMatrixNames
+import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
 
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -31,9 +31,9 @@ class SolverConvergencePlot : SolverPlotTransform() {
     )
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
+        MatrixOptions.matrix.realizeOption(results),
         xAxisOption,
         yAxisOption,
-        getAvailableMatrixNames(results.first()),
     )
 
     override fun transformSolver(
@@ -43,9 +43,12 @@ class SolverConvergencePlot : SolverPlotTransform() {
         val benchmarkResult = benchmarkResults.firstOrNull()
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")
 
-        val datapoint = benchmarkResult.datapoints.first {
-            it.name == config.getCategoricalOption("matrix")
-        }
+        val datapoint = benchmarkResult.datapoints.find {
+            it.name == config.getCategoricalOption(MatrixOptions.matrix)
+        } ?: throw InvalidPlotConfigValueException(
+            config.getCategoricalOption(MatrixOptions.matrix),
+            MatrixOptions.matrix.name
+        )
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 

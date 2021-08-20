@@ -22,12 +22,20 @@ interface PlotTransform {
     val name: String
 
     /**
+     * Returns the available [PlotOptions][PlotOption] for this plot.
      *
+     * @param results list of results
+     *
+     * @return a list of [PlotOptions][PlotOption]
      */
     fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption>
 
     /**
-     * Values that can be used for the xAxis
+     * Returns a [PlotDescription] for this plot, containing information about name, options and data format.
+     *
+     * @param results list of results
+     *
+     * @return [PlotDescription]
      */
     fun getPlotDescription(results: List<BenchmarkResult>) = PlotDescription(
         name,

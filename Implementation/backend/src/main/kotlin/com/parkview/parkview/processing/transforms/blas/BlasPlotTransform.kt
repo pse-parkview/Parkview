@@ -1,9 +1,11 @@
 package com.parkview.parkview.processing.transforms.blas
 
 import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.git.BenchmarkResult
-import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
+import com.parkview.parkview.processing.transforms.InvalidPlotConfigValueException
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotTransform
@@ -30,51 +32,17 @@ abstract class BlasPlotTransform : PlotTransform {
         return transformBlas(filteredResults, config)
     }
 
-    final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> {
-        val datapoints = results.asSequence().filterIsInstance<BlasBenchmarkResult>().map { it.datapoints }.flatten()
-        return getBlasPlotOptions(results) + listOf<PlotOption>(
-            NumericalOption(
-                name = "minN",
-                description = "Lower limit for n",
-                default = datapoints.map { it.n }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxN",
-                description = "Upper limit for n",
-                default = datapoints.map { it.n }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "minR",
-                description = "Lower limit for r",
-                default = datapoints.map { it.r }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxR",
-                description = "Upper limit for r",
-                default = datapoints.map { it.r }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "minM",
-                description = "Lower limit for m",
-                default = datapoints.map { it.m }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxM",
-                description = "Upper limit for m",
-                default = datapoints.map { it.m }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "minK",
-                description = "Lower limit for k",
-                default = datapoints.map { it.k }.minOrNull()?.toDouble() ?: 0.0,
-            ),
-            NumericalOption(
-                name = "maxK",
-                description = "Upper limit for k",
-                default = datapoints.map { it.k }.maxOrNull()?.toDouble() ?: 0.0,
-            ),
+    final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> =
+        getBlasPlotOptions(results) + listOf(
+            BlasOptions.minN.realizeOption(results),
+            BlasOptions.maxN.realizeOption(results),
+            BlasOptions.minR.realizeOption(results),
+            BlasOptions.maxR.realizeOption(results),
+            BlasOptions.minM.realizeOption(results),
+            BlasOptions.maxM.realizeOption(results),
+            BlasOptions.minK.realizeOption(results),
+            BlasOptions.maxK.realizeOption(results),
         )
-    }
 
     abstract fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption>
 
@@ -85,4 +53,27 @@ abstract class BlasPlotTransform : PlotTransform {
      * @return [PlottableData] object containing the data
      */
     abstract fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>, config: PlotConfiguration): PlottableData
+
+    protected fun Operation.getYAxisByOption(config: PlotConfiguration): Double =
+        when (config.getCategoricalOption(BlasOptions.yAxis)) {
+            "time" -> this.time
+            "flops" -> this.flops
+            "bandwidth" -> this.bandwidth
+            else -> throw InvalidPlotConfigValueException(
+                config.getCategoricalOption(BlasOptions.yAxis),
+                BlasOptions.yAxis.name
+            )
+        }
+
+    protected fun BlasDatapoint.getXAxisByConfig(config: PlotConfiguration): Long =
+        when (config.getCategoricalOption(BlasOptions.xAxis)) {
+            "n" -> this.n
+            "r" -> this.r
+            "m" -> this.m
+            "k" -> this.k
+            else -> throw InvalidPlotConfigValueException(
+                config.getCategoricalOption(BlasOptions.xAxis),
+                BlasOptions.xAxis.name
+            )
+        }
 }

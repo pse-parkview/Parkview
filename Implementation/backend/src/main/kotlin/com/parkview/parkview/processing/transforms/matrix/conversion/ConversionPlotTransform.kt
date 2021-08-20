@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.conversion
+package com.parkview.parkview.processing.transforms.matrix.conversion
 
 import com.parkview.parkview.benchmark.ConversionBenchmarkResult
 import com.parkview.parkview.benchmark.ConversionDatapoint

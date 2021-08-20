@@ -1,7 +1,8 @@
-package com.parkview.parkview.processing.transforms.spmv
+package com.parkview.parkview.processing.transforms.matrix.spmv
 
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.DynamicNumericalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
@@ -21,13 +22,14 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
         description = "Minimum X value (value on the left)",
     )
 
+    private val maxXOption = object : DynamicNumericalOption("maxX", "Maximum X value (value on the right)") {
+        override fun getDefault(results: List<BenchmarkResult>): Double =
+            results.maxOfOrNull { it.datapoints.size }?.toDouble() ?: 0.0
+    }
+
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         minXOption,
-        NumericalOption(
-            name = "maxX",
-            default = results.maxOfOrNull { it.datapoints.size }?.toDouble() ?: 0.0,
-            description = "Maximum X value (value on the right)",
-        ),
+        maxXOption,
     )
 
     override fun transformSpmv(
@@ -49,7 +51,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
         formatSlowdowns.forEach { (_, value) -> value.sort() }
 
         val minX = config.getNumericalOption(minXOption)
-        val maxX = config.getNumericalOption("maxX")
+        val maxX = config.getNumericalOption(maxXOption)
 
         for ((key, value) in formatSlowdowns) {
             seriesByName.getOrPut(key) { mutableListOf() } += value.filter { d -> (d <= maxX) and (d >= minX) }

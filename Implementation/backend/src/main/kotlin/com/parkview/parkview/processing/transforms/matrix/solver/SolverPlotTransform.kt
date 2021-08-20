@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.solver
+package com.parkview.parkview.processing.transforms.matrix.solver
 
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.benchmark.SolverDatapoint

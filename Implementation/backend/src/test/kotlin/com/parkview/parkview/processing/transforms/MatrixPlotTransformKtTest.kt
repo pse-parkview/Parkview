@@ -9,6 +9,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotDescription
+import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -116,13 +117,13 @@ internal class MatrixPlotTransformKtTest {
 
     @Test
     fun getAvailableMatrixNames() {
-        val commit = DummyMatrixBenchmarkResult(
+        val result = DummyMatrixBenchmarkResult(
             datapoints,
             COMMIT_A,
             DEVICE,
             BenchmarkType.Spmv,
         )
-        val options = getAvailableMatrixNames(commit)
+        val options = MatrixOptions.matrix.realizeOption(listOf(result))
 
         for ((i, option) in options.options.withIndex()) {
             assertEquals(option, (i + 1).toString())

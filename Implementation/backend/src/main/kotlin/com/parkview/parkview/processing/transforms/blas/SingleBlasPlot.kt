@@ -4,14 +4,10 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.BLAS_X_AXIS
-import com.parkview.parkview.processing.transforms.BLAS_Y_AXIS
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getXAxisByConfig
-import com.parkview.parkview.processing.transforms.getYAxisByOption
 
 class SingleBlasPlot : BlasPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -19,8 +15,8 @@ class SingleBlasPlot : BlasPlotTransform() {
     override val name: String = "Blas Plot"
 
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        BLAS_X_AXIS,
-        BLAS_Y_AXIS,
+        BlasOptions.xAxis,
+        BlasOptions.yAxis,
     )
 
     override fun transformBlas(

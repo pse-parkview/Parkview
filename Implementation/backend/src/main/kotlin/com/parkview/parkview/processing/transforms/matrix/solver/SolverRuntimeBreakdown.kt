@@ -1,4 +1,4 @@
-package com.parkview.parkview.processing.transforms.solver
+package com.parkview.parkview.processing.transforms.matrix.solver
 
 import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
@@ -10,7 +10,7 @@ import com.parkview.parkview.processing.transforms.BarChartDataset
 import com.parkview.parkview.processing.transforms.InvalidPlotConfigValueException
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
-import com.parkview.parkview.processing.transforms.getAvailableMatrixNames
+import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
 
 class SolverRuntimeBreakdown : SolverPlotTransform() {
     override val numInputsRange = 1..1
@@ -30,7 +30,7 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
     )
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        getAvailableMatrixNames(results.first()),
+        MatrixOptions.matrix.realizeOption(results),
         componentsOption,
         totalTimeOption,
     )
@@ -39,8 +39,15 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         benchmarkResults: List<SolverBenchmarkResult>,
         config: PlotConfiguration,
     ): PlottableData {
-        val datapoint = benchmarkResults.first().datapoints.find { it.name == config.getCategoricalOption("matrix") }
-            ?: throw InvalidPlotConfigValueException(config.getCategoricalOption("matrix"), "matrix")
+        val datapoint = benchmarkResults.first().datapoints.find {
+            it.name == config.getCategoricalOption(
+                MatrixOptions.matrix
+            )
+        }
+            ?: throw InvalidPlotConfigValueException(
+                config.getCategoricalOption(MatrixOptions.matrix),
+                MatrixOptions.matrix.name
+            )
 
         val seriesByName: MutableMap<String, MutableList<Double>> = mutableMapOf()
         val allComponentNames = datapoint.solvers.fold(emptyList<String>()) { acc, e ->
