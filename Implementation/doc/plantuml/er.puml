@@ -1,0 +1,34 @@
+@startuml
+
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+
+entity BenchmarkResult {
+  id: UUID
+  sha: Varchar(40)
+  name: Varchar(40)
+  device: String
+}
+entity MatrixDatapoint {
+  id: UUID
+  benchmarkId: UUID
+  cols: Long
+  rows: Long
+  nonzeros: Long
+  data: Text
+}
+entity BlasDatapoint {
+  id: UUID
+  benchmarkId: UUID
+  n: Long
+  r: Long
+  m: Long
+  k: Long
+  data: Text
+}
+
+BenchmarkResult ||--o{ MatrixDatapoint
+BenchmarkResult ||--o{ BlasDatapoint
+
+@enduml

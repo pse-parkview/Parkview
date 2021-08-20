@@ -1,0 +1,3 @@
+\section{Introduction}
+
+This document details the reworked architecture of \parkview{} and documents changes made to the previous design. Since most changes came in the shape of simplifying the architecture the end product itself is simpler and therefore much easier to maintain and extend, while still keeping all of the promised functionality. The most severe change is the handling of GitHub history data, since it no longer gets stored but instead fetched from the GitHub Api. Also almost all extension now happens on the backend, so for most extensions like new plot transformations no changes to the frontend are needed.

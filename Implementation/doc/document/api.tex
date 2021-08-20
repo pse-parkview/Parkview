@@ -1,0 +1,207 @@
+\section{API}
+
+
+\subsubsection*{/post}
+
+\textbf{POST}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  sha & String & query & Sha for benchmark result \\
+  device & String & query & Name for benchmark result \\
+  blas & Boolean & query & Has to be true when uploading blas benchmark results \\
+  json & JSON & body & Contains the benchmark data \\
+  \hline
+\end{tabular}
+
+Uploads benchark results to the database. The benchmark data is passed using the request body. When uploading data for an already existing datapoint, the solvers get updated with the solvers in the new data.
+
+\subsubsection*{/history}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  branch & String & query & wanted branch \\
+  page & Int & query & wanted page \\
+  benchmark & String & query & wanted benchmark type \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+List of commits in JSON format.
+\begin{lstlisting}
+[
+  {
+    "sha": String
+    "message": String
+    "date": Date
+    "author": String
+    "availableDevices": [
+      {
+        "name": String
+      },
+      ...
+    ]
+  },
+  ...
+  ]
+\end{lstlisting}
+
+\subsubsection*{/plot}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  benchmark & String & query & wanted benchmark type \\
+  shas & List<String> & query & list of wanted shas \\
+  devices & List<String> & query & list of wanted devices \\
+  plotType & String & query & name of plot type \\
+  params & Map<String, String> & any other options for the plot \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+Datapoints for Chart.js plot
+\begin{lstlisting}
+{
+  "datasets": [
+    {
+      "data": either list of Double (for example for barcharts) or list of points (scatter plot, line plot),
+      "label": String
+    },
+    ...
+  ],
+  "labels": List<String>, can be empty
+  }
+\end{lstlisting}
+
+\subsubsection*{/branches}
+
+\textbf{GET}
+
+\textbf{Returns: }
+
+Returns a list of available branches as a list of strings.
+
+\subsubsection*{/benchmarks}
+
+\textbf{GET}
+
+\textbf{Returns: }
+
+Returns a list of available benchmarks as a list of strings.
+
+\subsubsection*{/availablePlots}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  benchmark & String & query & wanted benchmark type \\
+  shas & List<String> & query & list of wanted shas \\
+  devices & List<String> & query & list of wanted devices \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+List of available options for each plot type.
+\begin{lstlisting}
+{
+    "\$plotName": [
+        {
+            "plotName": String
+            "options": [
+                {
+                    "name": String
+                    "options": List<String>
+                    "number": Boolean
+                },
+                ...
+            ]
+        }
+    ],
+    ...
+}
+\end{lstlisting}
+
+\subsubsection*{/summaryValues}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  benchmark & String & query & wanted benchmark type \\
+  sha & String & query & sha of wanted commit \\
+  device & String & query & name of wanted device \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+Summary values for the specified benchmark result
+\begin{lstlisting}
+{
+  "\$algorithmName": Double,
+  ...
+}
+\end{lstlisting}
+
+
+\subsubsection*{/averagePerformance}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  benchmark & String & query & wanted benchmark type \\
+  branch & String & query & name of wanted branch \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+Chart.js data for an average performance plot.
+\begin{lstlisting}
+{
+  "datasets": [
+    {
+      "data": [
+        {
+          "x": Double,
+          "y": Double,
+        },
+        ...
+      ]
+      "label": String
+    },
+    ...
+  ],
+  "labels": List<String>, can be empty
+}
+\end{lstlisting}
+
+\subsubsection*{/numberPages}
+
+\textbf{GET}
+
+\begin{tabular}{ l l l l }
+  Name & Type & In & Description \\ 
+  \hline
+  branch & String & query & name of wanted branch \\
+  \hline
+\end{tabular}
+
+\textbf{Returns: }
+
+Number of pages for history representation, just an Int.
