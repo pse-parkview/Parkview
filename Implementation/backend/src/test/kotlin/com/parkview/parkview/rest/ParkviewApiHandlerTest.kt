@@ -9,7 +9,9 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.tracking.PerformanceTracker
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
