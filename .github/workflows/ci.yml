@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - release
       - develop
   pull_request:
     branches:
-      - main
+      - release
       - develop
   workflow_dispatch:
 
@@ -295,7 +295,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push backend latest
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/release' }}
         uses: docker/build-push-action@v2
         with:
           context: Implementation/backend/
@@ -303,7 +303,7 @@ jobs:
           tags: tadachs/parkview-backend:latest
 
       - name: Build and push frontend latest
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/release' }}
         uses: docker/build-push-action@v2
         with:
           context: Implementation/frontend/
