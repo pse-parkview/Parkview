@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.benchmark.MatrixBenchmarkResult
+import com.parkview.parkview.benchmark.MatrixDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
@@ -43,4 +44,12 @@ abstract class MatrixPlotTransform : PlotTransform {
             ),
         )
     }
+
+    protected fun MatrixDatapoint.getXAxisByConfig(config: PlotConfiguration) =
+        when (config.getCategoricalOption(MATRIX_X_AXIS)) {
+            "nonzeros" -> nonzeros.toDouble()
+            "rows" -> rows.toDouble()
+            "columns" -> columns.toDouble()
+            else -> throw InvalidPlotConfigValueException(config.getCategoricalOption(MATRIX_X_AXIS), "xAxis")
+        }
 }

@@ -5,13 +5,12 @@ import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
 import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
 import com.parkview.parkview.processing.transforms.getAvailableComparisons
-import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SpmvSpeedupPlot : SpmvPlotTransform() {
     override val numInputsRange = 2..2
@@ -24,11 +23,11 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options.getOptionValueByName("compare")
+        val comparison = config.getCategoricalOption("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<SpmvDatapoint>
@@ -54,12 +53,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
                 if (!formatA.completed or !formatB.completed) continue
 
                 seriesByName.getOrPut(formatA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options.getOptionValueByName("xAxis")) {
-                        "nonzeros" -> datapointA.nonzeros.toDouble()
-                        "rows" -> datapointA.rows.toDouble()
-                        "columns" -> datapointA.columns.toDouble()
-                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
-                    },
+                    x = datapointA.getXAxisByConfig(config),
                     y = formatA.time / formatB.time
                 )
             }

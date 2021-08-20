@@ -5,6 +5,7 @@ import com.parkview.parkview.benchmark.ConversionDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
 import com.parkview.parkview.processing.transforms.MatrixPlotTransform
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
 
@@ -12,21 +13,20 @@ import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
  * Interface for transforms using [ConversionBenchmarkResult].
  */
 abstract class ConversionPlotTransform : MatrixPlotTransform() {
-    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData {
         for (result in results) if (result !is ConversionBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only ConversionBenchmarkResult is allowed")
 
         checkNumInputs(results.size)
-        checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<ConversionBenchmarkResult>().map {
             ConversionBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<ConversionDatapoint>(),
+                datapoints = filterMatrixDatapoints(it.datapoints, config).filterIsInstance<ConversionDatapoint>(),
             )
         }
 
-        return transformConversion(filteredResults, options)
+        return transformConversion(filteredResults, config)
     }
 
     /**
@@ -37,6 +37,6 @@ abstract class ConversionPlotTransform : MatrixPlotTransform() {
      */
     abstract fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData
 }

@@ -5,6 +5,7 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotTransform
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.filterBlasDatapoints
@@ -13,21 +14,20 @@ import com.parkview.parkview.processing.transforms.filterBlasDatapoints
  * Interface for transforms using [BlasBenchmarkResult].
  */
 abstract class BlasPlotTransform : PlotTransform {
-    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData {
         for (result in results) if (result !is BlasBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only BlasBenchmarkResult is allowed")
 
         checkNumInputs(results.size)
-        checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<BlasBenchmarkResult>().map {
             BlasBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                datapoints = filterBlasDatapoints(it.datapoints, options),
+                datapoints = filterBlasDatapoints(it.datapoints, config),
             )
         }
 
-        return transformBlas(filteredResults, options)
+        return transformBlas(filteredResults, config)
     }
 
     final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> {
@@ -84,5 +84,5 @@ abstract class BlasPlotTransform : PlotTransform {
      * @param benchmarkResults list of blas benchmark results
      * @return [PlottableData] object containing the data
      */
-    abstract fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>, options: Map<String, String>): PlottableData
+    abstract fun transformBlas(benchmarkResults: List<BlasBenchmarkResult>, config: PlotConfiguration): PlottableData
 }

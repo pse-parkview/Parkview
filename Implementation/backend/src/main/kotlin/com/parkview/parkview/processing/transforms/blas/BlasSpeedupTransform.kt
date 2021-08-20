@@ -6,12 +6,12 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 import com.parkview.parkview.processing.transforms.BLAS_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
 import com.parkview.parkview.processing.transforms.getAvailableComparisons
-import com.parkview.parkview.processing.transforms.getOptionValueByName
-import com.parkview.parkview.processing.transforms.getXAxisByOption
+import com.parkview.parkview.processing.transforms.getXAxisByConfig
 
 class BlasSpeedupTransform : BlasPlotTransform() {
     override val numInputsRange = 2..2
@@ -24,11 +24,11 @@ class BlasSpeedupTransform : BlasPlotTransform() {
 
     override fun transformBlas(
         benchmarkResults: List<BlasBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options.getOptionValueByName("compare")
+        val comparison = config.getCategoricalOption("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<BlasDatapoint>
@@ -52,7 +52,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
                 if (!operationA.completed or !operationB.completed) continue
 
                 seriesByName.getOrPut(operationA.name) { mutableListOf() } += PlotPoint(
-                    x = datapointA.getXAxisByOption(options).toDouble(),
+                    x = datapointA.getXAxisByConfig(config).toDouble(),
                     y = operationA.time / operationB.time
                 )
             }

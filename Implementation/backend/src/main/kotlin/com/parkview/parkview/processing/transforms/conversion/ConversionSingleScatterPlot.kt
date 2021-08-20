@@ -5,29 +5,32 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.InvalidPlotConfigValueException
 import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class ConversionSingleScatterPlot : ConversionPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Scatter)
     override val name: String = "Scatter Plot"
+
+    private val yAxisOption = CategoricalOption(
+        name = "yAxis",
+        options = listOf("bandwidth", "time"),
+        description = "Value that gets displayed on the y axis"
+    )
+
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MATRIX_X_AXIS,
-        CategoricalOption(
-            name = "yAxis",
-            options = listOf("bandwidth", "time"),
-            description = "Value that gets displayed on the y axis"
-        ),
+        yAxisOption,
     )
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val benchmarkResult = benchmarkResults[0]
 
@@ -37,16 +40,14 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
             for (conversion in datapoint.conversions) {
                 if (!conversion.completed) continue
                 seriesByName.getOrPut(conversion.name) { mutableListOf() } += PlotPoint(
-                    x = when (options.getOptionValueByName("xAxis")) {
-                        "nonzeros" -> datapoint.nonzeros.toDouble()
-                        "rows" -> datapoint.rows.toDouble()
-                        "columns" -> datapoint.columns.toDouble()
-                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
-                    },
-                    y = when (options.getOptionValueByName("yAxis")) {
+                    x = datapoint.getXAxisByConfig(config),
+                    y = when (config.getCategoricalOption(yAxisOption)) {
                         "bandwidth" -> datapoint.nonzeros / conversion.time
                         "time" -> conversion.time
-                        else -> throw InvalidPlotOptionValueException(options, "yAxis")
+                        else -> throw InvalidPlotConfigValueException(
+                            config.getCategoricalOption(yAxisOption),
+                            yAxisOption.name
+                        )
                     },
                 )
             }

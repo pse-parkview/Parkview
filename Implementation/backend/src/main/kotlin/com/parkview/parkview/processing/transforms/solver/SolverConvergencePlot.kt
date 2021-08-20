@@ -5,58 +5,68 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.InvalidPlotConfigValueException
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
 import com.parkview.parkview.processing.transforms.getAvailableMatrixNames
-import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
     override val plottableAs: List<PlotType> = listOf(PlotType.Line)
     override val name: String = "Convergence Plot"
 
+    private val xAxisOption = CategoricalOption(
+        name = "xAxis",
+        options = listOf("iteration_timestamps", "array_index"),
+        description = "Value that gets displayed on the x axis",
+    )
+
+    private val yAxisOption = CategoricalOption(
+        name = "yAxis",
+        options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
+        description = "Value that gets displayed on the y axis",
+    )
+
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        CategoricalOption(
-            name = "xAxis",
-            options = listOf("iteration_timestamps", "array_index"),
-            description = "Value that gets displayed on the x axis",
-        ),
-        CategoricalOption(
-            name = "yAxis",
-            options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
-            description = "Value that gets displayed on the y axis",
-        ),
+        xAxisOption,
+        yAxisOption,
         getAvailableMatrixNames(results.first()),
     )
 
     override fun transformSolver(
         benchmarkResults: List<SolverBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val benchmarkResult = benchmarkResults.firstOrNull()
             ?: throw InvalidPlotTransformException("Empty list of BenchmarkResult passed")
 
         val datapoint = benchmarkResult.datapoints.first {
-            it.name == options.getOptionValueByName("matrix")
+            it.name == config.getCategoricalOption("matrix")
         }
 
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (solver in datapoint.solvers) {
-            val wantedResiduals = when (options.getOptionValueByName("yAxis")) {
+            val wantedResiduals = when (config.getCategoricalOption(xAxisOption)) {
                 "recurrent_residuals" -> solver.recurrentResiduals
                 "true_residuals" -> solver.trueResiduals
                 "implicit_residuals" -> solver.implicitResiduals
-                else -> throw InvalidPlotOptionValueException(options, "xAxis")
+                else -> throw InvalidPlotConfigValueException(
+                    config.getCategoricalOption(xAxisOption),
+                    xAxisOption.name
+                )
             }
 
-            val wantedXAxis = when (options.getOptionValueByName("xAxis")) {
+            val wantedXAxis = when (config.getCategoricalOption(yAxisOption)) {
                 "iteration_timestamps" -> solver.iterationTimestamps
                 "array_index" -> (0..(wantedResiduals.size)).map { it.toDouble() }.toList()
-                else -> throw InvalidPlotOptionValueException(options, "yAxis")
+                else -> throw InvalidPlotConfigValueException(
+                    config.getCategoricalOption(yAxisOption),
+                    yAxisOption.name
+                )
             }
 
             seriesByName.getOrPut(solver.name) { mutableListOf() } += wantedResiduals.zip(wantedXAxis)

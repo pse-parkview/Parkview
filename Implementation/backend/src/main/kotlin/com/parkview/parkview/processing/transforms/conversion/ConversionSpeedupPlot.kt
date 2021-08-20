@@ -5,13 +5,12 @@ import com.parkview.parkview.benchmark.ConversionDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
 import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
 import com.parkview.parkview.processing.transforms.getAvailableComparisons
-import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class ConversionSpeedupPlot : ConversionPlotTransform() {
     override val numInputsRange = 2..2
@@ -24,11 +23,11 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
 
     override fun transformConversion(
         benchmarkResults: List<ConversionBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
-        val comparison = options.getOptionValueByName("compare")
+        val comparison = config.getCategoricalOption("compare")
         val firstComponent = comparison.split("/").first()
 
         val datapointsA: List<ConversionDatapoint>
@@ -54,12 +53,7 @@ class ConversionSpeedupPlot : ConversionPlotTransform() {
                 if (!conversionA.completed or !conversionB.completed) continue
 
                 seriesByName.getOrPut(conversionA.name) { mutableListOf() } += PlotPoint(
-                    x = when (options.getOptionValueByName("xAxis")) {
-                        "nonzeros" -> datapointA.nonzeros.toDouble()
-                        "rows" -> datapointA.rows.toDouble()
-                        "columns" -> datapointA.columns.toDouble()
-                        else -> throw InvalidPlotOptionValueException(options, "xAxis")
-                    },
+                    x = datapointA.getXAxisByConfig(config),
                     y = conversionA.time / conversionB.time,
                 )
             }

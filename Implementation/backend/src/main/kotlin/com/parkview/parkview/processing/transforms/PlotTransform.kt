@@ -1,6 +1,7 @@
 package com.parkview.parkview.processing.transforms
 
 import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
 
@@ -21,9 +22,18 @@ interface PlotTransform {
     val name: String
 
     /**
-     * Values that can be used for the xAxis
+     *
      */
     fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption>
+
+    /**
+     * Values that can be used for the xAxis
+     */
+    fun getPlotDescription(results: List<BenchmarkResult>) = PlotDescription(
+        name,
+        plottableAs,
+        getAvailableOptions(results)
+    )
 
     /**
      * Transforms the benchmark data to data that is plottable
@@ -31,25 +41,7 @@ interface PlotTransform {
      * @param results list of benchmark results
      * @return [PlottableData] object containing the data
      */
-    fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData
-
-    /**
-     * Checks the given options for validity
-     *
-     * @param results list of [BenchmarkResults][BenchmarkResult]
-     * @param options given options
-     *
-     * @return true if options are valid, otherwise false
-     */
-    fun checkOptions(results: List<BenchmarkResult>, options: Map<String, String>): Boolean {
-        for ((key, value) in options) {
-            val option = getAvailableOptions(results).find { it.name == key }
-                ?: continue
-            if ((value !in option.options) and !option.number) throw InvalidPlotTransformException("$value is not a possible value of ${option.name}")
-        }
-
-        return true
-    }
+    fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData
 
     /**
      * Checks if the plot is possible with the given number of results.

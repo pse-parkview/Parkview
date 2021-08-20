@@ -5,21 +5,24 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlotPoint
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.PointDataset
-import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SpmvPerformanceProfile : SpmvPlotTransform() {
     override val numInputsRange = 1..1
     override val plottableAs = listOf(PlotType.Line)
     override val name = "Performance Profile"
+
+    private val minXOption = NumericalOption(
+        name = "minX",
+        default = 0.0,
+        description = "Minimum X value (value on the left)",
+    )
+
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        NumericalOption(
-            name = "minX",
-            default = 0.0,
-            description = "Minimum X value (value on the left)",
-        ),
+        minXOption,
         NumericalOption(
             name = "maxX",
             default = results.maxOfOrNull { it.datapoints.size }?.toDouble() ?: 0.0,
@@ -29,7 +32,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
     override fun transformSpmv(
         benchmarkResults: List<SpmvBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
         val formatSlowdowns: MutableMap<String, MutableList<Double>> = mutableMapOf()
@@ -45,8 +48,8 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
         formatSlowdowns.forEach { (_, value) -> value.sort() }
 
-        val minX = options.getOptionValueByName("minX").toFloat()
-        val maxX = options.getOptionValueByName("maxX").toFloat()
+        val minX = config.getNumericalOption(minXOption)
+        val maxX = config.getNumericalOption("maxX")
 
         for ((key, value) in formatSlowdowns) {
             seriesByName.getOrPut(key) { mutableListOf() } += value.filter { d -> (d <= maxX) and (d >= minX) }

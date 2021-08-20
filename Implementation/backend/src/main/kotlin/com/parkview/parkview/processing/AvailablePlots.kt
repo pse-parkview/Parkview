@@ -5,7 +5,7 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.PlotTransform
 import com.parkview.parkview.processing.transforms.blas.BlasPlotTransform
 import com.parkview.parkview.processing.transforms.blas.BlasSpeedupTransform
-import com.parkview.parkview.processing.transforms.blas.SingeBlasPlot
+import com.parkview.parkview.processing.transforms.blas.SingleBlasPlot
 import com.parkview.parkview.processing.transforms.conversion.ConversionPlotTransform
 import com.parkview.parkview.processing.transforms.conversion.ConversionSingleScatterPlot
 import com.parkview.parkview.processing.transforms.conversion.ConversionSpeedupPlot
@@ -19,7 +19,7 @@ import com.parkview.parkview.processing.transforms.spmv.SpmvSingleScatterPlot
 import com.parkview.parkview.processing.transforms.spmv.SpmvSpeedupPlot
 
 data class PlotDescription(
-    val plotName: String,
+    val name: String,
     val plottableAs: List<PlotType>,
     val options: List<PlotOption>,
 )
@@ -57,7 +57,7 @@ object AvailablePlots {
         SpmvPerformanceProfile(),
     )
     private val blasPlots: List<BlasPlotTransform> = listOf(
-        SingeBlasPlot(),
+        SingleBlasPlot(),
         BlasSpeedupTransform(),
     )
 
@@ -105,6 +105,6 @@ object AvailablePlots {
             BenchmarkType.Blas -> blasPlots
         }.filter { transform -> results.size in transform.numInputsRange }
 
-        return availablePlots.map { PlotDescription(it.name, it.plottableAs, it.getAvailableOptions(results)) }
+        return availablePlots.map { it.getPlotDescription(results) }
     }
 }

@@ -7,6 +7,7 @@ import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.benchmark.SolverDatapoint
 import com.parkview.parkview.processing.transforms.BarChartDataset
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -50,8 +51,15 @@ internal class SolverRuntimeBreakdownTest {
             "matrix" to "name",
             "components" to "apply",
             "totalTime" to "sumComponents",
+            "minRows" to "1",
+            "maxRows" to "10",
+            "minColumns" to "2",
+            "maxColumns" to "20",
+            "minNonzeros" to "3",
+            "maxNonzeros" to "30",
         )
-        val data = plot.transformSolver(listOf(result), options)
+        val config = PlotConfiguration(plot.getPlotDescription(listOf(result)), options)
+        val data = plot.transformSolver(listOf(result), config)
 
         assertEquals(0.5, (data.datasets[0] as BarChartDataset).data[0], 0.0001)
         assertEquals(0.5, (data.datasets[1] as BarChartDataset).data[0], 0.0001)
@@ -63,8 +71,15 @@ internal class SolverRuntimeBreakdownTest {
             "matrix" to "name",
             "components" to "apply",
             "totalTime" to "givenValue",
+            "minRows" to "1",
+            "maxRows" to "10",
+            "minColumns" to "2",
+            "maxColumns" to "20",
+            "minNonzeros" to "3",
+            "maxNonzeros" to "30",
         )
-        val data = plot.transformSolver(listOf(result), options)
+        val config = PlotConfiguration(plot.getPlotDescription(listOf(result)), options)
+        val data = plot.transformSolver(listOf(result), config)
 
         assertEquals(0.25, (data.datasets[0] as BarChartDataset).data[0], 0.0001)
         assertEquals(0.25, (data.datasets[1] as BarChartDataset).data[0], 0.0001)
@@ -76,8 +91,15 @@ internal class SolverRuntimeBreakdownTest {
             "matrix" to "name",
             "components" to "generate",
             "totalTime" to "sumComponents",
+            "minRows" to "1",
+            "maxRows" to "10",
+            "minColumns" to "2",
+            "maxColumns" to "20",
+            "minNonzeros" to "3",
+            "maxNonzeros" to "30",
         )
-        val data = plot.transformSolver(listOf(result), options)
+        val config = PlotConfiguration(plot.getPlotDescription(listOf(result)), options)
+        val data = plot.transformSolver(listOf(result), config)
 
         assertEquals(0.75, (data.datasets[0] as BarChartDataset).data[0], 0.0001)
         assertEquals(0.25, (data.datasets[1] as BarChartDataset).data[0], 0.0001)
@@ -89,8 +111,15 @@ internal class SolverRuntimeBreakdownTest {
             "matrix" to "name",
             "components" to "generate",
             "totalTime" to "givenValue",
+            "minRows" to "1",
+            "maxRows" to "10",
+            "minColumns" to "2",
+            "maxColumns" to "20",
+            "minNonzeros" to "3",
+            "maxNonzeros" to "30",
         )
-        val data = plot.transformSolver(listOf(result), options)
+        val config = PlotConfiguration(plot.getPlotDescription(listOf(result)), options)
+        val data = plot.transformSolver(listOf(result), config)
 
         assertEquals(0.375, (data.datasets[0] as BarChartDataset).data[0], 0.0001)
         assertEquals(0.125, (data.datasets[1] as BarChartDataset).data[0], 0.0001)

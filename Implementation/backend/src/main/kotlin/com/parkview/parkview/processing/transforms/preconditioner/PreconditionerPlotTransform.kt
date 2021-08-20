@@ -5,6 +5,7 @@ import com.parkview.parkview.benchmark.PreconditionerDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
 import com.parkview.parkview.processing.transforms.MatrixPlotTransform
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
 
@@ -12,21 +13,20 @@ import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
  * Interface for transforms using [PreconditionerBenchmarkResult].
  */
 abstract class PreconditionerPlotTransform : MatrixPlotTransform() {
-    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData {
         for (result in results) if (result !is PreconditionerBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only PreconditionerBenchmarkResult is allowed")
 
         checkNumInputs(results.size)
-        checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<PreconditionerBenchmarkResult>().map {
             PreconditionerBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<PreconditionerDatapoint>(),
+                datapoints = filterMatrixDatapoints(it.datapoints, config).filterIsInstance<PreconditionerDatapoint>(),
             )
         }
 
-        return transformPreconditioner(filteredResults, options)
+        return transformPreconditioner(filteredResults, config)
     }
 
     /**
@@ -37,6 +37,6 @@ abstract class PreconditionerPlotTransform : MatrixPlotTransform() {
      */
     abstract fun transformPreconditioner(
         benchmarkResults: List<PreconditionerBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData
 }

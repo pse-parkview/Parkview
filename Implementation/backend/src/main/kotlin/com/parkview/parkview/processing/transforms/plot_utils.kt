@@ -4,7 +4,6 @@ import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.MatrixBenchmarkResult
 import com.parkview.parkview.benchmark.MatrixDatapoint
 import com.parkview.parkview.benchmark.Operation
-import com.parkview.parkview.benchmark.Solver
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
@@ -55,31 +54,20 @@ fun getAvailableComparisons(results: List<BenchmarkResult>): PlotOption {
 }
 
 /**
- * Get a options value by its name.
- *
- * @param name name of option
- *
- * @return value of wanted option
- *
- * @throws InvalidPlotOptionNameException if the option doesn't exist
- */
-fun Map<String, String>.getOptionValueByName(name: String) = this[name] ?: throw InvalidPlotOptionNameException(name)
-
-/**
  * Filters all matrix datapoints according to the options
  *
  * @param datapoints list of datapoints
- * @param options given options
+ * @param config given configuration
  *
  * @return filtered list of datapoints
  */
-fun filterMatrixDatapoints(datapoints: List<MatrixDatapoint>, options: Map<String, String>): List<MatrixDatapoint> {
-    val minRows = options.getOptionValueByName("minRows").toDouble()
-    val maxRows = options.getOptionValueByName("maxRows").toDouble()
-    val minColumns = options.getOptionValueByName("minColumns").toDouble()
-    val maxColumns = options.getOptionValueByName("maxColumns").toDouble()
-    val minNonzeros = options.getOptionValueByName("minNonzeros").toDouble()
-    val maxNonzeros = options.getOptionValueByName("maxNonzeros").toDouble()
+fun filterMatrixDatapoints(datapoints: List<MatrixDatapoint>, config: PlotConfiguration): List<MatrixDatapoint> {
+    val minRows = config.getNumericalOption("minRows")
+    val maxRows = config.getNumericalOption("maxRows")
+    val minColumns = config.getNumericalOption("minColumns")
+    val maxColumns = config.getNumericalOption("maxColumns")
+    val minNonzeros = config.getNumericalOption("minNonzeros")
+    val maxNonzeros = config.getNumericalOption("maxNonzeros")
 
     return datapoints
         .filter { (it.rows >= minRows) and (it.rows <= maxRows) }
@@ -99,62 +87,38 @@ fun getAvailableMatrixNames(result: BenchmarkResult) = CategoricalOption(
     options = (result as MatrixBenchmarkResult).datapoints.map { it.name }
 )
 
-fun Solver.getComponentsByOption(options: Map<String, String>) = when (options["components"]) {
-    "apply" -> this.applyComponents
-    "generate" -> this.generateComponents
-    else -> throw InvalidPlotOptionValueException(options, "components")
-}
-
-fun Solver.getTotalTimeByOption(options: Map<String, String>) = when (options["components"]) {
-    "apply" -> this.getApplyTotalTimeByOption(options)
-    "generate" -> this.getGenerateTotalTimeByOption(options)
-    else -> throw InvalidPlotOptionValueException(options, "components")
-}
-
-fun Solver.getGenerateTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-    "sumComponents" -> this.generateComponents.sumOf { it.runtime }
-    "givenValue" -> this.generateTotalTime
-    else -> throw InvalidPlotOptionValueException(options, "totalTime")
-}
-
-fun Solver.getApplyTotalTimeByOption(options: Map<String, String>) = when (options["totalTime"]) {
-    "sumComponents" -> this.applyComponents.sumOf { it.runtime }
-    "givenValue" -> this.applyTotalTime
-    else -> throw InvalidPlotOptionValueException(options, "totalTime")
-}
-
-fun Operation.getYAxisByOption(options: Map<String, String>): Double = when (options["yAxis"]) {
+fun Operation.getYAxisByOption(config: PlotConfiguration): Double = when (config.getCategoricalOption(BLAS_Y_AXIS)) {
     "time" -> this.time
     "flops" -> this.flops
     "bandwidth" -> this.bandwidth
-    else -> throw InvalidPlotOptionValueException(options, "yAxis")
+    else -> throw InvalidPlotConfigValueException(config.getCategoricalOption(BLAS_Y_AXIS), BLAS_Y_AXIS.name)
 }
 
-fun BlasDatapoint.getXAxisByOption(options: Map<String, String>): Long = when (options["xAxis"]) {
+fun BlasDatapoint.getXAxisByConfig(config: PlotConfiguration): Long = when (config.getCategoricalOption(BLAS_X_AXIS)) {
     "n" -> this.n
     "r" -> this.r
     "m" -> this.m
     "k" -> this.k
-    else -> throw InvalidPlotOptionValueException(options, "xAxis")
+    else -> throw InvalidPlotConfigValueException(config.getCategoricalOption(BLAS_X_AXIS), BLAS_X_AXIS.name)
 }
 
 /**
  * Filters all blas datapoints according to the options
  *
  * @param datapoints list of datapoints
- * @param options given options
+ * @param config given configuration
  *
  * @return filtered list of datapoints
  */
-fun filterBlasDatapoints(datapoints: List<BlasDatapoint>, options: Map<String, String>): List<BlasDatapoint> {
-    val maxN = options.getOptionValueByName("maxN").toDouble()
-    val minN = options.getOptionValueByName("minN").toDouble()
-    val maxR = options.getOptionValueByName("maxR").toDouble()
-    val minR = options.getOptionValueByName("minR").toDouble()
-    val maxK = options.getOptionValueByName("maxK").toDouble()
-    val minK = options.getOptionValueByName("minK").toDouble()
-    val maxM = options.getOptionValueByName("maxM").toDouble()
-    val minM = options.getOptionValueByName("minM").toDouble()
+fun filterBlasDatapoints(datapoints: List<BlasDatapoint>, config: PlotConfiguration): List<BlasDatapoint> {
+    val maxN = config.getNumericalOption("maxN")
+    val minN = config.getNumericalOption("minN")
+    val maxR = config.getNumericalOption("maxR")
+    val minR = config.getNumericalOption("minR")
+    val maxK = config.getNumericalOption("maxK")
+    val minK = config.getNumericalOption("minK")
+    val maxM = config.getNumericalOption("maxM")
+    val minM = config.getNumericalOption("minM")
 
     return datapoints
         .filter { (it.n >= minN) and (it.n <= maxN) }

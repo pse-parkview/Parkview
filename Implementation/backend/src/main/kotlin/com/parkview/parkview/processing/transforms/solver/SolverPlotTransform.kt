@@ -5,6 +5,7 @@ import com.parkview.parkview.benchmark.SolverDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
 import com.parkview.parkview.processing.transforms.MatrixPlotTransform
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
 
@@ -12,21 +13,20 @@ import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
  * Interface for transforms using [SolverBenchmarkResult].
  */
 abstract class SolverPlotTransform : MatrixPlotTransform() {
-    override fun transform(results: List<BenchmarkResult>, options: Map<String, String>): PlottableData {
+    override fun transform(results: List<BenchmarkResult>, config: PlotConfiguration): PlottableData {
         for (result in results) if (result !is SolverBenchmarkResult) throw InvalidPlotTransformException("Invalid benchmark type, only SolverBenchmarkResult is allowed")
 
         checkNumInputs(results.size)
-        checkOptions(results, options)
 
         val filteredResults = results.filterIsInstance<SolverBenchmarkResult>().map {
             SolverBenchmarkResult(
                 commit = it.commit,
                 device = it.device,
-                datapoints = filterMatrixDatapoints(it.datapoints, options).filterIsInstance<SolverDatapoint>(),
+                datapoints = filterMatrixDatapoints(it.datapoints, config).filterIsInstance<SolverDatapoint>(),
             )
         }
 
-        return transformSolver(filteredResults, options)
+        return transformSolver(filteredResults, config)
     }
 
     /**
@@ -37,6 +37,6 @@ abstract class SolverPlotTransform : MatrixPlotTransform() {
      */
     abstract fun transformSolver(
         benchmarkResults: List<SolverBenchmarkResult>,
-        options: Map<String, String>,
+        config: PlotConfiguration,
     ): PlottableData
 }
