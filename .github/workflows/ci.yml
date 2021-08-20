@@ -97,8 +97,6 @@ jobs:
         uses: iryanbell/scc-docker-action@v1.0.2
         with:
           args: Implementation/backend/src/main --ci -i kt
-          
-      - run: echo "${{ steps.scc.outputs.scc }}"
 
       - name: Generate LOC Badge
         shell: bash
@@ -224,12 +222,12 @@ jobs:
         id: scc
         uses: iryanbell/scc-docker-action@v1.0.2
         with:
-          args: Implementation/frontend/ -i ts,html,scss
+          args: Implementation/frontend --ci -i ts,html,scss
 
       - name: Generate LOC Badge
         shell: bash
         run: |
-          curl https://img.shields.io/badge/frontend%20lines%20of%20code-$(echo ${{ steps.scc.outputs.scc }} | grep Total | awk '{print $6}')-blue > badge.svg
+          curl https://img.shields.io/badge/frontend%20lines%20of%20code-$(echo "${{ steps.scc.outputs.scc }}" | grep Total | awk '{print $6}')-blue > badge.svg
 
       - name: Extract branch name
         shell: bash
