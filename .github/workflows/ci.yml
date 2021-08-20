@@ -91,11 +91,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Get the lines of code.
+        id: scc
+        uses: iryanbell/scc-docker-action@v1.0.2
+        with:
+          args: Implementation/backend/src/main --ci -i kt
 
       - name: Generate LOC Badge
         shell: bash
         run: |
-          curl https://img.shields.io/badge/backend%20lines%20of%20code-$(( find Implementation/backend/src/main/kotlin/ -name '*.kt' -print0 | xargs -0 cat ) | wc -l)-blueviolet > badge.svg
+          curl https://img.shields.io/badge/backend%20lines%20of%20code-$(echo "${{ steps.scc.outputs.scc }}" | grep Total | awk '{print $6}')-blueviolet > badge.svg
 
       - name: Extract branch name
         shell: bash
@@ -211,11 +217,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Get the lines of code.
+        id: scc
+        uses: iryanbell/scc-docker-action@v1.0.2
+        with:
+          args: Implementation/frontend --ci -i ts,html,scss
 
       - name: Generate LOC Badge
         shell: bash
         run: |
-          (find Implementation/frontend/src -regex '.*[^(spec)]\.\(\(ts\)\|\(scss\)\|\(html\)\)' -print0 | xargs -0 cat ) | wc -l | xargs -I '{}' echo https://img.shields.io/badge/frontend%20lines%20of%20code-{}-blue | xargs curl > badge.svg
+          curl https://img.shields.io/badge/frontend%20lines%20of%20code-$(echo "${{ steps.scc.outputs.scc }}" | grep Total | awk '{print $6}')-blue > badge.svg
 
       - name: Extract branch name
         shell: bash
