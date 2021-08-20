@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {Observer} from "rxjs";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
@@ -21,7 +21,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
   private selectedCommits: SelectedCommits = {
     benchmarkName: '',
     commitsAndDevices: []
-  }
+  };
 
   private readonly templateViewUpdater: Observer<void> = {
     next: () => {
@@ -41,7 +41,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
             pto => pto.plotName == template.config.plotType
           )
         );
-      })
+      });
     },
     error: (err) => {
       console.error(err);
@@ -49,7 +49,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
     complete: () => {
       // do nothing
     },
-  }
+  };
 
   constructor(private readonly commitSelectionService: SelectionService,
               private readonly cookieService: CookieService,
@@ -77,7 +77,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
   }
 
   deleteTemplate(template: Template) {
-    this.cookieService.deleteTemplate(template)
+    this.cookieService.deleteTemplate(template);
   }
 
   // Helper method for getting the keys out of template.config.options

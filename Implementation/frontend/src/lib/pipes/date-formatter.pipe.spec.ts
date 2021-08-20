@@ -1,4 +1,4 @@
-import { DateFormatterPipe } from './date-formatter.pipe';
+import {DateFormatterPipe} from './date-formatter.pipe';
 
 describe('DateFormatterPipe', () => {
   it('create an instance', () => {

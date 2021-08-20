@@ -1,4 +1,4 @@
-import { AbbreviateShaPipe } from './abbreviate-sha.pipe';
+import {AbbreviateShaPipe} from './abbreviate-sha.pipe';
 
 describe('AbbreviateShaPipe', () => {
   it('create an instance', () => {

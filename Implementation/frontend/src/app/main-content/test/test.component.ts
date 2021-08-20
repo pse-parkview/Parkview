@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../../logic/datahandler/data.service";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
@@ -17,7 +17,7 @@ export class TestComponent implements OnInit { // TODO: delete this component
     benchmarkName: 'Spmv',
     commitSha: 'c101790ff69e4dd285bf60ac29ee745d8bc306b8',
     device: 'Xeon_Gold_6230-solver',
-  }
+  };
 
   constructor(private readonly dataService: DataService,
               private readonly commitService: SelectionService,
@@ -34,7 +34,7 @@ export class TestComponent implements OnInit { // TODO: delete this component
     }
     this.dataService.getAvailablePlots('Spmv', pairs.map(p => p.commit), pairs.map(p => p.device)).subscribe((availablePlots) => {
       console.log(availablePlots);
-    })
+    });
 
     console.log(this.commitService.getSelectedCommits().commitsAndDevices);
   }

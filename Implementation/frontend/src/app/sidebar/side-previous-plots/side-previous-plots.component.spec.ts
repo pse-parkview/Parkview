@@ -19,7 +19,7 @@ describe('SidePreviousPlotsComponent', () => {
         CookieModule.forRoot(),
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

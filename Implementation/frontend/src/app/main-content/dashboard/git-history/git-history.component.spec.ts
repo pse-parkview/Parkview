@@ -37,7 +37,7 @@ describe('GitHistoryComponent', () => {
         CookieService,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

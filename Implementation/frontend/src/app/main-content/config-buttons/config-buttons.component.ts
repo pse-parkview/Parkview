@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 
 @Component({
@@ -10,7 +10,8 @@ export class ConfigButtonsComponent implements OnInit {
 
   public url = window.location.href;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

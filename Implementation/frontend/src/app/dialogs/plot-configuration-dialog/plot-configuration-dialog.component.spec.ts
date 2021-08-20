@@ -37,7 +37,7 @@ describe('PlotConfigurationDialogComponent', () => {
         CookieService
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -77,9 +77,9 @@ describe('PlotConfigurationDialogComponent', () => {
     component.plotlabelTitle = 'mockButValidLabel';
     component.plotlabelXAxis = 'mockButValidXAxis';
     component.plotlabelYAxis = 'mockButValidYAxis';
-    component.currentChartType = 'line'
-    expect(component.validPlotConfig()).toBe(true)
-  })
+    component.currentChartType = 'line';
+    expect(component.validPlotConfig()).toBe(true);
+  });
 
   it('should recognize invalid selections', () => {
     component.benchmarkName = '';
@@ -92,9 +92,9 @@ describe('PlotConfigurationDialogComponent', () => {
     component.plotlabelTitle = 'mockButValidLabel';
     component.plotlabelXAxis = 'mockButValidXAxis';
     component.plotlabelYAxis = 'mockButValidYAxis';
-    component.currentChartType = 'line'
-    expect(component.validPlotConfig()).toBe(false)
-  })
+    component.currentChartType = 'line';
+    expect(component.validPlotConfig()).toBe(false);
+  });
 
   // TODO implement tests for PlotConfigurationDialogComponent, the data binding properties of currentPlotOptions are very magical
 });

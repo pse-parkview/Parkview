@@ -1,4 +1,4 @@
-import { PlotUtils } from './plot-utils';
+import {PlotUtils} from './plot-utils';
 import {PlotConfiguration} from "../../logic/plothandler/interfaces/plot-configuration";
 
 describe('PlotUtils', () => {
@@ -13,7 +13,7 @@ describe('PlotUtils', () => {
       labelForYAxis: 'mockButValidYAxis',
       options: {},
       chartType: 'line'
-    }
+    };
     expect(PlotUtils.isValidConfig(validPlotConfig)).toBe(true);
   });
 
@@ -28,7 +28,7 @@ describe('PlotUtils', () => {
       labelForYAxis: '',
       options: {},
       chartType: 'line'
-    }
+    };
     expect(PlotUtils.isValidConfig(invalidPlotConfig)).toBe(false);
   });
 });

@@ -84,7 +84,7 @@ export class PlotUtils {
     return config.commits.length > 0
       && config.commits.length === config.devices.length
       && config.plotType.trim() !== ''
-      && config.benchmark.trim() !== ''
+      && config.benchmark.trim() !== '';
   }
 
   public static downloadCanvas(event: MouseEvent, fileName: string = 'plot.png') {
