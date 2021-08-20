@@ -45,7 +45,6 @@ class PlotConfiguration(
     fun getCategoricalOption(option: PlotOption) =
         categoricalOptions[option.name] ?: throw InvalidPlotConfigNameException(option.name)
 
-
     /**
      * Returns the value for a categorical option.
      *

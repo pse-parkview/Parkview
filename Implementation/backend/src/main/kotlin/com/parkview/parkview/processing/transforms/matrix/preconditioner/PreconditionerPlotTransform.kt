@@ -4,10 +4,10 @@ import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
 import com.parkview.parkview.benchmark.PreconditionerDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
-import com.parkview.parkview.processing.transforms.matrix.MatrixPlotTransform
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.processing.transforms.filterMatrixDatapoints
+import com.parkview.parkview.processing.transforms.matrix.MatrixPlotTransform
 
 /**
  * Interface for transforms using [PreconditionerBenchmarkResult].
