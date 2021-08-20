@@ -3,7 +3,11 @@ package com.parkview.parkview.rest
 import COMMIT_A_RESULT
 import com.parkview.parkview.benchmark.BenchmarkJsonParser
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.git.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.tracking.PerformanceTracker
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

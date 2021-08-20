@@ -1,8 +1,23 @@
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Component
+import com.parkview.parkview.benchmark.Conversion
+import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.ConversionDatapoint
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.Preconditioner
+import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
+import com.parkview.parkview.benchmark.PreconditionerDatapoint
+import com.parkview.parkview.benchmark.Solver
+import com.parkview.parkview.benchmark.SolverBenchmarkResult
+import com.parkview.parkview.benchmark.SolverDatapoint
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import java.util.*
+import java.util.Date
 
 fun BenchmarkResult.dirtyEquals(other: BenchmarkResult) = this.toString() == other.toString()
 

@@ -7,7 +7,12 @@ import DEVICE
 import PRECONDITIONER_RESULT
 import SOLVER_RESULT
 import SPMV_RESULT
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
@@ -220,7 +225,7 @@ internal class ExposedHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 2)
@@ -258,7 +263,7 @@ internal class ExposedHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Spmv) as SpmvBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.formats.size == 1)
@@ -293,7 +298,7 @@ internal class ExposedHandlerTest {
         )
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
-        var returned =
+        val returned =
             dbHandler.fetchBenchmarkResult(resultA.commit, resultA.device, BenchmarkType.Blas) as BlasBenchmarkResult
         for (datapoint in returned.datapoints) {
             assert(datapoint.operations.size == 2)

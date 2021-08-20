@@ -4,7 +4,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Date
 
 internal class SolverBenchmarkResultTest {
     private lateinit var br: SolverBenchmarkResult

@@ -5,8 +5,14 @@ import COMMIT_A_RESULT
 import COMMIT_B
 import COMMIT_B_RESULT
 import com.parkview.parkview.database.DatabaseHandler
-import com.parkview.parkview.git.*
-import org.junit.jupiter.api.Assertions.*
+import com.parkview.parkview.git.BenchmarkResult
+import com.parkview.parkview.git.BenchmarkType
+import com.parkview.parkview.git.Commit
+import com.parkview.parkview.git.Device
+import com.parkview.parkview.git.RepositoryHandler
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
