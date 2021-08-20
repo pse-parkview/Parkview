@@ -230,6 +230,27 @@ jobs:
           gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_loc.svg
           file_path: ./badge.svg
 
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: Implementation/frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: Implementation/frontend
+        run: npm install
+
+      - name: Runs linter
+        working-directory: Implementation/frontend
+        run: npm run lint
+
   integration:
     runs-on: ubuntu-latest
     needs: [test-frontend, test-backend]
