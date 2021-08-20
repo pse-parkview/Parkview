@@ -2,8 +2,8 @@ package com.parkview.parkview.processing
 
 import SPMV_RESULT
 import com.parkview.parkview.git.BenchmarkType
-import com.parkview.parkview.processing.transforms.spmv.SpmvSingleScatterPlot
-import com.parkview.parkview.processing.transforms.spmv.SpmvSpeedupPlot
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvSingleScatterPlot
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvSpeedupPlot
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 

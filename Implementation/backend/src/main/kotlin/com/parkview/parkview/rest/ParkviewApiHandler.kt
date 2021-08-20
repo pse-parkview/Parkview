@@ -10,6 +10,7 @@ import com.parkview.parkview.git.RepositoryHandler
 import com.parkview.parkview.processing.AvailablePlots
 import com.parkview.parkview.processing.AveragePerformanceCalculator
 import com.parkview.parkview.processing.PlotDescription
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.tracking.PerformanceTracker
 import java.util.Date
@@ -57,7 +58,8 @@ class ParkviewApiHandler(
 
         val plot =
             AvailablePlots.getPlotByName(plotType, benchmarkType) ?: throw IllegalArgumentException("Invalid plot type")
-        return plot.transform(results, plotParams)
+        val config = PlotConfiguration(plot.getPlotDescription(results), plotParams)
+        return plot.transform(results, config)
     }
 
     override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()

@@ -5,47 +5,18 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.processing.transforms.PlotTransform
 import com.parkview.parkview.processing.transforms.blas.BlasPlotTransform
 import com.parkview.parkview.processing.transforms.blas.BlasSpeedupTransform
-import com.parkview.parkview.processing.transforms.blas.SingeBlasPlot
-import com.parkview.parkview.processing.transforms.conversion.ConversionPlotTransform
-import com.parkview.parkview.processing.transforms.conversion.ConversionSingleScatterPlot
-import com.parkview.parkview.processing.transforms.conversion.ConversionSpeedupPlot
-import com.parkview.parkview.processing.transforms.preconditioner.PreconditionerPlotTransform
-import com.parkview.parkview.processing.transforms.solver.SolverConvergencePlot
-import com.parkview.parkview.processing.transforms.solver.SolverPlotTransform
-import com.parkview.parkview.processing.transforms.solver.SolverRuntimeBreakdown
-import com.parkview.parkview.processing.transforms.spmv.SpmvPerformanceProfile
-import com.parkview.parkview.processing.transforms.spmv.SpmvPlotTransform
-import com.parkview.parkview.processing.transforms.spmv.SpmvSingleScatterPlot
-import com.parkview.parkview.processing.transforms.spmv.SpmvSpeedupPlot
-
-data class PlotDescription(
-    val plotName: String,
-    val plottableAs: List<PlotType>,
-    val options: List<PlotOption>,
-)
-
-abstract class PlotOption(
-    val name: String,
-    val options: List<String> = emptyList(),
-    val default: String = options.first(),
-    val number: Boolean = options.isEmpty(),
-    val description: String = "",
-) {
-    init {
-        if ((!number) and (default !in options))
-            throw IllegalArgumentException("Default value has to be available option")
-    }
-}
-
-class CategoricalOption(
-    name: String,
-    options: List<String>,
-    default: String = options.first(),
-    description: String = "",
-) : PlotOption(name = name, options = options, default = default, description = description)
-
-class NumericalOption(name: String, default: Double, description: String = "") :
-    PlotOption(name = name, default = default.toString(), description = description)
+import com.parkview.parkview.processing.transforms.blas.SingleBlasPlot
+import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionPlotTransform
+import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionSingleScatterPlot
+import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionSpeedupPlot
+import com.parkview.parkview.processing.transforms.matrix.preconditioner.PreconditionerPlotTransform
+import com.parkview.parkview.processing.transforms.matrix.solver.SolverConvergencePlot
+import com.parkview.parkview.processing.transforms.matrix.solver.SolverPlotTransform
+import com.parkview.parkview.processing.transforms.matrix.solver.SolverRuntimeBreakdown
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvPerformanceProfile
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvPlotTransform
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvSingleScatterPlot
+import com.parkview.parkview.processing.transforms.matrix.spmv.SpmvSpeedupPlot
 
 /**
  * Singleton that keeps track of all plot types and offers helper functions
@@ -57,7 +28,7 @@ object AvailablePlots {
         SpmvPerformanceProfile(),
     )
     private val blasPlots: List<BlasPlotTransform> = listOf(
-        SingeBlasPlot(),
+        SingleBlasPlot(),
         BlasSpeedupTransform(),
     )
 
@@ -105,6 +76,6 @@ object AvailablePlots {
             BenchmarkType.Blas -> blasPlots
         }.filter { transform -> results.size in transform.numInputsRange }
 
-        return availablePlots.map { PlotDescription(it.name, it.plottableAs, it.getAvailableOptions(results)) }
+        return availablePlots.map { it.getPlotDescription(results) }
     }
 }

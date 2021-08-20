@@ -1,14 +1,11 @@
 package com.parkview.parkview.processing.transforms.blas
 
+import BLAS_RESULT
 import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
-import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.filterBlasDatapoints
-import com.parkview.parkview.processing.transforms.getXAxisByOption
-import com.parkview.parkview.processing.transforms.getYAxisByOption
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertNull
 
 internal class BlasPlotTransformKtTest {
@@ -21,39 +18,18 @@ internal class BlasPlotTransformKtTest {
     )
 
     @Test
-    fun getYAxisByOption() {
-        val operation = datapoint.operations.first()
-
-        assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "time")), 1.0)
-        assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "flops")), 2.0)
-        assertEquals(operation.getYAxisByOption(mapOf("yAxis" to "bandwidth")), 3.0)
-        assertThrows<InvalidPlotOptionValueException> {
-            operation.getYAxisByOption(mapOf())
-        }
-    }
-
-    @Test
-    fun getXAxisByOption() {
-        assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "n")), 1)
-        assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "r")), 2)
-        assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "m")), 3)
-        assertEquals(datapoint.getXAxisByOption(mapOf("xAxis" to "k")), 4)
-        assertThrows<InvalidPlotOptionValueException> {
-            datapoint.getXAxisByOption(mapOf())
-        }
-    }
-
-    @Test
     fun `filter blas datapoints`() {
         val options = mapOf(
-            "maxN" to 10,
-            "minN" to 1,
-            "maxR" to 20,
-            "minR" to 2,
-            "maxM" to 30,
-            "minM" to 3,
-            "maxK" to 40,
-            "minK" to 4,
+            "maxN" to "10",
+            "minN" to "1",
+            "maxR" to "20",
+            "minR" to "2",
+            "maxM" to "30",
+            "minM" to "3",
+            "maxK" to "40",
+            "minK" to "4",
+            "xAxis" to "n",
+            "yAxis" to "time",
         )
 
         val datapoints = (1..10).map {
@@ -67,30 +43,30 @@ internal class BlasPlotTransformKtTest {
         }
 
         val nOptions = options.toMutableMap()
-        nOptions["maxN"] = 7
-        nOptions["minN"] = 5
-        val nFiltered = filterBlasDatapoints(datapoints, nOptions.map { it.key to it.value.toString() }.toMap())
+        nOptions["maxN"] = "7"
+        nOptions["minN"] = "5"
+        val nFiltered = filterBlasDatapoints(datapoints, PlotConfiguration(SingleBlasPlot().getPlotDescription(listOf(BLAS_RESULT)), nOptions))
         assertNull(nFiltered.find { it.n < 5 })
         assertNull(nFiltered.find { it.n > 7 })
 
         val rOptions = options.toMutableMap()
-        rOptions["maxR"] = 10
-        rOptions["minR"] = 12
-        val rFiltered = filterBlasDatapoints(datapoints, rOptions.map { it.key to it.value.toString() }.toMap())
+        rOptions["maxR"] = "10"
+        rOptions["minR"] = "12"
+        val rFiltered = filterBlasDatapoints(datapoints, PlotConfiguration(SingleBlasPlot().getPlotDescription(listOf(BLAS_RESULT)), rOptions))
         assertNull(rFiltered.find { it.r < 10 })
         assertNull(rFiltered.find { it.r > 12 })
 
         val kOptions = options.toMutableMap()
-        kOptions["maxK"] = 0
-        kOptions["minK"] = 3
-        val kFiltered = filterBlasDatapoints(datapoints, kOptions.map { it.key to it.value.toString() }.toMap())
+        kOptions["maxK"] = "0"
+        kOptions["minK"] = "3"
+        val kFiltered = filterBlasDatapoints(datapoints, PlotConfiguration(SingleBlasPlot().getPlotDescription(listOf(BLAS_RESULT)), kOptions))
         assertNull(kFiltered.find { it.k < 0 })
         assertNull(kFiltered.find { it.k > 3 })
 
         val mOptions = options.toMutableMap()
-        mOptions["maxM"] = 32
-        mOptions["minM"] = 40
-        val mFiltered = filterBlasDatapoints(datapoints, mOptions.map { it.key to it.value.toString() }.toMap())
+        mOptions["maxM"] = "32"
+        mOptions["minM"] = "40"
+        val mFiltered = filterBlasDatapoints(datapoints, PlotConfiguration(SingleBlasPlot().getPlotDescription(listOf(BLAS_RESULT)), mOptions))
         assertNull(mFiltered.find { it.m < 32 })
         assertNull(mFiltered.find { it.m > 40 })
     }
