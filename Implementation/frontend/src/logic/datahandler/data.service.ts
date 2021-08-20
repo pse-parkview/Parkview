@@ -27,8 +27,8 @@ export class DataService {
 
   getNumPages(branchName: string) {
     const params: HttpParams = new HttpParams()
-      .set('branch', branchName)
-    return this.http.get<number>(`${this.url}/numberPages`, {params: params})
+      .set('branch', branchName);
+    return this.http.get<number>(`${this.url}/numberPages`, {params: params});
   }
 
   getCommitHistory(branchName: string, benchmarkType: string, page: number = 1): Observable<Commit[]> {
@@ -36,7 +36,7 @@ export class DataService {
       .set('branch', branchName)
       .set('page', page.toString(10))
       .set('benchmark', benchmarkType);
-    return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params})
+    return this.http.get<Array<Commit>>(`${this.url}/history`, {params: params});
   }
 
   getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<PlotTypeOption[]> {
@@ -51,7 +51,7 @@ export class DataService {
   getPlotData(config: PlotConfiguration): Observable<PlotData> {
     let params: HttpParams = new HttpParams()
       .set('benchmark', config.benchmark)
-      .set('plotType', config.plotType)
+      .set('plotType', config.plotType);
     config.commits.forEach(sha => params = params.append('shas', sha));
     config.devices.forEach(d => params = params.append('devices', d));
     Object.keys(config.options).forEach(k => params = params.append(k, config.options[k]));
@@ -63,7 +63,7 @@ export class DataService {
       .set('benchmark', benchmarkType)
       .set('sha', commitSha)
       .set('device', device);
-    return this.http.get<Summary>(`${this.url}/summaryValues`,{params: params});
+    return this.http.get<Summary>(`${this.url}/summaryValues`, {params: params});
   }
 
   getAvailableDevicesForAveragePerformance(benchmarkType: string, branchName: string): Observable<Device[]> {
@@ -73,7 +73,7 @@ export class DataService {
     return this.http.get<Array<Device>>(`${this.url}/availableDevices`, {params: params});
   }
 
-  getAveragePerformance(benchmarkType: string, branchName: string, device: string): Observable<PlotData>{
+  getAveragePerformance(benchmarkType: string, branchName: string, device: string): Observable<PlotData> {
     const params: HttpParams = new HttpParams()
       .set('benchmark', benchmarkType)
       .set('branch', branchName)

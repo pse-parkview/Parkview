@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { PlotService } from './plot.service';
+import {PlotService} from './plot.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('PlotService', () => {
