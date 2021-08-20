@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import java.util.*
+import java.util.Date
 
 private data class ProblemModel(
     val group: String = "",

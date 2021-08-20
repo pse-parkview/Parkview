@@ -54,7 +54,8 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     DEVICE,
     (1..5).map { index ->
         SolverDatapoint(
-            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, "optimal", listOf(
+            "", index.toLong() * 10, index.toLong() * 10, index.toLong() * 10, "optimal",
+            listOf(
                 Solver(
                     "",
                     generateComponents = listOf(Component("", 1.0)),
@@ -70,13 +71,13 @@ val SOLVER_RESULT = SolverBenchmarkResult(
     }
 )
 
-
 val CONVERSION_RESULT = ConversionBenchmarkResult(
     COMMIT_A,
     DEVICE,
     (1..5).map {
         ConversionDatapoint(
-            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
                 Conversion("", 1.0, true),
             )
         )
@@ -88,7 +89,8 @@ val BLAS_RESULT = BlasBenchmarkResult(
     DEVICE,
     (1..5).map {
         BlasDatapoint(
-            it.toLong() * 10, operations = listOf(
+            it.toLong() * 10,
+            operations = listOf(
                 Operation("", 1.0, 1.0, it * 1.0, true),
             )
         )
@@ -100,7 +102,8 @@ val PRECONDITIONER_RESULT = PreconditionerBenchmarkResult(
     DEVICE,
     (1..5).map {
         PreconditionerDatapoint(
-            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+            "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+            listOf(
                 Preconditioner(
                     "",
                     listOf(

@@ -1,6 +1,15 @@
 package com.parkview.parkview.database.exposed
 
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasBenchmarkResult
+import com.parkview.parkview.benchmark.Conversion
+import com.parkview.parkview.benchmark.ConversionBenchmarkResult
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.Preconditioner
+import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
+import com.parkview.parkview.benchmark.Solver
+import com.parkview.parkview.benchmark.SolverBenchmarkResult
+import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.database.DatabaseHandler
 import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.BenchmarkResult
@@ -13,7 +22,6 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.sql.DataSource
-
 
 /**
  * This class handles database access using the Exposed library. It stores components like [Solver], [Preconditioner]
@@ -43,8 +51,8 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             val benchmark = transaction(db) {
                 val query = BenchmarkResultRow.find {
                     (BenchmarkResultTable.device eq result.device.name) and
-                            (BenchmarkResultTable.name eq result.benchmark.toString()) and
-                            (BenchmarkResultTable.sha eq result.commit.sha)
+                        (BenchmarkResultTable.name eq result.benchmark.toString()) and
+                        (BenchmarkResultTable.sha eq result.commit.sha)
                 }
 
                 if (query.count() > 0) {
@@ -79,10 +87,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             for (datapoint in result.datapoints) {
                 val query = SpmvDatapointRow.find {
                     (SpmvDatapointTable.benchmarkId eq benchmark.id) and
-                            (SpmvDatapointTable.name eq datapoint.name) and
-                            (SpmvDatapointTable.cols eq datapoint.columns) and
-                            (SpmvDatapointTable.rows eq datapoint.rows) and
-                            (SpmvDatapointTable.nonzeros eq datapoint.nonzeros)
+                        (SpmvDatapointTable.name eq datapoint.name) and
+                        (SpmvDatapointTable.cols eq datapoint.columns) and
+                        (SpmvDatapointTable.rows eq datapoint.rows) and
+                        (SpmvDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
@@ -111,10 +119,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             for (datapoint in result.datapoints) {
                 val query = ConversionDatapointRow.find {
                     (ConversionDatapointTable.benchmarkId eq benchmark.id) and
-                            (ConversionDatapointTable.name eq datapoint.name) and
-                            (ConversionDatapointTable.cols eq datapoint.columns) and
-                            (ConversionDatapointTable.rows eq datapoint.rows) and
-                            (ConversionDatapointTable.nonzeros eq datapoint.nonzeros)
+                        (ConversionDatapointTable.name eq datapoint.name) and
+                        (ConversionDatapointTable.cols eq datapoint.columns) and
+                        (ConversionDatapointTable.rows eq datapoint.rows) and
+                        (ConversionDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
@@ -143,10 +151,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             for (datapoint in result.datapoints) {
                 val query = SolverDatapointRow.find {
                     (SolverDatapointTable.benchmarkId eq benchmark.id) and
-                            (SolverDatapointTable.name eq datapoint.name) and
-                            (SolverDatapointTable.cols eq datapoint.columns) and
-                            (SolverDatapointTable.rows eq datapoint.rows) and
-                            (SolverDatapointTable.nonzeros eq datapoint.nonzeros)
+                        (SolverDatapointTable.name eq datapoint.name) and
+                        (SolverDatapointTable.cols eq datapoint.columns) and
+                        (SolverDatapointTable.rows eq datapoint.rows) and
+                        (SolverDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
@@ -179,10 +187,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
             for (datapoint in result.datapoints) {
                 val query = PreconditionerDatapointRow.find {
                     (PreconditionerDatapointTable.benchmarkId eq benchmark.id) and
-                            (PreconditionerDatapointTable.name eq datapoint.name) and
-                            (PreconditionerDatapointTable.cols eq datapoint.columns) and
-                            (PreconditionerDatapointTable.rows eq datapoint.rows) and
-                            (PreconditionerDatapointTable.nonzeros eq datapoint.nonzeros)
+                        (PreconditionerDatapointTable.name eq datapoint.name) and
+                        (PreconditionerDatapointTable.cols eq datapoint.columns) and
+                        (PreconditionerDatapointTable.rows eq datapoint.rows) and
+                        (PreconditionerDatapointTable.nonzeros eq datapoint.nonzeros)
                 }
 
                 if (query.count() > 0) {
@@ -206,16 +214,15 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         }
     }
 
-
     private fun insertBlasBenchmarkResult(result: BlasBenchmarkResult, benchmark: BenchmarkResultRow) {
         transaction(db) {
             for (datapoint in result.datapoints) {
                 val query = BlasDatapointRow.find {
                     (BlasDatapointTable.benchmarkId eq benchmark.id) and
-                            (BlasDatapointTable.n eq datapoint.n) and
-                            (BlasDatapointTable.m eq datapoint.m) and
-                            (BlasDatapointTable.k eq datapoint.k) and
-                            (BlasDatapointTable.r eq datapoint.r)
+                        (BlasDatapointTable.n eq datapoint.n) and
+                        (BlasDatapointTable.m eq datapoint.m) and
+                        (BlasDatapointTable.k eq datapoint.k) and
+                        (BlasDatapointTable.r eq datapoint.r)
                 }
 
                 if (query.count() > 0) {
@@ -248,12 +255,10 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         val benchmarkQuery = transaction(db) {
             BenchmarkResultRow.find {
                 (BenchmarkResultTable.device eq device.name) and
-                        (BenchmarkResultTable.name eq benchmark.toString()) and
-                        (BenchmarkResultTable.sha eq commit.sha)
+                    (BenchmarkResultTable.name eq benchmark.toString()) and
+                    (BenchmarkResultTable.sha eq commit.sha)
             }.firstOrNull()
         } ?: throw MissingBenchmarkResultException(commit, device, benchmark)
-
-
 
         return when (benchmark) {
             BenchmarkType.Spmv -> fetchSpmvBenchmarkResult(
@@ -316,7 +321,6 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         )
     }
 
-
     private fun fetchPreconditionerBenchmarkResult(
         benchmarkId: BenchmarkResultRow,
         commit: Commit,
@@ -376,8 +380,8 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
     override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType): Boolean = transaction(db) {
         BenchmarkResultRow.find {
             (BenchmarkResultTable.device eq device.name) and
-                    (BenchmarkResultTable.name eq benchmark.toString()) and
-                    (BenchmarkResultTable.sha eq commit.sha)
+                (BenchmarkResultTable.name eq benchmark.toString()) and
+                (BenchmarkResultTable.sha eq commit.sha)
         }.count()
     } > 0
 
@@ -385,7 +389,7 @@ class ExposedHandler(source: DataSource) : DatabaseHandler {
         transaction(db) {
             BenchmarkResultRow.find {
                 (BenchmarkResultTable.name eq benchmark.toString()) and
-                        (BenchmarkResultTable.sha eq commit.sha)
+                    (BenchmarkResultTable.sha eq commit.sha)
             }.map { it.device }.toSet().toList().map { Device(it) }
         }
 }

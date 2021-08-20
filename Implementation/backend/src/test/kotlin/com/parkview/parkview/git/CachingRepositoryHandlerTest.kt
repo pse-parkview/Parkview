@@ -29,7 +29,6 @@ internal class CachingRepositoryHandlerTest {
         override fun getAvailableBranches(): List<String> = listOf("test")
 
         override fun getNumberOfPages(branch: String): Int = pages++
-
     }
 
     @BeforeEach

@@ -5,7 +5,12 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class ConversionSingleScatterPlot : ConversionPlotTransform() {
     override val numInputsRange = 1..1
@@ -47,11 +52,13 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
             }
         }
 
-        return PlottableData(seriesByName.map { (key, value) ->
-            PointDataset(
-                label = key,
-                data = value.sortedBy { it.x }.toMutableList()
-            )
-        })
+        return PlottableData(
+            seriesByName.map { (key, value) ->
+                PointDataset(
+                    label = key,
+                    data = value.sortedBy { it.x }.toMutableList()
+                )
+            }
+        )
     }
 }

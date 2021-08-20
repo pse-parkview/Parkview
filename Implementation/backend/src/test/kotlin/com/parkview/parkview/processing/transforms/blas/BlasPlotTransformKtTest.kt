@@ -57,11 +57,13 @@ internal class BlasPlotTransformKtTest {
         )
 
         val datapoints = (1..10).map {
-            BlasDatapoint(it.toLong() * 1,
+            BlasDatapoint(
+                it.toLong() * 1,
                 it.toLong() * 2,
                 it.toLong() * 3,
                 it.toLong() * 4,
-                emptyList())
+                emptyList()
+            )
         }
 
         val nOptions = options.toMutableMap()

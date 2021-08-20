@@ -1,10 +1,9 @@
 package com.parkview.parkview
 
-//@SpringBootTest
+// @SpringBootTest
 class ParkviewApplicationTests {
 
     //    @Test
     fun contextLoads() {
     }
-
 }

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 internal class SpmvSingleScatterPlotTest {
     private val plot = SpmvSingleScatterPlot()
 
-
     @Test
     fun transformSpmv() {
         val benchmark = SPMV_RESULT

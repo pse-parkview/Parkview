@@ -27,7 +27,6 @@ internal class CachingDatabaseHandlerTest {
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
             listOf(DEVICE)
-
     }
 
     private lateinit var handlerWithMaxDuration: CachingDatabaseHandler
@@ -101,5 +100,4 @@ internal class CachingDatabaseHandlerTest {
 
         assertNotSame(devices1, devices2)
     }
-
 }

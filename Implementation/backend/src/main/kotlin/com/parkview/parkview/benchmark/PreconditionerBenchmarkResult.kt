@@ -4,7 +4,6 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
-
 /**
  * A single datapoint, contains the problem description for the matrix and
  * a list of preconditioners.
@@ -57,7 +56,7 @@ data class PreconditionerBenchmarkResult(
     override val benchmark: BenchmarkType = BenchmarkType.Preconditioner
 
     override val summaryValues
-            by lazy { getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
+        by lazy { getGenerateTimes().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 
     private fun getGenerateTimes(): Map<String, List<Double>> {
         val times = mutableMapOf<String, MutableList<Double>>()

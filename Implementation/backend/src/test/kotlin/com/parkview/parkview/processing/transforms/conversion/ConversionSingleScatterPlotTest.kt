@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 internal class ConversionSingleScatterPlotTest {
     private val plot = ConversionSingleScatterPlot()
 
-
     @Test
     fun transformConversion() {
         val benchmark = CONVERSION_RESULT

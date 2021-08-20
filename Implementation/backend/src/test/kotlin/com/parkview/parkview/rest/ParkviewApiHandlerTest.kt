@@ -49,7 +49,6 @@ internal class ParkviewApiHandlerTest {
             if (sha == COMMIT_A_RESULT.commit.sha) return listOf(COMMIT_A_RESULT)
             return emptyList()
         }
-
     }
 
     @BeforeEach

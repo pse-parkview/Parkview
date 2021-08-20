@@ -32,12 +32,13 @@ class ParkviewApplication {
             if (appConfig.database.embedded) {
                 EmbeddedPostgres.start().postgresDatabase
             } else {
-                HikariDataSource(HikariConfig()
-                    .apply {
-                        jdbcUrl = appConfig.database.datasource.jdbcUrl
-                        username = appConfig.database.datasource.username
-                        password = appConfig.database.datasource.password
-                    }
+                HikariDataSource(
+                    HikariConfig()
+                        .apply {
+                            jdbcUrl = appConfig.database.datasource.jdbcUrl
+                            username = appConfig.database.datasource.username
+                            password = appConfig.database.datasource.password
+                        }
                 )
             },
         ),
@@ -84,11 +85,13 @@ class ParkviewApplication {
         PerformanceTracker(databaseHandler, repositoryHandler)
             .apply {
                 if (appConfig.performanceTracker.commentHookEnabled)
-                    addWebhook(GitPrCommentHook(
-                        appConfig.gitApi.owner,
-                        appConfig.gitApi.repoName,
-                        okHttpClient,
-                    ))
+                    addWebhook(
+                        GitPrCommentHook(
+                            appConfig.gitApi.owner,
+                            appConfig.gitApi.repoName,
+                            okHttpClient,
+                        )
+                    )
             }
 
     @Bean

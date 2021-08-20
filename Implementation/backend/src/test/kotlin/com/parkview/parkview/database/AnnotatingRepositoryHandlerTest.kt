@@ -47,7 +47,6 @@ internal class AnnotatingRepositoryHandlerTest {
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
 
-
     @Test
     fun `tests annotation of commits with database results`() {
         val commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)

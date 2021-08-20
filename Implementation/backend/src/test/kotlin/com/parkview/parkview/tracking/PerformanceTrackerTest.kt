@@ -84,7 +84,6 @@ internal class PerformanceTrackerTest {
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> {
             TODO("Not yet implemented")
         }
-
     }
 
     lateinit var tracker: PerformanceTracker

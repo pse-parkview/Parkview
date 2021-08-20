@@ -1,6 +1,6 @@
 package com.parkview.parkview.git
 
-import java.util.*
+import java.util.Date
 
 private data class CachedBranch(
     val name: String,
@@ -41,9 +41,11 @@ class CachingRepositoryHandler(
     @Synchronized
     override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
         getOrPutCache(branch, benchmarkType, page).pages.getOrPut(page) {
-            handler.fetchGitHistoryByBranch(branch,
+            handler.fetchGitHistoryByBranch(
+                branch,
                 page,
-                benchmarkType)
+                benchmarkType
+            )
         }
 
     @Synchronized
@@ -79,7 +81,6 @@ class CachingRepositoryHandler(
             )
 
             return newBranch
-
         }
 
         // hit
@@ -111,11 +112,13 @@ class CachingRepositoryHandler(
 
         // branch is not cached
         if (wantedBranch == null) {
-            val newBranch = CachedBranch(branch,
+            val newBranch = CachedBranch(
+                branch,
                 benchmarkType,
                 Date(),
                 mutableMapOf(page to handler.fetchGitHistoryByBranch(branch, page, benchmarkType)),
-                handler.getNumberOfPages(branch))
+                handler.getNumberOfPages(branch)
+            )
             addToBranchCache(newBranch)
 
             return newBranch
@@ -124,11 +127,13 @@ class CachingRepositoryHandler(
         // too old
         if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
             branchCache.remove(wantedBranch)
-            val newBranch = CachedBranch(branch,
+            val newBranch = CachedBranch(
+                branch,
                 benchmarkType,
                 Date(),
                 mutableMapOf(page to handler.fetchGitHistoryByBranch(branch, page, benchmarkType)),
-                handler.getNumberOfPages(branch))
+                handler.getNumberOfPages(branch)
+            )
             addToBranchCache(newBranch)
 
             return newBranch

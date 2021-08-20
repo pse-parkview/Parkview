@@ -46,7 +46,6 @@ internal class ExposedHandlerTest {
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
-
         println(result.toString())
         println(returned.toString())
         assert(result.dirtyEquals(returned))
@@ -59,12 +58,10 @@ internal class ExposedHandlerTest {
         dbHandler.insertBenchmarkResults(listOf(result))
         val returned: BenchmarkResult = dbHandler.fetchBenchmarkResult(result.commit, result.device, result.benchmark)
 
-
         println(result.toString())
         println(returned.toString())
         assert(result.dirtyEquals(returned))
     }
-
 
     @Test
     fun `test storing and loading single blas benchmark`() {
@@ -101,7 +98,6 @@ internal class ExposedHandlerTest {
 
         dbHandler.insertBenchmarkResults(listOf(result))
         assert(dbHandler.hasDataAvailable(result.commit, result.device, result.benchmark))
-
     }
 
     @Test
@@ -111,7 +107,8 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    it.toLong() * 10, operations = listOf(
+                    it.toLong() * 10,
+                    operations = listOf(
                         Operation("A", 1.0, 1.0, it * 1.0, true),
                     )
                 )
@@ -122,13 +119,13 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    it.toLong() * 10, operations = listOf(
+                    it.toLong() * 10,
+                    operations = listOf(
                         Operation("B", 1.0, 1.0, it * 1.0, true),
                     )
                 )
             }
         )
-
 
         dbHandler.insertBenchmarkResults(listOf(resultA))
         var returned =
@@ -275,7 +272,8 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    (it * 10).toLong(), operations = listOf(
+                    (it * 10).toLong(),
+                    operations = listOf(
                         Operation("A", 1.0, 1.0, it * 1.0, true),
                     )
                 )
@@ -286,13 +284,13 @@ internal class ExposedHandlerTest {
             DEVICE,
             (1..5).map {
                 BlasDatapoint(
-                    (it * 10).toLong(), operations = listOf(
+                    (it * 10).toLong(),
+                    operations = listOf(
                         Operation("B", 1.0, 1.0, it * 1.0, true),
                     )
                 )
             }
         )
-
 
         dbHandler.insertBenchmarkResults(listOf(resultA, resultB))
         var returned =
@@ -347,4 +345,3 @@ internal class ExposedHandlerTest {
         }
     }
 }
-

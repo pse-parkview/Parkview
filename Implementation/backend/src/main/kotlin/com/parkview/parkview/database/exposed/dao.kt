@@ -2,11 +2,20 @@ package com.parkview.parkview.database.exposed
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.parkview.parkview.benchmark.*
+import com.parkview.parkview.benchmark.BlasDatapoint
+import com.parkview.parkview.benchmark.Conversion
+import com.parkview.parkview.benchmark.ConversionDatapoint
+import com.parkview.parkview.benchmark.Format
+import com.parkview.parkview.benchmark.Operation
+import com.parkview.parkview.benchmark.Preconditioner
+import com.parkview.parkview.benchmark.PreconditionerDatapoint
+import com.parkview.parkview.benchmark.Solver
+import com.parkview.parkview.benchmark.SolverDatapoint
+import com.parkview.parkview.benchmark.SpmvDatapoint
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import java.util.*
+import java.util.UUID
 
 private val gson = GsonBuilder().serializeSpecialFloatingPointValues().create()
 
@@ -97,8 +106,10 @@ class ConversionDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, Conver
     /**
      * Conversions that have been run for the datapoint
      */
-    var conversions: List<Conversion> by ConversionDatapointTable.data.transform({ gson.toJson(it) },
-        { gson.fromJson(it, type) })
+    var conversions: List<Conversion> by ConversionDatapointTable.data.transform(
+        { gson.toJson(it) },
+        { gson.fromJson(it, type) }
+    )
 
     /**
      * Converts the DAO to a [ConversionDatapoint]
@@ -122,8 +133,10 @@ class PreconditionerDatapointRow(id: EntityID<UUID>) : MatrixDatapointRow(id, Pr
     /**
      * Preconditioners that have been run for the datapoint
      */
-    var preconditioners: List<Preconditioner> by PreconditionerDatapointTable.data.transform({ gson.toJson(it) },
-        { gson.fromJson(it, type) })
+    var preconditioners: List<Preconditioner> by PreconditionerDatapointTable.data.transform(
+        { gson.toJson(it) },
+        { gson.fromJson(it, type) }
+    )
 
     /**
      * Converts the DAO to a [PreconditionerDatapoint]
@@ -202,8 +215,10 @@ class BlasDatapointRow(id: EntityID<UUID>) : UUIDEntity(id) {
     /**
      * Operations that have been run for the datapoint
      */
-    var operations: List<Operation> by BlasDatapointTable.data.transform({ gson.toJson(it) },
-        { gson.fromJson(it, type) })
+    var operations: List<Operation> by BlasDatapointTable.data.transform(
+        { gson.toJson(it) },
+        { gson.fromJson(it, type) }
+    )
 
     /**
      * Converts the DAO to a [BlasDatapoint]
