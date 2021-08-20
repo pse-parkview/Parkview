@@ -18,4 +18,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  navToGithub(): void {
+    window.location.href = "https://github.com/pse-parkview/PSE_dashboard";
+  }
 }

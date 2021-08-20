@@ -1,10 +1,16 @@
 <mat-toolbar class="header" color="primary">
-  <button mat-icon-button (click)="sideBarToggle.emit()" id="sidebarToggleButton">
+
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+          (click)="sideBarToggle.emit()" id="sidebarToggleButton">
     <mat-icon>menu</mat-icon>
   </button>
-  <ul class="clickable"
-      [routerLink]="'/'">
-    <li><img src="assets/parkview.png" alt="toolbar-logo"></li>
-    <li><p class="parkview">Parkview</p></li>
-  </ul>
+
+  <img src="assets/parkview.png" alt="the Parkview logo" class="image margin clickable" [routerLink]="'/'">
+
+  <span class="parkview margin clickable" [routerLink]="'/'">Parkview</span>
+
+  <span class="long-spacer"></span>
+
+  <img src="assets/github.png" alt="the GitHub logo" class="image clickable" (click)="navToGithub()">
 </mat-toolbar>
+
