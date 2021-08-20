@@ -9,5 +9,3 @@ class InvalidPlotOptionValueException(options: Map<String, String>, option: Stri
 class InvalidPlotOptionNameException(name: String) : Exception(
     "Error, $name is not a valid option"
 )
-
-

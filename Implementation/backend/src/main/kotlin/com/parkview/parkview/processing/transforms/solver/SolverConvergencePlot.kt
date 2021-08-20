@@ -5,7 +5,13 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.InvalidPlotTransformException
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.getAvailableMatrixNames
+import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SolverConvergencePlot : SolverPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -37,7 +43,6 @@ class SolverConvergencePlot : SolverPlotTransform() {
             it.name == options.getOptionValueByName("matrix")
         }
 
-
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (solver in datapoint.solvers) {
@@ -62,7 +67,6 @@ class SolverConvergencePlot : SolverPlotTransform() {
                     )
                 }
         }
-
 
         return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }

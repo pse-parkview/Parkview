@@ -50,7 +50,6 @@ internal class GsonBenchmarkJsonParserTest {
         // TODO actual assertion
     }
 
-
     @Test
     fun `test json deserialization for file containing spmv and conversion types`() {
         val path = "src/test/resources/test_single_conversion_spmv.json"

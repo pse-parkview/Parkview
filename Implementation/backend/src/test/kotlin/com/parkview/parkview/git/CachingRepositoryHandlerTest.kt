@@ -2,7 +2,9 @@ package com.parkview.parkview.git
 
 import COMMIT_A
 import COMMIT_B
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -29,7 +31,6 @@ internal class CachingRepositoryHandlerTest {
         override fun getAvailableBranches(): List<String> = listOf("test")
 
         override fun getNumberOfPages(branch: String): Int = pages++
-
     }
 
     @BeforeEach

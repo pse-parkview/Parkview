@@ -4,7 +4,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Date
 
 internal class PreconditionerBenchmarkResultTest {
     private lateinit var br: PreconditionerBenchmarkResult
@@ -13,14 +13,18 @@ internal class PreconditionerBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             PreconditionerDatapoint(
-                "", 10, 10, 10, listOf(
+                "", 10, 10, 10,
+                listOf(
                     Preconditioner(
-                        "", listOf(
+                        "",
+                        listOf(
                             Component("", it.toDouble()),
                         ),
-                        it.toDouble(), listOf(
+                        it.toDouble(),
+                        listOf(
                             Component("", it.toDouble())
-                        ), it.toDouble(), true
+                        ),
+                        it.toDouble(), true
                     )
                 )
             )
@@ -33,7 +37,6 @@ internal class PreconditionerBenchmarkResultTest {
             datapoints
         )
     }
-
 
     @Test
     fun `Test summary value for normal data`() {

@@ -4,7 +4,6 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 
-
 /**
  * A single format, part of [SpmvBenchmarkResult].
  *
@@ -55,7 +54,7 @@ data class SpmvBenchmarkResult(
     override val benchmark: BenchmarkType = BenchmarkType.Spmv
 
     override val summaryValues: Map<String, Double>
-            by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
+        by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()
@@ -69,5 +68,4 @@ data class SpmvBenchmarkResult(
 
         return bandwidths
     }
-
 }

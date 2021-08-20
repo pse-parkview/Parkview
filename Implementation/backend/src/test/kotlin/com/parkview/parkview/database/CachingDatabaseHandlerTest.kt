@@ -7,7 +7,10 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -27,7 +30,6 @@ internal class CachingDatabaseHandlerTest {
 
         override fun getAvailableDevicesForCommit(commit: Commit, benchmark: BenchmarkType): List<Device> =
             listOf(DEVICE)
-
     }
 
     private lateinit var handlerWithMaxDuration: CachingDatabaseHandler
@@ -101,5 +103,4 @@ internal class CachingDatabaseHandlerTest {
 
         assertNotSame(devices1, devices2)
     }
-
 }

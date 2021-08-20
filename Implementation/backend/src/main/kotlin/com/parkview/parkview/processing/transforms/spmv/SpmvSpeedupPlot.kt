@@ -5,8 +5,13 @@ import com.parkview.parkview.benchmark.SpmvDatapoint
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
-
+import com.parkview.parkview.processing.transforms.InvalidPlotOptionValueException
+import com.parkview.parkview.processing.transforms.MATRIX_X_AXIS
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.getAvailableComparisons
+import com.parkview.parkview.processing.transforms.getOptionValueByName
 
 class SpmvSpeedupPlot : SpmvPlotTransform() {
     override val numInputsRange = 2..2
@@ -40,8 +45,8 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
         for (datapointA in datapointsA) {
             val datapointB = datapointsB.find {
                 (it.nonzeros == datapointA.nonzeros) and
-                        (it.rows == datapointA.rows) and
-                        (it.columns == datapointA.columns)
+                    (it.rows == datapointA.rows) and
+                    (it.columns == datapointA.columns)
             } ?: continue
 
             for (formatA in datapointA.formats) {
@@ -59,7 +64,6 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
                 )
             }
         }
-
 
         return PlottableData(
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }

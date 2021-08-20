@@ -5,7 +5,12 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * Class that implements a RestHandler using the Spring framework
@@ -29,7 +34,6 @@ class SpringRestHandler(
         @RequestParam benchmark: String,
     ): List<Commit> = restHandler.getHistory(branch, page, benchmark)
 
-
     @GetMapping("/plot")
     override fun getPlot(
         @RequestParam benchmark: String,
@@ -37,12 +41,15 @@ class SpringRestHandler(
         @RequestParam devices: List<String>,
         @RequestParam plotType: String,
         @RequestParam plotParams: Map<String, String>,
-    ): PlottableData = restHandler.getPlot(benchmark, shas, devices, plotType, plotParams.toMutableMap().apply {
-        remove("benchmark")
-        remove("shas")
-        remove("devices")
-        remove("plotType")
-    })
+    ): PlottableData = restHandler.getPlot(
+        benchmark, shas, devices, plotType,
+        plotParams.toMutableMap().apply {
+            remove("benchmark")
+            remove("shas")
+            remove("devices")
+            remove("plotType")
+        }
+    )
 
     @GetMapping("/branches")
     override fun getAvailableBranches(): List<String> = restHandler.getAvailableBranches()

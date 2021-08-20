@@ -4,7 +4,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Date
 
 internal class SolverBenchmarkResultTest {
     private lateinit var br: SolverBenchmarkResult
@@ -13,7 +13,8 @@ internal class SolverBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             SolverDatapoint(
-                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, "", listOf(
+                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, "",
+                listOf(
                     Solver(
                         "",
                         generateComponents = listOf(Component("", 1.0)),

@@ -1,6 +1,6 @@
 package com.parkview.parkview.git
 
-import java.util.*
+import java.util.Date
 
 /**
  * Class that represents a single commit for a given branch and benchmark type

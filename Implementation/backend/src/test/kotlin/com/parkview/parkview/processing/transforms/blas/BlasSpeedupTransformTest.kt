@@ -16,7 +16,8 @@ internal class BlasSpeedupTransformTest {
         COMMIT_A,
         DEVICE,
         (1..10).map {
-            BlasDatapoint(it.toLong() * 1,
+            BlasDatapoint(
+                it.toLong() * 1,
                 it.toLong() * 2,
                 it.toLong() * 3,
                 it.toLong() * 4,

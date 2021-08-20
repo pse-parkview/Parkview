@@ -4,7 +4,13 @@ import com.parkview.parkview.benchmark.BlasBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
+import com.parkview.parkview.processing.transforms.BLAS_X_AXIS
+import com.parkview.parkview.processing.transforms.BLAS_Y_AXIS
+import com.parkview.parkview.processing.transforms.PlotPoint
+import com.parkview.parkview.processing.transforms.PlottableData
+import com.parkview.parkview.processing.transforms.PointDataset
+import com.parkview.parkview.processing.transforms.getXAxisByOption
+import com.parkview.parkview.processing.transforms.getYAxisByOption
 
 class SingeBlasPlot : BlasPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -33,9 +39,13 @@ class SingeBlasPlot : BlasPlotTransform() {
             }
         }
 
-        return PlottableData(seriesByName.map { (key, value) ->
-            PointDataset(label = key,
-                data = value.sortedBy { it.x })
-        })
+        return PlottableData(
+            seriesByName.map { (key, value) ->
+                PointDataset(
+                    label = key,
+                    data = value.sortedBy { it.x }
+                )
+            }
+        )
     }
 }

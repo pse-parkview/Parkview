@@ -13,5 +13,5 @@ import com.parkview.parkview.git.Device
  */
 class MissingBenchmarkResultException(commit: Commit, device: Device, benchmark: BenchmarkType) : Exception(
     "Error, the benchmark result for $benchmark on " +
-            "commit ${commit.sha} using device ${device.name} could not be found."
+        "commit ${commit.sha} using device ${device.name} could not be found."
 )

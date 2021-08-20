@@ -34,7 +34,6 @@ abstract class PlotOption(
     init {
         if ((!number) and (default !in options))
             throw IllegalArgumentException("Default value has to be available option")
-
     }
 }
 
@@ -88,7 +87,6 @@ object AvailablePlots {
         BenchmarkType.Conversion -> conversionPlots
         BenchmarkType.Blas -> blasPlots
     }.find { it.name == plotName }
-
 
     /**
      * Returns a list of all available plots for a given number of inputs and benchmark type

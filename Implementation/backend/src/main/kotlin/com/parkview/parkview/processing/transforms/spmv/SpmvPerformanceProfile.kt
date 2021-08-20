@@ -36,7 +36,6 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
         val dataPoints = benchmarkResults[0].datapoints
 
-
         for (dataPoint in dataPoints) {
             val minTime = dataPoint.formats.filter { it.completed }.map { it.time }.minOrNull() ?: continue
             dataPoint.formats.filter { !it.time.isNaN() and it.completed }.forEach {
@@ -63,5 +62,4 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
             seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
         )
     }
-
 }

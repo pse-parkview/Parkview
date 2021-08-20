@@ -13,9 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.*
+import java.util.Date
 import kotlin.math.ceil
-
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 private data class CommitModel(
@@ -55,7 +54,6 @@ private data class DiffInfoModel(
     val total_commits: Int,
 )
 
-
 private interface GitHubService {
     @GET("repos/{owner}/{repoName}/commits")
     fun fetchHistory(
@@ -78,7 +76,6 @@ private interface GitHubService {
         @Path("repoName") repoName: String,
         @Path("branch") branch: String,
     ): Call<HeadInfoModel>
-
 
     @GET("https://api.github.com/repos/{owner}/{repoName}/compare/{firstSha}...{lastSha}")
     fun getDiff(

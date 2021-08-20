@@ -4,7 +4,7 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Date
 
 internal class ConversionBenchmarkResultTest {
     private lateinit var br: ConversionBenchmarkResult
@@ -13,7 +13,8 @@ internal class ConversionBenchmarkResultTest {
     fun setup() {
         val datapoints = (1..5).map {
             ConversionDatapoint(
-                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10, listOf(
+                "", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
+                listOf(
                     Conversion("", 1.0, true),
                 )
             )

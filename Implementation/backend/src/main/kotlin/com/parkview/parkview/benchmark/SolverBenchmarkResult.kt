@@ -71,7 +71,7 @@ data class SolverBenchmarkResult(
     override val benchmark: BenchmarkType = BenchmarkType.Solver
 
     override val summaryValues: Map<String, Double>
-            by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
+        by lazy { calcBandwidths().mapValues { (_, values) -> values.sorted()[values.size / 2] } }
 
     private fun calcBandwidths(): Map<String, List<Double>> {
         val bandwidths = mutableMapOf<String, MutableList<Double>>()

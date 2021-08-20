@@ -3,8 +3,7 @@ package com.parkview.parkview.database.exposed
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Column
-import java.util.*
-
+import java.util.UUID
 
 object BenchmarkResultTable : UUIDTable() {
     override val tableName: String = "BenchmarkResult"
