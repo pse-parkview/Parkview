@@ -17,7 +17,7 @@ describe('SummaryCardComponent', () => {
         LibModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
