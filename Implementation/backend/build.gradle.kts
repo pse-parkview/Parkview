@@ -2,6 +2,8 @@ plugins {
     id("org.springframework.boot") version "2.5.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jetbrains.dokka") version "1.5.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+
     kotlin("kapt") version "1.5.21"
     kotlin("jvm") version "1.5.10"
     kotlin("plugin.spring") version "1.5.10"
