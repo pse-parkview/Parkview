@@ -93,15 +93,8 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Generate LOC Badge
-        uses: shadowmoose/GHA-LoC-Badge@1.0.0
-        id: badge
-        with:
-          debug: true
-          directory: ./Implementation/backend/src/main # Don't count test code
-          badge: ./badge.svg
-          patterns: '*.kt'
-          badge_label: backend lines of code
-          badge_color: blueviolet
+        run: |
+          curl https://img.shields.io/badge/backend%20lines%20of%20code-$(( find Implementation/backend/src/main/kotlin/ -name '*.kt' -print0 | xargs -0 cat ) | wc -l)-blueviolet > badge.svg
           
       - name: Extract branch name
         shell: bash
@@ -203,18 +196,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Generate LOC Badge
-        uses: shadowmoose/GHA-LoC-Badge@1.0.0
-        id: badge
-        with:
-          debug: true
-          directory: ./Implementation/frontend/src
-          badge: ./badge.svg
-          patterns: '*.ts|*.html|*.scss'
-          badge_label: frontend lines of code
-          badge_color: blue
-          # ignore: '*.spec.ts'
           
       - name: Extract branch name
         shell: bash
