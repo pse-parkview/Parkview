@@ -29,7 +29,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         minXOption,
-        maxXOption,
+        maxXOption.realizeOption(results),
     )
 
     override fun transformSpmv(

@@ -53,22 +53,22 @@ class SolverConvergencePlot : SolverPlotTransform() {
         val seriesByName: MutableMap<String, MutableList<PlotPoint>> = mutableMapOf()
 
         for (solver in datapoint.solvers) {
-            val wantedResiduals = when (config.getCategoricalOption(xAxisOption)) {
+            val wantedResiduals = when (config.getCategoricalOption(yAxisOption)) {
                 "recurrent_residuals" -> solver.recurrentResiduals
                 "true_residuals" -> solver.trueResiduals
                 "implicit_residuals" -> solver.implicitResiduals
                 else -> throw InvalidPlotConfigValueException(
-                    config.getCategoricalOption(xAxisOption),
-                    xAxisOption.name
+                    config.getCategoricalOption(yAxisOption),
+                    yAxisOption.name
                 )
             }
 
-            val wantedXAxis = when (config.getCategoricalOption(yAxisOption)) {
+            val wantedXAxis = when (config.getCategoricalOption(xAxisOption)) {
                 "iteration_timestamps" -> solver.iterationTimestamps
                 "array_index" -> (0..(wantedResiduals.size)).map { it.toDouble() }.toList()
                 else -> throw InvalidPlotConfigValueException(
-                    config.getCategoricalOption(yAxisOption),
-                    yAxisOption.name
+                    config.getCategoricalOption(xAxisOption),
+                    xAxisOption.name
                 )
             }
 

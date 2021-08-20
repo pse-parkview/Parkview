@@ -12,7 +12,7 @@ internal class PlotConfigurationTest {
     private val numericalOption = NumericalOption(name = "num", default = 1.0)
 
     private val testDescription = PlotDescription(
-        name = "test",
+        plotName = "test",
         plottableAs = emptyList(),
         options = listOf(categoricalOption, numericalOption)
     )

@@ -40,7 +40,7 @@ internal class MatrixPlotTransformKtTest {
     }
 
     private val description = PlotDescription(
-        name = "test",
+        plotName = "test",
         plottableAs = emptyList(),
         options = listOf(
             NumericalOption(

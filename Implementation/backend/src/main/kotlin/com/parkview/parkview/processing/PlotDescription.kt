@@ -3,7 +3,7 @@ package com.parkview.parkview.processing
 import com.parkview.parkview.git.BenchmarkResult
 
 data class PlotDescription(
-    val name: String,
+    val plotName: String,
     val plottableAs: List<PlotType>,
     val options: List<PlotOption>,
 )
@@ -41,7 +41,7 @@ abstract class DynamicCategoricalOption(
 
     abstract fun getOptions(results: List<BenchmarkResult>): List<String>
 
-    fun getDefault(results: List<BenchmarkResult>): String = getOptions(results).first()
+    open fun getDefault(results: List<BenchmarkResult>): String = getOptions(results).first()
 }
 
 abstract class DynamicNumericalOption(
