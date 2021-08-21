@@ -15,6 +15,6 @@ RUN groupadd spring
 RUN useradd -g spring spring
 USER spring:spring
 
-ENTRYPOINT ["java","-jar", "/app/parkview-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar", "/app/parkview-v1.0.jar"]
 EXPOSE 8080
 
