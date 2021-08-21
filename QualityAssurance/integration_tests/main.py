@@ -15,8 +15,8 @@ parser.add_argument('--backend', type=str, required=True, help='Backend address'
 parser.add_argument('--frontend', type=str, required=True, help='frontend address')
 parser.add_argument('--selenium', type=str, default='', help='selenium address')
 
-parser.add_argument('--backend-img', type=str, default='../../Implementation/backend', help='path to backend dockerfile')
-parser.add_argument('--frontend-img', type=str, default='../../Implementation/frontend', help='path to frontend dockerfile')
+parser.add_argument('--frontend-image', type=str, required=True, default='parkview-frontend:test', help='name of frontend container')
+parser.add_argument('--backend-image', type=str, required=True, default='parkview-backend:test', help='name of backend container')
 
 parser.add_argument('--github-token', type=str, default='', help='github oauth token')
 parser.add_argument('--github-user', type=str, default='', help='github oauth username')
@@ -45,7 +45,7 @@ testcases = [
          # T5(web_driver, api_driver, available_commit, available_device, data_file),
         ]
 
-docker_driver = DockerDriver(args.backend_img, args.frontend_img, token=args.github_token, user=args.github_user)
+docker_driver = DockerDriver(args.backend_image, args.frontend_image, token=args.github_token, user=args.github_user)
 
 
 # setup
