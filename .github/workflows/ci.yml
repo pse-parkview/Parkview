@@ -337,7 +337,7 @@ jobs:
       working-directory: QualityAssurance/integration_tests/
       run: python3 main.py --backend http://localhost:8080/parkview --frontend http://0.0.0.0:4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }} --timeout 60 --backend-image parkview-backend:test --frontend-image parkview-frontend:test
 
-  build-and-push-backend-container:
+  push-backend-container:
     runs-on: ubuntu-latest
     needs: integration
 
@@ -377,7 +377,7 @@ jobs:
           docker tag parkview-backend:test tadachs/parkview-backend:nightly
           docker push tadachs/parkview-backend:nightly
 
-  build-and-push-frontend-container:
+  push-frontend-container:
     runs-on: ubuntu-latest
     needs: integration
 
