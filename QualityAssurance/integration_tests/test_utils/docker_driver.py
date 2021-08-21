@@ -5,17 +5,17 @@ class DockerDriver:
     backend_container = None
     frontend_container = None
 
-    def __init__(self, backend_path: str, frontend_path: str, user: str = '', token: str = ''):
+    def __init__(self, backend_container: str, frontend_container: str, user: str = '', token: str = ''):
         self.client = docker.from_env()
-        self.client.images.build(path=backend_path, tag='parkview-backend-test')
-        self.client.images.build(path=frontend_path, tag='parkview-frontend-test')
+        self.backend_container_image = backend_container
+        self.frontend_container_image = frontend_container
         self.user = user
         self.token = token
 
     def start_backend(self):
         self.stop_backend()
-        print('starting backend')
-        self.backend_container = self.client.containers.run(image='parkview-backend-test', detach=True,
+        print(f'starting {self.backend_container_image}')
+        self.backend_container = self.client.containers.run(image=self.backend_container_image, detach=True,
                 command=f'--parkview.database.embedded=true --parkview.git-api.owner=pse-parkview --parkview.git-api.repoName=ginkgo --parkview.git-api.firstCommitSha=3eca4d1c25cb04a084dd77c6e8c273da9603e17f --parkview.git-api.username={self.user} --parkview.git-api.token={self.token}',
                 ports={'8080':'8080'},
                 auto_remove=True,
@@ -25,9 +25,8 @@ class DockerDriver:
 
     def start_frontend(self):
         self.stop_frontend()
-        print('starting frontend')
-        self.frontend_container = self.client.containers.run(image='parkview-frontend-test', detach=True,
-                command=f'--proxy-config /app/src/proxy-container.conf.json --host 0.0.0.0 --port 4200',
+        print(f'starting {self.frontend_container_image}')
+        self.frontend_container = self.client.containers.run(image=self.frontend_container_image, detach=True,
                 ports={'4200':'4200'},
                 auto_remove=True,
                 remove=True,
@@ -36,11 +35,11 @@ class DockerDriver:
 
     def stop_backend(self):
         if self.backend_container is not None:
-            print('stopping backend')
+            print(f'stopping {self.backend_container_image}')
             self.backend_container.kill()
 
     def stop_frontend(self):
         if self.frontend_container is not None:
-            print('stopping frontend')
+            print(f'stopping {self.frontend_container_image}')
             self.frontend_container.kill()
 

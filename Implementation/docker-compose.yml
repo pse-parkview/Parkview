@@ -23,7 +23,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: parkview
     ports:
       - 5050:80
-    links: 
+    links:
       - parkview-postgres
 
   parkview-backend:
@@ -37,7 +37,9 @@ services:
       - parkview-postgres
     command:
       - --parkview.database.embedded=false
-      - --parkview.database.datasource.jdbc-url=jdbc:postgresql://parkview-postgres:5432/parkview 
+      - --parkview.database.datasource.jdbc-url=jdbc:postgresql://parkview-postgres:5432/parkview
+    expose:
+      - 8080
 
   parkview-frontend:
     build: ./frontend
@@ -46,15 +48,8 @@ services:
       - 4200:4200
     links:
       - parkview-backend
-    expose: 
+    expose:
       - 4200
-    command:
-      - --proxy-config 
-      - /app/src/proxy-container.conf.json
-      - --host
-      - 0.0.0.0
-      - --port
-      - "4200"
 
 volumes:
   parkview-data:

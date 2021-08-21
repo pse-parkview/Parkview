@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.parkview"
-version = "0.0.1-SNAPSHOT"
+version = "v1.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 jacoco {
