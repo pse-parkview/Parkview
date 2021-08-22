@@ -413,6 +413,9 @@ jobs:
         with:
           name: frontend-container
           path: /tmp
+          
+      - name: Load frontend image
+        run: docker load --input /tmp/frontend-container.tar
 
       - name: Build and push frontend latest
         if: ${{ github.ref == 'refs/heads/release' }}
