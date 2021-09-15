@@ -1,0 +1,68 @@
+\mode<presentation>
+
+% \defbeamertemplate*{frametitle}{parktex}[1][left]{
+%  \tikz[remember picture,overlay]{
+%      \draw[line width=0.2em, nord10](a.south west)--+(10,0);
+%      \node(a)[anchor=west]{\usebeamerfont{frametitle}\insertframetitle};
+%   }
+%   \vskip1em
+% }
+
+% \defbeamertemplate*{title page}{parktex}[1][]{
+% 	\begin{tikzpicture}[remember picture,overlay]
+%       	\node (back names) [shape=rectangle,
+% 		fill=nord10, fill opacity=0.7, text opacity=1,
+% 		minimum height=1.02\textheight, minimum width=0.6\textwidth,
+% 		anchor=north west] at (current page.north west) {
+%       	  		\begin{minipage}{0.5\textwidth}
+% 					\usebeamerfont{title}\begin{flushleft}\inserttitle\end{flushleft} \par
+% 					\vspace{0.5em}
+% 					\usebeamerfont{subtitle}\insertsubtitle \par
+% 					\bigskip
+% 					\usebeamerfont{author}\insertauthor \par
+% 					\usebeamerfont{institute}\insertinstitute \par
+% 					\usebeamerfont{date}\insertdate \par
+% 					\inserttitlegraphic
+% 				\end{minipage}
+% 		};
+% 	\end{tikzpicture}
+% }
+% Title page
+% \defbeamertemplate*{title page}{parktex}[1][]
+% {
+%     \setlength{\unitlength}{1mm}
+%     \begin{picture}(0,0)(0,0)
+%         % Blue background
+%         \put(-10,-46.5){\color{nord10}\rule{\paperwidth}{72mm}}
+%         % logo
+%         % \put(0,28){\includegraphics[width=.15\textwidth]{pic}}
+%         % Title
+%         \put(23,32){%
+%             \begin{minipage}[c][30mm][c]{80mm}
+%                 \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par%
+%             \end{minipage}
+%         }
+%         % author etc
+%         \put(23,-5){%
+%             \begin{minipage}[c][30mm][c]{80mm}
+%                 \ifx\insertauthor\empty\else
+%                     \usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor%
+%                     \vskip0.2cm%
+%                 \fi%
+%                 \ifx\insertdate\empty\else
+%                     \usebeamerfont{author}\usebeamercolor[fg]{author}\insertdate%
+%                 \fi%
+%             \end{minipage}
+%         }
+%         % author etc
+%         \put(23,-53){%
+%             \begin{minipage}[c][30mm][c]{80mm}
+%                 \ifx\insertinstitute\empty\else
+%                     \usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute%
+%                 \fi%
+%             \end{minipage}
+%         }
+%     \end{picture}
+% }
+
+\mode<all>
