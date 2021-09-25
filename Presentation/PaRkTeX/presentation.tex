@@ -80,8 +80,8 @@
   \end{center}
 \end{frame}
 
-\subsection{Extensibillity}
-\begin{frame}{Extensibillity}
+\subsection{Extensibility}
+\begin{frame}{Extensibility}
   \begin{itemize}
     \item For new plot types only changes to the backend are needed
     \item Frontend renders all available options and just passes them back to the backend
@@ -92,7 +92,21 @@
 \section{Continuous Integration}
 \subsection{Pipeline}
 \begin{frame}{Pipeline}
-  \Large{IMAGE OF PIPELINE}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item Containers are built in in the \textit{build-*} phases and are reused in the \textit{integration} and \textit{push-*-container} phases
+      \item The \textit{build-*-container} phases pushes the built containers to DockerHub (only on changes to the \texttt{develop} or \texttt{release} branch)
+      \item The \textit{deploy} phase deploys the software to a remote server (only on changes to the \texttt{develop} branch)
+    \end{itemize}
+    \column{0.5\textwidth}
+    \begin{figure}
+      \begin{center}
+        \includegraphics[scale=0.09]{ci_activity}
+        \caption{Activity diagram of CI pipeline}
+      \end{center}
+    \end{figure}
+  \end{columns}
 \end{frame}
 
 \subsection{Containerization}
