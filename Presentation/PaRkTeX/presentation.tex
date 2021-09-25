@@ -38,8 +38,7 @@
 \subsection{Parkview To The Rescue}
 \begin{frame}{Parview To The Rescue}
   \begin{itemize}
-      \item Goal: Create a product that can keep track of previously run benchmark results, visualize them and compare them to each other
-      \item The product should do the following things:
+      \item Goal: Create a product that helps the user to:
         \begin{itemize}
           \item Organize Benchmark Results
           \item Create customizable plots
@@ -66,9 +65,11 @@
 \subsection{Statistics}
 \begin{frame}{Statistics}
   \begin{itemize}
-      \item *X* lines of code
-      \item *Y* percent line coverage
-      \item *Z* commits, *A* issues resolved, *B* pull requests merged
+      \item 2986 lines of backend code
+      \item 3433 lines of frontend code
+      \item 73\% percent backend line coverage
+      \item 41\% percent frontend line coverage
+      \item 803 commits, 33 issues resolved, 58 pull requests merged
   \end{itemize}
 \end{frame}
 
@@ -84,7 +85,7 @@
   \begin{itemize}
     \item For new plot types only changes to the backend are needed
     \item Frontend renders all available options and just passes them back to the backend
-    \item Example: \texttt{STUFF}
+    \item Adding the a new plot is done by adding a single new class
   \end{itemize}
 \end{frame}
 
@@ -96,29 +97,36 @@
 
 \subsection{Containerization}
 \begin{frame}{Containerization}
-  \Large{IMAGE OF PIPELINE}
   \begin{itemize}
     \item Made development and especially deployment much easier
     \item People working on the frontend didn't have to bother with compiling the backend or setting up a database and the other way around
-    \item Makes continuous deployment a one line shell script: \texttt{docker-compose down \&\& docker-compose pull \&\& docker-compose up -d}
+    \item Made continuous deployment a one line shell script: \texttt{docker-compose down \&\& docker-compose pull \&\& docker-compose up -d}
   \end{itemize}
 \end{frame}
 
-\section{Our Experience}
+\section{Our Experiences}
 
 \begin{frame}
   \begin{center}
-    \Huge{Our Experience}
+    \Huge{Our Experiences}
   \end{center}
 \end{frame}
 
 \begin{frame}{Max}
   \begin{itemize}
     \item I learned a lot about "meta development"
-    \item I learned how to *NOT* write software (waterfall model)
-    \item Leveraging github for cooperation
-    \item I have to continuously refine my work, otherwise I will never be happy with it
+    \item I learned how to \textbf{NOT} write software (waterfall model)
+    \item Putting everything behind an interface is suprisingly efficent
+    \item Leveraging GitHub for cooperation
+    \item After redoing something $\sim$ 20 times it starts looking decent
+    \item Tests make me less paranoid
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \Huge{I hope you enjoyed listening to this presentation as much as I enjoyed writing it!}
+  \end{center}
 \end{frame}
 
 \end{document}
