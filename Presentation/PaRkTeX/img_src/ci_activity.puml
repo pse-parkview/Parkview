@@ -1,6 +1,6 @@
 @startuml
 
-left to right direction
+/' left to right direction '/
 
 skinparam linetype ortho
 skinparam shadowing false
