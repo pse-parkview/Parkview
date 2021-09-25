@@ -9,48 +9,116 @@
 \subtitle{Performance Dashboard for continuous Benchmarking of HPC Libraries}
 \author{Chingun Ariunbat, Jamil Bagga, Walter Alexander B\"ottcher,\\Darius Schefer, Maximilian Schik}
 
+\setcounter{tocdepth}{1}
+
 \begin{document}
 
 \maketitle
 
-\begin{frame}{Parkview}
-	Basic text on frame and a list
-
-	\begin{itemize}
-		\item{aaa}
-                \item{why}
-		\item{sadge}
-	\end{itemize}
+\begin{frame}{Table of Contents}
+  \tableofcontents
 \end{frame}
 
-\begin{frame}{Columns}
-	\begin{columns}
-		\column{0.5\textwidth}
-
-		Column 1
-
-		\column{0.5\textwidth}
-                \begin{itemize}
-                    \item Column
-                    \item 2
-                \end{itemize}
-
-	\end{columns}
+\section{General Overview}
+\begin{frame}
+  \begin{center}
+    \Huge{General Overview}
+  \end{center}
 \end{frame}
 
-\begin{frame}{Blocks}
+\subsection{Continuous Benchmarking}
+\begin{frame}{Continuous Benchmarking}
+  \begin{itemize}
+      \item Problem: Keeping track of software performance
+      \item Solution: Run benchmarks on every (major) change, similar to continuous testing
+      \item How to inspect the results?
+  \end{itemize}
+\end{frame}
 
-	\begin{block}{Blocksssss}
-	        a regular block
-	\end{block}
+\subsection{Parkview To The Rescue}
+\begin{frame}{Parview To The Rescue}
+  \begin{itemize}
+      \item Goal: Create a product that can keep track of previously run benchmark results, visualize them and compare them to each other
+      \item The product should do the following things:
+        \begin{itemize}
+          \item Organize Benchmark Results
+          \item Create customizable plots
+          \item Compare the performance over different commits
+        \end{itemize}
+      \item Our solution to the problem: Parkview
+  \end{itemize}
+\end{frame}
 
-	\begin{alertblock}{Alert block}
-		an alert block
-	\end{alertblock}
+\section{Demo}
+\begin{frame}
+  \begin{center}
+    \Huge{Demo Time}
+  \end{center}
+\end{frame}
 
-	\begin{exampleblock}{Example block}
-		an example block
-	\end{exampleblock}
+\section{Code Time}
+\begin{frame}
+  \begin{center}
+    \Huge{Code Time}
+  \end{center}
+\end{frame}
+
+\subsection{Statistics}
+\begin{frame}{Statistics}
+  \begin{itemize}
+      \item *X* lines of code
+      \item *Y* percent line coverage
+      \item *Z* commits, *A* issues resolved, *B* pull requests merged
+  \end{itemize}
+\end{frame}
+
+\subsection{Quick'n Dirty Code Review}
+\begin{frame}{Quick'n Dirty Code Review}
+  \begin{center}
+    \large{SYSTEM MODEL IMAGE}
+  \end{center}
+\end{frame}
+
+\subsection{Extensibillity}
+\begin{frame}{Extensibillity}
+  \begin{itemize}
+    \item For new plot types only changes to the backend are needed
+    \item Frontend renders all available options and just passes them back to the backend
+    \item Example: \texttt{STUFF}
+  \end{itemize}
+\end{frame}
+
+\section{Continuous Integration}
+\subsection{Pipeline}
+\begin{frame}{Pipeline}
+  \Large{IMAGE OF PIPELINE}
+\end{frame}
+
+\subsection{Containerization}
+\begin{frame}{Containerization}
+  \Large{IMAGE OF PIPELINE}
+  \begin{itemize}
+    \item Made development and especially deployment much easier
+    \item People working on the frontend didn't have to bother with compiling the backend or setting up a database and the other way around
+    \item Makes continuous deployment a one line shell script: \texttt{docker-compose down \&\& docker-compose pull \&\& docker-compose up -d}
+  \end{itemize}
+\end{frame}
+
+\section{Our Experience}
+
+\begin{frame}
+  \begin{center}
+    \Huge{Our Experience}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Max}
+  \begin{itemize}
+    \item I learned a lot about "meta development"
+    \item I learned how to *NOT* write software (waterfall model)
+    \item Leveraging github for cooperation
+    \item I have to continuously refine my work, otherwise I will never be happy with it
+  \end{itemize}
 \end{frame}
 
 \end{document}
