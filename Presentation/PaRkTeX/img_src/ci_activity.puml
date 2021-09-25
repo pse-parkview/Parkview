@@ -19,18 +19,30 @@ skinparam activity {
 
 (*) --> ===b1===
 --> "build-backend"
---> "test-backend"
 --> ===b2===
+
 
 ===b1=== --> "build-frontend"
---> "test-frontend"
 --> ===b2===
 
-===b1=== --> "analyze-backend"
-===b1=== --> "analyze-frontend"
+===b2=== --> "test-backend"
+--> ===b3===
 
-===b2=== --> "integration"
---> "docker"
+===b2=== --> "test-frontend"
+--> ===b3===
+
+===b2=== --> "analyze-backend"
+===b2=== --> "analyze-frontend"
+
+===b3=== --> "integration"
+--> ===b4===
+
+===b4=== --> "push-backend-container"
+--> ===b5===
+===b4=== --> "push-frontend-container"
+--> ===b5===
+
+--> "deploy"
 --> (*)
 
 @enduml
