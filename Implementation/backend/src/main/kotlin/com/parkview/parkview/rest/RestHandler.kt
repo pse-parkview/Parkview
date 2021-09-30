@@ -18,8 +18,10 @@ interface RestHandler {
      * @param sha commit this benchmark has been run on
      * @param device device this benchmark has been run on
      * @param json request body as json
+     * @param md5 the word to check if its hash matches the stored one
+
      */
-    fun postBenchmarkResults(sha: String, device: String, json: String)
+    fun postBenchmarkResults(sha: String, device: String, json: String, md5: String)
 
     /**
      * Handles a GET request for retrieving commit history. Returns 30 commits per page.
