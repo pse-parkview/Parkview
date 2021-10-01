@@ -25,8 +25,7 @@ class SpringRestHandler(
         @RequestParam sha: String,
         @RequestParam device: String,
         @RequestBody json: String,
-        @RequestParam md5: String,
-    ) = restHandler.postBenchmarkResults(sha, device, json,md5)
+    ) = restHandler.postBenchmarkResults(sha, device, json)
 
     @GetMapping("/history")
     override fun getHistory(

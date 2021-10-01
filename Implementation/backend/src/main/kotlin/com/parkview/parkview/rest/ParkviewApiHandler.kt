@@ -27,21 +27,11 @@ class ParkviewApiHandler(
         sha: String,
         device: String,
         json: String,
-        md5: String,
     ) {
         val benchmarkResults = benchmarkJsonParser.benchmarkResultsFromJson(sha, device, json)
 
-        val con: HashMap<String, String> = HashMap()
-        try {
-            File("CONFIG").useLines{ lines -> lines.forEach { con[it.split(":")[0]] = it.split(":")[1] }}
-        } catch (e: Exception){
-            println("error: ${e.message}")
-        }
-        val hashedMD5 = hash(md5)
-        if(con["key"].equals(hashedMD5)){
-            databaseHandler.insertBenchmarkResults(benchmarkResults)
-            performanceTracker.notifyHooks(benchmarkResults)
-        }
+        databaseHandler.insertBenchmarkResults(benchmarkResults)
+        performanceTracker.notifyHooks(benchmarkResults)
 
     }
 
