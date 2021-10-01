@@ -1,0 +1,59 @@
+<mat-card>
+    <mat-card-title>Smoothed Plot - {{chartTitle}}</mat-card-title>
+  
+    <div class="plot">
+      <canvas [chartType]="chartType"
+              [datasets]="chartData"
+              [options]="chartOptions" baseChart
+              class="chart" id="canvas">
+      </canvas>
+    </div>
+  
+    <div class="settings">
+      <mat-form-field>
+        <mat-label>
+          x Axis Scaling
+        </mat-label>
+        <mat-select [(value)]="this.xType"
+                    (selectionChange)="updateChart()">
+          <mat-option [value]="'linear'">
+            Linear
+          </mat-option>
+          <mat-option [value]="'logarithmic'">
+            Logarithmic
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>
+          y Axis Scaling
+        </mat-label>
+        <mat-select [(value)]="this.yType"
+                    (selectionChange)="updateChart()">
+          <mat-option [value]="'linear'">
+            Linear
+          </mat-option>
+          <mat-option [value]="'logarithmic'">
+            Logarithmic
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <div>
+        <label>Point Size: </label>
+        <label>{{pointSize}}</label>
+        <mat-slider color="primary" min="1" max="5" step="0.5" value="1" [(ngModel)]="pointSize"
+                    (ngModelChange)="updateChart()"></mat-slider>
+      </div>
+  
+      <div>
+        <label>Font Size: </label>
+        <label>{{fontSize}}</label>
+        <mat-slider color="primary" min="10" max="20" step="1" value="13" [(ngModel)]="fontSize"
+                    (ngModelChange)="updateChart()"></mat-slider>
+      </div>
+      <app-config-buttons></app-config-buttons>
+    </div>
+  </mat-card>
+  

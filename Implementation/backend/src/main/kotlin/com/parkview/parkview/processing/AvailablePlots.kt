@@ -9,6 +9,7 @@ import com.parkview.parkview.processing.transforms.blas.SingleBlasPlot
 import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionPlotTransform
 import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionSingleScatterPlot
 import com.parkview.parkview.processing.transforms.matrix.conversion.ConversionSpeedupPlot
+import com.parkview.parkview.processing.transforms.matrix.preconditioner.PreconditionerOverview
 import com.parkview.parkview.processing.transforms.matrix.preconditioner.PreconditionerPlotTransform
 import com.parkview.parkview.processing.transforms.matrix.solver.SolverConvergencePlot
 import com.parkview.parkview.processing.transforms.matrix.solver.SolverPlotTransform
@@ -32,7 +33,9 @@ object AvailablePlots {
         BlasSpeedupTransform(),
     )
 
-    private val preconditionerPlots: List<PreconditionerPlotTransform> = listOf()
+    private val preconditionerPlots: List<PreconditionerPlotTransform> = listOf(
+        PreconditionerOverview(),
+    )
 
     private val conversionPlots: List<ConversionPlotTransform> = listOf(
         ConversionSingleScatterPlot(),
