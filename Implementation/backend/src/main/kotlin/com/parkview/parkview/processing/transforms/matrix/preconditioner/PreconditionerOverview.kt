@@ -1,14 +1,12 @@
 package com.parkview.parkview.processing.transforms.matrix.preconditioner
 
-
 import com.parkview.parkview.benchmark.PreconditionerBenchmarkResult
-import com.parkview.parkview.benchmark.SpmvBenchmarkResult
 import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.PlotOption
 import com.parkview.parkview.processing.PlotType
-import com.parkview.parkview.processing.transforms.*
-import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
+import com.parkview.parkview.processing.transforms.PlotConfiguration
+import com.parkview.parkview.processing.transforms.PlottableData
 
 class PreconditionerOverview : PreconditionerPlotTransform() {
     override val numInputsRange: IntRange = 1..1
@@ -40,7 +38,7 @@ class PreconditionerOverview : PreconditionerPlotTransform() {
                 if (!precond.completed) continue
                 seriesByName.getOrPut(precond.name) { mutableListOf() } += PlotPoint(
                     x = datapoint.getXAxisByConfig(config),
-                    y = when (config.getCategoricalOption(yAxisOption)){
+                    y = when (config.getCategoricalOption(yAxisOption)) {
                         "generate_time" -> precond.generateTime
                         "apply_time" -> precond.applyTime
                         else -> throw InvalidPlotConfigValueException(config.getCategoricalOption(yAxisOption), "yAxis")

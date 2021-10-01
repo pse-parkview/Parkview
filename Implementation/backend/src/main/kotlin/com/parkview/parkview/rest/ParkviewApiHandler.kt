@@ -32,7 +32,6 @@ class ParkviewApiHandler(
 
         databaseHandler.insertBenchmarkResults(benchmarkResults)
         performanceTracker.notifyHooks(benchmarkResults)
-
     }
 
     override fun getHistory(

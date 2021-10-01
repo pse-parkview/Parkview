@@ -36,7 +36,7 @@ object AvailablePlots {
     private val preconditionerPlots: List<PreconditionerPlotTransform> = listOf(
         PreconditionerOverview(),
     )
-    
+
     private val conversionPlots: List<ConversionPlotTransform> = listOf(
         ConversionSingleScatterPlot(),
         ConversionSpeedupPlot(),
