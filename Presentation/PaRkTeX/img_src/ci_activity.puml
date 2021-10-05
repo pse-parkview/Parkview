@@ -1,0 +1,48 @@
+@startuml ci_activity
+
+/' left to right direction '/
+
+skinparam linetype ortho
+skinparam shadowing false
+skinparam dpi 300
+skinparam backgroundColor transparent
+
+skinparam activity {
+    ArrowColor #2E3440
+    BarColor #2E3440
+    EndColor #2E3440
+    StartColor #2E3440
+    BackgroundColor #5E81AC
+    FontColor #ECEFF4
+    BorderColor transparent
+}
+
+(*) --> ===b1===
+--> "build-backend"
+--> ===b2===
+
+
+===b1=== --> "build-frontend"
+--> ===b2===
+
+===b2=== --> "test-backend"
+--> ===b3===
+
+===b2=== --> "test-frontend"
+--> ===b3===
+
+===b2=== --> "analyze-backend"
+===b2=== --> "analyze-frontend"
+
+===b3=== --> "integration"
+--> ===b4===
+
+===b4=== --> "push-backend-container"
+--> ===b5===
+===b4=== --> "push-frontend-container"
+--> ===b5===
+
+--> "deploy"
+--> (*)
+
+@enduml
