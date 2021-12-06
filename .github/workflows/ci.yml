@@ -172,6 +172,10 @@ jobs:
       - name: Install dependencies
         working-directory: Implementation/frontend
         run: npm install
+        
+      - name: Creates dist folder because apparently we have to?
+        working-directory: Implementation/frontend
+        run: mkdir -p dist/frontend
 
       - name: Runs build
         working-directory: Implementation/frontend
