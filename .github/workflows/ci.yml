@@ -433,16 +433,16 @@ jobs:
           docker tag parkview-frontend:test tadachs/parkview-frontend:nightly
           docker push tadachs/parkview-frontend:nightly
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [push-frontend-container, push-backend-container]
-
-    steps:
-      - name: Deploy to demo server
-        if: ${{ github.ref == 'refs/heads/develop' }}
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEMO_SERVER_HOST }}
-          username: ${{ secrets.DEMO_SERVER_USER }}
-          password: ${{ secrets.DEMO_SERVER_PASSWORD }}
-          script: ${{ secrets.DEMO_SERVER_SCRIPT }}
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: [push-frontend-container, push-backend-container]
+#
+#    steps:
+#      - name: Deploy to demo server
+#        if: ${{ github.ref == 'refs/heads/develop' }}
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.DEMO_SERVER_HOST }}
+#          username: ${{ secrets.DEMO_SERVER_USER }}
+#          password: ${{ secrets.DEMO_SERVER_PASSWORD }}
+#          script: ${{ secrets.DEMO_SERVER_SCRIPT }}
