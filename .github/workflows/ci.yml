@@ -180,6 +180,8 @@ jobs:
       - name: Runs build
         working-directory: Implementation/frontend
         run: npm run build
+        
+      - run: ls Implementation/frontend/dist
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
