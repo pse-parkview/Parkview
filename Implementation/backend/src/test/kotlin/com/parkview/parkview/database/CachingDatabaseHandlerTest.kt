@@ -7,12 +7,12 @@ import com.parkview.parkview.git.BenchmarkResult
 import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertNotSame
-import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNotSame
+import kotlin.test.assertSame
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class CachingDatabaseHandlerTest {
     private val mockupHandler = object : DatabaseHandler {
@@ -35,7 +35,7 @@ internal class CachingDatabaseHandlerTest {
     private lateinit var handlerWithMaxDuration: CachingDatabaseHandler
     private lateinit var handlerWithZeroDuration: CachingDatabaseHandler
 
-    @BeforeEach
+    @BeforeTest
     fun setUp() {
         handlerWithMaxDuration = CachingDatabaseHandler(
             mockupHandler,
@@ -48,7 +48,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test cleared cache after insert`() {
+    fun test_cleared_cache_after_insert() {
         val resultA = handlerWithMaxDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
         handlerWithMaxDuration.insertBenchmarkResults(listOf(COMMIT_A_RESULT))
         val resultB = handlerWithMaxDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
@@ -57,7 +57,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test same reference for fetched benchmark`() {
+    fun test_same_reference_for_fetched_benchmark() {
         val resultA = handlerWithMaxDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
         val resultB = handlerWithMaxDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
 
@@ -65,7 +65,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test same value for data available`() {
+    fun test_same_value_for_data_available() {
         val a = handlerWithMaxDuration.hasDataAvailable(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
         val b = handlerWithMaxDuration.hasDataAvailable(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
 
@@ -73,7 +73,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test same reference for available devices`() {
+    fun test_same_reference_for_available_devices() {
         val devices1 = handlerWithMaxDuration.getAvailableDevicesForCommit(COMMIT_A, COMMIT_A_RESULT.benchmark)
         val devices2 = handlerWithMaxDuration.getAvailableDevicesForCommit(COMMIT_A, COMMIT_A_RESULT.benchmark)
 
@@ -81,7 +81,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test timeout for fetched benchmark`() {
+    fun test_timeout_for_fetched_benchmark() {
         val resultA = handlerWithZeroDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
         val resultB = handlerWithZeroDuration.fetchBenchmarkResult(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
 
@@ -89,7 +89,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test timeout for data available`() {
+    fun test_timeout_for_data_available() {
         val a = handlerWithZeroDuration.hasDataAvailable(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
         val b = handlerWithZeroDuration.hasDataAvailable(COMMIT_A, DEVICE, COMMIT_A_RESULT.benchmark)
 
@@ -97,7 +97,7 @@ internal class CachingDatabaseHandlerTest {
     }
 
     @Test
-    fun `test timeout for available devices`() {
+    fun test_timeout_for_available_devices() {
         val devices1 = handlerWithZeroDuration.getAvailableDevicesForCommit(COMMIT_A, COMMIT_A_RESULT.benchmark)
         val devices2 = handlerWithZeroDuration.getAvailableDevicesForCommit(COMMIT_A, COMMIT_A_RESULT.benchmark)
 

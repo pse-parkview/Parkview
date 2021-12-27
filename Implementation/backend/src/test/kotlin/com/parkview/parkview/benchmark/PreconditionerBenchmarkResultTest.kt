@@ -2,14 +2,15 @@ package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.util.Date
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.js.Date
 
 internal class PreconditionerBenchmarkResultTest {
     private lateinit var br: PreconditionerBenchmarkResult
 
-    @BeforeEach
+    @BeforeTest
     fun setup() {
         val datapoints = (1..5).map {
             PreconditionerDatapoint(
@@ -39,11 +40,11 @@ internal class PreconditionerBenchmarkResultTest {
     }
 
     @Test
-    fun `Test summary value for normal data`() {
+    fun Test_summary_value_for_normal_data() {
         val summaryValue = br.summaryValues
 
         val medianGenerateRuntime = 3.0
 
-        assert(summaryValue[""] == medianGenerateRuntime)
+        assertEquals(summaryValue[""], medianGenerateRuntime)
     }
 }

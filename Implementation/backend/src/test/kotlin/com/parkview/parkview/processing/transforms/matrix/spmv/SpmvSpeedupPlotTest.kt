@@ -3,8 +3,8 @@ package com.parkview.parkview.processing.transforms.matrix.spmv
 import SPMV_RESULT
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PointDataset
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.Test
 
 internal class SpmvSpeedupPlotTest {
     private val plot = SpmvSpeedupPlot()

@@ -5,7 +5,6 @@ import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlottableData
-import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * Interface that provides methods for handling POST and GET requests
@@ -67,9 +66,9 @@ interface RestHandler {
      * @return list of available plot transforms grouped by plot type
      */
     fun getAvailablePlots(
-        @RequestParam benchmark: String,
-        @RequestParam shas: List<String>,
-        @RequestParam devices: List<String>,
+        benchmark: String,
+        shas: List<String>,
+        devices: List<String>,
     ): List<PlotDescription>
 
     /**

@@ -2,14 +2,15 @@ package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.util.Date
+import kotlin.js.Date
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class SpmvBenchmarkResultTest {
     private lateinit var br: SpmvBenchmarkResult
 
-    @BeforeEach
+    @BeforeTest
     fun setup() {
         val datapoints = (1..5).map {
             val format = Format(name = "", storage = 1, time = 1.0, maxRelativeNorm2 = 1.0, completed = true)
@@ -30,11 +31,11 @@ internal class SpmvBenchmarkResultTest {
     }
 
     @Test
-    fun `Get summary value for single format per datapoint`() {
+    fun Get_summary_value_for_single_format_per_datapoint() {
         val summaryValue = br.summaryValues
 
         val medianBandwidth = 30.0
 
-        assert(summaryValue[""] == medianBandwidth)
+        assertEquals(summaryValue[""], medianBandwidth)
     }
 }

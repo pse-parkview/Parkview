@@ -1,6 +1,6 @@
 package com.parkview.parkview.git
 
-import java.util.Date
+import kotlin.js.Date
 
 private data class CachedBranch(
     val name: String,
@@ -38,7 +38,7 @@ class CachingRepositoryHandler(
     private var availableBranches = handler.getAvailableBranches()
     private var availableBranchesFetchDate = Date()
 
-    @Synchronized
+
     override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
         getOrPutCache(branch, benchmarkType, page).pages.getOrPut(page) {
             handler.fetchGitHistoryByBranch(
@@ -48,7 +48,7 @@ class CachingRepositoryHandler(
             )
         }
 
-    @Synchronized
+
     override fun fetchGitHistoryBySha(rev: String, page: Int, benchmarkType: BenchmarkType): List<Commit> {
         val wantedSha = shaCache.find { (it.name == rev) and (it.benchmark == benchmarkType) }
 
@@ -68,7 +68,7 @@ class CachingRepositoryHandler(
         }
 
         // too old
-        if ((Date().time - wantedSha.fetchDate.time) / (1000 * 60) > shaLifetime) {
+        if (((Date().getTime() - wantedSha.fetchDate.getTime())) / (1000 * 60) > shaLifetime) {
             val newBranch = handler.fetchGitHistoryByBranch(rev, page, benchmarkType)
             shaCache.remove(wantedSha)
             addToShaCache(
@@ -89,9 +89,9 @@ class CachingRepositoryHandler(
         return wantedSha.pages.getOrPut(page) { handler.fetchGitHistoryByBranch(rev, page, benchmarkType) }
     }
 
-    @Synchronized
+
     override fun getAvailableBranches(): List<String> {
-        if ((Date().time - availableBranchesFetchDate.time) / (1000 * 60) > branchListLifetime) {
+        if (((Date().getTime()) - availableBranchesFetchDate.getTime()) / (1000 * 60) > branchListLifetime) {
             availableBranches = handler.getAvailableBranches()
             availableBranchesFetchDate = Date()
         }
@@ -99,10 +99,10 @@ class CachingRepositoryHandler(
         return availableBranches
     }
 
-    @Synchronized
+
     override fun getNumberOfPages(branch: String): Int = getOrPutCache(branch).numberPages
 
-    @Synchronized
+
     private fun getOrPutCache(
         branch: String,
         benchmarkType: BenchmarkType = BenchmarkType.values().first(),
@@ -125,7 +125,7 @@ class CachingRepositoryHandler(
         }
 
         // too old
-        if ((Date().time - wantedBranch.fetchDate.time) / (1000 * 60) > branchLifetime) {
+        if (((Date().getTime()) - wantedBranch.fetchDate.getTime()) / (1000 * 60) > branchLifetime) {
             branchCache.remove(wantedBranch)
             val newBranch = CachedBranch(
                 branch,
@@ -145,7 +145,7 @@ class CachingRepositoryHandler(
         return wantedBranch
     }
 
-    @Synchronized
+
     private fun addToBranchCache(branch: CachedBranch) {
         branchCache.add(branch)
 
@@ -154,7 +154,7 @@ class CachingRepositoryHandler(
         }
     }
 
-    @Synchronized
+
     private fun addToShaCache(sha: CachedSha) {
         shaCache.add(sha)
 

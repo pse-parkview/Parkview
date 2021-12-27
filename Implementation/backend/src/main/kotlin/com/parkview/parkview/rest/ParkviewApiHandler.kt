@@ -13,7 +13,7 @@ import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PlottableData
 import com.parkview.parkview.tracking.PerformanceTracker
-import java.util.Date
+import kotlin.js.Date
 
 class ParkviewApiHandler(
     private val repHandler: RepositoryHandler,

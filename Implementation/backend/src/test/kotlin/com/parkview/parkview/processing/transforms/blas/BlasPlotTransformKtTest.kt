@@ -5,7 +5,7 @@ import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.filterBlasDatapoints
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertNull
 
 internal class BlasPlotTransformKtTest {
@@ -18,7 +18,7 @@ internal class BlasPlotTransformKtTest {
     )
 
     @Test
-    fun `filter blas datapoints`() {
+    fun filter_blas_datapoints() {
         val options = mapOf(
             "maxN" to "10",
             "minN" to "1",

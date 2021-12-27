@@ -2,11 +2,11 @@ package com.parkview.parkview.git
 
 import COMMIT_A
 import COMMIT_B
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotSame
-import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotSame
+import kotlin.test.assertSame
+import kotlin.test.Test
+import kotlin.test.BeforeTest
 
 internal class CachingRepositoryHandlerTest {
 
@@ -33,7 +33,7 @@ internal class CachingRepositoryHandlerTest {
         override fun getNumberOfPages(branch: String): Int = pages++
     }
 
-    @BeforeEach
+    @BeforeTest
     fun setUp() {
         mockHandler.pages = 1
         handlerWithMaxDuration = CachingRepositoryHandler(
@@ -51,7 +51,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for same object reference for fetch by branch`() {
+    fun checks_for_same_object_reference_for_fetch_by_branch() {
         val commit1 = handlerWithMaxDuration.fetchGitHistoryByBranch("test", 1, BenchmarkType.Blas)
         val commit2 = handlerWithMaxDuration.fetchGitHistoryByBranch("test", 1, BenchmarkType.Blas)
 
@@ -59,7 +59,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for same object reference for fetch by sha`() {
+    fun checks_for_same_object_reference_for_fetch_by_sha() {
         val commit1 = handlerWithMaxDuration.fetchGitHistoryBySha(COMMIT_A.sha, 1, BenchmarkType.Blas)
         val commit2 = handlerWithMaxDuration.fetchGitHistoryBySha(COMMIT_A.sha, 1, BenchmarkType.Blas)
 
@@ -67,7 +67,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for same object reference for available branches`() {
+    fun checks_for_same_object_reference_for_available_branches() {
         val branches1 = handlerWithMaxDuration.getAvailableBranches()
         val branches2 = handlerWithMaxDuration.getAvailableBranches()
 
@@ -75,7 +75,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for same number for number of pages`() {
+    fun checks_for_same_number_for_number_of_pages() {
         val num1 = handlerWithMaxDuration.getNumberOfPages("test")
         val num2 = handlerWithMaxDuration.getNumberOfPages("test")
 
@@ -83,7 +83,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for time out for fetch by branch`() {
+    fun checks_for_time_out_for_fetch_by_branch() {
         val commit1 = handlerWithZeroDuration.fetchGitHistoryByBranch("test", 1, BenchmarkType.Blas)
         val commit2 = handlerWithZeroDuration.fetchGitHistoryByBranch("test", 1, BenchmarkType.Blas)
 
@@ -91,7 +91,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for time out for fetch by sha`() {
+    fun checks_for_time_out_for_fetch_by_sha() {
         val commit1 = handlerWithZeroDuration.fetchGitHistoryBySha(COMMIT_A.sha, 1, BenchmarkType.Blas)
         val commit2 = handlerWithZeroDuration.fetchGitHistoryBySha(COMMIT_A.sha, 1, BenchmarkType.Blas)
 
@@ -99,7 +99,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for time out for available branches`() {
+    fun checks_for_time_out_for_available_branches() {
         val branches1 = handlerWithZeroDuration.getAvailableBranches()
         val branches2 = handlerWithZeroDuration.getAvailableBranches()
 
@@ -107,7 +107,7 @@ internal class CachingRepositoryHandlerTest {
     }
 
     @Test
-    fun `checks for time out for number of pages`() {
+    fun checks_for_time_out_for_number_of_pages(){
         val num1 = handlerWithZeroDuration.getNumberOfPages("test")
         val num2 = handlerWithZeroDuration.getNumberOfPages("test")
 

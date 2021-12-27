@@ -2,14 +2,15 @@ package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.util.Date
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.js.Date
 
 internal class SolverBenchmarkResultTest {
     private lateinit var br: SolverBenchmarkResult
 
-    @BeforeEach
+    @BeforeTest
     fun setup() {
         val datapoints = (1..5).map {
             SolverDatapoint(
@@ -37,11 +38,11 @@ internal class SolverBenchmarkResultTest {
     }
 
     @Test
-    fun `Get summary value for single solver per datapoint`() {
+    fun get_summary_value_for_single_solver_per_datapoint() {
         val summaryValue = br.summaryValues
 
         val medianIterations = 30.0
 
-        assert(summaryValue[""] == medianIterations)
+        assertEquals(summaryValue[""], medianIterations)
     }
 }

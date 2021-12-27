@@ -7,12 +7,14 @@ import com.parkview.parkview.git.BenchmarkType
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
 import com.parkview.parkview.git.RepositoryHandler
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class AnnotatingRepositoryHandlerTest {
     private object MockDatabaseHandler : DatabaseHandler {
         override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
-            throw IllegalAccessException("mockup code that should not be used")
+            throw UnsupportedOperationException("mockup code that should not be used")
         }
 
         override fun fetchBenchmarkResult(
@@ -20,7 +22,7 @@ internal class AnnotatingRepositoryHandlerTest {
             device: Device,
             benchmark: BenchmarkType,
         ): BenchmarkResult {
-            throw IllegalAccessException("mockup code that should not be used")
+            throw UnsupportedOperationException("mockup code that should not be used")
         }
 
         override fun hasDataAvailable(commit: Commit, device: Device, benchmark: BenchmarkType) =
@@ -41,45 +43,45 @@ internal class AnnotatingRepositoryHandlerTest {
         }
 
         override fun getAvailableBranches(): List<String> {
-            throw IllegalAccessException("mockup code that should not be used")
+            throw UnsupportedOperationException("mockup code that should not be used")
         }
 
         override fun getNumberOfPages(branch: String): Int {
-            throw IllegalAccessException("mockup code that should not be used")
+            throw UnsupportedOperationException("mockup code that should not be used")
         }
     }
 
     private val annotatingRepositoryHandler = AnnotatingRepositoryHandler(MockRepositoryHandler, MockDatabaseHandler)
 
     @Test
-    fun `tests annotation of commits with database results`() {
+    fun tests_annotation_of_commits_with_database_results() {
         val commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().availableDevices == listOf(Device("gamer")))
-        assert(commits[1].availableDevices.isEmpty())
+        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertTrue(commits[1].availableDevices.isEmpty())
     }
 
     @Test
-    fun `tests annotation of commits with database results doesn't apply twice`() {
+    fun tests_annotation_of_commits_with_database_results_doesnt_apply_twice() {
         var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().availableDevices == listOf(Device("gamer")))
-        assert(commits[1].availableDevices.isEmpty())
+        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertTrue(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().availableDevices == listOf(Device("gamer")))
-        assert(commits[1].availableDevices.isEmpty())
+        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertTrue(commits[1].availableDevices.isEmpty())
     }
 
     @Test
-    fun `test annotation of commits with benchmark type change`() {
+    fun test_annotation_of_commits_with_benchmark_type_change() {
         var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assert(commits.first().availableDevices == listOf(Device("gamer")))
-        assert(commits[1].availableDevices.isEmpty())
+        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertTrue(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Conversion)
 
-        assert(commits.first().availableDevices.isEmpty())
-        assert(commits[1].availableDevices.isEmpty())
+        assertTrue(commits.first().availableDevices.isEmpty())
+        assertTrue(commits[1].availableDevices.isEmpty())
     }
 }

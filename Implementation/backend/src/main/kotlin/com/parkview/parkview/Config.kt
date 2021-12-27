@@ -1,10 +1,5 @@
 package com.parkview.parkview
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
-
-@ConstructorBinding
-@ConfigurationProperties(prefix = "parkview")
 data class AppConfig(
     val database: DatabaseConfig,
     val gitApi: GitApiConfig,

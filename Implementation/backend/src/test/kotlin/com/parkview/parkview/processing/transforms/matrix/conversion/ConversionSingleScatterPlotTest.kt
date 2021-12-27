@@ -3,8 +3,8 @@ package com.parkview.parkview.processing.transforms.matrix.conversion
 import CONVERSION_RESULT
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PointDataset
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class ConversionSingleScatterPlotTest {
     private val plot = ConversionSingleScatterPlot()

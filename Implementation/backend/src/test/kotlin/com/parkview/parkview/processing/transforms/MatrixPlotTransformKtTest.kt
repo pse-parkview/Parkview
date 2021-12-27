@@ -10,8 +10,8 @@ import com.parkview.parkview.git.Device
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotDescription
 import com.parkview.parkview.processing.transforms.matrix.MatrixOptions
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Test
+import kotlin.test.assertNull
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class MatrixPlotTransformKtTest {

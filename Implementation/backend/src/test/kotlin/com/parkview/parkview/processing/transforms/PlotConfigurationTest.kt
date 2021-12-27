@@ -3,8 +3,8 @@ package com.parkview.parkview.processing.transforms
 import com.parkview.parkview.processing.CategoricalOption
 import com.parkview.parkview.processing.NumericalOption
 import com.parkview.parkview.processing.PlotDescription
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
+import kotlin.test.assertFailsWith
 import kotlin.test.assertEquals
 
 internal class PlotConfigurationTest {
@@ -25,33 +25,33 @@ internal class PlotConfigurationTest {
     private val plotConfiguration = PlotConfiguration(testDescription, values)
 
     @Test
-    fun `test retrieving options`() {
+    fun test_retrieving_options() {
         assertEquals(plotConfiguration.getCategoricalOption(categoricalOption), "b")
         assertEquals(plotConfiguration.getNumericalOption(numericalOption), 7.0, 0.0001)
     }
 
     @Test
-    fun `tests invalid option`() {
-        assertThrows<InvalidPlotConfigNameException> {
+    fun tests_invalid_option() {
+        assertFailsWith<InvalidPlotConfigNameException> {
             plotConfiguration.getCategoricalOption(numericalOption)
         }
-        assertThrows<InvalidPlotConfigNameException> {
+        assertFailsWith<InvalidPlotConfigNameException> {
             plotConfiguration.getNumericalOption(categoricalOption)
         }
     }
 
     @Test
-    fun `tests invalid plot description`() {
-        assertThrows<InvalidPlotConfigValueException> {
+    fun tests_invalid_plot_description() {
+        assertFailsWith<InvalidPlotConfigValueException> {
             PlotConfiguration(testDescription, mapOf("num" to "7"))
         }
-        assertThrows<InvalidPlotConfigValueException> {
+        assertFailsWith<InvalidPlotConfigValueException> {
             PlotConfiguration(testDescription, mapOf("cat" to "b"))
         }
-        assertThrows<InvalidPlotConfigValueException> {
+        assertFailsWith<InvalidPlotConfigValueException> {
             PlotConfiguration(testDescription, mapOf("cat" to "c"))
         }
-        assertThrows<InvalidPlotConfigValueException> {
+        assertFailsWith<InvalidPlotConfigValueException> {
             PlotConfiguration(testDescription, mapOf("num" to "c"))
         }
     }

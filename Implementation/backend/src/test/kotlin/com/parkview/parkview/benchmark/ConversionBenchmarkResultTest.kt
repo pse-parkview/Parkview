@@ -2,14 +2,15 @@ package com.parkview.parkview.benchmark
 
 import com.parkview.parkview.git.Commit
 import com.parkview.parkview.git.Device
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.util.Date
+import kotlin.test.Test
+import kotlin.test.BeforeTest
+import kotlin.test.assertEquals
+import kotlin.js.Date
 
 internal class ConversionBenchmarkResultTest {
     private lateinit var br: ConversionBenchmarkResult
 
-    @BeforeEach
+    @BeforeTest
     fun setup() {
         val datapoints = (1..5).map {
             ConversionDatapoint(
@@ -29,11 +30,11 @@ internal class ConversionBenchmarkResultTest {
     }
 
     @Test
-    fun `test summary value for single conversion in each datapoint`() {
+    fun test_summary_value_for_single_conversion_in_each_datapoint() {
         val summaryValue = br.summaryValues
 
         val medianBandwidth = 30.0
 
-        assert(summaryValue[""] == medianBandwidth)
+        assertEquals(summaryValue[""], medianBandwidth)
     }
 }

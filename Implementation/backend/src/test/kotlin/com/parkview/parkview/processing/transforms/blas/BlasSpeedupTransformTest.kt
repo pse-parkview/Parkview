@@ -7,8 +7,8 @@ import com.parkview.parkview.benchmark.BlasDatapoint
 import com.parkview.parkview.benchmark.Operation
 import com.parkview.parkview.processing.transforms.PlotConfiguration
 import com.parkview.parkview.processing.transforms.PointDataset
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.Test
 
 internal class BlasSpeedupTransformTest {
     private val plot = BlasSpeedupTransform()
@@ -30,7 +30,7 @@ internal class BlasSpeedupTransformTest {
     @Test
     fun transformBlas() {
         val options = mutableMapOf(
-            "baseline" to "${benchmark.identifier}",
+            "baseline" to benchmark.identifier,
             "xAxis" to "n",
             "maxN" to "10",
             "minN" to "1",

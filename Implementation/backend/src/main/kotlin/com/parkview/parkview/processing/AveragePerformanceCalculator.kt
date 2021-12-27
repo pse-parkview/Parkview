@@ -34,7 +34,7 @@ class AveragePerformanceCalculator(
                 val benchmarkResult = databaseHandler.fetchBenchmarkResult(commit, device, benchmark)
                 for ((name, summaryValue) in benchmarkResult.summaryValues) {
                     seriesByName.getOrPut(name) { mutableListOf() } += PlotPoint(
-                        x = commit.date.time.toDouble(),
+                        x = commit.date.getTime(),
                         y = summaryValue,
                     )
                 }

@@ -8,7 +8,7 @@ import com.parkview.parkview.benchmark.SolverBenchmarkResult
 import com.parkview.parkview.benchmark.SolverDatapoint
 import com.parkview.parkview.processing.transforms.BarChartDataset
 import com.parkview.parkview.processing.transforms.PlotConfiguration
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class SolverRuntimeBreakdownTest {
@@ -46,7 +46,7 @@ internal class SolverRuntimeBreakdownTest {
     )
 
     @Test
-    fun `test apply sumComponents`() {
+    fun test_apply_sumComponents() {
         val options = mapOf(
             "matrix" to "name",
             "components" to "apply",
@@ -66,7 +66,7 @@ internal class SolverRuntimeBreakdownTest {
     }
 
     @Test
-    fun `test apply givenValue`() {
+    fun test_apply_givenValue() {
         val options = mapOf(
             "matrix" to "name",
             "components" to "apply",
@@ -86,7 +86,7 @@ internal class SolverRuntimeBreakdownTest {
     }
 
     @Test
-    fun `test generate sumComponents`() {
+    fun test_generate_sumComponents() {
         val options = mapOf(
             "matrix" to "name",
             "components" to "generate",
@@ -106,7 +106,7 @@ internal class SolverRuntimeBreakdownTest {
     }
 
     @Test
-    fun `test generate givenValue`() {
+    fun test_generate_givenValue() {
         val options = mapOf(
             "matrix" to "name",
             "components" to "generate",
