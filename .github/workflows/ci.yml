@@ -29,7 +29,7 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build -x test -x ktlintMainSourceSetCheck -x ktlintTestSourceSetCheck -x detekt
-        working-directory: Implementation/backend/
+        working-directory: src/backend/
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -41,7 +41,7 @@ jobs:
       - name: Build test containers
         uses: docker/build-push-action@v2
         with:
-          context: Implementation/backend/
+          context: src/backend/
           push: false
           tags: parkview-backend:test
           outputs: type=docker,dest=/tmp/backend-container.tar
@@ -70,7 +70,7 @@ jobs:
 
       - name: Test with Gradle
         run: ./gradlew test
-        working-directory: Implementation/backend/
+        working-directory: src/backend/
 
       - name: Extract branch name
         shell: bash
@@ -81,7 +81,7 @@ jobs:
         uses: cicirello/jacoco-badge-generator@v2
         id: jacoco
         with:
-          jacoco-csv-file: Implementation/backend/build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: src/backend/build/reports/jacoco/test/jacocoTestReport.csv
           generate-branches-badge: false
           generate-coverage-badge: false
 
@@ -112,12 +112,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Get the lines of code.
         id: scc
         uses: iryanbell/scc-docker-action@v1.0.2
         with:
-          args: Implementation/backend/src/main --ci -i kt
+          args: src/backend/src/main --ci -i kt
 
       - name: Generate LOC Badge
         shell: bash
@@ -148,7 +148,7 @@ jobs:
 
       - name: Run linter
         run: ./gradlew ktlintCheck
-        working-directory: Implementation/backend/
+        working-directory: src/backend/
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -159,7 +159,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: Implementation/frontend/node_modules
+          path: src/frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -170,18 +170,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm install
-        
+
       - name: Creates dist folder because apparently we have to?
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: mkdir -p dist/frontend
 
       - name: Runs build
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm run build
-        
-      - run: ls Implementation/frontend/dist/frontend
+
+      - run: ls src/frontend/dist/frontend
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -193,7 +193,7 @@ jobs:
       - name: Build test containers
         uses: docker/build-push-action@v2
         with:
-          context: Implementation/frontend/
+          context: src/frontend/
           push: false
           tags: parkview-frontend:test
           outputs: type=docker,dest=/tmp/frontend-container.tar
@@ -214,7 +214,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: Implementation/frontend/node_modules
+          path: src/frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -225,11 +225,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm install
 
       - name: Runs tests
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm run test:ci
 
       - name: Extract branch name
@@ -240,7 +240,7 @@ jobs:
       - name: Extract coverage
         shell: bash
         run: |
-          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" Implementation/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
+          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" src/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
         id: extract_coverage
 
       - name: Generate Coverage Badge
@@ -264,12 +264,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Get the lines of code.
         id: scc
         uses: iryanbell/scc-docker-action@v1.0.2
         with:
-          args: Implementation/frontend --ci -i ts,html,scss
+          args: src/frontend --ci -i ts,html,scss
 
       - name: Generate LOC Badge
         shell: bash
@@ -292,7 +292,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: Implementation/frontend/node_modules
+          path: src/frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -303,57 +303,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm install
 
       - name: Runs linter
-        working-directory: Implementation/frontend
+        working-directory: src/frontend
         run: npm run lint
-
-  integration:
-    runs-on: ubuntu-latest
-    needs: [test-frontend, test-backend]
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Download backend image
-      uses: actions/download-artifact@v2
-      with:
-        name: backend-container
-        path: /tmp
-
-    - name: Load backend image
-      run: docker load --input /tmp/backend-container.tar
-
-    - name: Download frontend image
-      uses: actions/download-artifact@v2
-      with:
-        name: frontend-container
-        path: /tmp
-
-    - name: Load frontend image
-      run: docker load --input /tmp/frontend-container.tar
-
-    - name: Setup Chrome
-      uses: nanasess/setup-chromedriver@master
-
-    - name: Setup Pyhon
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-
-    - name: Install Python dependencies
-      uses: py-actions/py-dependency-install@v2
-      with:
-        path: QualityAssurance/integration_tests/requirements.txt
-
-    - name: Run Tests
-      working-directory: QualityAssurance/integration_tests/
-      run: python3 main.py --backend http://localhost:8080/parkview --frontend http://0.0.0.0:4200 --github-token ${{ secrets.OAUTH_TOKEN }} --github-user ${{ secrets.OAUTH_USER }} --timeout 60 --backend-image parkview-backend:test --frontend-image parkview-frontend:test
 
   push-backend-container:
     runs-on: ubuntu-latest
@@ -419,7 +374,7 @@ jobs:
         with:
           name: frontend-container
           path: /tmp
-          
+
       - name: Load frontend image
         run: docker load --input /tmp/frontend-container.tar
 
