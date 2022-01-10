@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    dependencies {
-        testImplementation(kotlin("test-js"))
-    }
+    implementation(kotlin("stdlib-js"))
+    implementation(kotlin("stdlib-common"))
+    testImplementation(kotlin("test-js"))
 }
 
 group = "com.parkview"
