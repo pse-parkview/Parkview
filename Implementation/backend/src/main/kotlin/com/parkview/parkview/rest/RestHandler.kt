@@ -11,16 +11,6 @@ import com.parkview.parkview.processing.transforms.PlottableData
  */
 interface RestHandler {
     /**
-     * Handles a POST request for uploading benchmark results. It should be noted that if a given datapoint
-     * already exists (that means same problem setup), it gets updated with the new values for the algorithms.
-     *
-     * @param sha commit this benchmark has been run on
-     * @param device device this benchmark has been run on
-     * @param json request body as json
-     */
-    fun postBenchmarkResults(sha: String, device: String, json: String)
-
-    /**
      * Handles a GET request for retrieving commit history. Returns 30 commits per page.
      *
      * @param branch branch name
