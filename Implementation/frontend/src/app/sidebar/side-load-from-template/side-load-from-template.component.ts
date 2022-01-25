@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {Observer} from "rxjs";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
-import {DataService} from "../../../logic/datahandler/data.service";
+import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotTypeOption} from "../../../logic/plothandler/interfaces/available-plot-types";
 import {Template} from "../../../logic/cookiehandler/interfaces/template";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
@@ -53,7 +53,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
 
   constructor(private readonly commitSelectionService: SelectionService,
               private readonly cookieService: CookieService,
-              private readonly dataService: DataService,
+              private readonly dataService: RestService,
               private readonly router: Router) {
     // only suitable for DI
   }

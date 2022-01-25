@@ -7,11 +7,12 @@ import {Summary} from "./interfaces/summary";
 import {PlotData} from "../plothandler/interfaces/plot-data";
 import {Device} from "./interfaces/device";
 import {PlotTypeOption} from "../plothandler/interfaces/available-plot-types";
+import {DataHandler} from "./interfaces/data-handler";
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class RestService implements DataHandler {
   private readonly url: string = "/backend";
 
   constructor(private readonly http: HttpClient) {

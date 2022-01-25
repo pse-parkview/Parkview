@@ -19,6 +19,7 @@ interface RestHandler {
      *
      * @return history in JSON format
      */
+    @JsName("getHistory")
     fun getHistory(branch: String, page: Int, benchmark: String): List<Commit>
 
     /**
@@ -31,6 +32,7 @@ interface RestHandler {
      * @param plotType what type of transform should be applied
      * @param plotParams additional options for the plot
      */
+    @JsName("getPlot")
     fun getPlot(
         benchmark: String,
         shas: List<String>,
@@ -44,6 +46,7 @@ interface RestHandler {
      *
      * @return list of branches
      */
+    @JsName("getAvailableBranches")
     fun getAvailableBranches(): List<String>
 
     /**
@@ -55,6 +58,7 @@ interface RestHandler {
      *
      * @return list of available plot transforms grouped by plot type
      */
+    @JsName("getAvailablePlots")
     fun getAvailablePlots(
         benchmark: String,
         shas: List<String>,
@@ -66,6 +70,7 @@ interface RestHandler {
      *
      * @return list of available benchmarks
      */
+    @JsName("getAvailableBenchmarks")
     fun getAvailableBenchmarks(): List<String>
 
     /**
@@ -75,6 +80,7 @@ interface RestHandler {
      * @param sha sha the benchmark has been run on
      * @param device device the benchmark has been run on
      */
+    @JsName("getSummaryValue")
     fun getSummaryValue(benchmark: String, sha: String, device: String): List<Pair<String, Double>>
 
     /**
@@ -85,6 +91,7 @@ interface RestHandler {
      *
      * @return plottable data for line charts
      */
+    @JsName("getAveragePerformance")
     fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData
 
     /**
@@ -92,6 +99,7 @@ interface RestHandler {
      *
      * @param branch given branch
      */
+    @JsName("getNumberOfPages")
     fun getNumberOfPages(branch: String): Int
 
     /**
@@ -100,5 +108,6 @@ interface RestHandler {
      *  @param branch given branch
      *  @param benchmark given benchmark type
      */
+    @JsName("getAvailableDevices")
     fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device>
 }

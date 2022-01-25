@@ -1,4 +1,4 @@
-package com.parkview.parkview
+package com.parkview.parkview.rest
 
 import com.parkview.parkview.benchmark.Format
 import com.parkview.parkview.benchmark.SpmvBenchmarkResult
@@ -48,6 +48,10 @@ class DummyRepositoryHandler : RepositoryHandler {
 }
 
 class DummyDatabaseHandler : DatabaseHandler {
+    init {
+        DUMMY_COMMIT.addDevice(DUMMY_DEVICE)
+    }
+
     override fun insertBenchmarkResults(results: List<BenchmarkResult>) {
         return
     }

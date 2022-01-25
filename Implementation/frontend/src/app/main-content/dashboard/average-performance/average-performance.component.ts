@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from "chart.js";
-import {DataService} from "../../../../logic/datahandler/data.service";
+import {RestService} from "../../../../logic/datahandler/rest.service";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {Observer} from "rxjs";
 import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
@@ -62,7 +62,7 @@ export class AveragePerformanceComponent implements OnInit {
   };
 
   constructor(private readonly commitSelectionService: SelectionService,
-              private readonly dataService: DataService,
+              private readonly dataService: RestService,
               private readonly notificationService: SnackBarService) {
   }
 

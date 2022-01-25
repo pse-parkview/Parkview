@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {DataService} from "../datahandler/data.service";
+import {RestService} from "../datahandler/rest.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlotService {
 
-  constructor(private readonly dataService: DataService) {
+  constructor(private readonly dataService: RestService) {
   }
 
   //TODO getGraphData should be implemented correctly later.

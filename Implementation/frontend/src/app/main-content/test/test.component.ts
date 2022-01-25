@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from "../../../logic/datahandler/data.service";
+import {RestService} from "../../../logic/datahandler/rest.service";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {MatDialog} from "@angular/material/dialog";
@@ -19,7 +19,7 @@ export class TestComponent implements OnInit { // TODO: delete this component
     device: 'Xeon_Gold_6230-solver',
   };
 
-  constructor(private readonly dataService: DataService,
+  constructor(private readonly dataService: RestService,
               private readonly commitService: SelectionService,
               private readonly matDialog: MatDialog) {
   }

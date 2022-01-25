@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
-import {DataService} from "../../../logic/datahandler/data.service";
+import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {
   PlotOption,
@@ -45,7 +45,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   plotlabelYAxis: string = 'y';
 
   constructor(private readonly commitSelectService: SelectionService,
-              private readonly dataService: DataService,
+              private readonly dataService: RestService,
               private readonly router: Router,
               private readonly cookieService: CookieService,
               private readonly notificationService: SnackBarService) {

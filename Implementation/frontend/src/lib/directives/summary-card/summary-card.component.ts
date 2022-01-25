@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataService} from "../../../logic/datahandler/data.service";
+import {RestService} from "../../../logic/datahandler/rest.service";
 import {Summary} from "../../../logic/datahandler/interfaces/summary";
 
 export interface SummaryConfig {
@@ -27,7 +27,7 @@ export class SummaryCardComponent implements OnInit {
   summary: Summary = {};
   summaryData: { key: string, value: string }[] = [];
 
-  constructor(private readonly dataService: DataService) {
+  constructor(private readonly dataService: RestService) {
   }
 
   ngOnInit(): void {

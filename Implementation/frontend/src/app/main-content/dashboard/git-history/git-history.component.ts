@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from "../../../../logic/datahandler/data.service";
+import {RestService} from "../../../../logic/datahandler/rest.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
@@ -26,7 +26,7 @@ export class GitHistoryComponent implements OnInit {
   commits: Commit[] = [];
   selected: { commit: Commit, device: string }[] = [];
 
-  constructor(private readonly dataService: DataService,
+  constructor(private readonly dataService: RestService,
               private readonly commitService: SelectionService,
               private readonly cookieService: CookieService,
               private readonly snackBarService: SnackBarService) {

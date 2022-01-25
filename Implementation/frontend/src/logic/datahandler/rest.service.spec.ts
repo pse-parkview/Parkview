@@ -1,10 +1,10 @@
 import {TestBed} from '@angular/core/testing';
 
-import {DataService} from './data.service';
+import {RestService} from './rest.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('DataService', () => {
-  let service: DataService;
+describe('RestService', () => {
+  let service: RestService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,7 +12,7 @@ describe('DataService', () => {
         HttpClientTestingModule,
       ]
     });
-    service = TestBed.inject(DataService);
+    service = TestBed.inject(RestService);
   });
 
   it('should be created', () => {
