@@ -67,12 +67,12 @@ class ParkviewApiHandler(
             }
         )
 
-    override fun getSummaryValue(benchmark: String, sha: String, device: String): Map<String, Double> =
+    override fun getSummaryValue(benchmark: String, sha: String, device: String): List<Pair<String, Double>> =
         databaseHandler.fetchBenchmarkResult(
             Commit(sha = sha),
             Device(device),
             BenchmarkType.valueOf(benchmark)
-        ).summaryValues
+        ).summaryValues.toList()
 
     override fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData {
         val commits = repHandler.fetchGitHistoryByBranch(branch, 1, BenchmarkType.valueOf(benchmark))

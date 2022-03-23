@@ -75,7 +75,7 @@ interface RestHandler {
      * @param sha sha the benchmark has been run on
      * @param device device the benchmark has been run on
      */
-    fun getSummaryValue(benchmark: String, sha: String, device: String): Map<String, Double>
+    fun getSummaryValue(benchmark: String, sha: String, device: String): List<Pair<String, Double>>
 
     /**
      * Returns line chart data for the average performance score in a Chart.js format.
