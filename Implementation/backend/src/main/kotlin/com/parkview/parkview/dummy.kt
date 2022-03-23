@@ -8,8 +8,9 @@ import com.parkview.parkview.database.MissingBenchmarkResultException
 import com.parkview.parkview.git.*
 
 val DUMMY_BRANCH = "test"
-val DUMMY_COMMIT = Commit("peter")
 val DUMMY_DEVICE = Device("meter")
+val DUMMY_COMMIT = Commit("peter")
+
 val SPMV_DUMMY_RESULT = SpmvBenchmarkResult(DUMMY_COMMIT, DUMMY_DEVICE, (1..5).map {
     SpmvDatapoint(
         "Datapoint_$it", it.toLong() * 10, it.toLong() * 10, it.toLong() * 10,
@@ -23,6 +24,10 @@ val SPMV_DUMMY_RESULT = SpmvBenchmarkResult(DUMMY_COMMIT, DUMMY_DEVICE, (1..5).m
 )
 
 class DummyRepositoryHandler : RepositoryHandler {
+    init {
+        DUMMY_COMMIT.addDevice(DUMMY_DEVICE)
+    }
+
     override fun fetchGitHistoryByBranch(branch: String, page: Int, benchmarkType: BenchmarkType): List<Commit> =
         if (branch == DUMMY_BRANCH) {
             listOf(DUMMY_COMMIT)
