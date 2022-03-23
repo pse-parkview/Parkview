@@ -5,6 +5,7 @@ import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {MatDialog} from "@angular/material/dialog";
 import {PlotConfigurationDialogComponent} from "../../dialogs/plot-configuration-dialog/plot-configuration-dialog.component";
 import {SummaryConfig} from "../../../lib/directives/summary-card/summary-card.component";
+import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
 
 @Component({
   selector: 'app-test',
@@ -19,7 +20,7 @@ export class TestComponent implements OnInit { // TODO: delete this component
     device: 'Xeon_Gold_6230-solver',
   };
 
-  constructor(private readonly dataService: RestService,
+  constructor(private readonly dataService: KotlinDummyDataService,
               private readonly commitService: SelectionService,
               private readonly matDialog: MatDialog) {
   }

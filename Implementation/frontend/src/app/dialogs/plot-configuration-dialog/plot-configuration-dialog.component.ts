@@ -15,6 +15,7 @@ import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.service";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
+import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -45,7 +46,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   plotlabelYAxis: string = 'y';
 
   constructor(private readonly commitSelectService: SelectionService,
-              private readonly dataService: RestService,
+              private readonly dataService: KotlinDummyDataService,
               private readonly router: Router,
               private readonly cookieService: CookieService,
               private readonly notificationService: SnackBarService) {

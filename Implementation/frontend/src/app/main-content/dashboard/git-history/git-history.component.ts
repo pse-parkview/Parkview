@@ -5,6 +5,7 @@ import {SelectionService} from "../../../../logic/commit-selection-handler/selec
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
 import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
+import {KotlinDummyDataService} from "../../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
 
 @Component({
   selector: 'app-git-history',
@@ -26,7 +27,7 @@ export class GitHistoryComponent implements OnInit {
   commits: Commit[] = [];
   selected: { commit: Commit, device: string }[] = [];
 
-  constructor(private readonly dataService: RestService,
+  constructor(private readonly dataService: KotlinDummyDataService,
               private readonly commitService: SelectionService,
               private readonly cookieService: CookieService,
               private readonly snackBarService: SnackBarService) {

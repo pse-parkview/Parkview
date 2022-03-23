@@ -7,6 +7,7 @@ import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.ser
 import {Device} from "../../../../logic/datahandler/interfaces/device";
 import {PlotData} from "../../../../logic/plothandler/interfaces/plot-data";
 import {PlotUtils} from "../../../../lib/plot-component-util/plot-utils";
+import {KotlinDummyDataService} from "../../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
 
 @Component({
   selector: 'app-average-performance',
@@ -62,7 +63,7 @@ export class AveragePerformanceComponent implements OnInit {
   };
 
   constructor(private readonly commitSelectionService: SelectionService,
-              private readonly dataService: RestService,
+              private readonly dataService: KotlinDummyDataService,
               private readonly notificationService: SnackBarService) {
   }
 

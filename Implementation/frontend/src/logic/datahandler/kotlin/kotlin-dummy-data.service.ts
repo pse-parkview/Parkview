@@ -47,7 +47,7 @@ export class KotlinDummyDataService implements DataHandler {
         // unreachable if frontend UI is correct
         Error("Invalid Benchmark Type");
     }
-    let devices: Device[] = this.rest.getAvailableDevices(branchName, benchmark).toArray();
+    let devices: Device[] = this.rest.getAvailableDevices(branchName, benchmark);
     return of(devices);
   }
 
@@ -55,7 +55,7 @@ export class KotlinDummyDataService implements DataHandler {
     // FIXME: weird $receiver.iterator Error when trying to get Data:
     // let commits : string[] = [new parkview.com.parkview.parkview.git.Commit("peter").sha];
     // let devices : string[] = [new parkview.com.parkview.parkview.git.Device("meter").name];
-    // let plots = rest.getAvailablePlots("Spmv", commits, devices).toArray(); // ERROR
+    // let plots = rest.getAvailablePlots("Spmv", commits, devices) // ERROR
     let plots: PlotTypeOption[] = Array();
     return of(plots);
 
@@ -67,17 +67,17 @@ export class KotlinDummyDataService implements DataHandler {
   }
 
   getBenchmarks(): Observable<string[]> {
-    let benchmarks: string[] = this.rest.getAvailableBenchmarks().toArray();
+    let benchmarks: string[] = this.rest.getAvailableBenchmarks();
     return of(benchmarks);
   }
 
   getBranchNames(): Observable<string[]> {
-    let branches: string[] = this.rest.getAvailableBranches().toArray();
+    let branches: string[] = this.rest.getAvailableBranches();
     return of(branches);
   }
 
   getCommitHistory(branchName: string, benchmarkType: string, page: number): Observable<Commit[]> {
-    let hist: Commit[] = this.rest.getHistory(branchName, page, benchmarkType).toArray();
+    let hist: Commit[] = this.rest.getHistory(branchName, page, benchmarkType);
     return of(hist);
   }
 
