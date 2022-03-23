@@ -6,7 +6,7 @@ set -xe
 rm -rf build
 
 # build backend
-./gradlew build
+./gradlew build -x browserTest
 
 # copy over new version
 rm -rf ../frontend/node_modules/parkview

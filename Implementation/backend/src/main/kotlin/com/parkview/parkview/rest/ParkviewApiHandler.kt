@@ -23,7 +23,7 @@ class ParkviewApiHandler(
         branch: String,
         page: Int,
         benchmark: String,
-    ): List<Commit> = repHandler.fetchGitHistoryByBranch(branch, page, BenchmarkType.valueOf(benchmark))
+    ): Array<Commit> = repHandler.fetchGitHistoryByBranch(branch, page, BenchmarkType.valueOf(benchmark)).toTypedArray()
 
     override fun getPlot(
         benchmark: String,
@@ -47,15 +47,15 @@ class ParkviewApiHandler(
         return plot.transform(results, config)
     }
 
-    override fun getAvailableBranches(): List<String> = repHandler.getAvailableBranches()
+    override fun getAvailableBranches(): Array<String> = repHandler.getAvailableBranches().toTypedArray()
 
-    override fun getAvailableBenchmarks(): List<String> = BenchmarkType.values().map { it.toString() }
+    override fun getAvailableBenchmarks(): Array<String> = BenchmarkType.values().map { it.toString() }.toTypedArray()
 
     override fun getAvailablePlots(
         benchmark: String,
         shas: List<String>,
         devices: List<String>,
-    ): List<PlotDescription> =
+    ): Array<PlotDescription> =
         AvailablePlots.getPlotList(
             BenchmarkType.valueOf(benchmark),
             shas.zip(devices).map { (sha, device) ->
@@ -65,14 +65,14 @@ class ParkviewApiHandler(
                     BenchmarkType.valueOf(benchmark),
                 )
             }
-        )
+        ).toTypedArray()
 
-    override fun getSummaryValue(benchmark: String, sha: String, device: String): List<Pair<String, Double>> =
+    override fun getSummaryValue(benchmark: String, sha: String, device: String): Array<Pair<String, Double>> =
         databaseHandler.fetchBenchmarkResult(
             Commit(sha = sha),
             Device(device),
             BenchmarkType.valueOf(benchmark)
-        ).summaryValues.toList()
+        ).summaryValues.toList().toTypedArray()
 
     override fun getAveragePerformance(branch: String, benchmark: String, device: String): PlottableData {
         val commits = repHandler.fetchGitHistoryByBranch(branch, 1, BenchmarkType.valueOf(benchmark))
@@ -85,6 +85,6 @@ class ParkviewApiHandler(
 
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)
 
-    override fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device> =
-        repHandler.fetchGitHistoryByBranch(branch, 1, benchmark).map { it.availableDevices }.flatten().toSet().toList()
+    override fun getAvailableDevices(branch: String, benchmark: BenchmarkType): Array<Device> =
+            repHandler.fetchGitHistoryByBranch(branch, 1, benchmark).map { it.availableDevices }.flatten().toSet().toList().toTypedArray()
 }

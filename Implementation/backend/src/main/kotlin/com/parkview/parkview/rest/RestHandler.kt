@@ -20,7 +20,7 @@ interface RestHandler {
      * @return history in JSON format
      */
     @JsName("getHistory")
-    fun getHistory(branch: String, page: Int, benchmark: String): List<Commit>
+    fun getHistory(branch: String, page: Int, benchmark: String): Array<Commit>
 
     /**
      * Handles a GET request for retrieving plot data for the given benchmark results and plot setup.
@@ -47,7 +47,7 @@ interface RestHandler {
      * @return list of branches
      */
     @JsName("getAvailableBranches")
-    fun getAvailableBranches(): List<String>
+    fun getAvailableBranches(): Array<String>
 
     /**
      * Returns a list of available plot transforms grouped by plot type
@@ -63,7 +63,7 @@ interface RestHandler {
         benchmark: String,
         shas: List<String>,
         devices: List<String>,
-    ): List<PlotDescription>
+    ): Array<PlotDescription>
 
     /**
      * Returns a list of all available benchmarks
@@ -71,7 +71,7 @@ interface RestHandler {
      * @return list of available benchmarks
      */
     @JsName("getAvailableBenchmarks")
-    fun getAvailableBenchmarks(): List<String>
+    fun getAvailableBenchmarks(): Array<String>
 
     /**
      * Returns the summary values for a given benchmark
@@ -81,7 +81,7 @@ interface RestHandler {
      * @param device device the benchmark has been run on
      */
     @JsName("getSummaryValue")
-    fun getSummaryValue(benchmark: String, sha: String, device: String): List<Pair<String, Double>>
+    fun getSummaryValue(benchmark: String, sha: String, device: String): Array<Pair<String, Double>>
 
     /**
      * Returns line chart data for the average performance score in a Chart.js format.
@@ -109,5 +109,5 @@ interface RestHandler {
      *  @param benchmark given benchmark type
      */
     @JsName("getAvailableDevices")
-    fun getAvailableDevices(branch: String, benchmark: BenchmarkType): List<Device>
+    fun getAvailableDevices(branch: String, benchmark: BenchmarkType): Array<Device>
 }
