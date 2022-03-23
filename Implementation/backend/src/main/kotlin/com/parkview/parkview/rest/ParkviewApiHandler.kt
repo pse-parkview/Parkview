@@ -86,5 +86,5 @@ class ParkviewApiHandler(
     override fun getNumberOfPages(branch: String): Int = repHandler.getNumberOfPages(branch)
 
     override fun getAvailableDevices(branch: String, benchmark: BenchmarkType): Array<Device> =
-            repHandler.fetchGitHistoryByBranch(branch, 1, benchmark).map { it.availableDevices }.flatten().toSet().toList().toTypedArray()
+            repHandler.fetchGitHistoryByBranch(branch, 1, benchmark).map { it.availableDevices }.map { it.toList() }.flatten().toSet().toTypedArray()
 }

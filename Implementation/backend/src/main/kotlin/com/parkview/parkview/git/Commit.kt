@@ -17,7 +17,7 @@ data class Commit(
     val author: String = "",
 ) {
     private val devices: MutableList<Device> = mutableListOf()
-    val availableDevices: List<Device> get() = devices.toList()
+    val availableDevices: Array<Device> get() = devices.toTypedArray()
 
     /**
      * Adds a device to this commit. This shows that the combination of commit and device has data available.
