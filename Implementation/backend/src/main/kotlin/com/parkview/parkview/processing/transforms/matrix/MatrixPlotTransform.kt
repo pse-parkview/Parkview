@@ -12,12 +12,12 @@ abstract class MatrixPlotTransform : PlotTransform {
 
     final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> =
         getMatrixPlotOptions(results) + listOf(
-            MatrixOptions.minRows.realizeOption(results),
-            MatrixOptions.maxRows.realizeOption(results),
-            MatrixOptions.maxColumns.realizeOption(results),
-            MatrixOptions.minColumns.realizeOption(results),
-            MatrixOptions.minNonzeros.realizeOption(results),
-            MatrixOptions.maxNonzeros.realizeOption(results),
+            MatrixOptions.minRows.realizeOption(results.toTypedArray()),
+            MatrixOptions.maxRows.realizeOption(results.toTypedArray()),
+            MatrixOptions.maxColumns.realizeOption(results.toTypedArray()),
+            MatrixOptions.minColumns.realizeOption(results.toTypedArray()),
+            MatrixOptions.minNonzeros.realizeOption(results.toTypedArray()),
+            MatrixOptions.maxNonzeros.realizeOption(results.toTypedArray()),
         )
 
     protected fun MatrixDatapoint.getXAxisByConfig(config: PlotConfiguration) =

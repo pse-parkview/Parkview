@@ -27,8 +27,8 @@ class ParkviewApiHandler(
 
     override fun getPlot(
         benchmark: String,
-        shas: List<String>,
-        devices: List<String>,
+        shas: Array<String>,
+        devices: Array<String>,
         plotType: String,
         plotParams: Map<String, String>,
     ): PlottableData {
@@ -53,12 +53,29 @@ class ParkviewApiHandler(
 
     override fun getAvailablePlots(
         benchmark: String,
-        shas: List<String>,
-        devices: List<String>,
-    ): Array<PlotDescription> =
-        AvailablePlots.getPlotList(
+        shas: Array<String>,
+        devices: Array<String>,
+    ): Array<PlotDescription> {
+        val shasAndDevices = mutableListOf<Pair<String, String>>()
+
+        // this is incredibly ugly but necessary because zip doesn't work and throws a
+        // "TypeError: $receiver.iterator is not a function" error
+        for (i in 0..shas.size - 1)
+            shasAndDevices.add(Pair(shas[i], devices[i]))
+
+        console.log(shas)
+        console.log(shas.size)
+
+        console.log(
+            databaseHandler.fetchBenchmarkResult(
+                Commit(shas[0]),
+                Device(devices[0]),
+                BenchmarkType.valueOf(benchmark),
+            )
+        )
+        return AvailablePlots.getPlotList(
             BenchmarkType.valueOf(benchmark),
-            shas.zip(devices).map { (sha, device) ->
+            shasAndDevices.map { (sha, device) ->
                 databaseHandler.fetchBenchmarkResult(
                     Commit(sha),
                     Device(device),
@@ -66,6 +83,7 @@ class ParkviewApiHandler(
                 )
             }
         ).toTypedArray()
+    }
 
     override fun getSummaryValue(benchmark: String, sha: String, device: String): Array<Pair<String, Double>> =
         databaseHandler.fetchBenchmarkResult(

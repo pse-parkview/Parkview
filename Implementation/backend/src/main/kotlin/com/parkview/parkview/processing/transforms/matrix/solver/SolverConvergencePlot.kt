@@ -20,18 +20,18 @@ class SolverConvergencePlot : SolverPlotTransform() {
 
     private val xAxisOption = CategoricalOption(
         name = "xAxis",
-        options = listOf("iteration_timestamps", "array_index"),
+        options = arrayOf("iteration_timestamps", "array_index"),
         description = "Value that gets displayed on the x axis",
     )
 
     private val yAxisOption = CategoricalOption(
         name = "yAxis",
-        options = listOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
+        options = arrayOf("recurrent_residuals", "true_residuals", "implicit_residuals"),
         description = "Value that gets displayed on the y axis",
     )
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        MatrixOptions.matrix.realizeOption(results),
+        MatrixOptions.matrix.realizeOption(results.toTypedArray()),
         xAxisOption,
         yAxisOption,
     )
@@ -82,7 +82,7 @@ class SolverConvergencePlot : SolverPlotTransform() {
         }
 
         return PlottableData(
-            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
+            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }.toTypedArray()) }.toTypedArray()
         )
     }
 }

@@ -11,8 +11,8 @@ import com.parkview.parkview.git.BenchmarkResult
  */
 data class PlotDescription(
     val plotName: String,
-    val plottableAs: List<PlotType>,
-    val options: List<PlotOption>,
+    val plottableAs: Array<PlotType>,
+    val options: Array<PlotOption>,
 )
 
 /**
@@ -26,7 +26,7 @@ data class PlotDescription(
  */
 abstract class PlotOption(
     val name: String,
-    val options: List<String> = emptyList(),
+    val options: Array<String> = emptyArray(),
     val default: String = options.first(),
     val number: Boolean = options.isEmpty(),
     val description: String = "",
@@ -46,7 +46,7 @@ abstract class PlotOption(
 abstract class DynamicOption(
     name: String,
     description: String = "",
-) : PlotOption(name = name, options = emptyList(), default = "", description = description) {
+) : PlotOption(name = name, options = emptyArray(), default = "", description = description) {
     /**
      * Fills in missing values for the option from the inputted benchmark result
      *
@@ -54,7 +54,7 @@ abstract class DynamicOption(
      *
      * @return concrete option for plot
      */
-    abstract fun realizeOption(results: List<BenchmarkResult>): PlotOption
+    abstract fun realizeOption(results: Array<BenchmarkResult>): PlotOption
 }
 
 /**
@@ -67,7 +67,7 @@ abstract class DynamicCategoricalOption(
     name: String,
     description: String = ""
 ) : DynamicOption(name, description) {
-    final override fun realizeOption(results: List<BenchmarkResult>): PlotOption = CategoricalOption(
+    final override fun realizeOption(results: Array<BenchmarkResult>): PlotOption = CategoricalOption(
         name,
         getOptions(results),
         getDefault(results),
@@ -81,7 +81,7 @@ abstract class DynamicCategoricalOption(
      *
      * @return list of options
      */
-    abstract fun getOptions(results: List<BenchmarkResult>): List<String>
+    abstract fun getOptions(results: Array<BenchmarkResult>): Array<String>
 
     /**
      * Returns the default value for this option.
@@ -90,7 +90,7 @@ abstract class DynamicCategoricalOption(
      *
      * @return default value of option
      */
-    open fun getDefault(results: List<BenchmarkResult>): String = getOptions(results).first()
+    open fun getDefault(results: Array<BenchmarkResult>): String = getOptions(results).first()
 }
 
 /**
@@ -103,7 +103,7 @@ abstract class DynamicNumericalOption(
     name: String,
     description: String = ""
 ) : DynamicOption(name, description) {
-    final override fun realizeOption(results: List<BenchmarkResult>): PlotOption = NumericalOption(
+    final override fun realizeOption(results: Array<BenchmarkResult>): PlotOption = NumericalOption(
         name,
         getDefault(results),
         description,
@@ -116,7 +116,7 @@ abstract class DynamicNumericalOption(
      *
      * @return list of options
      */
-    abstract fun getDefault(results: List<BenchmarkResult>): Double
+    abstract fun getDefault(results: Array<BenchmarkResult>): Double
 }
 
 /**
@@ -129,7 +129,7 @@ abstract class DynamicNumericalOption(
  */
 class CategoricalOption(
     name: String,
-    options: List<String>,
+    options: Array<String>,
     default: String = options.first(),
     description: String = "",
 ) : PlotOption(name = name, options = options, default = default, description = description)

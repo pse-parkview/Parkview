@@ -35,8 +35,8 @@ interface RestHandler {
     @JsName("getPlot")
     fun getPlot(
         benchmark: String,
-        shas: List<String>,
-        devices: List<String>,
+        shas: Array<String>,
+        devices: Array<String>,
         plotType: String,
         plotParams: Map<String, String>,
     ): PlottableData
@@ -61,8 +61,8 @@ interface RestHandler {
     @JsName("getAvailablePlots")
     fun getAvailablePlots(
         benchmark: String,
-        shas: List<String>,
-        devices: List<String>,
+        shas: Array<String>,
+        devices: Array<String>,
     ): Array<PlotDescription>
 
     /**

@@ -34,14 +34,14 @@ abstract class BlasPlotTransform : PlotTransform {
 
     final override fun getAvailableOptions(results: List<BenchmarkResult>): List<PlotOption> =
         getBlasPlotOptions(results) + listOf(
-            BlasOptions.minN.realizeOption(results),
-            BlasOptions.maxN.realizeOption(results),
-            BlasOptions.minR.realizeOption(results),
-            BlasOptions.maxR.realizeOption(results),
-            BlasOptions.minM.realizeOption(results),
-            BlasOptions.maxM.realizeOption(results),
-            BlasOptions.minK.realizeOption(results),
-            BlasOptions.maxK.realizeOption(results),
+            BlasOptions.minN.realizeOption(results.toTypedArray()),
+            BlasOptions.maxN.realizeOption(results.toTypedArray()),
+            BlasOptions.minR.realizeOption(results.toTypedArray()),
+            BlasOptions.maxR.realizeOption(results.toTypedArray()),
+            BlasOptions.minM.realizeOption(results.toTypedArray()),
+            BlasOptions.maxM.realizeOption(results.toTypedArray()),
+            BlasOptions.minK.realizeOption(results.toTypedArray()),
+            BlasOptions.maxK.realizeOption(results.toTypedArray()),
         )
 
     abstract fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption>

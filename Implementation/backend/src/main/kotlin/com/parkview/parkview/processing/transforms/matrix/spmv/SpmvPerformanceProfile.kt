@@ -23,13 +23,13 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
     )
 
     private val maxXOption = object : DynamicNumericalOption("maxX", "Maximum X value (value on the right)") {
-        override fun getDefault(results: List<BenchmarkResult>): Double =
+        override fun getDefault(results: Array<BenchmarkResult>): Double =
             results.maxOfOrNull { it.datapoints.size }?.toDouble() ?: 0.0
     }
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         minXOption,
-        maxXOption.realizeOption(results),
+        maxXOption.realizeOption(results.toTypedArray()),
     )
 
     override fun transformSpmv(
@@ -64,7 +64,7 @@ class SpmvPerformanceProfile : SpmvPlotTransform() {
         }
 
         return PlottableData(
-            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
+            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }.toTypedArray()) }.toTypedArray()
         )
     }
 }

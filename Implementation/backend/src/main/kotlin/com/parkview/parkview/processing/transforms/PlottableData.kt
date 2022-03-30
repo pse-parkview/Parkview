@@ -13,9 +13,9 @@ interface Dataset {
  * @param label label for dataset
  * @param data data for dataset
  */
-data class BarChartDataset(
+class BarChartDataset(
     override val label: String,
-    val data: List<Double>,
+    val data: Array<Double>,
 ) : Dataset
 
 /**
@@ -24,9 +24,9 @@ data class BarChartDataset(
  * @param label label for dataset
  * @param data data for dataset
  */
-data class PointDataset(
+class PointDataset(
     override val label: String,
-    val data: List<PlotPoint>,
+    val data: Array<PlotPoint>,
 ) : Dataset
 
 /**
@@ -47,6 +47,6 @@ data class PlotPoint(
  * @param datasets labels for plot
  */
 class PlottableData(
-    val datasets: List<Dataset>,
-    val labels: List<String> = emptyList(),
+    val datasets: Array<Dataset>,
+    val labels: Array<String> = emptyArray(),
 )

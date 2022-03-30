@@ -57,7 +57,7 @@ internal class AnnotatingRepositoryHandlerTest {
     fun tests_annotation_of_commits_with_database_results() {
         val commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertEquals(commits.first().availableDevices, arrayOf(Device("gamer")))
         assertTrue(commits[1].availableDevices.isEmpty())
     }
 
@@ -65,11 +65,11 @@ internal class AnnotatingRepositoryHandlerTest {
     fun tests_annotation_of_commits_with_database_results_doesnt_apply_twice() {
         var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertEquals(commits.first().availableDevices, arrayOf(Device("gamer")))
         assertTrue(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertEquals(commits.first().availableDevices, arrayOf(Device("gamer")))
         assertTrue(commits[1].availableDevices.isEmpty())
     }
 
@@ -77,7 +77,7 @@ internal class AnnotatingRepositoryHandlerTest {
     fun test_annotation_of_commits_with_benchmark_type_change() {
         var commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Blas)
 
-        assertEquals(commits.first().availableDevices, listOf(Device("gamer")))
+        assertEquals(commits.first().availableDevices, arrayOf(Device("gamer")))
         assertTrue(commits[1].availableDevices.isEmpty())
         commits = annotatingRepositoryHandler.fetchGitHistoryByBranch("", 1, BenchmarkType.Conversion)
 

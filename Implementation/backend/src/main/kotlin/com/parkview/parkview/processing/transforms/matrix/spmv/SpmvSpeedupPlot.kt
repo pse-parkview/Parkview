@@ -18,7 +18,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
     override val name = "Speedup Plot"
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         MatrixOptions.xAxis,
-        PlotOptions.comparison.realizeOption(results),
+        PlotOptions.comparison.realizeOption(results.toTypedArray()),
     )
 
     override fun transformSpmv(
@@ -57,7 +57,7 @@ class SpmvSpeedupPlot : SpmvPlotTransform() {
         }
 
         return PlottableData(
-            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
+            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }.toTypedArray()) }.toTypedArray()
         )
     }
 }

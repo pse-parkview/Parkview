@@ -18,13 +18,13 @@ class PreconditionerOverview : PreconditionerPlotTransform() {
 
     private val yAxisOption = CategoricalOption(
         name = "yAxis",
-        options = listOf("generate_time", "apply_time"),
+        options = arrayOf("generate_time", "apply_time"),
         description = "Value that gets displayed on the y axis"
     )
 
     private val xAxisOption = CategoricalOption(
         name = "xAxis",
-        options = listOf("iteration_timestamps", "array_index"),
+        options = arrayOf("iteration_timestamps", "array_index"),
         description = "Value that gets displayed on the x axis",
     )
 
@@ -55,9 +55,9 @@ class PreconditionerOverview : PreconditionerPlotTransform() {
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,
-                    data = value.sortedBy { it.x }
+                    data = value.sortedBy { it.x }.toTypedArray()
                 )
-            }
+            }.toTypedArray()
         )
     }
 

@@ -19,7 +19,7 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
 
     private val yAxisOption = CategoricalOption(
         name = "yAxis",
-        options = listOf("bandwidth", "time"),
+        options = arrayOf("bandwidth", "time"),
         description = "Value that gets displayed on the y axis"
     )
 
@@ -57,9 +57,9 @@ class ConversionSingleScatterPlot : ConversionPlotTransform() {
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,
-                    data = value.sortedBy { it.x }.toMutableList()
+                    data = value.sortedBy { it.x }.toTypedArray()
                 )
-            }
+            }.toTypedArray()
         )
     }
 }

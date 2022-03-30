@@ -40,9 +40,9 @@ class SingleBlasPlot : BlasPlotTransform() {
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,
-                    data = value.sortedBy { it.x }
+                    data = value.sortedBy { it.x }.toTypedArray()
                 )
-            }
+            }.toTypedArray()
         )
     }
 }

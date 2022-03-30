@@ -8,13 +8,13 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertEquals
 
 internal class PlotConfigurationTest {
-    private val categoricalOption = CategoricalOption(name = "cat", options = listOf("a", "b"))
+    private val categoricalOption = CategoricalOption(name = "cat", options = arrayOf("a", "b"))
     private val numericalOption = NumericalOption(name = "num", default = 1.0)
 
     private val testDescription = PlotDescription(
         plotName = "test",
-        plottableAs = emptyList(),
-        options = listOf(categoricalOption, numericalOption)
+        plottableAs = emptyArray(),
+        options = arrayOf(categoricalOption, numericalOption)
     )
 
     private val values = mapOf(

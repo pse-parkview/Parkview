@@ -19,7 +19,7 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
 
     private val yAxisOption = CategoricalOption(
         name = "yAxis",
-        options = listOf("bandwidth", "time"),
+        options = arrayOf("bandwidth", "time"),
         description = "Value that gets displayed on the y axis"
     )
 
@@ -54,9 +54,9 @@ class SpmvSingleScatterPlot : SpmvPlotTransform() {
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,
-                    data = value.sortedBy { it.x }
+                    data = value.sortedBy { it.x }.toTypedArray()
                 )
-            }
+            }.toTypedArray()
         )
     }
 }

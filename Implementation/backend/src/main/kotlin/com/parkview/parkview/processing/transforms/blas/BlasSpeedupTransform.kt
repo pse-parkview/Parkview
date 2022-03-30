@@ -17,7 +17,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
     override val name = "Speedup Plot"
     override fun getBlasPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
         BlasOptions.xAxis,
-        PlotOptions.comparison.realizeOption(results),
+        PlotOptions.comparison.realizeOption(results.toTypedArray()),
     )
 
     override fun transformBlas(
@@ -54,7 +54,7 @@ class BlasSpeedupTransform : BlasPlotTransform() {
         }
 
         return PlottableData(
-            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }) }
+            seriesByName.map { (key, value) -> PointDataset(label = key, data = value.sortedBy { it.x }.toTypedArray()) }.toTypedArray()
         )
     }
 }

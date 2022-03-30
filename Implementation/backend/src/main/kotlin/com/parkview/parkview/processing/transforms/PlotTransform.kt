@@ -39,8 +39,8 @@ interface PlotTransform {
      */
     fun getPlotDescription(results: List<BenchmarkResult>) = PlotDescription(
         name,
-        plottableAs,
-        getAvailableOptions(results)
+        plottableAs.toTypedArray(),
+        getAvailableOptions(results).toTypedArray(),
     )
 
     /**

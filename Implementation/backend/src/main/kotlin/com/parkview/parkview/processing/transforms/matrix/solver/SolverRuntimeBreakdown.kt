@@ -19,18 +19,18 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
 
     private val componentsOption = CategoricalOption(
         name = "components",
-        options = listOf("apply", "generate"),
+        options = arrayOf("apply", "generate"),
         description = "Which components to plot"
     )
 
     private val totalTimeOption = CategoricalOption(
         name = "totalTime",
-        options = listOf("sumComponents", "givenValue"),
+        options = arrayOf("sumComponents", "givenValue"),
         description = "Take the total time given in the benchmark or the sum of all runtimes"
     )
 
     override fun getMatrixPlotOptions(results: List<BenchmarkResult>): List<PlotOption> = listOf(
-        MatrixOptions.matrix.realizeOption(results),
+        MatrixOptions.matrix.realizeOption(results.toTypedArray()),
         componentsOption,
         totalTimeOption,
     )
@@ -70,8 +70,8 @@ class SolverRuntimeBreakdown : SolverPlotTransform() {
         }
 
         return PlottableData(
-            labels = labels,
-            datasets = seriesByName.map { BarChartDataset(it.key, it.value) }
+            labels = labels.toTypedArray(),
+            datasets = seriesByName.map { BarChartDataset(it.key, it.value.toTypedArray()) }.toTypedArray()
         )
     }
 

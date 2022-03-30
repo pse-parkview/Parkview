@@ -101,9 +101,10 @@ export class PlotConfigurationDialogComponent implements OnInit {
     this.cookieService.addRecentPlotConfiguration(config);
     const qp = {
       ...config,
-      options: null,
+        options: null,
       ...config.options
     };
+    console.log(config.options);
     this.router.navigate([config.chartType], {queryParams: qp});
   }
 

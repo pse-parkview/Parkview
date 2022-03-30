@@ -41,8 +41,8 @@ internal class MatrixPlotTransformKtTest {
 
     private val description = PlotDescription(
         plotName = "test",
-        plottableAs = emptyList(),
-        options = listOf(
+        plottableAs = emptyArray(),
+        options = arrayOf(
             NumericalOption(
                 name = "minRows",
                 description = "Lower limit for rows",
@@ -123,7 +123,7 @@ internal class MatrixPlotTransformKtTest {
             DEVICE,
             BenchmarkType.Spmv,
         )
-        val options = MatrixOptions.matrix.realizeOption(listOf(result))
+        val options = MatrixOptions.matrix.realizeOption(arrayOf(result))
 
         for ((i, option) in options.options.withIndex()) {
             assertEquals(option, (i + 1).toString())

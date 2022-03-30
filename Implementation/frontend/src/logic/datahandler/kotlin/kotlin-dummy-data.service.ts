@@ -53,11 +53,19 @@ export class KotlinDummyDataService implements DataHandler {
 
   getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<PlotTypeOption[]> {
     // FIXME: weird $receiver.iterator Error when trying to get Data:
-    // let commits : string[] = [new parkview.com.parkview.parkview.git.Commit("peter").sha];
-    // let devices : string[] = [new parkview.com.parkview.parkview.git.Device("meter").name];
-    // let plots = rest.getAvailablePlots("Spmv", commits, devices) // ERROR
-    let plots: PlotTypeOption[] = Array();
-    return of(plots);
+    let _commits = commits.map(element => element.sha);
+    let plots = this.rest.getAvailablePlots("Spmv", _commits, devices);
+    console.log(plots);
+    let _plots = [];
+    for (let e of plots) {
+      _plots.push({
+        plotName: e.plotName,
+        plottableAs: e.plottableAs.map((e: any) => e.name),
+        options: e.options
+      });
+    }
+    // console.log(_plots)
+    return of(_plots);
 
   }
 

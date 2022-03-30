@@ -45,9 +45,9 @@ class AveragePerformanceCalculator(
             seriesByName.map { (key, value) ->
                 PointDataset(
                     label = key,
-                    data = value.sortedBy { it.x }.toMutableList(),
+                    data = value.sortedBy { it.x }.toTypedArray(),
                 )
-            },
+            }.toTypedArray(),
         )
     }
 }
