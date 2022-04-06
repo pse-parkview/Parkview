@@ -12,6 +12,46 @@ import {PlotData} from "../../plothandler/interfaces/plot-data";
 import {PlotConfiguration} from "../../plothandler/interfaces/plot-configuration";
 import {Summary} from "../interfaces/summary";
 
+function requestRawGithubContent(url: string): string {
+  let xmlHttpReq = new XMLHttpRequest();
+  xmlHttpReq.open("GET", url, false);
+  xmlHttpReq.send(null);
+  return xmlHttpReq.responseText;
+}
+
+class TestRepoHandler implements parkview.com.parkview.parkview.git.RepositoryHandler {
+  repHandler;
+  numCommitsPerPage = 40;
+
+  constructor() {
+    console.log(parkview.com.parkview.parkview.git.RepositoryHandler);
+    this.repHandler = new parkview.com.parkview.parkview.rest.DummyRepositoryHandler();
+  }
+
+  fetchGitHistoryByBranch(branch: string, page: number, benchmarkType: any) {
+    let content = requestRawGithubContent(`https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/${branch}`);
+    let lines = content.split("\n").map(x => x.trim()).filter(x => x.length > 0);
+    console.log(this.repHandler.fetchGitHistoryByBranch("test", page, benchmarkType));
+    let commits = lines.map(e => {
+      let elements = e.split(";;");
+      return new parkview.com.parkview.parkview.git.Commit(elements[0], elements[3], Date.parse(elements[2]), elements[1]);
+    });
+    return commits.splice((page - 1) * this.numCommitsPerPage, page * this.numCommitsPerPage);
+  }
+
+  getAvailableBranches(): string[] {
+    let content = requestRawGithubContent("https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/branches");
+    return content.split("\n").map(x => x.trim()).filter(x => x.length > 0);
+  }
+
+  getNumberOfPages(branch: string) {
+    let content = requestRawGithubContent(`https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/${branch}`);
+    let lines = content.split("\n");
+    return Math.ceil(lines.length / this.numCommitsPerPage);
+  }
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +59,7 @@ export class KotlinDummyDataService implements DataHandler {
   private rest: parkview.com.parkview.parkview.rest.RestHandler;
 
   constructor() {
-    let repHandler = new parkview.com.parkview.parkview.rest.DummyRepositoryHandler();
+    let repHandler = new TestRepoHandler();
     let dbHandler = new parkview.com.parkview.parkview.rest.DummyDatabaseHandler();
 
     this.rest = new parkview.com.parkview.parkview.rest.ParkviewApiHandler(repHandler, dbHandler);
