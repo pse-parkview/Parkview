@@ -74,16 +74,17 @@ jobs:
       - name: Extract coverage
         shell: bash
         run: |
-          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
+          percent=$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")
+          echo "##[set-output name=percent;]$([ -z "$percent" ] && echo "0" || echo "$percent")"
         id: extract_coverage
         
       - name: echo
-        run: echo  $([ -z ${{ steps.extract_coverage.outputs.percent }}] && echo "0" || ${{ steps.extract_coverage.outputs.percent }})
+        run: echo ${{ steps.extract_coverage.outputs.percent }}
 
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
         with:
-          percent: $([ -z ${{ steps.extract_coverage.outputs.percent }}] && echo "0" || ${{ steps.extract_coverage.outputs.percent }})
+          percent: ${{ steps.extract_coverage.outputs.percent }}
           text: ${{ steps.extract_branch.outputs.branch }}-coverage frontend
           output-path: ./
 
