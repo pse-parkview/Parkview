@@ -78,12 +78,12 @@ jobs:
         id: extract_coverage
         
       - name: echo
-        run: echo  ${{ steps.extract_coverage.outputs.percent }}
+        run: echo  $([ -z ${{ steps.extract_coverage.outputs.percent }}] && echo "0" || ${{ steps.extract_coverage.outputs.percent }})
 
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
         with:
-          percent: ${{ steps.extract_coverage.outputs.percent }}
+          percent: $([ -z ${{ steps.extract_coverage.outputs.percent }}] && echo "0" || ${{ steps.extract_coverage.outputs.percent }})
           text: ${{ steps.extract_branch.outputs.branch }}-coverage frontend
           output-path: ./
 
