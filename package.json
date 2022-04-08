@@ -33,7 +33,7 @@
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4",
-    "parkview-lib": "github:pse-parkview/parkview-lib.git#npm-package",
+    "parkview-lib": "github:pse-parkview/parkview-lib.git#release",
     "kotlin": "=1.6.10"
   },
   "devDependencies": {
