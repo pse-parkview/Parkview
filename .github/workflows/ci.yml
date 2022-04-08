@@ -50,7 +50,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: Implementation/frontend/node_modules
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -61,11 +61,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        working-directory: Implementation/frontend
         run: npm install
 
       - name: Runs tests
-        working-directory: Implementation/frontend
+        working-directory: frontend
         run: npm run test:ci
 
       - name: Extract branch name
@@ -128,7 +127,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: Implementation/frontend/node_modules
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
