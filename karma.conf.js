@@ -40,6 +40,7 @@ module.exports = function (config) {
     autoWatch: true,
     singleRun: false,
     restartOnFileChange: true,
+    failOnEmptyTestSuite: false,
     browsers: [
       'Chrome',
       'ChromeHeadless',
