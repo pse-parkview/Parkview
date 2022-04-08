@@ -76,6 +76,9 @@ jobs:
         run: |
           echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
         id: extract_coverage
+        
+      - name: echo
+        run: echo  ${{ steps.extract_coverage.outputs.percent }}
 
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
