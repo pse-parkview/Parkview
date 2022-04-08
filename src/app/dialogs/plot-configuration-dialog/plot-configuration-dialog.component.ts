@@ -104,7 +104,6 @@ export class PlotConfigurationDialogComponent implements OnInit {
         options: null,
       ...config.options
     };
-    console.log(config.options);
     this.router.navigate([config.chartType], {queryParams: qp});
   }
 

@@ -26,12 +26,14 @@
     "@swimlane/ngx-charts": "^18.0.1",
     "chart.js": "^2.9.3",
     "kotlin": "^1.6.10",
+    "ng": "^0.0.0",
     "ng2-charts": "^2.4.3",
     "ngx-cookie": "^5.0.2",
     "nord": "^0.2.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "kotlin": "=1.6.10"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.0",
