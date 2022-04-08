@@ -74,14 +74,15 @@ jobs:
       - name: Extract coverage
         shell: bash
         run: |
-          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" Implementation/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
+          percent=$(grep -E "\{\"total\": \{\"lines\":\{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*(.[0-9]*)?\}" coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g");
+          echo "##[set-output name=percent;]$([ -z "$percent" ] && echo "0" || echo "$percent")";
         id: extract_coverage
 
       - name: Generate Coverage Badge
         uses: taDachs/stupid-coverage-badge-generator@2c57de03ae2eb09b5d431b1cd62aa3b873fedc41
         with:
           percent: ${{ steps.extract_coverage.outputs.percent }}
-          text: ${{ steps.extract_branch.outputs.branch }}-coverage frontend
+          text: ${{ steps.extract_branch.outputs.branch }}-coverage
           output-path: ./
 
       - name: Upload Badge
@@ -108,7 +109,7 @@ jobs:
       - name: Generate LOC Badge
         shell: bash
         run: |
-          curl https://img.shields.io/badge/frontend%20lines%20of%20code-$(echo "${{ steps.scc.outputs.scc }}" | grep Total | awk '{print $6}')-blue > badge.svg
+          curl https://img.shields.io/badge/lines%20of%20code-$(echo "${{ steps.scc.outputs.scc }}" | grep Total | awk '{print $6}')-blue > badge.svg
 
       - name: Extract branch name
         shell: bash
