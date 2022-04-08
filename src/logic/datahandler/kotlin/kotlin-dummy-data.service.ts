@@ -3,7 +3,7 @@ import { DataHandler } from "../interfaces/data-handler";
 
 // FIXME: find a way to get rid of that ts-ignore
 // @ts-ignore
-import * as parkview from "../../../../node_modules/parkview";
+import * as parkview from "../../../../node_modules/parkview-lib/dist";
 // @ts-ignore
 import { kotlin } from "kotlin";
 import { Observable, of } from "rxjs";
@@ -111,6 +111,7 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
           benchmark,
           commit,
           device,
+          // TODO: how to deal with NaNs?
           JSON.parse(content.replace(/\bNaN\b/g, "null"))
         );
         return spmvResult;
@@ -445,7 +446,6 @@ export class KotlinDummyDataService implements DataHandler {
     commitSha: string,
     device: string
   ): Observable<Summary> {
-    // FIXME: returns some type of LinkedHashMap, turn that into a ES6 Map or something
     let summary: Summary = this.rest.getSummaryValue(
       benchmarkType,
       commitSha,
