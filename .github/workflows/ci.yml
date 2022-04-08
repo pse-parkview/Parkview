@@ -74,7 +74,7 @@ jobs:
       - name: Extract coverage
         shell: bash
         run: |
-          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" Implementation/frontend/coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
+          echo "##[set-output name=percent;]$(grep "{\"total\": {\"lines\":{\"total\":[0-9]*,\"covered\":[0-9]*,\"skipped\":[0-9]*,\"pct\":[0-9]*\\.[0-9]*}" coverage/frontend/coverage-summary.json -o | grep "\"pct\":.*" -o | sed "s/[^0-9\.]//g")"
         id: extract_coverage
 
       - name: Generate Coverage Badge
