@@ -40,7 +40,7 @@ jobs:
       - name: Runs build
         run: npm run build
 
-  test-frontend:
+  test:
     runs-on: ubuntu-latest
     needs: build
 
@@ -94,7 +94,7 @@ jobs:
           gist_file_name: parkview_${{ steps.extract_branch.outputs.branch }}_frontend_coverage.svg
           file_path: ./badge.svg
 
-  analyse-frontend:
+  analyse:
     runs-on: ubuntu-latest
     needs: build
 
