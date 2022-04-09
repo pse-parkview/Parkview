@@ -6,7 +6,7 @@ import {BaseChartDirective, Label} from "ng2-charts";
 import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
-import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
   selector: 'app-bar-plot',
@@ -70,7 +70,7 @@ export class BarPlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: KotlinDummyDataService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService) {
   }
 
   ngOnInit() {

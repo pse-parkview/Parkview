@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {RestService} from "../datahandler/rest.service";
-import {KotlinDummyDataService} from "../datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../datahandler/kotlin/parkview-lib-data.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlotService {
 
-  constructor(private readonly dataService: KotlinDummyDataService) {
+  constructor(private readonly dataService: ParkviewLibDataService) {
   }
 
   //TODO getGraphData should be implemented correctly later.

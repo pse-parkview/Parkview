@@ -6,7 +6,7 @@ import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {BaseChartDirective} from "ng2-charts";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
-import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
   selector: 'app-line-plot',
@@ -79,7 +79,7 @@ export class LinePlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: KotlinDummyDataService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService) {
   }
 
   ngOnInit() {

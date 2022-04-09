@@ -8,7 +8,7 @@ import {Template} from "../../../logic/cookiehandler/interfaces/template";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {Router} from "@angular/router";
-import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
   selector: 'app-side-load-from-template',
@@ -54,7 +54,7 @@ export class SideLoadFromTemplateComponent implements OnInit {
 
   constructor(private readonly commitSelectionService: SelectionService,
               private readonly cookieService: CookieService,
-              private readonly dataService: KotlinDummyDataService,
+              private readonly dataService: ParkviewLibDataService,
               private readonly router: Router) {
     // only suitable for DI
   }
