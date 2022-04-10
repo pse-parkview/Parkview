@@ -28,48 +28,97 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-
         <div class="divider"></div>
-
         <mat-checkbox color="primary"
                       [checked]="hideUnusableCommits"
                       (change)="toggleHideUnusableCommits()">
             Hide commits without data
         </mat-checkbox>
-
+        <div class="divider"></div>
+        <mat-checkbox color="primary"
+                      [checked]="collapseUnusableCommits"
+                      (change)="toggleCollapseUnusableCommits()">
+            Collapse commits without data
+        </mat-checkbox>
         <div class="divider-long"></div>
     </div>
 </mat-card>
-<app-infinite-scroll (scrolled)="onScroll()">
-    <mat-expansion-panel hideToggle
-                         *ngFor="let commit of commits"
-                         class="commitPanel"
-                         [disabled]="commit.availableDevices.length === 0"
-                         [ngClass]="{'hidden': commit.availableDevices.length === 0 && hideUnusableCommits}">
-
-        <mat-expansion-panel-header
-                [ngClass]="{'title-container': true, 'benchmark' : commit.availableDevices.length > 0, 'noData': commit.availableDevices.length === 0}">
-            <span class="sha">{{commit.sha | abbreviateSha}}</span>
-            <span class="date">{{commit.date | dateFormatter: 'medium'}}</span>
-            <span class="author">{{commit.author}} </span>
-            <span class="message-preview">{{commit.message | abbreviate: 50}}</span>
-        </mat-expansion-panel-header>
-        <section class="hash">{{commit.sha}}</section>
-        <section class="message">{{commit.message}}</section>
-        <section class="devices">
-            <ul>
-                <li *ngFor="let device of commit.availableDevices">
-
-                    <mat-checkbox class="device-margin" color="primary"
-                                  (change)="selectDevice(commit, device.name, $event.checked)">
-                        {{device.name}}
-                    </mat-checkbox>
-                </li>
-            </ul>
-        </section>
-        <mat-action-row>
-            <button mat-button color="primary" (click)="selectCommit(commit)" id="selectCommitButton">Select
-            </button>
-        </mat-action-row>
-    </mat-expansion-panel>
-</app-infinite-scroll>
+<div *ngFor="let commit of commits">
+    <div *ngIf="commit.nonBenchmarkedCommits">
+        <div *ngIf="!collapseUnusableCommits">
+            <div *ngFor="let nonBenchmarked of commit.nonBenchmarkedCommits">
+                <mat-expansion-panel hideToggle
+                                     class="commitPanel"
+                                     disabled="true"
+                                     [ngClass]="{'hidden': nonBenchmarked.availableDevices.length === 0 && hideUnusableCommits}">
+                    <mat-expansion-panel-header
+                            [ngClass]="{'title-container': true, 'benchmark' : nonBenchmarked.availableDevices.length > 0, 'noData': true}">
+                        <span class="sha">{{nonBenchmarked.sha | abbreviateSha}}</span>
+                        <span class="date">{{nonBenchmarked.date | dateFormatter: 'medium'}}</span>
+                        <span class="author">{{nonBenchmarked.author}} </span>
+                        <span class="message-preview">{{nonBenchmarked.message | abbreviate: 50}}</span>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+            </div>
+        </div>
+        <div *ngIf="collapseUnusableCommits && commit.nonBenchmarkedCommits.length > 0">
+            <mat-expansion-panel class="commitPanel no-benchmark-collapsed"
+                                 [ngClass]="{'hidden': false}">
+                <mat-expansion-panel-header
+                        [ngClass]="{'title-container': true, 'benchmark' : false, 'noData': true}">
+                    <span>{{ commit.nonBenchmarkedCommits.length }} commits without benchmarks</span>
+                </mat-expansion-panel-header>
+                <div *ngFor="let nonBenchmarked of commit.nonBenchmarkedCommits">
+                    <mat-expansion-panel hideToggle
+                                         class="commitPanel"
+                                         disabled="true"
+                                         [ngClass]="{'hidden': nonBenchmarked.availableDevices.length === 0 && hideUnusableCommits}">
+                        <mat-expansion-panel-header
+                                [ngClass]="{'title-container': true, 'benchmark' : false, 'noData': true}">
+                            <span class="sha">{{nonBenchmarked.sha | abbreviateSha}}</span>
+                            <span class="date">{{nonBenchmarked.date | dateFormatter: 'medium'}}</span>
+                            <span class="author">{{nonBenchmarked.author}} </span>
+                            <span class="message-preview">{{nonBenchmarked.message | abbreviate: 50}}</span>
+                        </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+                </div>
+            </mat-expansion-panel>
+        </div>
+    </div>
+    <div *ngIf="commit.benchmarkedCommit">
+        <mat-expansion-panel hideToggle
+                             class="commitPanel"
+                             [ngClass]="{'hidden': commit.benchmarkedCommit.availableDevices.length === 0 && hideUnusableCommits}">
+            <mat-expansion-panel-header
+                    [ngClass]="{'title-container': true, 'benchmark' : commit.benchmarkedCommit.availableDevices.length > 0, 'noData': false}">
+                <span class="sha">{{commit.benchmarkedCommit.sha | abbreviateSha}}</span>
+                <span class="date">{{commit.benchmarkedCommit.date | dateFormatter: 'medium'}}</span>
+                <span class="author">{{commit.benchmarkedCommit.author}} </span>
+                <span class="message-preview">{{commit.benchmarkedCommit.message | abbreviate: 50}}</span>
+            </mat-expansion-panel-header>
+            <section class="hash">{{commit.benchmarkedCommit.sha}}</section>
+            <section class="message">{{commit.benchmarkedCommit.message}}</section>
+            <section class="devices">
+                <ul>
+                    <li *ngFor="let device of commit.benchmarkedCommit.availableDevices">
+                        <mat-checkbox class="device-margin" color="primary"
+                                      (change)="selectDevice(commit.benchmarkedCommit, device.name, $event.checked)">
+                            {{device.name}}
+                        </mat-checkbox>
+                    </li>
+                </ul>
+            </section>
+            <mat-action-row>
+                <button mat-button color="primary" (click)="selectCommit(commit.benchmarkedCommit)"
+                        id="selectCommitButton">Select
+                </button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </div>
+</div>
+<div class="button-container">
+    <button mat-button color="primary" (click)="onScroll(true)"
+            id="loadMoreDataButton">Load more commits
+    </button>
+</div>
+<div #anchor>Peepo</div>

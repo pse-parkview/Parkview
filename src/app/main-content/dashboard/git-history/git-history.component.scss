@@ -69,6 +69,12 @@ input[type=number] {
   align-content: flex-start;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .sha {
   flex: 1;
   justify-content: left;
