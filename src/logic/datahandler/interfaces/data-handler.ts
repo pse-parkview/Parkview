@@ -15,9 +15,7 @@ export interface DataHandler {
 
   getBenchmarks(): Observable<string[]>;
 
-  getNumPages(branchName: string): Observable<number>;
-
-  getCommitHistory(branchName: string, benchmarkType: string, page: number): Iterator<Commit>;
+  getCommitHistory(branchName: string, benchmarkType: string): Iterator<Commit>;
 
   getAvailablePlots(benchmarkType: string, commits: Commit[], devices: string[]): Observable<PlotTypeOption[]>;
 

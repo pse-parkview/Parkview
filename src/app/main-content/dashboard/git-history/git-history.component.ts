@@ -3,7 +3,6 @@ import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
-import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
 import {ParkviewLibDataService} from "../../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
@@ -19,8 +18,6 @@ export class GitHistoryComponent implements OnInit {
   currentlySelectedBenchmarkName: string = '';
   benchmarkNames: string[] = [];
   hideUnusableCommits: boolean = false;
-  currentlySelectedPage: number = 1;
-  maxPage: number = 1;
   numberOfCommitsPerUpdate: number = 10;
 
 
@@ -30,8 +27,7 @@ export class GitHistoryComponent implements OnInit {
 
   constructor(private readonly dataService: ParkviewLibDataService,
               private readonly commitService: SelectionService,
-              private readonly cookieService: CookieService,
-              private readonly snackBarService: SnackBarService) {
+              private readonly cookieService: CookieService) {
   }
 
   ngOnInit(): void {
@@ -63,9 +59,9 @@ export class GitHistoryComponent implements OnInit {
     }
     this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
     this.commitService.updateBranchName(this.currentlySelectedBranch);
-    this.commitIterator = this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName, this.currentlySelectedPage);
+    this.commitIterator = this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName);
+    this.commits = [];
     this.selected = [];
-    this.dataService.getNumPages(this.currentlySelectedBranch).subscribe(num => this.maxPage = num);
   }
 
   selectBranch(branchChoice: string): void {
@@ -107,23 +103,11 @@ export class GitHistoryComponent implements OnInit {
     }
   }
 
-  selectPage(pageChoice: number): void {
-    if (pageChoice >= 1 && pageChoice <= this.maxPage) {
-      this.currentlySelectedPage = pageChoice;
-      this.updateCommitHistory();
-    } else {
-      this.snackBarService.notify(`Page number must be between 1 and ${this.maxPage}`);
-    }
-
-  }
-  listArray = Array.from({length: 200}, (x, i) => i);
-
   onScroll() {
     for (let i = 0; i < this.numberOfCommitsPerUpdate; ++i) {
-      let commit = this.commitIterator.next().value;
-      console.log(commit);
-      console.log(this.commits.length);
-      this.commits.push(commit);
+      let n = this.commitIterator.next();
+      if (n.done) return;
+      this.commits.push(n.value);
     }
     console.log("scrolled");
   }
