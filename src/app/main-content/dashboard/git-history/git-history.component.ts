@@ -18,7 +18,8 @@ export class GitHistoryComponent implements OnInit {
   currentlySelectedBenchmarkName: string = '';
   benchmarkNames: string[] = [];
   hideUnusableCommits: boolean = false;
-  numberOfCommitsPerUpdate: number = 10;
+  // has to be a bit higher, otherwise InfiniteScrollComponent doesn't work properly
+  numberOfCommitsPerUpdate: number = 30;
 
 
   commits: Commit[] = [];
