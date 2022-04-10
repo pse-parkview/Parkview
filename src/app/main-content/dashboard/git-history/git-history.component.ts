@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {RestService} from "../../../../logic/datahandler/rest.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
 import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";
-import {KotlinDummyDataService} from "../../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
   selector: 'app-git-history',
@@ -27,7 +26,7 @@ export class GitHistoryComponent implements OnInit {
   commits: Commit[] = [];
   selected: { commit: Commit, device: string }[] = [];
 
-  constructor(private readonly dataService: KotlinDummyDataService,
+  constructor(private readonly dataService: ParkviewLibDataService,
               private readonly commitService: SelectionService,
               private readonly cookieService: CookieService,
               private readonly snackBarService: SnackBarService) {

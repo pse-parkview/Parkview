@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {Summary} from "../../../logic/datahandler/interfaces/summary";
-import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 export interface SummaryConfig {
   get benchmarkName(): string;
@@ -28,7 +27,7 @@ export class SummaryCardComponent implements OnInit {
   summary: Summary = {};
   summaryData: { key: string, value: string }[] = [];
 
-  constructor(private readonly dataService: KotlinDummyDataService) {
+  constructor(private readonly dataService: ParkviewLibDataService) {
   }
 
   ngOnInit(): void {

@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {
   PlotOption,
@@ -15,7 +14,7 @@ import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {SnackBarService} from "../../../lib/notificationhandler/snack-bar.service";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
-import {KotlinDummyDataService} from "../../../logic/datahandler/kotlin/kotlin-dummy-data.service";
+import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
 @Component({
   selector: 'app-plot-configuration-dialog',
@@ -46,7 +45,7 @@ export class PlotConfigurationDialogComponent implements OnInit {
   plotlabelYAxis: string = 'y';
 
   constructor(private readonly commitSelectService: SelectionService,
-              private readonly dataService: KotlinDummyDataService,
+              private readonly dataService: ParkviewLibDataService,
               private readonly router: Router,
               private readonly cookieService: CookieService,
               private readonly notificationService: SnackBarService) {

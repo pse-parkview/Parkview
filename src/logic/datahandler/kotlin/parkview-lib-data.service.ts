@@ -309,7 +309,7 @@ function parseBlas(commit: any, device: any, content: object[]) {
 @Injectable({
   providedIn: "root",
 })
-export class KotlinDummyDataService implements DataHandler {
+export class ParkviewLibDataService implements DataHandler {
   private rest: parkview.rest.RestHandler;
 
   constructor() {
