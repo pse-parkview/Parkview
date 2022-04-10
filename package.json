@@ -25,7 +25,6 @@
     "@angular/router": "~12.1.0",
     "@swimlane/ngx-charts": "^18.0.1",
     "chart.js": "^2.9.3",
-    "kotlin": "^1.6.10",
     "ng": "^0.0.0",
     "ng2-charts": "^2.4.3",
     "ngx-cookie": "^5.0.2",
