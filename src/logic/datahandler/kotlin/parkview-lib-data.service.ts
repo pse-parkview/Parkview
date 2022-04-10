@@ -45,10 +45,7 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
         elements[1]
       );
     });
-    return commits.splice(
-      (page - 1) * this.numCommitsPerPage,
-      page * this.numCommitsPerPage
-    );
+    return commits;
   }
 
   getAvailableBranches(): string[] {
@@ -404,13 +401,15 @@ export class ParkviewLibDataService implements DataHandler {
     return of(branches);
   }
 
-  getCommitHistory(
+  *getCommitHistory(
     branchName: string,
     benchmarkType: string,
     page: number
-  ): Observable<Commit[]> {
+  ): Iterator<Commit> {
     let hist: Commit[] = this.rest.getHistory(branchName, page, benchmarkType);
-    return of(hist);
+    for (let commit of hist) {
+      yield commit;
+    }
   }
 
   getNumPages(branchName: string): Observable<number> {

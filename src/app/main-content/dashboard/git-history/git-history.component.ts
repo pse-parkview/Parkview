@@ -9,7 +9,7 @@ import {ParkviewLibDataService} from "../../../../logic/datahandler/kotlin/parkv
 @Component({
   selector: 'app-git-history',
   templateUrl: './git-history.component.html',
-  styleUrls: ['./git-history.component.scss']
+  styleUrls: ['./git-history.component.scss'],
 })
 export class GitHistoryComponent implements OnInit {
 
@@ -21,9 +21,11 @@ export class GitHistoryComponent implements OnInit {
   hideUnusableCommits: boolean = false;
   currentlySelectedPage: number = 1;
   maxPage: number = 1;
+  numberOfCommitsPerUpdate: number = 10;
 
 
   commits: Commit[] = [];
+  commitIterator!: Iterator<Commit>;
   selected: { commit: Commit, device: string }[] = [];
 
   constructor(private readonly dataService: ParkviewLibDataService,
@@ -61,9 +63,7 @@ export class GitHistoryComponent implements OnInit {
     }
     this.commitService.updateBenchmarkName(this.currentlySelectedBenchmarkName);
     this.commitService.updateBranchName(this.currentlySelectedBranch);
-    this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName, this.currentlySelectedPage).subscribe((commits: Commit[]) => {
-      this.commits = commits;
-    });
+    this.commitIterator = this.dataService.getCommitHistory(this.currentlySelectedBranch, this.currentlySelectedBenchmarkName, this.currentlySelectedPage);
     this.selected = [];
     this.dataService.getNumPages(this.currentlySelectedBranch).subscribe(num => this.maxPage = num);
   }
@@ -72,7 +72,6 @@ export class GitHistoryComponent implements OnInit {
     this.currentlySelectedBranch = branchChoice;
     this.cookieService.saveGitHistoryBranch(branchChoice);
     this.updateCommitHistory();
-    this.firstPage();
   }
 
   selectBenchmarkName(benchmarkNameChoice: string): void {
@@ -117,20 +116,15 @@ export class GitHistoryComponent implements OnInit {
     }
 
   }
+  listArray = Array.from({length: 200}, (x, i) => i);
 
-  firstPage() {
-    this.selectPage(1);
-  }
-
-  nextPage() {
-    this.selectPage(this.currentlySelectedPage + 1);
-  }
-
-  prevPage() {
-    this.selectPage(this.currentlySelectedPage - 1);
-  }
-
-  lastPage() {
-    this.selectPage(this.maxPage);
+  onScroll() {
+    for (let i = 0; i < this.numberOfCommitsPerUpdate; ++i) {
+      let commit = this.commitIterator.next().value;
+      console.log(commit);
+      console.log(this.commits.length);
+      this.commits.push(commit);
+    }
+    console.log("scrolled");
   }
 }
