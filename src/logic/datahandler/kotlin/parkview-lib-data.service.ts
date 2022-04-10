@@ -13,6 +13,7 @@ import { PlotTypeOption } from "../../plothandler/interfaces/available-plot-type
 import { PlotData } from "../../plothandler/interfaces/plot-data";
 import { PlotConfiguration } from "../../plothandler/interfaces/plot-configuration";
 import { Summary } from "../interfaces/summary";
+import {BenchmarkParser} from "../BenchmarkParser";
 
 function requestRawGithubContent(url: string): string {
   let xmlHttpReq = new XMLHttpRequest();
@@ -45,10 +46,7 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
         elements[1]
       );
     });
-    return commits.splice(
-      (page - 1) * this.numCommitsPerPage,
-      page * this.numCommitsPerPage
-    );
+    return commits;
   }
 
   getAvailableBranches(): string[] {
@@ -72,8 +70,10 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
 
 class TsDatabaseHandler implements parkview.database.DatabaseHandler {
   index: any;
+  private benchmarkParser: BenchmarkParser;
 
   constructor() {
+    this.benchmarkParser = new BenchmarkParser();
     let indexContent: string[] = requestRawGithubContent(
       "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/benchmark_data/index"
     )
@@ -107,7 +107,7 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
         let content = requestRawGithubContent(
           `https://raw.githubusercontent.com/pse-parkview/parkview-data/main/benchmark_data/${point.file}`
         );
-        let spmvResult = parseBenchmarkResult(
+        let spmvResult = this.benchmarkParser.parseBenchmarkResult(
           benchmark,
           commit,
           device,
@@ -140,170 +140,6 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
       .filter((e: any) => e.commit == commit.sha && e.benchmark == benchmark)
       .map((e: any) => new parkview.git.Device(e.device));
   }
-}
-
-function parseBenchmarkResult(
-  benchmark: any,
-  commit: any,
-  device: any,
-  content: object[]
-) {
-  switch (benchmark) {
-    case parkview.git.BenchmarkType.Spmv:
-      return parseSpmv(commit, device, content);
-    case parkview.git.BenchmarkType.Conversion:
-      return parseConversion(commit, device, content);
-    case parkview.git.BenchmarkType.Preconditioner:
-      return parsePreconditioner(commit, device, content);
-    case parkview.git.BenchmarkType.Solver:
-      return parseSolver(commit, device, content);
-    case parkview.git.BenchmarkType.Blas:
-      return parseBlas(commit, device, content);
-    default:
-      throw Error(`Invalid benchmark type ${benchmark}`);
-  }
-}
-
-function parseSpmv(commit: any, device: any, content: object[]) {
-  return new parkview.benchmark.SpmvBenchmarkResult(
-    commit,
-    device,
-    new kotlin.collections.ArrayList(
-      content.map((e: any) => {
-        return new parkview.benchmark.SpmvDatapoint(
-          e.problem.name,
-          e.problem.rows,
-          e.problem.cols,
-          e.problem.nonzeros,
-          new kotlin.collections.ArrayList(
-            Object.entries(e.spmv).map((e: any) => {
-              return new parkview.benchmark.Format(
-                e[0],
-                e[1].time,
-                e[1].completed,
-                e[1].storage,
-                e[1].max_relative_norm2
-              );
-            })
-          )
-        );
-      })
-    )
-  );
-}
-
-function parseConversion(commit: any, device: any, content: object[]) {
-  return new parkview.benchmark.ConversionBenchmarkResult(
-    commit,
-    device,
-    new kotlin.collections.ArrayList(
-      content.map((e: any) => {
-        return new parkview.benchmark.ConversionDatapoint(
-          e.problem.name,
-          e.problem.rows,
-          e.problem.cols,
-          e.problem.nonzeros,
-          new kotlin.collections.ArrayList(
-            Object.entries(e.spmv).map((e: any) => {
-              return new parkview.benchmark.Conversion(
-                e[0],
-                e[1].time,
-                e[1].completed
-              );
-            })
-          )
-        );
-      })
-    )
-  );
-}
-
-function parseSolver(commit: any, device: any, content: object[]) {
-  return new parkview.benchmark.SolverBenchmarkResult(
-    commit,
-    device,
-    new kotlin.collections.ArrayList(
-      content.map((e: any) => {
-        return new parkview.benchmark.SolverDatapoint(
-          e.problem.name,
-          e.problem.rows,
-          e.problem.cols,
-          e.problem.nonzeros,
-          e.optimal.spmv,
-          new kotlin.collections.ArrayList(
-            Object.entries(e.solver).map((e: any) => {
-              return new parkview.benchmark.Solver(
-                e[0],
-                new kotlin.collections.ArrayList(e[1].recurrent_residuals),
-                new kotlin.collections.ArrayList(e[1].true_residuals),
-                new kotlin.collections.ArrayList(e[1].implicit_residuals),
-                new kotlin.collections.ArrayList(e[1].iteration_timestamps),
-                e[1].rhs_norm,
-                e[1].residual_norm,
-                e[1].completed,
-                new kotlin.collections.ArrayList(
-                  Object.entries(e[1].generate.components).map(
-                    (c: any) => new parkview.benchmark.Component(c[0], c[1])
-                  )
-                ),
-                e[1].generate.time,
-                new kotlin.collections.ArrayList(
-                  Object.entries(e[1].apply.components).map(
-                    (c: any) => new parkview.benchmark.Component(c[0], c[1])
-                  )
-                ),
-                e[1].apply.time,
-                e[1].apply.iterations
-              );
-            })
-          ),
-          new kotlin.collections.ArrayList(
-            Object.entries(e.spmv).map((e: any) => {
-              return new parkview.benchmark.Format(
-                e[0],
-                e[1].time,
-                e[1].completed,
-                e[1].storage,
-                e[1].max_relative_norm2
-              );
-            })
-          )
-        );
-      })
-    )
-  );
-}
-
-// i dont believe in its existence, will implement it as soon as i've got testdata
-function parsePreconditioner(commit: any, device: any, content: object[]) {}
-
-function parseBlas(commit: any, device: any, content: object[]) {
-  return new parkview.benchmark.BlasBenchmarkResult(
-    commit,
-    device,
-    new kotlin.collections.ArrayList(
-      content.map((e: any) => {
-        return new parkview.benchmark.BlasDatapoint(
-          e.n,
-          e.r,
-          e.m,
-          e.k,
-          new kotlin.collections.ArrayList(
-            Object.entries(e.blas).map((e: any) => {
-              return new parkview.benchmark.Operation(
-                e[0],
-                e[1].time,
-                e[1].flops,
-                e[1].bandwidth,
-                e[1].completed,
-                e[1].repetitions
-              );
-            })
-          )
-        );
-      })
-    )
-  );
 }
 
 @Injectable({
@@ -404,18 +240,14 @@ export class ParkviewLibDataService implements DataHandler {
     return of(branches);
   }
 
-  getCommitHistory(
+  *getCommitHistory(
     branchName: string,
     benchmarkType: string,
-    page: number
-  ): Observable<Commit[]> {
-    let hist: Commit[] = this.rest.getHistory(branchName, page, benchmarkType);
-    return of(hist);
-  }
-
-  getNumPages(branchName: string): Observable<number> {
-    let num: number = this.rest.getNumberOfPages(branchName);
-    return of(num);
+  ): Iterator<Commit> {
+    let hist: Commit[] = this.rest.getHistory(branchName, 0, benchmarkType);
+    for (let commit of hist) {
+      yield commit;
+    }
   }
 
   getPlotData(config: PlotConfiguration): Observable<PlotData> {
