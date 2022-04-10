@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {BaseChartDirective} from "ng2-charts";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";

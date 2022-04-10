@@ -3,7 +3,6 @@ import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {BaseChartDirective, Label} from "ng2-charts";
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";

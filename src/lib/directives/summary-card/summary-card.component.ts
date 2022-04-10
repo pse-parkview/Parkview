@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {Summary} from "../../../logic/datahandler/interfaces/summary";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 

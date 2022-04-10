@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RestService} from "../../../../logic/datahandler/rest.service";
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";

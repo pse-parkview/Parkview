@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {RestService} from "../datahandler/rest.service";
 import {ParkviewLibDataService} from "../datahandler/kotlin/parkview-lib-data.service";
 
 @Injectable({

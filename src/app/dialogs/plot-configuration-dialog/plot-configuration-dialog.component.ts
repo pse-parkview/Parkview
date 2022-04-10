@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotConfiguration, SupportedChartType} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {
   PlotOption,

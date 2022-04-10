@@ -26,11 +26,6 @@ export interface Commit {
   get sha(): string;
 
   /**
-   * The name of the branch the commit is on
-   */
-  get branch(): string;
-
-  /**
    * Available devices?
    */
   get availableDevices(): Device[];

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
 import {Pair} from "../../../logic/commit-selection-handler/interfaces/pair";
 import {MatDialog} from "@angular/material/dialog";

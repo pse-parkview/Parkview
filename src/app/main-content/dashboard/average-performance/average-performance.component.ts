@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from "chart.js";
-import {RestService} from "../../../../logic/datahandler/rest.service";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {Observer} from "rxjs";
 import {SnackBarService} from "../../../../lib/notificationhandler/snack-bar.service";

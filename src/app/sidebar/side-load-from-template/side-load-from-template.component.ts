@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 import {Observer} from "rxjs";
 import {SelectionService} from "../../../logic/commit-selection-handler/selection.service";
-import {RestService} from "../../../logic/datahandler/rest.service";
 import {PlotTypeOption} from "../../../logic/plothandler/interfaces/available-plot-types";
 import {Template} from "../../../logic/cookiehandler/interfaces/template";
 import {SelectedCommits} from "../../../logic/commit-selection-handler/interfaces/selected-commits";
