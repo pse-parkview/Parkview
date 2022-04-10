@@ -109,6 +109,5 @@ export class GitHistoryComponent implements OnInit {
       if (n.done) return;
       this.commits.push(n.value);
     }
-    console.log("scrolled");
   }
 }
