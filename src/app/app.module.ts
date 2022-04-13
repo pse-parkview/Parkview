@@ -43,8 +43,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ConfigButtonsComponent} from "./main-content/config-buttons/config-buttons.component";
-import {ScrollingModule} from "@angular/cdk/scrolling";
-import {InfiniteScrollComponent} from "./infinite-scroll/infinite-scroll.component";
 
 @NgModule({
   declarations: [
@@ -64,7 +62,6 @@ import {InfiniteScrollComponent} from "./infinite-scroll/infinite-scroll.compone
     ScatterPlotComponent,
     BarPlotComponent,
     ConfigButtonsComponent,
-    InfiniteScrollComponent,
   ],
   imports: [
     BrowserModule,

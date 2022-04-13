@@ -1,28 +1,37 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Commit} from "../../../../logic/datahandler/interfaces/commit";
 import {SelectionService} from "../../../../logic/commit-selection-handler/selection.service";
 import {CookieService} from "../../../../logic/cookiehandler/cookie.service";
 import {RecentGitHistorySettings} from "../../../../logic/cookiehandler/interfaces/recent-git-history-settings";
 import {ParkviewLibDataService} from "../../../../logic/datahandler/kotlin/parkview-lib-data.service";
 
+interface CommitBundle {
+  benchmarkedCommit?: Commit,
+  nonBenchmarkedCommits?: Commit[],
+}
+
+
 @Component({
   selector: 'app-git-history',
   templateUrl: './git-history.component.html',
   styleUrls: ['./git-history.component.scss'],
 })
-export class GitHistoryComponent implements OnInit {
-
-  // template instance variables
+export class GitHistoryComponent implements OnInit, AfterViewInit {
   currentlySelectedBranch: string = '';
   branchNames: string[] = [];
   currentlySelectedBenchmarkName: string = '';
   benchmarkNames: string[] = [];
   hideUnusableCommits: boolean = false;
-  // has to be a bit higher, otherwise InfiniteScrollComponent doesn't work properly
-  numberOfCommitsPerUpdate: number = 30;
+  collapseUnusableCommits: boolean = false;
+  maxNumberOfNonBenchmarkedCommits: number = 100;
+  updateStep: number = 50;
+  @ViewChild('anchor') anchor!: ElementRef<HTMLElement>;
 
+  private bottomVisible: boolean = false;
 
-  commits: Commit[] = [];
+  private observer!: IntersectionObserver;
+
+  commits: CommitBundle[] = [];
   commitIterator!: Iterator<Commit>;
   selected: { commit: Commit, device: string }[] = [];
 
@@ -52,6 +61,20 @@ export class GitHistoryComponent implements OnInit {
       }
       this.updateCommitHistory();
     });
+
+    const options = {
+      root: null,
+      threshold: 0,
+    };
+
+    this.observer = new IntersectionObserver(([entry]) => {
+      this.bottomVisible = entry.isIntersecting;
+      this.onScroll();
+    }, options);
+  }
+
+  ngAfterViewInit() {
+    this.observer.observe(this.anchor.nativeElement);
   }
 
   updateCommitHistory(): void {
@@ -82,6 +105,12 @@ export class GitHistoryComponent implements OnInit {
     this.cookieService.saveGitHistoryHideUnusableCommits(this.hideUnusableCommits);
   }
 
+  toggleCollapseUnusableCommits(): void {
+    this.collapseUnusableCommits = !this.collapseUnusableCommits;
+    // TODO: Cookie handler for collapse commits
+    // this.cookieService.saveGitHistoryHideUnusableCommits(this.hideUnusableCommits);
+  }
+
   selectCommit(commit: Commit) {
     for (let s of this.selected) {
       if (s.commit.sha === commit.sha) {
@@ -104,11 +133,40 @@ export class GitHistoryComponent implements OnInit {
     }
   }
 
-  onScroll() {
-    for (let i = 0; i < this.numberOfCommitsPerUpdate; ++i) {
-      let n = this.commitIterator.next();
-      if (n.done) return;
-      this.commits.push(n.value);
+  onScroll(force: boolean = false) {
+    let last = this.commits.length > 0 ? this.commits[this.commits.length - 1] : undefined;
+    if (!force) {
+      if (!this.bottomVisible) return;
+      if (last && last.nonBenchmarkedCommits && last.nonBenchmarkedCommits.length >= this.maxNumberOfNonBenchmarkedCommits && this.collapseUnusableCommits) return;
     }
+
+    let noBenchmark = []
+    for (let i = 0; i < this.updateStep; ++i) {
+      let n = this.commitIterator.next();
+      if (n.done) break;
+      if (n.value.availableDevices.length > 0) {
+        let last = this.commits.length > 0 ? this.commits[this.commits.length - 1] : undefined;
+        if (last && last.nonBenchmarkedCommits) {
+          last.nonBenchmarkedCommits = last.nonBenchmarkedCommits.concat(noBenchmark);
+        } else {
+          this.commits.push({nonBenchmarkedCommits: noBenchmark});
+        }
+        this.commits.push({benchmarkedCommit: n.value});
+        noBenchmark = [];
+        continue;
+      }
+      noBenchmark.push(n.value);
+    }
+
+    last = this.commits.length > 0 ? this.commits[this.commits.length - 1] : undefined;
+    if (noBenchmark.length > 0) {
+      if (last && last.nonBenchmarkedCommits) {
+        last.nonBenchmarkedCommits = last.nonBenchmarkedCommits.concat(noBenchmark);
+      } else {
+        this.commits.push({nonBenchmarkedCommits: noBenchmark});
+      }
+    }
+
+    // this.onScroll();
   }
 }
