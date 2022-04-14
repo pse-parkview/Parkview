@@ -23,6 +23,8 @@ function requestRawGithubContent(url: string): string {
 }
 
 class TsRepoHandler implements parkview.git.RepositoryHandler {
+  base_url: string = "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git-data";
+
   numCommitsPerPage: number;
 
   constructor(numCommits: number) {
@@ -30,41 +32,33 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
   }
 
   fetchGitHistoryByBranch(branch: string, page: number, benchmarkType: any) {
-    let content = requestRawGithubContent(
-      `https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/${branch}`
+    let received = JSON.parse(
+        requestRawGithubContent(`${this.base_url}/${branch}`)
     );
-    let lines = content
-      .split("\n")
-      .map((x) => x.trim())
-      .filter((x) => x.length > 0);
-    let commits = lines.map((e) => {
-      let elements = e.split(";;");
-      return new parkview.git.Commit(
-        elements[0],
-        elements[3],
-        Date.parse(elements[2]),
-        elements[1]
-      );
-    });
+    let commits: parkview.git.Commit[] = [];
+
+    for (let element of received) {
+      commits.push(new parkview.git.Commit(
+          element["sha"],
+          element["message"],
+          Date.parse(element["date"]),
+          element["author"]
+      ));
+    }
     return commits;
   }
 
   getAvailableBranches(): string[] {
-    let content = requestRawGithubContent(
-      "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/branches"
+    return JSON.parse(
+        requestRawGithubContent(`${this.base_url}/branches`)
     );
-    return content
-      .split("\n")
-      .map((x) => x.trim())
-      .filter((x) => x.length > 0);
   }
 
   getNumberOfPages(branch: string) {
-    let content = requestRawGithubContent(
-      `https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data/${branch}`
+    let received = JSON.parse(
+        requestRawGithubContent(`${this.base_url}/${branch}`)
     );
-    let lines = content.split("\n");
-    return Math.ceil(lines.length / this.numCommitsPerPage);
+    return Math.ceil(received.length / this.numCommitsPerPage);
   }
 }
 
