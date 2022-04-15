@@ -33,7 +33,7 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
 
   fetchGitHistoryByBranch(branch: string, page: number, benchmarkType: any) {
     let received = JSON.parse(
-        requestRawGithubContent(`${this.base_url}/${branch}`)
+        requestRawGithubContent(`${this.base_url}/${branch}.json`)
     );
     let commits: parkview.git.Commit[] = [];
 
@@ -50,13 +50,13 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
 
   getAvailableBranches(): string[] {
     return JSON.parse(
-        requestRawGithubContent(`${this.base_url}/branches`)
+        requestRawGithubContent(`${this.base_url}/branches.json`)
     );
   }
 
   getNumberOfPages(branch: string) {
     let received = JSON.parse(
-        requestRawGithubContent(`${this.base_url}/${branch}`)
+        requestRawGithubContent(`${this.base_url}/${branch}.json`)
     );
     return Math.ceil(received.length / this.numCommitsPerPage);
   }
@@ -69,7 +69,7 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
 
   constructor() {
     this.benchmarkParser = new BenchmarkParser();
-    let content = JSON.parse(requestRawGithubContent(`${this.base_url}/index`));
+    let content = JSON.parse(requestRawGithubContent(`${this.base_url}/index.json`));
 
     for (let commit in content) {
       for (let benchmark in content[commit]) {
