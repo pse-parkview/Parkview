@@ -23,7 +23,7 @@ function requestRawGithubContent(url: string): string {
 }
 
 class TsRepoHandler implements parkview.git.RepositoryHandler {
-  base_url: string = "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git-data";
+  base_url: string = "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/git_data";
 
   numCommitsPerPage: number;
 
@@ -39,10 +39,10 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
 
     for (let element of received) {
       commits.push(new parkview.git.Commit(
-          element["sha"],
-          element["message"],
-          Date.parse(element["date"]),
-          element["author"]
+          element.sha,
+          element.message,
+          Date.parse(element.date),
+          element.author
       ));
     }
     return commits;
@@ -63,27 +63,25 @@ class TsRepoHandler implements parkview.git.RepositoryHandler {
 }
 
 class TsDatabaseHandler implements parkview.database.DatabaseHandler {
-  index: any;
+  base_url: string = "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/benchmark_data";
+  index: any = [];
   private benchmarkParser: BenchmarkParser;
 
   constructor() {
     this.benchmarkParser = new BenchmarkParser();
-    let indexContent: string[] = requestRawGithubContent(
-      "https://raw.githubusercontent.com/pse-parkview/parkview-data/main/benchmark_data/index"
-    )
-      .split("\n")
-      .filter((x) => x.length > 0);
-    indexContent.shift();
-    this.index = indexContent.map((e: any) => {
-      let benchmark, commit, device, file;
-      [benchmark, commit, device, file] = e.split(",");
-      return {
-        benchmark: benchmark,
-        commit: commit,
-        device: device,
-        file: file,
-      };
-    });
+    let content = JSON.parse(requestRawGithubContent(`${this.base_url}/index`));
+
+    for (let commit in content) {
+      for (let benchmark in content[commit]) {
+        for (let device of content[commit][benchmark]) {
+          this.index.push({
+            benchmark: benchmark,
+            commit: commit,
+            device: device,
+          });
+        }
+      }
+    }
   }
 
   // TODO: can be cut
@@ -94,13 +92,12 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
   fetchBenchmarkResult(commit: any, device: any, benchmark: any) {
     for (let point of this.index) {
       if (
-        point.benchmark == benchmark &&
+        point.benchmark == benchmark.name.toLowerCase() &&
         point.commit == commit.sha &&
         point.device == device.name
       ) {
-        let content = requestRawGithubContent(
-          `https://raw.githubusercontent.com/pse-parkview/parkview-data/main/benchmark_data/${point.file}`
-        );
+        let file_path = `${point.commit}/${point.benchmark}/${point.device}.json`;
+        let content = requestRawGithubContent(`${this.base_url}/${file_path}`);
         let spmvResult = this.benchmarkParser.parseBenchmarkResult(
           benchmark,
           commit,
@@ -122,16 +119,16 @@ class TsDatabaseHandler implements parkview.database.DatabaseHandler {
     return (
       this.index.filter(
         (e: any) =>
-          e.commit == commit.sha &&
-          e.device == device.name &&
-          e.benchmark == benchmark
+          e.commit === commit.sha &&
+          e.device === device.name &&
+          e.benchmark === benchmark.name.toLowerCase()
       ).size > 0
     );
   }
 
   getAvailableDevicesForCommit(commit: any, benchmark: any) {
     return this.index
-      .filter((e: any) => e.commit == commit.sha && e.benchmark == benchmark)
+      .filter((e: any) => e.commit === commit.sha && e.benchmark === benchmark.name.toLowerCase())
       .map((e: any) => new parkview.git.Device(e.device));
   }
 }
