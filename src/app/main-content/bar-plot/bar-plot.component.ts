@@ -6,6 +6,7 @@ import {BaseChartDirective, Label} from "ng2-charts";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
+import {PlotService} from "../../../logic/plothandler/plot.service";
 
 @Component({
   selector: 'app-bar-plot',
@@ -17,6 +18,8 @@ export class BarPlotComponent implements OnInit {
   @ViewChild(BaseChartDirective)
   private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
+  public devices: string = "";
+  public commits: string = "";
   public readonly chartType: ChartType = 'bar';
   public chartTitle: string = '';
   public chartData: ChartDataSets[] = Array();
@@ -69,7 +72,7 @@ export class BarPlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService) {
   }
 
   ngOnInit() {
@@ -82,6 +85,8 @@ export class BarPlotComponent implements OnInit {
       if (config === undefined) {
         return;
       }
+      this.commits = "Commits: " + this.plotService.formatCommits(config.commits);
+      this.devices = "Devices: " + this.plotService.formatDevices(config.devices);
       this.chartTitle = config.labelForTitle;
       this.xLabel = config.labelForXAxis;
       this.yLabel = config.labelForYAxis;

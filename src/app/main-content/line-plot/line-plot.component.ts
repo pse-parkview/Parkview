@@ -6,6 +6,7 @@ import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-conf
 import {BaseChartDirective} from "ng2-charts";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
+import {PlotService} from "../../../logic/plothandler/plot.service";
 
 @Component({
   selector: 'app-line-plot',
@@ -17,6 +18,8 @@ export class LinePlotComponent implements OnInit {
   @ViewChild(BaseChartDirective)
   private chart: { refresh: () => void } = {refresh: () => console.log('chart not initialized yet')};
 
+  public devices: string = "";
+  public commits: string = "";
   public readonly chartType: ChartType = 'line';
   public chartData: ChartDataSets[] = Array();
   public chartTitle: string = '';
@@ -78,7 +81,7 @@ export class LinePlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService) {
   }
 
   ngOnInit() {
@@ -91,6 +94,8 @@ export class LinePlotComponent implements OnInit {
       if (config === undefined) {
         return;
       }
+      this.commits = "Commits: " + this.plotService.formatCommits(config.commits);
+      this.devices = "Devices: " + this.plotService.formatDevices(config.devices);
       if (config.plotType === "Performance Plot") {
         this.yType = "linear";
       }
