@@ -96,7 +96,11 @@
                 <span class="author">{{commit.benchmarkedCommit.author}} </span>
                 <span class="message-preview">{{commit.benchmarkedCommit.message | abbreviate: 50}}</span>
             </mat-expansion-panel-header>
-            <section class="hash">{{commit.benchmarkedCommit.sha}}</section>
+            <section class="hash">
+                <a class="commitLink"
+                   href="https://github.com/ginkgo-project/ginkgo/commit/{{commit.benchmarkedCommit.sha}}"
+                   target="_blank">{{commit.benchmarkedCommit.sha}}</a>
+            </section>
             <section class="message">{{commit.benchmarkedCommit.message}}</section>
             <section class="devices">
                 <ul>
