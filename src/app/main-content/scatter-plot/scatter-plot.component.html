@@ -1,5 +1,7 @@
 <mat-card>
   <mat-card-title>Scatter Plot - {{chartTitle}}</mat-card-title>
+  <mat-card-subtitle>{{this.commits}}</mat-card-subtitle>
+  <mat-card-subtitle>{{this.devices}}</mat-card-subtitle>
 
   <div class="plot">
     <canvas [chartType]="chartType"
