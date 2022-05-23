@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
+import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {BaseChartDirective, Label} from "ng2-charts";
@@ -7,6 +7,7 @@ import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-conf
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 import {PlotService} from "../../../logic/plothandler/plot.service";
+import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 
 @Component({
   selector: 'app-bar-plot',
@@ -25,7 +26,7 @@ export class BarPlotComponent implements OnInit {
   public chartData: ChartDataSets[] = Array();
   public xLabel: string = 'x';
   public yLabel: string = 'y';
-  public yType: ScaleType = 'linear';
+  public yType: string = 'linear';
   public chartLabels: Label[] = Array();
   public fontSize: number = 12;
 
@@ -72,10 +73,11 @@ export class BarPlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService, private readonly cookieService: CookieService) {
   }
 
   ngOnInit() {
+    this.yType = this.cookieService.getYAxisScaling() ?? this.yType;
     this.readParams(this.route.queryParamMap);
   }
 
@@ -117,6 +119,7 @@ export class BarPlotComponent implements OnInit {
       }
     }
     if (this.chartOptions.scales?.yAxes !== undefined && this.chartOptions.scales.yAxes.length > 0) {
+      this.cookieService.storeYAxisScaling(this.yType);
       this.chartOptions.scales.yAxes[0].type = this.yType;
       if (this.chartOptions.scales.yAxes[0].scaleLabel) {
         this.chartOptions.scales.yAxes[0].scaleLabel.fontSize = this.fontSize;
