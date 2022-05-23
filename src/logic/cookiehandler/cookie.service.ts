@@ -19,6 +19,8 @@ export class CookieService {
   private static readonly NAME_RECENT_GIT_HISTORY_SETTINGS = 'recent_git_history_settings';
   private static readonly NAME_RECENT_PLOT_CONFIGS = 'recent_plot_configs';
   private static readonly NAME_SAVED_TEMPLATES = 'saved_plot_templates';
+  private static readonly NAME_X_SCALING = 'x_axis_scaling';
+  private static readonly NAME_Y_SCALING = 'y_axis_scaling';
 
   constructor(private readonly dialog: MatDialog,
               private readonly ngxCookieService: NgxCookieService,
@@ -112,6 +114,22 @@ export class CookieService {
     const newConfigs: Template[] = savedConfigs.filter(t => !CookieService.templateEquals(template, t));
     this.ngxCookieService.putObject(CookieService.NAME_SAVED_TEMPLATES, newConfigs);
     this.savedTemplateUpdate.emit();
+  }
+
+  public storeXAxisScaling(x: string) {
+      this.ngxCookieService.put(CookieService.NAME_X_SCALING, x);
+  }
+
+  public getXAxisScaling(): string {
+    return this.ngxCookieService.get(CookieService.NAME_X_SCALING)
+  }
+
+  public storeYAxisScaling(y: string) {
+    this.ngxCookieService.put(CookieService.NAME_Y_SCALING, y);
+  }
+
+  public getYAxisScaling(): string {
+    return this.ngxCookieService.get(CookieService.NAME_Y_SCALING)
   }
 
   private static templateEquals(t1: Template, t2: Template): boolean {
