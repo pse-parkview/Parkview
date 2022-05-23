@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ChartDataSets, ChartOptions, ChartType, ScaleType} from "chart.js";
+import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Observable} from "rxjs";
 import {PlotConfiguration} from "../../../logic/plothandler/interfaces/plot-configuration";
@@ -7,6 +7,7 @@ import {BaseChartDirective} from "ng2-charts";
 import {PlotUtils} from "../../../lib/plot-component-util/plot-utils";
 import {ParkviewLibDataService} from "../../../logic/datahandler/kotlin/parkview-lib-data.service";
 import {PlotService} from "../../../logic/plothandler/plot.service";
+import {CookieService} from "../../../logic/cookiehandler/cookie.service";
 
 @Component({
   selector: 'app-line-plot',
@@ -25,8 +26,8 @@ export class LinePlotComponent implements OnInit {
   public chartTitle: string = '';
   public xLabel: string = 'x';
   public yLabel: string = 'y';
-  public yType: ScaleType = 'logarithmic';
-  public xType: ScaleType = 'linear';
+  public yType: string = 'logarithmic';
+  public xType: string = 'linear';
   public fontSize: number = 12;
 
   public chartOptions: ChartOptions = {
@@ -81,10 +82,12 @@ export class LinePlotComponent implements OnInit {
   };
 
 
-  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService) {
+  constructor(private readonly route: ActivatedRoute, private readonly dataHandler: ParkviewLibDataService, private readonly plotService: PlotService, private readonly cookieService: CookieService) {
   }
 
   ngOnInit() {
+    this.xType = this.cookieService.getXAxisScaling() ?? this.xType;
+    this.yType = this.cookieService.getYAxisScaling() ?? this.yType;
     this.readParams(this.route.queryParamMap);
   }
 
@@ -119,6 +122,7 @@ export class LinePlotComponent implements OnInit {
       this.chartOptions.legend.labels.fontSize = this.fontSize;
     }
     if (this.chartOptions.scales?.xAxes !== undefined && this.chartOptions.scales.xAxes.length > 0) {
+      this.cookieService.storeXAxisScaling(this.xType);
       this.chartOptions.scales.xAxes[0].type = this.xType;
       if (this.chartOptions.scales.xAxes[0].scaleLabel) {
         this.chartOptions.scales.xAxes[0].scaleLabel.labelString = this.xLabel;
@@ -129,6 +133,7 @@ export class LinePlotComponent implements OnInit {
       }
     }
     if (this.chartOptions.scales?.yAxes !== undefined && this.chartOptions.scales.yAxes.length > 0) {
+      this.cookieService.storeYAxisScaling(this.yType);
       this.chartOptions.scales.yAxes[0].type = this.yType;
       if (this.chartOptions.scales.yAxes[0].scaleLabel) {
         this.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.yLabel;
